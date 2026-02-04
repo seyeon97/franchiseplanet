@@ -264,29 +264,34 @@ export default function BrandCard({ brand }: BrandCardProps) {
             </div>
 
             {/* Disclaimer - Moved below stats */}
-            <div className="mt-6 mx-6 mb-6">
-              <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-gray-800 to-gray-900 p-4 shadow-lg">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-2xl"></div>
+            <div className="mt-6">
+              <div
+                className="relative overflow-hidden rounded-2xl p-5 border-2"
+                style={{
+                  background: `linear-gradient(135deg, ${brand.color}08 0%, ${brand.color}15 100%)`,
+                  borderColor: `${brand.color}40`,
+                }}
+              >
+                <div
+                  className="absolute -right-8 -top-8 w-32 h-32 rounded-full opacity-20"
+                  style={{
+                    background: `radial-gradient(circle, ${brand.color} 0%, transparent 70%)`,
+                  }}
+                ></div>
                 <div className="relative z-10">
-                  <div className="flex items-start gap-2 mb-3">
-                    <div className="text-2xl">⚠️</div>
+                  <div className="flex items-start gap-3">
+                    <div className="text-xl mt-0.5">💡</div>
                     <div className="flex-1">
-                      <h4 className="text-sm font-bold text-white mb-2">
-                        유의사항
+                      <h4
+                        className="text-sm font-bold mb-3"
+                        style={{ color: brand.color }}
+                      >
+                        알아두세요
                       </h4>
-                      <div className="space-y-1.5 text-xs text-gray-300">
-                        <div className="flex items-start gap-2">
-                          <div className="mt-1 w-1 h-1 rounded-full bg-orange-400 flex-shrink-0"></div>
-                          <span>사장님 하루 10시간 / 주5일 이상 출근 기준</span>
-                        </div>
-                        <div className="flex items-start gap-2">
-                          <div className="mt-1 w-1 h-1 rounded-full bg-orange-400 flex-shrink-0"></div>
-                          <span>월세, 인건비, 배달 비중에 따라 순수익 차이 발생</span>
-                        </div>
-                        <div className="flex items-start gap-2">
-                          <div className="mt-1 w-1 h-1 rounded-full bg-orange-400 flex-shrink-0"></div>
-                          <span>이자비용 및 각종 세금 미포함</span>
-                        </div>
+                      <div className="space-y-2.5 text-xs text-gray-700 leading-relaxed">
+                        <p>• 사장님 하루 10시간 / 주5일 이상 출근 기준</p>
+                        <p>• 월세, 인건비, 배달 비중에 따라 순수익 차이 발생</p>
+                        <p>• 이자비용 및 각종 세금 미포함</p>
                       </div>
                     </div>
                   </div>
