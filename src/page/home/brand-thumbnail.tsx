@@ -7,6 +7,7 @@ interface BrandThumbnailProps {
   category: string;
   color: string;
   onClick: () => void;
+  isSelected?: boolean;
 }
 
 export default function BrandThumbnail({
@@ -16,11 +17,14 @@ export default function BrandThumbnail({
   category,
   color,
   onClick,
+  isSelected = false,
 }: BrandThumbnailProps) {
   return (
     <button
       onClick={onClick}
-      className="flex-shrink-0 w-64 h-80 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105 cursor-pointer overflow-hidden"
+      className={`flex-shrink-0 w-64 h-80 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105 cursor-pointer overflow-hidden ${
+        isSelected ? "ring-4 ring-white scale-105" : ""
+      }`}
       style={{
         background: `linear-gradient(135deg, ${color}dd 0%, ${color} 100%)`,
       }}

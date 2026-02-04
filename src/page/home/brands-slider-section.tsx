@@ -21,11 +21,13 @@ interface Brand {
 interface BrandsSliderSectionProps {
   brands: Brand[];
   onBrandClick: (brandId: string) => void;
+  selectedBrandId: string | null;
 }
 
 export default function BrandsSliderSection({
   brands,
   onBrandClick,
+  selectedBrandId,
 }: BrandsSliderSectionProps) {
   return (
     <section className="min-h-screen snap-start flex items-center justify-center bg-gradient-to-br from-purple-100 via-pink-50 to-blue-50">
@@ -53,6 +55,7 @@ export default function BrandsSliderSection({
                   category={brand.category}
                   color={brand.color}
                   onClick={() => onBrandClick(brand.id)}
+                  isSelected={selectedBrandId === brand.id}
                 />
               ))}
             </div>

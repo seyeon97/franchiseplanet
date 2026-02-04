@@ -1,9 +1,9 @@
 "use client";
 
-import { useRef } from "react";
+import React, { useRef } from "react";
 import HeroSection from "./hero-section";
 import BrandsSliderSection from "./brands-slider-section";
-import BrandsSection from "./brands-section";
+import BrandCard from "./brand-card";
 
 const mockBrands = [
   {
@@ -166,20 +166,37 @@ const mockBrands = [
 ];
 
 export default function HomePage() {
-  const detailRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+  const [selectedBrandId, setSelectedBrandId] = React.useState<string | null>(
+    null
+  );
+  const detailRef = useRef<HTMLDivElement | null>(null);
 
   const handleBrandClick = (brandId: string) => {
-    const element = detailRefs.current[brandId];
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+    setSelectedBrandId(brandId);
+    setTimeout(() => {
+      if (detailRef.current) {
+        detailRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 100);
   };
+
+  const selectedBrand = mockBrands.find(
+    (brand) => brand.id === selectedBrandId
+  );
 
   return (
     <main className="h-screen overflow-y-scroll snap-y snap-mandatory scroll-smooth">
       <HeroSection />
-      <BrandsSliderSection brands={mockBrands} onBrandClick={handleBrandClick} />
-      <BrandsSection brands={mockBrands} detailRefs={detailRefs} />
+      <BrandsSliderSection
+        brands={mockBrands}
+        onBrandClick={handleBrandClick}
+        selectedBrandId={selectedBrandId}
+      />
+      {selectedBrand && (
+        <div ref={detailRef}>
+          <BrandCard brand={selectedBrand} />
+        </div>
+      )}
     </main>
   );
 }
