@@ -102,7 +102,13 @@ export default function BrandCard({ brand }: BrandCardProps) {
             {/* Brand name */}
             <h2
               className="text-3xl font-black mb-2"
-              style={{ color: brand.color }}
+              style={{
+                color: brand.color,
+                textShadow:
+                  brand.name === "메가커피"
+                    ? `0 0 20px ${brand.color}88, 0 0 40px ${brand.color}44, 0 0 60px ${brand.color}22`
+                    : "none",
+              }}
             >
               {brand.name}
             </h2>
