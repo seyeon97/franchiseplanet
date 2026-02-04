@@ -184,71 +184,77 @@ export default function BrandCard({ brand }: BrandCardProps) {
 
             {/* Stats */}
             <div className="space-y-4">
-              {/* Top 10% - Winner */}
+              {/* Top 10% - Peaceful Green Planet */}
               <div className="relative overflow-hidden rounded-2xl p-5 shadow-2xl border-2" style={{
-                background: "linear-gradient(135deg, #FEF3C7 0%, #FDE68A 50%, #FCD34D 100%)",
-                borderColor: "#F59E0B",
-                boxShadow: "0 10px 40px rgba(245, 158, 11, 0.3), 0 0 20px rgba(251, 191, 36, 0.4)",
+                background: "linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 50%, #A7F3D0 100%)",
+                borderColor: "#10B981",
+                boxShadow: "0 10px 40px rgba(16, 185, 129, 0.3), 0 0 20px rgba(167, 243, 208, 0.4)",
               }}>
-                {/* Confetti effects */}
-                <div className="absolute top-4 right-4 w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
-                <div className="absolute top-8 right-12 w-1.5 h-1.5 bg-red-400 rounded-full animate-pulse" style={{ animationDelay: "0.3s" }}></div>
-                <div className="absolute bottom-6 left-6 w-2 h-2 bg-blue-400 rounded-full animate-pulse" style={{ animationDelay: "0.6s" }}></div>
-                <div className="absolute top-6 left-10 w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" style={{ animationDelay: "0.9s" }}></div>
+                {/* Peaceful planet effects - stars and clouds */}
+                <div className="absolute top-4 right-4 w-2 h-2 bg-yellow-300 rounded-full animate-pulse"></div>
+                <div className="absolute top-8 right-12 w-1.5 h-1.5 bg-white rounded-full animate-pulse" style={{ animationDelay: "0.3s" }}></div>
+                <div className="absolute bottom-6 left-6 w-2 h-2 bg-white rounded-full animate-pulse" style={{ animationDelay: "0.6s" }}></div>
+                <div className="absolute top-6 left-10 w-1.5 h-1.5 bg-blue-200 rounded-full animate-pulse" style={{ animationDelay: "0.9s" }}></div>
 
-                <div className="absolute -right-16 -bottom-16 w-48 h-48 rounded-full opacity-20" style={{
-                  background: "radial-gradient(circle, #F59E0B 0%, transparent 70%)",
+                {/* Peaceful green planet */}
+                <div className="absolute -right-20 -bottom-20 w-64 h-64 rounded-full opacity-30" style={{
+                  background: "radial-gradient(circle at 30% 30%, #10B981 0%, #059669 40%, #047857 100%)",
+                  boxShadow: "inset -10px -10px 30px rgba(0,0,0,0.3), 0 0 50px rgba(16, 185, 129, 0.4)",
                 }}></div>
+
+                {/* Cloud effects */}
+                <div className="absolute bottom-10 right-10 w-12 h-6 bg-white/40 rounded-full blur-sm"></div>
+                <div className="absolute bottom-12 right-16 w-10 h-5 bg-white/30 rounded-full blur-sm"></div>
 
                 <div className="flex items-center justify-between mb-4 relative z-10">
                   <div className="flex items-center gap-3">
-                    <div className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-2xl relative" style={{
-                      background: "linear-gradient(135deg, #FCD34D 0%, #F59E0B 100%)",
+                    <div className="w-14 h-14 rounded-full flex items-center justify-center shadow-2xl relative" style={{
+                      background: "linear-gradient(135deg, #34D399 0%, #10B981 100%)",
                     }}>
-                      <span className="text-3xl">🏆</span>
-                      <div className="absolute inset-0 rounded-2xl" style={{
+                      <span className="text-3xl">🌍</span>
+                      <div className="absolute inset-0 rounded-full" style={{
                         boxShadow: "inset 0 2px 4px rgba(255,255,255,0.5), inset 0 -2px 4px rgba(0,0,0,0.2)",
                       }}></div>
                     </div>
                     <div>
-                      <span className="text-xl font-black bg-gradient-to-r from-yellow-700 to-orange-600 bg-clip-text text-transparent">
+                      <span className="text-xl font-black bg-gradient-to-r from-green-700 to-emerald-600 bg-clip-text text-transparent">
                         일등
                       </span>
-                      <div className="text-xs font-bold text-yellow-700">상위 10%</div>
+                      <div className="text-xs font-bold text-green-700">상위 10%</div>
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="text-xs text-yellow-700 font-bold mb-0.5">월 순수익</div>
-                    <div className="text-2xl font-black bg-gradient-to-r from-yellow-600 via-yellow-500 to-orange-500 bg-clip-text text-transparent" style={{
-                      filter: "drop-shadow(0 2px 4px rgba(245, 158, 11, 0.3))",
+                    <div className="text-xs text-green-700 font-bold mb-0.5">월 순수익</div>
+                    <div className="text-2xl font-black bg-gradient-to-r from-green-600 via-emerald-500 to-green-400 bg-clip-text text-transparent" style={{
+                      filter: "drop-shadow(0 2px 4px rgba(16, 185, 129, 0.3))",
                     }}>
                       {formatMoney(brand.stats.top10.profit)}
                     </div>
                   </div>
                 </div>
                 <div className="grid grid-cols-3 gap-2 relative z-10">
-                  <div className="bg-white/80 backdrop-blur-sm rounded-xl p-2.5 cursor-pointer transition-all duration-300 hover:scale-110 hover:shadow-xl group" style={{
-                    border: "1.5px solid rgba(245, 158, 11, 0.3)",
+                  <div className="bg-white/90 backdrop-blur-sm rounded-xl p-2.5 cursor-pointer transition-all duration-300 hover:scale-110 hover:shadow-xl group" style={{
+                    border: "1.5px solid rgba(16, 185, 129, 0.3)",
                   }}>
-                    <div className="text-xs text-yellow-700 mb-1 font-bold group-hover:text-yellow-600 transition-colors">💰 매출</div>
-                    <div className="font-black text-yellow-800 text-sm group-hover:text-yellow-600 transition-colors">
+                    <div className="text-xs text-green-700 mb-1 font-bold group-hover:text-green-600 transition-colors">💰 매출</div>
+                    <div className="font-black text-green-800 text-sm group-hover:text-green-600 transition-colors">
                       {formatMoney(brand.stats.top10.revenue)}
                     </div>
                   </div>
-                  <div className="bg-white/80 backdrop-blur-sm rounded-xl p-2.5 cursor-pointer transition-all duration-300 hover:scale-110 hover:shadow-xl group" style={{
-                    border: "1.5px solid rgba(245, 158, 11, 0.3)",
+                  <div className="bg-white/90 backdrop-blur-sm rounded-xl p-2.5 cursor-pointer transition-all duration-300 hover:scale-110 hover:shadow-xl group" style={{
+                    border: "1.5px solid rgba(16, 185, 129, 0.3)",
                   }}>
-                    <div className="text-xs text-yellow-700 mb-1 font-bold group-hover:text-yellow-600 transition-colors">💸 비용</div>
-                    <div className="font-black text-yellow-800 text-sm group-hover:text-yellow-600 transition-colors">
+                    <div className="text-xs text-green-700 mb-1 font-bold group-hover:text-green-600 transition-colors">💸 비용</div>
+                    <div className="font-black text-green-800 text-sm group-hover:text-green-600 transition-colors">
                       {formatMoney(brand.stats.top10.cost)}
                     </div>
                   </div>
                   <div className="rounded-xl p-2.5 shadow-lg cursor-pointer transition-all duration-300 hover:scale-110 hover:shadow-2xl group" style={{
-                    background: "linear-gradient(135deg, #FCD34D 0%, #F59E0B 100%)",
-                    border: "2px solid #FBBF24",
+                    background: "linear-gradient(135deg, #34D399 0%, #10B981 100%)",
+                    border: "2px solid #10B981",
                   }}>
-                    <div className="text-xs text-yellow-900 mb-1 font-black group-hover:text-yellow-800 transition-colors">✨ 수익</div>
-                    <div className="font-black text-yellow-900 text-sm group-hover:text-yellow-800 transition-colors">
+                    <div className="text-xs text-white mb-1 font-black group-hover:text-green-50 transition-colors">✨ 수익</div>
+                    <div className="font-black text-white text-sm group-hover:text-green-50 transition-colors">
                       {formatMoney(brand.stats.top10.profit)}
                     </div>
                   </div>
@@ -368,69 +374,77 @@ export default function BrandCard({ brand }: BrandCardProps) {
                 </div>
               )}
 
-              {/* Average - Middle */}
+              {/* Average - Gray Dull Planet */}
               <div className="relative overflow-hidden rounded-2xl p-5 shadow-2xl border-2" style={{
-                background: "linear-gradient(135deg, #DBEAFE 0%, #BFDBFE 50%, #93C5FD 100%)",
-                borderColor: "#3B82F6",
-                boxShadow: "0 10px 40px rgba(59, 130, 246, 0.3), 0 0 20px rgba(147, 197, 253, 0.4)",
+                background: "linear-gradient(135deg, #F1F5F9 0%, #E2E8F0 50%, #CBD5E1 100%)",
+                borderColor: "#64748B",
+                boxShadow: "0 10px 40px rgba(100, 116, 139, 0.3), 0 0 20px rgba(203, 213, 225, 0.4)",
               }}>
-                {/* Dot effects */}
-                <div className="absolute top-4 right-4 w-1.5 h-1.5 bg-blue-300 rounded-full animate-pulse"></div>
-                <div className="absolute bottom-6 left-6 w-1.5 h-1.5 bg-blue-300 rounded-full animate-pulse" style={{ animationDelay: "0.5s" }}></div>
+                {/* Dust particles */}
+                <div className="absolute top-4 right-4 w-1 h-1 bg-slate-400 rounded-full opacity-60"></div>
+                <div className="absolute top-8 right-10 w-1.5 h-1.5 bg-slate-300 rounded-full opacity-50"></div>
+                <div className="absolute bottom-6 left-6 w-1 h-1 bg-slate-400 rounded-full opacity-60"></div>
+                <div className="absolute bottom-10 left-12 w-1.5 h-1.5 bg-slate-300 rounded-full opacity-50" style={{ animationDelay: "0.5s" }}></div>
 
-                <div className="absolute -right-16 -bottom-16 w-48 h-48 rounded-full opacity-20" style={{
-                  background: "radial-gradient(circle, #3B82F6 0%, transparent 70%)",
+                {/* Gray dull planet */}
+                <div className="absolute -right-20 -bottom-20 w-64 h-64 rounded-full opacity-25" style={{
+                  background: "radial-gradient(circle at 30% 30%, #94A3B8 0%, #64748B 40%, #475569 100%)",
+                  boxShadow: "inset -10px -10px 30px rgba(0,0,0,0.4), 0 0 30px rgba(100, 116, 139, 0.2)",
                 }}></div>
+
+                {/* Crater effects */}
+                <div className="absolute bottom-8 right-8 w-8 h-8 rounded-full bg-slate-600/20 blur-sm"></div>
+                <div className="absolute bottom-14 right-16 w-6 h-6 rounded-full bg-slate-600/15 blur-sm"></div>
 
                 <div className="flex items-center justify-between mb-4 relative z-10">
                   <div className="flex items-center gap-3">
-                    <div className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-xl relative" style={{
-                      background: "linear-gradient(135deg, #93C5FD 0%, #3B82F6 100%)",
+                    <div className="w-14 h-14 rounded-full flex items-center justify-center shadow-xl relative" style={{
+                      background: "linear-gradient(135deg, #94A3B8 0%, #64748B 100%)",
                     }}>
-                      <span className="text-3xl">📊</span>
-                      <div className="absolute inset-0 rounded-2xl" style={{
-                        boxShadow: "inset 0 2px 4px rgba(255,255,255,0.5), inset 0 -2px 4px rgba(0,0,0,0.2)",
+                      <span className="text-3xl">🌑</span>
+                      <div className="absolute inset-0 rounded-full" style={{
+                        boxShadow: "inset 0 2px 4px rgba(255,255,255,0.3), inset 0 -2px 4px rgba(0,0,0,0.3)",
                       }}></div>
                     </div>
                     <div>
-                      <span className="text-xl font-black bg-gradient-to-r from-blue-700 to-blue-600 bg-clip-text text-transparent">
+                      <span className="text-xl font-black bg-gradient-to-r from-slate-700 to-slate-600 bg-clip-text text-transparent">
                         중간
                       </span>
-                      <div className="text-xs font-bold text-blue-700">평균 50%</div>
+                      <div className="text-xs font-bold text-slate-600">평균 50%</div>
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="text-xs text-blue-700 font-bold mb-0.5">월 순수익</div>
-                    <div className="text-2xl font-black bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 bg-clip-text text-transparent" style={{
-                      filter: "drop-shadow(0 2px 4px rgba(59, 130, 246, 0.3))",
+                    <div className="text-xs text-slate-600 font-bold mb-0.5">월 순수익</div>
+                    <div className="text-2xl font-black bg-gradient-to-r from-slate-600 via-slate-500 to-slate-400 bg-clip-text text-transparent" style={{
+                      filter: "drop-shadow(0 2px 4px rgba(100, 116, 139, 0.3))",
                     }}>
                       {formatMoney(brand.stats.average.profit)}
                     </div>
                   </div>
                 </div>
                 <div className="grid grid-cols-3 gap-2 relative z-10">
-                  <div className="bg-white/80 backdrop-blur-sm rounded-xl p-2.5 cursor-pointer transition-all duration-300 hover:scale-110 hover:shadow-xl group" style={{
-                    border: "1.5px solid rgba(59, 130, 246, 0.3)",
+                  <div className="bg-white/90 backdrop-blur-sm rounded-xl p-2.5 cursor-pointer transition-all duration-300 hover:scale-110 hover:shadow-xl group" style={{
+                    border: "1.5px solid rgba(100, 116, 139, 0.3)",
                   }}>
-                    <div className="text-xs text-blue-700 mb-1 font-bold group-hover:text-blue-600 transition-colors">💰 매출</div>
-                    <div className="font-black text-blue-800 text-sm group-hover:text-blue-600 transition-colors">
+                    <div className="text-xs text-slate-600 mb-1 font-bold group-hover:text-slate-500 transition-colors">💰 매출</div>
+                    <div className="font-black text-slate-700 text-sm group-hover:text-slate-600 transition-colors">
                       {formatMoney(brand.stats.average.revenue)}
                     </div>
                   </div>
-                  <div className="bg-white/80 backdrop-blur-sm rounded-xl p-2.5 cursor-pointer transition-all duration-300 hover:scale-110 hover:shadow-xl group" style={{
-                    border: "1.5px solid rgba(59, 130, 246, 0.3)",
+                  <div className="bg-white/90 backdrop-blur-sm rounded-xl p-2.5 cursor-pointer transition-all duration-300 hover:scale-110 hover:shadow-xl group" style={{
+                    border: "1.5px solid rgba(100, 116, 139, 0.3)",
                   }}>
-                    <div className="text-xs text-blue-700 mb-1 font-bold group-hover:text-blue-600 transition-colors">💸 비용</div>
-                    <div className="font-black text-blue-800 text-sm group-hover:text-blue-600 transition-colors">
+                    <div className="text-xs text-slate-600 mb-1 font-bold group-hover:text-slate-500 transition-colors">💸 비용</div>
+                    <div className="font-black text-slate-700 text-sm group-hover:text-slate-600 transition-colors">
                       {formatMoney(brand.stats.average.cost)}
                     </div>
                   </div>
                   <div className="rounded-xl p-2.5 shadow-lg cursor-pointer transition-all duration-300 hover:scale-110 hover:shadow-2xl group" style={{
-                    background: "linear-gradient(135deg, #93C5FD 0%, #3B82F6 100%)",
-                    border: "2px solid #60A5FA",
+                    background: "linear-gradient(135deg, #94A3B8 0%, #64748B 100%)",
+                    border: "2px solid #64748B",
                   }}>
-                    <div className="text-xs text-blue-900 mb-1 font-black group-hover:text-blue-800 transition-colors">✨ 수익</div>
-                    <div className="font-black text-blue-900 text-sm group-hover:text-blue-800 transition-colors">
+                    <div className="text-xs text-white mb-1 font-black group-hover:text-slate-100 transition-colors">✨ 수익</div>
+                    <div className="font-black text-white text-sm group-hover:text-slate-100 transition-colors">
                       {formatMoney(brand.stats.average.profit)}
                     </div>
                   </div>
@@ -550,33 +564,52 @@ export default function BrandCard({ brand }: BrandCardProps) {
                 </div>
               )}
 
-              {/* Bottom 10% - Last Place */}
+              {/* Bottom 10% - Exploding Red Planet */}
               <div className="relative overflow-hidden rounded-2xl p-5 shadow-2xl border-2" style={{
                 background: "linear-gradient(135deg, #FEE2E2 0%, #FECACA 50%, #FCA5A5 100%)",
                 borderColor: "#EF4444",
-                boxShadow: "0 10px 40px rgba(239, 68, 68, 0.3), 0 0 20px rgba(252, 165, 165, 0.4)",
+                boxShadow: "0 10px 40px rgba(239, 68, 68, 0.4), 0 0 30px rgba(252, 165, 165, 0.5)",
               }}>
-                {/* Warning effects */}
-                <div className="absolute top-4 right-4 w-2 h-2 bg-red-300 rounded-full animate-pulse"></div>
-                <div className="absolute top-8 right-12 w-1.5 h-1.5 bg-red-400 rounded-full animate-pulse" style={{ animationDelay: "0.3s" }}></div>
-                <div className="absolute bottom-6 left-6 w-2 h-2 bg-red-300 rounded-full animate-pulse" style={{ animationDelay: "0.6s" }}></div>
-
-                <div className="absolute -right-16 -bottom-16 w-48 h-48 rounded-full opacity-20" style={{
-                  background: "radial-gradient(circle, #EF4444 0%, transparent 70%)",
+                {/* Explosion sparks */}
+                <div className="absolute top-4 right-4 w-3 h-3 bg-orange-400 rounded-full animate-pulse" style={{
+                  boxShadow: "0 0 10px rgba(251, 146, 60, 0.8)",
                 }}></div>
+                <div className="absolute top-8 right-12 w-2 h-2 bg-yellow-400 rounded-full animate-pulse" style={{
+                  animationDelay: "0.2s",
+                  boxShadow: "0 0 8px rgba(250, 204, 21, 0.8)",
+                }}></div>
+                <div className="absolute bottom-6 left-6 w-2.5 h-2.5 bg-red-400 rounded-full animate-pulse" style={{
+                  animationDelay: "0.4s",
+                  boxShadow: "0 0 10px rgba(248, 113, 113, 0.8)",
+                }}></div>
+                <div className="absolute top-12 left-8 w-2 h-2 bg-orange-500 rounded-full animate-pulse" style={{
+                  animationDelay: "0.6s",
+                  boxShadow: "0 0 8px rgba(249, 115, 22, 0.8)",
+                }}></div>
+
+                {/* Exploding planet with cracks */}
+                <div className="absolute -right-20 -bottom-20 w-64 h-64 rounded-full opacity-30" style={{
+                  background: "radial-gradient(circle at 35% 35%, #FCA5A5 0%, #EF4444 30%, #DC2626 60%, #991B1B 100%)",
+                  boxShadow: "inset -15px -15px 40px rgba(0,0,0,0.5), 0 0 60px rgba(239, 68, 68, 0.6)",
+                }}></div>
+
+                {/* Explosion rays */}
+                <div className="absolute bottom-10 right-10 w-16 h-1 bg-orange-400/50 blur-sm rotate-45"></div>
+                <div className="absolute bottom-12 right-8 w-12 h-1 bg-red-400/50 blur-sm -rotate-45"></div>
+                <div className="absolute bottom-8 right-14 w-10 h-1 bg-yellow-400/50 blur-sm rotate-12"></div>
 
                 <div className="flex items-center justify-between mb-4 relative z-10">
                   <div className="flex items-center gap-3">
-                    <div className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-xl relative" style={{
-                      background: "linear-gradient(135deg, #FCA5A5 0%, #EF4444 100%)",
+                    <div className="w-14 h-14 rounded-full flex items-center justify-center shadow-xl relative" style={{
+                      background: "linear-gradient(135deg, #FCA5A5 0%, #DC2626 100%)",
                     }}>
-                      <span className="text-3xl">⚠️</span>
-                      <div className="absolute inset-0 rounded-2xl" style={{
-                        boxShadow: "inset 0 2px 4px rgba(255,255,255,0.5), inset 0 -2px 4px rgba(0,0,0,0.2)",
+                      <span className="text-3xl">💥</span>
+                      <div className="absolute inset-0 rounded-full" style={{
+                        boxShadow: "inset 0 2px 4px rgba(255,255,255,0.4), inset 0 -2px 4px rgba(0,0,0,0.3), 0 0 20px rgba(239, 68, 68, 0.5)",
                       }}></div>
                     </div>
                     <div>
-                      <span className="text-xl font-black bg-gradient-to-r from-red-700 to-red-600 bg-clip-text text-transparent">
+                      <span className="text-xl font-black bg-gradient-to-r from-red-700 to-orange-600 bg-clip-text text-transparent">
                         꼴등
                       </span>
                       <div className="text-xs font-bold text-red-700">하위 10%</div>
@@ -584,24 +617,24 @@ export default function BrandCard({ brand }: BrandCardProps) {
                   </div>
                   <div className="text-right">
                     <div className="text-xs text-red-700 font-bold mb-0.5">월 순수익</div>
-                    <div className="text-2xl font-black bg-gradient-to-r from-red-600 via-red-500 to-red-400 bg-clip-text text-transparent" style={{
-                      filter: "drop-shadow(0 2px 4px rgba(239, 68, 68, 0.3))",
+                    <div className="text-2xl font-black bg-gradient-to-r from-red-600 via-orange-500 to-red-500 bg-clip-text text-transparent" style={{
+                      filter: "drop-shadow(0 2px 4px rgba(239, 68, 68, 0.4))",
                     }}>
                       {formatMoney(brand.stats.bottom10.profit)}
                     </div>
                   </div>
                 </div>
                 <div className="grid grid-cols-3 gap-2 relative z-10">
-                  <div className="bg-white/80 backdrop-blur-sm rounded-xl p-2.5 cursor-pointer transition-all duration-300 hover:scale-110 hover:shadow-xl group" style={{
-                    border: "1.5px solid rgba(239, 68, 68, 0.3)",
+                  <div className="bg-white/90 backdrop-blur-sm rounded-xl p-2.5 cursor-pointer transition-all duration-300 hover:scale-110 hover:shadow-xl group" style={{
+                    border: "1.5px solid rgba(239, 68, 68, 0.4)",
                   }}>
                     <div className="text-xs text-red-700 mb-1 font-bold group-hover:text-red-600 transition-colors">💰 매출</div>
                     <div className="font-black text-red-800 text-sm group-hover:text-red-600 transition-colors">
                       {formatMoney(brand.stats.bottom10.revenue)}
                     </div>
                   </div>
-                  <div className="bg-white/80 backdrop-blur-sm rounded-xl p-2.5 cursor-pointer transition-all duration-300 hover:scale-110 hover:shadow-xl group" style={{
-                    border: "1.5px solid rgba(239, 68, 68, 0.3)",
+                  <div className="bg-white/90 backdrop-blur-sm rounded-xl p-2.5 cursor-pointer transition-all duration-300 hover:scale-110 hover:shadow-xl group" style={{
+                    border: "1.5px solid rgba(239, 68, 68, 0.4)",
                   }}>
                     <div className="text-xs text-red-700 mb-1 font-bold group-hover:text-red-600 transition-colors">💸 비용</div>
                     <div className="font-black text-red-800 text-sm group-hover:text-red-600 transition-colors">
@@ -609,11 +642,12 @@ export default function BrandCard({ brand }: BrandCardProps) {
                     </div>
                   </div>
                   <div className="rounded-xl p-2.5 shadow-lg cursor-pointer transition-all duration-300 hover:scale-110 hover:shadow-2xl group" style={{
-                    background: "linear-gradient(135deg, #FCA5A5 0%, #EF4444 100%)",
-                    border: "2px solid #F87171",
+                    background: "linear-gradient(135deg, #FCA5A5 0%, #DC2626 100%)",
+                    border: "2px solid #EF4444",
+                    boxShadow: "0 4px 20px rgba(239, 68, 68, 0.3)",
                   }}>
-                    <div className="text-xs text-red-900 mb-1 font-black group-hover:text-red-800 transition-colors">✨ 수익</div>
-                    <div className="font-black text-red-900 text-sm group-hover:text-red-800 transition-colors">
+                    <div className="text-xs text-white mb-1 font-black group-hover:text-red-50 transition-colors">✨ 수익</div>
+                    <div className="font-black text-white text-sm group-hover:text-red-50 transition-colors">
                       {formatMoney(brand.stats.bottom10.profit)}
                     </div>
                   </div>
