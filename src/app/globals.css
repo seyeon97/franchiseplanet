@@ -7,12 +7,12 @@
 @import "tailwindcss/utilities.css" layer(utilities);
 
 @theme {
-  --font-sans: var(--font-noto-sans-kr);
+  --font-sans: var(--font-pretendard);
 }
 
 @layer base {
   body {
-    font-family: var(--font-noto-sans-kr);
+    font-family: var(--font-pretendard);
   }
 }
 

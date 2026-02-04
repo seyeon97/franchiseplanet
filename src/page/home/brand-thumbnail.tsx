@@ -25,10 +25,6 @@ export default function BrandThumbnail({
       }`}
       style={{
         background: `linear-gradient(135deg, ${color}dd 0%, ${color} 100%)`,
-        boxShadow:
-          name === "메가커피"
-            ? `0 0 30px ${color}66, 0 0 60px ${color}33, 0 8px 16px rgba(0,0,0,0.2)`
-            : undefined,
       }}
     >
       <div className="h-full flex flex-col items-center justify-center p-6 text-white">

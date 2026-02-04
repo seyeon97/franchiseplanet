@@ -51,10 +51,6 @@ export default function BrandCard({ brand }: BrandCardProps) {
       className="relative min-h-screen snap-start flex items-center justify-center p-6"
       style={{
         background: `linear-gradient(135deg, ${brand.color}22 0%, ${brand.color}44 100%)`,
-        boxShadow:
-          brand.name === "메가커피"
-            ? `inset 0 0 100px ${brand.color}22`
-            : "none",
       }}
     >
       <div className="w-full max-w-md">
@@ -68,10 +64,6 @@ export default function BrandCard({ brand }: BrandCardProps) {
             className="relative h-28 flex items-center justify-center"
             style={{
               background: `linear-gradient(135deg, ${brand.color}dd 0%, ${brand.color} 100%)`,
-              boxShadow:
-                brand.name === "메가커피"
-                  ? `0 0 40px ${brand.color}88, 0 0 80px ${brand.color}44`
-                  : "none",
             }}
           >
             {/* Logo */}
@@ -80,12 +72,6 @@ export default function BrandCard({ brand }: BrandCardProps) {
                 src={brand.logoImage}
                 alt={`${brand.name} logo`}
                 className="h-20 object-contain drop-shadow-2xl"
-                style={{
-                  filter:
-                    brand.name === "메가커피"
-                      ? `drop-shadow(0 0 20px ${brand.color}) drop-shadow(0 0 40px ${brand.color}88)`
-                      : undefined,
-                }}
               />
             ) : (
               <div className="text-7xl drop-shadow-2xl">{brand.logo}</div>
@@ -104,10 +90,6 @@ export default function BrandCard({ brand }: BrandCardProps) {
               className="text-3xl font-black mb-2"
               style={{
                 color: brand.color,
-                textShadow:
-                  brand.name === "메가커피"
-                    ? `0 0 20px ${brand.color}88, 0 0 40px ${brand.color}44, 0 0 60px ${brand.color}22`
-                    : "none",
               }}
             >
               {brand.name}

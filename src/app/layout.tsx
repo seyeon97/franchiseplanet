@@ -1,14 +1,46 @@
 import type { Metadata, Viewport } from "next";
-import { Noto_Sans_KR, Noto_Sans_Mono } from "next/font/google";
+import localFont from "next/font/local";
+import { Noto_Sans_Mono } from "next/font/google";
 import { headers } from "next/headers";
 import "./globals.css";
 import { RootLayout } from "@/page/layout/root-layout";
 import { ReactGrabInit } from "@/lib/components/react-grab-init";
 import { SandboxBridge } from "@/lib/components/sandbox-bridge";
 
-const notoSansKr = Noto_Sans_KR({
-  variable: "--font-noto-sans-kr",
-  subsets: ["latin"],
+const pretendard = localFont({
+  src: [
+    {
+      path: "../../node_modules/pretendard/dist/web/static/woff2/Pretendard-Regular.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../../node_modules/pretendard/dist/web/static/woff2/Pretendard-Medium.woff2",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../../node_modules/pretendard/dist/web/static/woff2/Pretendard-SemiBold.woff2",
+      weight: "600",
+      style: "normal",
+    },
+    {
+      path: "../../node_modules/pretendard/dist/web/static/woff2/Pretendard-Bold.woff2",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "../../node_modules/pretendard/dist/web/static/woff2/Pretendard-ExtraBold.woff2",
+      weight: "800",
+      style: "normal",
+    },
+    {
+      path: "../../node_modules/pretendard/dist/web/static/woff2/Pretendard-Black.woff2",
+      weight: "900",
+      style: "normal",
+    },
+  ],
+  variable: "--font-pretendard",
 });
 
 const notoSansMono = Noto_Sans_Mono({
@@ -94,9 +126,9 @@ export default async function Layout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ko">
       <body
-        className={`${notoSansKr.variable} ${notoSansMono.variable} antialiased`}
+        className={`${pretendard.variable} ${notoSansMono.variable} antialiased`}
       >
         <RootLayout>{children}</RootLayout>
         <ReactGrabInit />
