@@ -154,13 +154,13 @@ export default function BrandCard({ brand }: BrandCardProps) {
             {/* Brand name */}
             <div className="mb-4 inline-block relative">
               <h2
-                className="text-3xl font-black px-4 py-2 rounded-xl relative z-10"
+                className="text-2xl font-black px-4 py-2 rounded-xl relative z-10"
                 style={{
                   background: "linear-gradient(135deg, #5B48FF 0%, #1C5BFF 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
-                  filter: "drop-shadow(0 0 8px rgba(91, 72, 255, 0.3))",
+                  filter: "drop-shadow(0 0 12px rgba(91, 72, 255, 0.5)) drop-shadow(0 0 18px rgba(28, 91, 255, 0.3))",
                 }}
               >
                 {brand.name}
@@ -174,7 +174,7 @@ export default function BrandCard({ brand }: BrandCardProps) {
                   WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
                   WebkitMaskComposite: "xor",
                   maskComposite: "exclude",
-                  boxShadow: "0 0 12px rgba(91, 72, 255, 0.25), 0 0 20px rgba(28, 91, 255, 0.15)",
+                  boxShadow: "0 0 15px rgba(91, 72, 255, 0.4), 0 0 25px rgba(28, 91, 255, 0.25), 0 0 35px rgba(91, 72, 255, 0.15)",
                 }}
               />
             </div>
