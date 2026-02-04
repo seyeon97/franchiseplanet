@@ -216,12 +216,45 @@ export default function BrandCard({ brand }: BrandCardProps) {
 
                 <div className="flex items-center justify-between mb-4 relative z-10">
                   <div className="flex items-center gap-3">
-                    <div className="w-14 h-14 rounded-full flex items-center justify-center shadow-2xl relative" style={{
-                      background: "linear-gradient(135deg, #34D399 0%, #10B981 100%)",
+                    <div className="w-14 h-14 rounded-full flex items-center justify-center shadow-2xl relative overflow-hidden" style={{
+                      background: "radial-gradient(circle at 30% 30%, #FDE68A 0%, #34D399 40%, #10B981 100%)",
                     }}>
-                      <span className="text-3xl">🌍</span>
+                      {/* Planet glow effect */}
                       <div className="absolute inset-0 rounded-full" style={{
-                        boxShadow: "inset 0 2px 4px rgba(255,255,255,0.5), inset 0 -2px 4px rgba(0,0,0,0.2)",
+                        background: "radial-gradient(circle at 30% 30%, rgba(253, 224, 71, 0.6) 0%, transparent 60%)",
+                      }}></div>
+
+                      {/* MegaCoffee Logo */}
+                      {brand.logoImage ? (
+                        <img
+                          src={brand.logoImage}
+                          alt="메가커피"
+                          className="w-8 h-8 object-contain relative z-10"
+                          style={{
+                            filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.3))",
+                          }}
+                        />
+                      ) : (
+                        <div className="relative z-10 text-2xl font-black" style={{
+                          color: "#10B981",
+                          textShadow: "0 2px 4px rgba(0,0,0,0.3)",
+                        }}>
+                          M
+                        </div>
+                      )}
+
+                      {/* Planet shine */}
+                      <div className="absolute inset-0 rounded-full" style={{
+                        boxShadow: "inset 0 3px 6px rgba(255,255,255,0.6), inset 0 -3px 6px rgba(0,0,0,0.3)",
+                      }}></div>
+
+                      {/* Rotating sparkles */}
+                      <div className="absolute top-1 right-2 w-1 h-1 bg-white rounded-full opacity-80" style={{
+                        animation: "glow-pulse 2s ease-in-out infinite",
+                      }}></div>
+                      <div className="absolute bottom-2 left-2 w-1.5 h-1.5 bg-yellow-200 rounded-full opacity-70" style={{
+                        animation: "glow-pulse 2s ease-in-out infinite",
+                        animationDelay: "0.5s",
                       }}></div>
                     </div>
                     <div>
