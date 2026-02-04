@@ -156,7 +156,10 @@ export default function BrandCard({ brand }: BrandCardProps) {
               <h2
                 className="text-2xl font-black px-4 py-2 rounded-xl relative z-10"
                 style={{
-                  color: brand.color,
+                  background: "linear-gradient(135deg, #803CFA 0%, #1C5BFF 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
                 }}
               >
                 {brand.name}
