@@ -134,7 +134,7 @@ export default function BrandCard({ brand }: BrandCardProps) {
               <img
                 src={brand.logoImage}
                 alt={`${brand.name} logo`}
-                className="h-20 object-contain drop-shadow-2xl"
+                className="h-14 object-contain drop-shadow-2xl"
               />
             ) : (
               <div className="text-7xl drop-shadow-2xl">{brand.logo}</div>
