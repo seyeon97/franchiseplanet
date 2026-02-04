@@ -29,7 +29,7 @@ export default function BrandsSection({
   detailRefs,
 }: BrandsSectionProps) {
   return (
-    <section className="snap-y snap-mandatory h-screen overflow-y-scroll">
+    <>
       {brands.map((brand) => (
         <div
           key={brand.id}
@@ -40,6 +40,6 @@ export default function BrandsSection({
           <BrandCard brand={brand} />
         </div>
       ))}
-    </section>
+    </>
   );
 }
