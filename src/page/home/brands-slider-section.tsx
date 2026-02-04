@@ -7,6 +7,7 @@ interface Brand {
   name: string;
   category: string;
   logo: string;
+  logoImage?: string;
   color: string;
   startupCost: string;
   stats: {
@@ -47,6 +48,7 @@ export default function BrandsSliderSection({
                 <BrandThumbnail
                   key={brand.id}
                   logo={brand.logo}
+                  logoImage={brand.logoImage}
                   name={brand.name}
                   category={brand.category}
                   color={brand.color}

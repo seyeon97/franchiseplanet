@@ -5,6 +5,7 @@ interface BrandData {
   name: string;
   category: string;
   logo: string;
+  logoImage?: string;
   color: string;
   startupCost: string;
   stats: {
@@ -66,7 +67,15 @@ export default function BrandCard({ brand }: BrandCardProps) {
             }}
           >
             {/* Logo */}
-            <div className="text-7xl drop-shadow-2xl">{brand.logo}</div>
+            {brand.logoImage ? (
+              <img
+                src={brand.logoImage}
+                alt={`${brand.name} logo`}
+                className="h-20 object-contain drop-shadow-2xl"
+              />
+            ) : (
+              <div className="text-7xl drop-shadow-2xl">{brand.logo}</div>
+            )}
 
             {/* Category badge */}
             <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-full text-xs font-semibold text-gray-800">

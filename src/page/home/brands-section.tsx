@@ -8,6 +8,7 @@ interface Brand {
   name: string;
   category: string;
   logo: string;
+  logoImage?: string;
   color: string;
   startupCost: string;
   stats: {

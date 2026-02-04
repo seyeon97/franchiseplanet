@@ -2,6 +2,7 @@
 
 interface BrandThumbnailProps {
   logo: string;
+  logoImage?: string;
   name: string;
   category: string;
   color: string;
@@ -10,6 +11,7 @@ interface BrandThumbnailProps {
 
 export default function BrandThumbnail({
   logo,
+  logoImage,
   name,
   category,
   color,
@@ -25,7 +27,15 @@ export default function BrandThumbnail({
     >
       <div className="h-full flex flex-col items-center justify-center p-6 text-white">
         {/* Logo */}
-        <div className="text-8xl mb-4 drop-shadow-2xl">{logo}</div>
+        {logoImage ? (
+          <img
+            src={logoImage}
+            alt={`${name} logo`}
+            className="h-32 mb-4 object-contain drop-shadow-2xl"
+          />
+        ) : (
+          <div className="text-8xl mb-4 drop-shadow-2xl">{logo}</div>
+        )}
 
         {/* Brand Name */}
         <h3 className="text-2xl font-black mb-2 text-center drop-shadow-lg">
