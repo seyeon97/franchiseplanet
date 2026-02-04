@@ -184,16 +184,17 @@ export default function BrandCard({ brand }: BrandCardProps) {
 
             {/* Stats */}
             <div className="space-y-4">
-              {/* Top 10% - Gold Medal */}
+              {/* Top 10% - Winner */}
               <div className="relative overflow-hidden rounded-2xl p-5 shadow-2xl border-2" style={{
                 background: "linear-gradient(135deg, #FEF3C7 0%, #FDE68A 50%, #FCD34D 100%)",
                 borderColor: "#F59E0B",
                 boxShadow: "0 10px 40px rgba(245, 158, 11, 0.3), 0 0 20px rgba(251, 191, 36, 0.4)",
               }}>
-                {/* Sparkle effects */}
-                <div className="absolute top-4 right-4 w-2 h-2 bg-yellow-200 rounded-full animate-pulse"></div>
-                <div className="absolute top-8 right-12 w-1.5 h-1.5 bg-yellow-300 rounded-full animate-pulse" style={{ animationDelay: "0.5s" }}></div>
-                <div className="absolute bottom-6 left-6 w-2 h-2 bg-yellow-200 rounded-full animate-pulse" style={{ animationDelay: "1s" }}></div>
+                {/* Confetti effects */}
+                <div className="absolute top-4 right-4 w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
+                <div className="absolute top-8 right-12 w-1.5 h-1.5 bg-red-400 rounded-full animate-pulse" style={{ animationDelay: "0.3s" }}></div>
+                <div className="absolute bottom-6 left-6 w-2 h-2 bg-blue-400 rounded-full animate-pulse" style={{ animationDelay: "0.6s" }}></div>
+                <div className="absolute top-6 left-10 w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" style={{ animationDelay: "0.9s" }}></div>
 
                 <div className="absolute -right-16 -bottom-16 w-48 h-48 rounded-full opacity-20" style={{
                   background: "radial-gradient(circle, #F59E0B 0%, transparent 70%)",
@@ -201,17 +202,17 @@ export default function BrandCard({ brand }: BrandCardProps) {
 
                 <div className="flex items-center justify-between mb-4 relative z-10">
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-full flex items-center justify-center shadow-xl relative" style={{
+                    <div className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-2xl relative" style={{
                       background: "linear-gradient(135deg, #FCD34D 0%, #F59E0B 100%)",
                     }}>
-                      <span className="text-2xl">🥇</span>
-                      <div className="absolute inset-0 rounded-full" style={{
+                      <span className="text-3xl">🏆</span>
+                      <div className="absolute inset-0 rounded-2xl" style={{
                         boxShadow: "inset 0 2px 4px rgba(255,255,255,0.5), inset 0 -2px 4px rgba(0,0,0,0.2)",
                       }}></div>
                     </div>
                     <div>
-                      <span className="text-lg font-black bg-gradient-to-r from-yellow-700 to-orange-600 bg-clip-text text-transparent">
-                        GOLD
+                      <span className="text-xl font-black bg-gradient-to-r from-yellow-700 to-orange-600 bg-clip-text text-transparent">
+                        일등
                       </span>
                       <div className="text-xs font-bold text-yellow-700">상위 10%</div>
                     </div>
@@ -367,42 +368,41 @@ export default function BrandCard({ brand }: BrandCardProps) {
                 </div>
               )}
 
-              {/* Average - Silver Medal */}
+              {/* Average - Middle */}
               <div className="relative overflow-hidden rounded-2xl p-5 shadow-2xl border-2" style={{
-                background: "linear-gradient(135deg, #F1F5F9 0%, #E2E8F0 50%, #CBD5E1 100%)",
-                borderColor: "#94A3B8",
-                boxShadow: "0 10px 40px rgba(148, 163, 184, 0.3), 0 0 20px rgba(203, 213, 225, 0.4)",
+                background: "linear-gradient(135deg, #DBEAFE 0%, #BFDBFE 50%, #93C5FD 100%)",
+                borderColor: "#3B82F6",
+                boxShadow: "0 10px 40px rgba(59, 130, 246, 0.3), 0 0 20px rgba(147, 197, 253, 0.4)",
               }}>
-                {/* Sparkle effects */}
-                <div className="absolute top-4 right-4 w-2 h-2 bg-slate-300 rounded-full animate-pulse"></div>
-                <div className="absolute top-8 right-12 w-1.5 h-1.5 bg-slate-400 rounded-full animate-pulse" style={{ animationDelay: "0.5s" }}></div>
-                <div className="absolute bottom-6 left-6 w-2 h-2 bg-slate-300 rounded-full animate-pulse" style={{ animationDelay: "1s" }}></div>
+                {/* Dot effects */}
+                <div className="absolute top-4 right-4 w-1.5 h-1.5 bg-blue-300 rounded-full animate-pulse"></div>
+                <div className="absolute bottom-6 left-6 w-1.5 h-1.5 bg-blue-300 rounded-full animate-pulse" style={{ animationDelay: "0.5s" }}></div>
 
                 <div className="absolute -right-16 -bottom-16 w-48 h-48 rounded-full opacity-20" style={{
-                  background: "radial-gradient(circle, #94A3B8 0%, transparent 70%)",
+                  background: "radial-gradient(circle, #3B82F6 0%, transparent 70%)",
                 }}></div>
 
                 <div className="flex items-center justify-between mb-4 relative z-10">
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-full flex items-center justify-center shadow-xl relative" style={{
-                      background: "linear-gradient(135deg, #E2E8F0 0%, #94A3B8 100%)",
+                    <div className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-xl relative" style={{
+                      background: "linear-gradient(135deg, #93C5FD 0%, #3B82F6 100%)",
                     }}>
-                      <span className="text-2xl">🥈</span>
-                      <div className="absolute inset-0 rounded-full" style={{
+                      <span className="text-3xl">📊</span>
+                      <div className="absolute inset-0 rounded-2xl" style={{
                         boxShadow: "inset 0 2px 4px rgba(255,255,255,0.5), inset 0 -2px 4px rgba(0,0,0,0.2)",
                       }}></div>
                     </div>
                     <div>
-                      <span className="text-lg font-black bg-gradient-to-r from-slate-600 to-slate-500 bg-clip-text text-transparent">
-                        SILVER
+                      <span className="text-xl font-black bg-gradient-to-r from-blue-700 to-blue-600 bg-clip-text text-transparent">
+                        중간
                       </span>
-                      <div className="text-xs font-bold text-slate-600">평균 50%</div>
+                      <div className="text-xs font-bold text-blue-700">평균 50%</div>
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="text-xs text-slate-600 font-bold mb-0.5">월 순수익</div>
-                    <div className="text-2xl font-black bg-gradient-to-r from-slate-600 via-slate-500 to-slate-400 bg-clip-text text-transparent" style={{
-                      filter: "drop-shadow(0 2px 4px rgba(148, 163, 184, 0.3))",
+                    <div className="text-xs text-blue-700 font-bold mb-0.5">월 순수익</div>
+                    <div className="text-2xl font-black bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 bg-clip-text text-transparent" style={{
+                      filter: "drop-shadow(0 2px 4px rgba(59, 130, 246, 0.3))",
                     }}>
                       {formatMoney(brand.stats.average.profit)}
                     </div>
@@ -410,27 +410,27 @@ export default function BrandCard({ brand }: BrandCardProps) {
                 </div>
                 <div className="grid grid-cols-3 gap-2 relative z-10">
                   <div className="bg-white/80 backdrop-blur-sm rounded-xl p-2.5 cursor-pointer transition-all duration-300 hover:scale-110 hover:shadow-xl group" style={{
-                    border: "1.5px solid rgba(148, 163, 184, 0.3)",
+                    border: "1.5px solid rgba(59, 130, 246, 0.3)",
                   }}>
-                    <div className="text-xs text-slate-600 mb-1 font-bold group-hover:text-slate-500 transition-colors">💰 매출</div>
-                    <div className="font-black text-slate-700 text-sm group-hover:text-slate-500 transition-colors">
+                    <div className="text-xs text-blue-700 mb-1 font-bold group-hover:text-blue-600 transition-colors">💰 매출</div>
+                    <div className="font-black text-blue-800 text-sm group-hover:text-blue-600 transition-colors">
                       {formatMoney(brand.stats.average.revenue)}
                     </div>
                   </div>
                   <div className="bg-white/80 backdrop-blur-sm rounded-xl p-2.5 cursor-pointer transition-all duration-300 hover:scale-110 hover:shadow-xl group" style={{
-                    border: "1.5px solid rgba(148, 163, 184, 0.3)",
+                    border: "1.5px solid rgba(59, 130, 246, 0.3)",
                   }}>
-                    <div className="text-xs text-slate-600 mb-1 font-bold group-hover:text-slate-500 transition-colors">💸 비용</div>
-                    <div className="font-black text-slate-700 text-sm group-hover:text-slate-500 transition-colors">
+                    <div className="text-xs text-blue-700 mb-1 font-bold group-hover:text-blue-600 transition-colors">💸 비용</div>
+                    <div className="font-black text-blue-800 text-sm group-hover:text-blue-600 transition-colors">
                       {formatMoney(brand.stats.average.cost)}
                     </div>
                   </div>
                   <div className="rounded-xl p-2.5 shadow-lg cursor-pointer transition-all duration-300 hover:scale-110 hover:shadow-2xl group" style={{
-                    background: "linear-gradient(135deg, #E2E8F0 0%, #94A3B8 100%)",
-                    border: "2px solid #CBD5E1",
+                    background: "linear-gradient(135deg, #93C5FD 0%, #3B82F6 100%)",
+                    border: "2px solid #60A5FA",
                   }}>
-                    <div className="text-xs text-slate-700 mb-1 font-black group-hover:text-slate-600 transition-colors">✨ 수익</div>
-                    <div className="font-black text-slate-800 text-sm group-hover:text-slate-700 transition-colors">
+                    <div className="text-xs text-blue-900 mb-1 font-black group-hover:text-blue-800 transition-colors">✨ 수익</div>
+                    <div className="font-black text-blue-900 text-sm group-hover:text-blue-800 transition-colors">
                       {formatMoney(brand.stats.average.profit)}
                     </div>
                   </div>
@@ -550,42 +550,42 @@ export default function BrandCard({ brand }: BrandCardProps) {
                 </div>
               )}
 
-              {/* Bottom 10% - Bronze Medal */}
+              {/* Bottom 10% - Last Place */}
               <div className="relative overflow-hidden rounded-2xl p-5 shadow-2xl border-2" style={{
-                background: "linear-gradient(135deg, #FEF3E2 0%, #FDE6C5 50%, #E7AD77 100%)",
-                borderColor: "#CD7F32",
-                boxShadow: "0 10px 40px rgba(205, 127, 50, 0.3), 0 0 20px rgba(231, 173, 119, 0.4)",
+                background: "linear-gradient(135deg, #FEE2E2 0%, #FECACA 50%, #FCA5A5 100%)",
+                borderColor: "#EF4444",
+                boxShadow: "0 10px 40px rgba(239, 68, 68, 0.3), 0 0 20px rgba(252, 165, 165, 0.4)",
               }}>
-                {/* Sparkle effects */}
-                <div className="absolute top-4 right-4 w-2 h-2 bg-orange-200 rounded-full animate-pulse"></div>
-                <div className="absolute top-8 right-12 w-1.5 h-1.5 bg-orange-300 rounded-full animate-pulse" style={{ animationDelay: "0.5s" }}></div>
-                <div className="absolute bottom-6 left-6 w-2 h-2 bg-orange-200 rounded-full animate-pulse" style={{ animationDelay: "1s" }}></div>
+                {/* Warning effects */}
+                <div className="absolute top-4 right-4 w-2 h-2 bg-red-300 rounded-full animate-pulse"></div>
+                <div className="absolute top-8 right-12 w-1.5 h-1.5 bg-red-400 rounded-full animate-pulse" style={{ animationDelay: "0.3s" }}></div>
+                <div className="absolute bottom-6 left-6 w-2 h-2 bg-red-300 rounded-full animate-pulse" style={{ animationDelay: "0.6s" }}></div>
 
                 <div className="absolute -right-16 -bottom-16 w-48 h-48 rounded-full opacity-20" style={{
-                  background: "radial-gradient(circle, #CD7F32 0%, transparent 70%)",
+                  background: "radial-gradient(circle, #EF4444 0%, transparent 70%)",
                 }}></div>
 
                 <div className="flex items-center justify-between mb-4 relative z-10">
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-full flex items-center justify-center shadow-xl relative" style={{
-                      background: "linear-gradient(135deg, #E7AD77 0%, #CD7F32 100%)",
+                    <div className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-xl relative" style={{
+                      background: "linear-gradient(135deg, #FCA5A5 0%, #EF4444 100%)",
                     }}>
-                      <span className="text-2xl">🥉</span>
-                      <div className="absolute inset-0 rounded-full" style={{
+                      <span className="text-3xl">⚠️</span>
+                      <div className="absolute inset-0 rounded-2xl" style={{
                         boxShadow: "inset 0 2px 4px rgba(255,255,255,0.5), inset 0 -2px 4px rgba(0,0,0,0.2)",
                       }}></div>
                     </div>
                     <div>
-                      <span className="text-lg font-black bg-gradient-to-r from-amber-700 to-orange-700 bg-clip-text text-transparent">
-                        BRONZE
+                      <span className="text-xl font-black bg-gradient-to-r from-red-700 to-red-600 bg-clip-text text-transparent">
+                        꼴등
                       </span>
-                      <div className="text-xs font-bold text-amber-800">하위 10%</div>
+                      <div className="text-xs font-bold text-red-700">하위 10%</div>
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="text-xs text-amber-700 font-bold mb-0.5">월 순수익</div>
-                    <div className="text-2xl font-black bg-gradient-to-r from-amber-700 via-orange-600 to-amber-600 bg-clip-text text-transparent" style={{
-                      filter: "drop-shadow(0 2px 4px rgba(205, 127, 50, 0.3))",
+                    <div className="text-xs text-red-700 font-bold mb-0.5">월 순수익</div>
+                    <div className="text-2xl font-black bg-gradient-to-r from-red-600 via-red-500 to-red-400 bg-clip-text text-transparent" style={{
+                      filter: "drop-shadow(0 2px 4px rgba(239, 68, 68, 0.3))",
                     }}>
                       {formatMoney(brand.stats.bottom10.profit)}
                     </div>
@@ -593,27 +593,27 @@ export default function BrandCard({ brand }: BrandCardProps) {
                 </div>
                 <div className="grid grid-cols-3 gap-2 relative z-10">
                   <div className="bg-white/80 backdrop-blur-sm rounded-xl p-2.5 cursor-pointer transition-all duration-300 hover:scale-110 hover:shadow-xl group" style={{
-                    border: "1.5px solid rgba(205, 127, 50, 0.3)",
+                    border: "1.5px solid rgba(239, 68, 68, 0.3)",
                   }}>
-                    <div className="text-xs text-amber-700 mb-1 font-bold group-hover:text-amber-600 transition-colors">💰 매출</div>
-                    <div className="font-black text-amber-800 text-sm group-hover:text-amber-600 transition-colors">
+                    <div className="text-xs text-red-700 mb-1 font-bold group-hover:text-red-600 transition-colors">💰 매출</div>
+                    <div className="font-black text-red-800 text-sm group-hover:text-red-600 transition-colors">
                       {formatMoney(brand.stats.bottom10.revenue)}
                     </div>
                   </div>
                   <div className="bg-white/80 backdrop-blur-sm rounded-xl p-2.5 cursor-pointer transition-all duration-300 hover:scale-110 hover:shadow-xl group" style={{
-                    border: "1.5px solid rgba(205, 127, 50, 0.3)",
+                    border: "1.5px solid rgba(239, 68, 68, 0.3)",
                   }}>
-                    <div className="text-xs text-amber-700 mb-1 font-bold group-hover:text-amber-600 transition-colors">💸 비용</div>
-                    <div className="font-black text-amber-800 text-sm group-hover:text-amber-600 transition-colors">
+                    <div className="text-xs text-red-700 mb-1 font-bold group-hover:text-red-600 transition-colors">💸 비용</div>
+                    <div className="font-black text-red-800 text-sm group-hover:text-red-600 transition-colors">
                       {formatMoney(brand.stats.bottom10.cost)}
                     </div>
                   </div>
                   <div className="rounded-xl p-2.5 shadow-lg cursor-pointer transition-all duration-300 hover:scale-110 hover:shadow-2xl group" style={{
-                    background: "linear-gradient(135deg, #E7AD77 0%, #CD7F32 100%)",
-                    border: "2px solid #D4955A",
+                    background: "linear-gradient(135deg, #FCA5A5 0%, #EF4444 100%)",
+                    border: "2px solid #F87171",
                   }}>
-                    <div className="text-xs text-amber-900 mb-1 font-black group-hover:text-amber-800 transition-colors">✨ 수익</div>
-                    <div className="font-black text-amber-900 text-sm group-hover:text-amber-800 transition-colors">
+                    <div className="text-xs text-red-900 mb-1 font-black group-hover:text-red-800 transition-colors">✨ 수익</div>
+                    <div className="font-black text-red-900 text-sm group-hover:text-red-800 transition-colors">
                       {formatMoney(brand.stats.bottom10.profit)}
                     </div>
                   </div>
