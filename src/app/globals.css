@@ -25,4 +25,22 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+
+  @keyframes race {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100vw);
+    }
+  }
+
+  @keyframes dash {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
 }
