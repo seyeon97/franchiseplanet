@@ -60,16 +60,16 @@ export default function BrandCard({ brand }: BrandCardProps) {
         >
           {/* Header with Logo */}
           <div
-            className="relative h-56 flex items-center justify-center"
+            className="relative h-28 flex items-center justify-center"
             style={{
               background: `linear-gradient(135deg, ${brand.color}dd 0%, ${brand.color} 100%)`,
             }}
           >
             {/* Logo */}
-            <div className="text-9xl drop-shadow-2xl">{brand.logo}</div>
+            <div className="text-7xl drop-shadow-2xl">{brand.logo}</div>
 
             {/* Category badge */}
-            <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-full text-xs font-semibold text-gray-800">
+            <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-full text-xs font-semibold text-gray-800">
               {brand.category}
             </div>
           </div>
@@ -91,7 +91,17 @@ export default function BrandCard({ brand }: BrandCardProps) {
               </p>
             </div>
 
-            <p className="text-gray-600 text-sm mb-6">{brand.description}</p>
+            <p className="text-gray-600 text-sm mb-4">{brand.description}</p>
+
+            {/* Disclaimer */}
+            <div className="mb-5 p-3 bg-blue-50 rounded-lg border border-blue-200">
+              <p className="text-xs text-blue-700 leading-relaxed">
+                📌 사장님 하루 10시간 / 주5일 이상 출근 기준
+                <br />• 월세, 인건비, 배달 비중에 따라 순수익에 차이가 있을 수
+                있습니다.
+                <br />• 이자비용 및 각종 세금은 계산하지 않았습니다.
+              </p>
+            </div>
 
             {/* Stats */}
             <div className="space-y-4">
