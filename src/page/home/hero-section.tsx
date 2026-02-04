@@ -53,7 +53,9 @@ export default function HeroSection() {
   return (
     <section className="min-h-screen snap-start flex items-center justify-center text-white relative overflow-hidden">
       {/* Space Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-indigo-950 to-purple-950">
+      <div className="absolute inset-0" style={{
+        background: "linear-gradient(135deg, #F144BB 0%, #803CFA 33%, #0064FF 66%, #000000 100%)",
+      }}>
         {/* Stars */}
         <div className="absolute inset-0">
           {stars.map((star) => (
@@ -71,8 +73,12 @@ export default function HeroSection() {
         </div>
 
         {/* Nebula effects */}
-        <div className="absolute top-20 left-20 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl"></div>
+        <div className="absolute top-20 left-20 w-96 h-96 rounded-full blur-3xl" style={{
+          background: "radial-gradient(circle, rgba(241, 68, 187, 0.3), transparent)",
+        }}></div>
+        <div className="absolute bottom-20 right-20 w-96 h-96 rounded-full blur-3xl" style={{
+          background: "radial-gradient(circle, rgba(0, 100, 255, 0.3), transparent)",
+        }}></div>
       </div>
 
       {/* Racing Track - Circular */}
