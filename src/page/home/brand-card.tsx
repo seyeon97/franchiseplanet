@@ -136,7 +136,7 @@ export default function BrandCard({ brand }: BrandCardProps) {
                 alt={`${brand.name} logo`}
                 className="h-14 object-contain"
                 style={{
-                  filter: "drop-shadow(0 0 8px rgba(255, 255, 255, 0.3)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2))",
+                  filter: "drop-shadow(0 0 15px rgba(255, 255, 255, 0.6)) drop-shadow(0 0 25px rgba(255, 255, 255, 0.4)) drop-shadow(0 0 35px rgba(255, 255, 255, 0.2)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2))",
                 }}
               />
             ) : (
