@@ -128,7 +128,7 @@ export default function BrandCard({ brand }: BrandCardProps) {
                         "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
                       WebkitMaskComposite: "xor",
                       maskComposite: "exclude",
-                      boxShadow: `0 0 20px ${brand.color}99, 0 0 30px ${brand.color}66`,
+                      boxShadow: `0 0 25px ${brand.color}bb, 0 0 40px ${brand.color}88, 0 0 60px ${brand.color}55`,
                     }}
                   ></div>
                   <h2
@@ -137,7 +137,7 @@ export default function BrandCard({ brand }: BrandCardProps) {
                       background: `linear-gradient(135deg, ${brand.color} 0%, #FFB366 100%)`,
                       WebkitBackgroundClip: "text",
                       WebkitTextFillColor: "transparent",
-                      filter: `drop-shadow(0 0 12px ${brand.color}77)`,
+                      filter: `drop-shadow(0 0 15px ${brand.color}99) drop-shadow(0 0 25px ${brand.color}77)`,
                     }}
                   >
                     {brand.name}
