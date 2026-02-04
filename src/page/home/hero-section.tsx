@@ -53,7 +53,7 @@ export default function HeroSection() {
   return (
     <section className="min-h-screen snap-start flex items-center justify-center text-white relative overflow-hidden">
       {/* Space Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-indigo-950 to-purple-950">
+      <div className="absolute inset-0 bg-gradient-to-b from-black via-[#1C5BFF]/20 to-[#5B48FF]/30">
         {/* Stars */}
         <div className="absolute inset-0">
           {stars.map((star) => (
@@ -71,8 +71,12 @@ export default function HeroSection() {
         </div>
 
         {/* Nebula effects */}
-        <div className="absolute top-20 left-20 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl"></div>
+        <div className="absolute top-20 left-20 w-96 h-96 rounded-full blur-3xl" style={{
+          background: "radial-gradient(circle, #5B48FF40, transparent)",
+        }}></div>
+        <div className="absolute bottom-20 right-20 w-96 h-96 rounded-full blur-3xl" style={{
+          background: "radial-gradient(circle, #1C5BFF40, transparent)",
+        }}></div>
       </div>
 
       {/* Racing Track - Circular */}
@@ -128,12 +132,16 @@ export default function HeroSection() {
         </h1>
 
         {/* Subtitle */}
-        <p className="text-2xl md:text-3xl font-light mb-4 text-purple-100">
+        <p className="text-2xl md:text-3xl font-light mb-4" style={{
+          color: "#E0DAFF",
+        }}>
           프랜차이즈의 모든 것
         </p>
 
         {/* Description */}
-        <p className="text-lg md:text-xl text-purple-200 max-w-2xl mx-auto mb-12">
+        <p className="text-lg md:text-xl max-w-2xl mx-auto mb-12" style={{
+          color: "#C4B8FF",
+        }}>
           탑브랜드 매출 정보를 한눈에!
           <br />
           상위 10%, 평균, 하위 10% 데이터로 현실적인 창업 계획을 세우세요.
@@ -141,7 +149,9 @@ export default function HeroSection() {
 
         {/* Scroll indicator */}
         <div className="flex flex-col items-center gap-2 animate-pulse">
-          <p className="text-sm text-purple-200">스크롤하여 브랜드 보기</p>
+          <p className="text-sm" style={{
+            color: "#C4B8FF",
+          }}>스크롤하여 브랜드 보기</p>
           <svg
             className="w-6 h-6"
             fill="none"

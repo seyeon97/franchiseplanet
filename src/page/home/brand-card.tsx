@@ -113,7 +113,7 @@ export default function BrandCard({ brand }: BrandCardProps) {
     <div
       className="relative min-h-screen snap-start flex items-center justify-center p-6"
       style={{
-        background: `linear-gradient(135deg, ${brand.color}22 0%, ${brand.color}44 100%)`,
+        background: `linear-gradient(135deg, #5B48FF15 0%, #1C5BFF20 50%, ${brand.color}15 100%)`,
       }}
     >
       <div className="w-full max-w-md">
