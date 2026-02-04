@@ -12,7 +12,7 @@ const mockBrands = [
     category: "카페",
     logo: "☕",
     logoImage: "/megacoffee-logo.png",
-    color: "#E17D4C",
+    color: "#F25C05",
     startupCost: "1.5억~2억원",
     stats: {
       top10: {
