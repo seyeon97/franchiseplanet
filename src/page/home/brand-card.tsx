@@ -220,7 +220,7 @@ export default function BrandCard({ brand }: BrandCardProps) {
                       <img
                         src="/planet-winner.png"
                         alt="일등 행성"
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-contain"
                         style={{
                           filter: "drop-shadow(0 4px 8px rgba(16, 185, 129, 0.5))",
                         }}
@@ -420,7 +420,7 @@ export default function BrandCard({ brand }: BrandCardProps) {
                       <img
                         src="/planet-middle.png"
                         alt="중간 행성"
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-contain"
                         style={{
                           filter: "drop-shadow(0 4px 8px rgba(100, 116, 139, 0.5))",
                         }}
@@ -642,13 +642,15 @@ export default function BrandCard({ brand }: BrandCardProps) {
 
                 <div className="flex items-center justify-between mb-4 relative z-10">
                   <div className="flex items-center gap-3">
-                    <div className="w-14 h-14 rounded-full flex items-center justify-center shadow-xl relative" style={{
-                      background: "linear-gradient(135deg, #FCA5A5 0%, #DC2626 100%)",
-                    }}>
-                      <span className="text-3xl">💥</span>
-                      <div className="absolute inset-0 rounded-full" style={{
-                        boxShadow: "inset 0 2px 4px rgba(255,255,255,0.4), inset 0 -2px 4px rgba(0,0,0,0.3), 0 0 20px rgba(239, 68, 68, 0.5)",
-                      }}></div>
+                    <div className="w-14 h-14 rounded-full flex items-center justify-center shadow-xl relative overflow-hidden">
+                      <img
+                        src="/planet-last.png"
+                        alt="꼴등 행성"
+                        className="w-full h-full object-contain"
+                        style={{
+                          filter: "drop-shadow(0 4px 8px rgba(239, 68, 68, 0.5))",
+                        }}
+                      />
                     </div>
                     <div>
                       <span className="text-xl font-black bg-gradient-to-r from-red-700 to-orange-600 bg-clip-text text-transparent">
