@@ -31,7 +31,9 @@ export default function BrandThumbnail({
           <img
             src={logoImage}
             alt={`${name} logo`}
-            className="h-32 mb-4 object-contain drop-shadow-2xl brightness-0 invert"
+            className={`h-32 mb-4 object-contain drop-shadow-2xl ${
+              name === "메가커피" ? "brightness-0 invert" : ""
+            }`}
           />
         ) : (
           <div className="text-8xl mb-4 drop-shadow-2xl">{logo}</div>
