@@ -111,18 +111,11 @@ export default function BrandCard({ brand }: BrandCardProps) {
 
   return (
     <div
-      className="relative min-h-screen snap-start flex items-center justify-center p-6 overflow-hidden"
+      className="relative min-h-screen snap-start flex items-center justify-center p-6"
       style={{
-        background: `linear-gradient(135deg, #5B48FF 0%, #1C5BFF 50%, ${brand.color} 100%)`,
+        background: `linear-gradient(135deg, ${brand.color}22 0%, ${brand.color}44 100%)`,
       }}
     >
-      {/* Nebula overlay effects */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full blur-[120px] opacity-40" style={{
-        background: "radial-gradient(circle, #5B48FF, transparent 70%)",
-      }}></div>
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] rounded-full blur-[100px] opacity-30" style={{
-        background: "radial-gradient(circle, #1C5BFF, transparent 70%)",
-      }}></div>
       <div className="w-full max-w-md">
         {/* Card */}
         <div
@@ -195,8 +188,12 @@ export default function BrandCard({ brand }: BrandCardProps) {
               <div className="relative overflow-hidden rounded-2xl p-5 shadow-2xl border-2 group cursor-pointer transition-all duration-500 hover:scale-[1.02]" style={{
                 background: "linear-gradient(135deg, #FEF9C3 0%, #FDE68A 30%, #D1FAE5 70%, #A7F3D0 100%)",
                 borderColor: "#10B981",
-                boxShadow: "0 10px 40px rgba(16, 185, 129, 0.3), 0 0 20px rgba(167, 243, 208, 0.4)",
+                boxShadow: "0 10px 40px rgba(16, 185, 129, 0.3), 0 0 20px rgba(167, 243, 208, 0.4), 0 0 60px rgba(91, 72, 255, 0.3)",
               }}>
+                {/* Signature color gradient glow overlay - visible on hover */}
+                <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" style={{
+                  background: "linear-gradient(135deg, rgba(91, 72, 255, 0.15) 0%, rgba(28, 91, 255, 0.15) 100%)",
+                }}></div>
                 {/* Stars and sparkles */}
                 <div className="absolute top-4 right-4 w-2 h-2 bg-yellow-400 rounded-full" style={{
                   animation: "glow-pulse 2s ease-in-out infinite",
@@ -395,8 +392,12 @@ export default function BrandCard({ brand }: BrandCardProps) {
               <div className="relative overflow-hidden rounded-2xl p-5 shadow-2xl border-2 group cursor-pointer transition-all duration-500 hover:scale-[1.02]" style={{
                 background: "linear-gradient(135deg, #FEF3C7 0%, #FDE68A 50%, #EAB308 100%)",
                 borderColor: "#CA8A04",
-                boxShadow: "0 10px 40px rgba(202, 138, 4, 0.3), 0 0 20px rgba(253, 224, 71, 0.4)",
+                boxShadow: "0 10px 40px rgba(202, 138, 4, 0.3), 0 0 20px rgba(253, 224, 71, 0.4), 0 0 60px rgba(28, 91, 255, 0.3)",
               }}>
+                {/* Signature color gradient glow overlay - visible on hover */}
+                <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" style={{
+                  background: "linear-gradient(135deg, rgba(28, 91, 255, 0.15) 0%, rgba(91, 72, 255, 0.15) 100%)",
+                }}></div>
                 {/* Dust particles */}
                 <div className="absolute top-4 right-4 w-1 h-1 bg-amber-400 rounded-full opacity-60 animate-pulse"></div>
                 <div className="absolute top-8 right-10 w-1.5 h-1.5 bg-yellow-300 rounded-full opacity-50 animate-pulse"></div>
@@ -595,9 +596,13 @@ export default function BrandCard({ brand }: BrandCardProps) {
               <div className="relative overflow-hidden rounded-2xl p-5 shadow-2xl border-2 group cursor-pointer transition-all duration-500 hover:scale-[1.02]" style={{
                 background: "linear-gradient(135deg, #FEE2E2 0%, #FECACA 30%, #FCA5A5 70%, #7C2D12 100%)",
                 borderColor: "#EF4444",
-                boxShadow: "0 10px 40px rgba(239, 68, 68, 0.4), 0 0 30px rgba(252, 165, 165, 0.5)",
+                boxShadow: "0 10px 40px rgba(239, 68, 68, 0.4), 0 0 30px rgba(252, 165, 165, 0.5), 0 0 60px rgba(91, 72, 255, 0.3)",
                 animation: "shake 0.5s ease-in-out infinite",
               }}>
+                {/* Signature color gradient glow overlay - visible on hover */}
+                <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" style={{
+                  background: "linear-gradient(135deg, rgba(91, 72, 255, 0.15) 0%, rgba(28, 91, 255, 0.15) 100%)",
+                }}></div>
                 {/* Explosion sparks with glow */}
                 <div className="absolute top-4 right-4 w-3 h-3 bg-orange-400 rounded-full animate-pulse" style={{
                   boxShadow: "0 0 15px rgba(251, 146, 60, 1), 0 0 25px rgba(251, 146, 60, 0.5)",
