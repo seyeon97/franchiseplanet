@@ -152,14 +152,32 @@ export default function BrandCard({ brand }: BrandCardProps) {
           {/* Content - Scrollable */}
           <div className="p-6 overflow-y-auto flex-1">
             {/* Brand name */}
-            <h2
-              className="text-3xl font-black mb-4"
-              style={{
-                color: brand.color,
-              }}
-            >
-              {brand.name}
-            </h2>
+            <div className="mb-4 inline-block relative">
+              <h2
+                className="text-3xl font-black px-4 py-2 rounded-xl relative z-10"
+                style={{
+                  background: "linear-gradient(135deg, #5B48FF 0%, #1C5BFF 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                  filter: "drop-shadow(0 0 8px rgba(91, 72, 255, 0.3))",
+                }}
+              >
+                {brand.name}
+              </h2>
+              {/* Border with gradient */}
+              <div
+                className="absolute inset-0 rounded-xl pointer-events-none"
+                style={{
+                  background: "linear-gradient(135deg, #5B48FF 0%, #1C5BFF 100%)",
+                  padding: "2px",
+                  WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+                  WebkitMaskComposite: "xor",
+                  maskComposite: "exclude",
+                  boxShadow: "0 0 12px rgba(91, 72, 255, 0.25), 0 0 20px rgba(28, 91, 255, 0.15)",
+                }}
+              />
+            </div>
 
             {/* Startup Cost */}
             <div className="mb-4 p-4 rounded-2xl relative overflow-hidden" style={{
