@@ -156,7 +156,7 @@ export default function BrandCard({ brand }: BrandCardProps) {
               <h2
                 className="text-2xl font-black px-4 py-2 rounded-xl relative z-10"
                 style={{
-                  background: "linear-gradient(135deg, #803CFA 0%, #1C5BFF 100%)",
+                  background: "linear-gradient(135deg, #F144BB 0%, #803CFA 50%, #0064FF 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
@@ -168,12 +168,12 @@ export default function BrandCard({ brand }: BrandCardProps) {
               <div
                 className="absolute inset-0 rounded-xl pointer-events-none"
                 style={{
-                  background: "linear-gradient(135deg, #803CFA 0%, #1C5BFF 100%)",
+                  background: "linear-gradient(135deg, #F144BB 0%, #803CFA 50%, #0064FF 100%)",
                   padding: "2px",
                   WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
                   WebkitMaskComposite: "xor",
                   maskComposite: "exclude",
-                  boxShadow: "0 0 15px rgba(128, 60, 250, 0.4), 0 0 25px rgba(28, 91, 255, 0.25), 0 0 35px rgba(128, 60, 250, 0.15)",
+                  boxShadow: "0 0 15px rgba(241, 68, 187, 0.4), 0 0 25px rgba(128, 60, 250, 0.25), 0 0 35px rgba(0, 100, 255, 0.15)",
                 }}
               />
             </div>
