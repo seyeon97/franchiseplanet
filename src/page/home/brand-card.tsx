@@ -111,11 +111,18 @@ export default function BrandCard({ brand }: BrandCardProps) {
 
   return (
     <div
-      className="relative min-h-screen snap-start flex items-center justify-center p-6"
+      className="relative min-h-screen snap-start flex items-center justify-center p-6 overflow-hidden"
       style={{
-        background: `linear-gradient(135deg, #5B48FF15 0%, #1C5BFF20 50%, ${brand.color}15 100%)`,
+        background: `linear-gradient(135deg, #5B48FF 0%, #1C5BFF 50%, ${brand.color} 100%)`,
       }}
     >
+      {/* Nebula overlay effects */}
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full blur-[120px] opacity-40" style={{
+        background: "radial-gradient(circle, #5B48FF, transparent 70%)",
+      }}></div>
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] rounded-full blur-[100px] opacity-30" style={{
+        background: "radial-gradient(circle, #1C5BFF, transparent 70%)",
+      }}></div>
       <div className="w-full max-w-md">
         {/* Card */}
         <div

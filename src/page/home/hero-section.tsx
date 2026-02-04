@@ -53,7 +53,9 @@ export default function HeroSection() {
   return (
     <section className="min-h-screen snap-start flex items-center justify-center text-white relative overflow-hidden">
       {/* Space Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-[#1C5BFF]/20 to-[#5B48FF]/30">
+      <div className="absolute inset-0" style={{
+        background: "linear-gradient(135deg, #000000 0%, #1C5BFF 50%, #5B48FF 100%)",
+      }}>
         {/* Stars */}
         <div className="absolute inset-0">
           {stars.map((star) => (
@@ -70,12 +72,18 @@ export default function HeroSection() {
           ))}
         </div>
 
-        {/* Nebula effects */}
-        <div className="absolute top-20 left-20 w-96 h-96 rounded-full blur-3xl" style={{
-          background: "radial-gradient(circle, #5B48FF40, transparent)",
+        {/* Nebula effects - Multiple layers */}
+        <div className="absolute top-0 left-0 w-[800px] h-[800px] rounded-full blur-[150px] opacity-60" style={{
+          background: "radial-gradient(circle, #5B48FF, transparent 70%)",
         }}></div>
-        <div className="absolute bottom-20 right-20 w-96 h-96 rounded-full blur-3xl" style={{
-          background: "radial-gradient(circle, #1C5BFF40, transparent)",
+        <div className="absolute top-1/4 right-0 w-[600px] h-[600px] rounded-full blur-[120px] opacity-50" style={{
+          background: "radial-gradient(circle, #1C5BFF, transparent 70%)",
+        }}></div>
+        <div className="absolute bottom-0 left-1/3 w-[700px] h-[700px] rounded-full blur-[140px] opacity-40" style={{
+          background: "radial-gradient(circle, #5B48FF, transparent 70%)",
+        }}></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full blur-[100px] opacity-30" style={{
+          background: "radial-gradient(circle, #1C5BFF, #5B48FF, transparent)",
         }}></div>
       </div>
 
