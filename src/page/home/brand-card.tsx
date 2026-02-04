@@ -86,18 +86,34 @@ export default function BrandCard({ brand }: BrandCardProps) {
           {/* Content */}
           <div className="p-6">
             {/* Brand name */}
-            <h2
-              className="text-3xl font-black mb-2"
-              style={{
-                color: brand.color,
-                textShadow:
-                  brand.name === "메가커피"
-                    ? `0 0 20px ${brand.color}99, 0 0 40px ${brand.color}66, 0 0 60px ${brand.color}33`
-                    : "none",
-              }}
-            >
-              {brand.name}
-            </h2>
+            {brand.name === "메가커피" ? (
+              <div
+                className="inline-block mb-3 px-8 py-3 rounded-full"
+                style={{
+                  border: `3px solid ${brand.color}`,
+                  boxShadow: `0 0 20px ${brand.color}99, 0 0 40px ${brand.color}66, inset 0 0 20px ${brand.color}22`,
+                }}
+              >
+                <h2
+                  className="text-3xl font-black"
+                  style={{
+                    color: brand.color,
+                    textShadow: `0 0 20px ${brand.color}99, 0 0 40px ${brand.color}66`,
+                  }}
+                >
+                  {brand.name}
+                </h2>
+              </div>
+            ) : (
+              <h2
+                className="text-3xl font-black mb-2"
+                style={{
+                  color: brand.color,
+                }}
+              >
+                {brand.name}
+              </h2>
+            )}
 
             {/* Startup Cost */}
             <div className="mb-3 px-3 py-2 bg-amber-50 rounded-lg border border-amber-200">
