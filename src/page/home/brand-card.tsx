@@ -126,7 +126,7 @@ export default function BrandCard({ brand }: BrandCardProps) {
           <div
             className="relative h-28 flex items-center justify-center flex-shrink-0"
             style={{
-              background: "linear-gradient(135deg, #F144BB 0%, #803CFA 33%, #0064FF 66%, #32E6AF 100%)",
+              background: "linear-gradient(135deg, #F144BB 0%, #803CFA 50%, #0064FF 100%)",
             }}
           >
             {/* Logo */}
