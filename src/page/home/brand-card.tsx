@@ -1,5 +1,8 @@
 "use client";
 
+import { useState } from "react";
+import BrandDetailBreakdown from "./brand-detail-breakdown";
+
 interface BrandData {
   id: string;
   name: string;
@@ -33,6 +36,10 @@ interface BrandCardProps {
 }
 
 export default function BrandCard({ brand }: BrandCardProps) {
+  const [currentPage, setCurrentPage] = useState(0);
+  const isMegaCoffee = brand.name === "메가커피";
+  const totalPages = isMegaCoffee ? 2 : 1;
+
   const formatMoney = (amount: number) => {
     if (amount >= 10000) {
       return `${(amount / 10000).toFixed(1)}억원`;
@@ -45,6 +52,18 @@ export default function BrandCard({ brand }: BrandCardProps) {
     brand.stats.average.revenue,
     brand.stats.bottom10.revenue
   );
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages - 1) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 0) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
 
   return (
     <div
@@ -59,6 +78,10 @@ export default function BrandCard({ brand }: BrandCardProps) {
           className="relative bg-white rounded-3xl shadow-2xl overflow-hidden"
           style={{ aspectRatio: "9/16" }}
         >
+          {/* Page Content */}
+          <div className="relative h-full">
+            {currentPage === 0 ? (
+              <>
           {/* Header with Logo */}
           <div
             className="relative h-28 flex items-center justify-center"
@@ -250,6 +273,75 @@ export default function BrandCard({ brand }: BrandCardProps) {
               </div>
             </div>
           </div>
+              </>
+            ) : (
+              <BrandDetailBreakdown brandName={brand.name} color={brand.color} />
+            )}
+          </div>
+
+          {/* Navigation Buttons */}
+          {isMegaCoffee && (
+            <>
+              {/* Page Indicator */}
+              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 z-20">
+                {Array.from({ length: totalPages }).map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setCurrentPage(idx)}
+                    className={`w-2 h-2 rounded-full transition-all ${
+                      currentPage === idx
+                        ? "bg-white w-6"
+                        : "bg-white/50"
+                    }`}
+                  />
+                ))}
+              </div>
+
+              {/* Previous Button */}
+              {currentPage > 0 && (
+                <button
+                  onClick={handlePrevPage}
+                  className="absolute left-2 top-1/2 transform -translate-y-1/2 w-10 h-10 bg-white/80 rounded-full flex items-center justify-center shadow-lg hover:bg-white transition-all z-20"
+                >
+                  <svg
+                    className="w-6 h-6 text-gray-800"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15 19l-7-7 7-7"
+                    />
+                  </svg>
+                </button>
+              )}
+
+              {/* Next Button */}
+              {currentPage < totalPages - 1 && (
+                <button
+                  onClick={handleNextPage}
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 w-10 h-10 bg-white/80 rounded-full flex items-center justify-center shadow-lg hover:bg-white transition-all z-20"
+                >
+                  <svg
+                    className="w-6 h-6 text-gray-800"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </button>
+              )}
+            </>
+          )}
         </div>
       </div>
     </div>
