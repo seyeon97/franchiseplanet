@@ -416,13 +416,15 @@ export default function BrandCard({ brand }: BrandCardProps) {
 
                 <div className="flex items-center justify-between mb-4 relative z-10">
                   <div className="flex items-center gap-3">
-                    <div className="w-14 h-14 rounded-full flex items-center justify-center shadow-xl relative" style={{
-                      background: "linear-gradient(135deg, #94A3B8 0%, #64748B 100%)",
-                    }}>
-                      <span className="text-3xl">🌑</span>
-                      <div className="absolute inset-0 rounded-full" style={{
-                        boxShadow: "inset 0 2px 4px rgba(255,255,255,0.3), inset 0 -2px 4px rgba(0,0,0,0.3)",
-                      }}></div>
+                    <div className="w-14 h-14 rounded-full flex items-center justify-center shadow-xl relative overflow-hidden">
+                      <img
+                        src="/planet-middle.png"
+                        alt="중간 행성"
+                        className="w-full h-full object-cover"
+                        style={{
+                          filter: "drop-shadow(0 4px 8px rgba(100, 116, 139, 0.5))",
+                        }}
+                      />
                     </div>
                     <div>
                       <span className="text-xl font-black bg-gradient-to-r from-slate-700 to-slate-600 bg-clip-text text-transparent">
