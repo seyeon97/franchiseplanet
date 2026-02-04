@@ -8,11 +8,24 @@ interface BrandData {
   image: string;
   color: string;
   stats: {
-    top10: number;
-    average: number;
-    bottom10: number;
+    top10: {
+      revenue: number;
+      cost: number;
+      profit: number;
+    };
+    average: {
+      revenue: number;
+      cost: number;
+      profit: number;
+    };
+    bottom10: {
+      revenue: number;
+      cost: number;
+      profit: number;
+    };
   };
   description: string;
+  note?: string;
 }
 
 interface BrandCardProps {
@@ -21,8 +34,17 @@ interface BrandCardProps {
 
 export default function BrandCard({ brand }: BrandCardProps) {
   const formatMoney = (amount: number) => {
-    return `${(amount / 10000).toFixed(0)}억원`;
+    if (amount >= 10000) {
+      return `${(amount / 10000).toFixed(1)}억원`;
+    }
+    return `${amount.toLocaleString()}만원`;
   };
+
+  const maxRevenue = Math.max(
+    brand.stats.top10.revenue,
+    brand.stats.average.revenue,
+    brand.stats.bottom10.revenue
+  );
 
   return (
     <div
@@ -38,7 +60,7 @@ export default function BrandCard({ brand }: BrandCardProps) {
           style={{ aspectRatio: "9/16" }}
         >
           {/* Header Image */}
-          <div className="relative h-64 overflow-hidden">
+          <div className="relative h-48 overflow-hidden">
             <img
               src={brand.image}
               alt={brand.name}
@@ -52,97 +74,134 @@ export default function BrandCard({ brand }: BrandCardProps) {
             ></div>
 
             {/* Logo */}
-            <div className="absolute top-6 left-6 text-6xl drop-shadow-lg">
+            <div className="absolute top-4 left-4 text-5xl drop-shadow-lg">
               {brand.logo}
             </div>
 
             {/* Category badge */}
-            <div className="absolute top-6 right-6 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-semibold text-gray-800">
+            <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-full text-xs font-semibold text-gray-800">
               {brand.category}
             </div>
           </div>
 
           {/* Content */}
-          <div className="p-8">
+          <div className="p-6">
             {/* Brand name */}
             <h2
-              className="text-4xl font-black mb-2"
+              className="text-3xl font-black mb-1"
               style={{ color: brand.color }}
             >
               {brand.name}
             </h2>
-            <p className="text-gray-600 mb-8">{brand.description}</p>
+            <p className="text-gray-600 text-sm mb-6">{brand.description}</p>
 
             {/* Stats */}
-            <div className="space-y-6">
+            <div className="space-y-5">
               {/* Top 10% */}
-              <div>
+              <div className="bg-green-50 p-4 rounded-xl">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-semibold text-gray-500">
+                  <span className="text-xs font-bold text-green-700">
                     상위 10%
                   </span>
-                  <span className="text-xl font-bold text-green-600">
-                    {formatMoney(brand.stats.top10)}
+                  <span className="text-lg font-black text-green-600">
+                    {formatMoney(brand.stats.top10.profit)}
                   </span>
                 </div>
-                <div className="h-3 bg-gray-200 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-gradient-to-r from-green-400 to-green-600 rounded-full"
-                    style={{
-                      width: `${(brand.stats.top10 / 20000) * 100}%`,
-                    }}
-                  ></div>
+                <div className="grid grid-cols-3 gap-2 text-xs">
+                  <div>
+                    <div className="text-gray-500">매출</div>
+                    <div className="font-semibold text-gray-700">
+                      {formatMoney(brand.stats.top10.revenue)}
+                    </div>
+                  </div>
+                  <div>
+                    <div className="text-gray-500">비용</div>
+                    <div className="font-semibold text-gray-700">
+                      {formatMoney(brand.stats.top10.cost)}
+                    </div>
+                  </div>
+                  <div>
+                    <div className="text-gray-500">순이익</div>
+                    <div className="font-semibold text-green-600">
+                      {formatMoney(brand.stats.top10.profit)}
+                    </div>
+                  </div>
                 </div>
               </div>
 
               {/* Average */}
-              <div>
+              <div className="bg-blue-50 p-4 rounded-xl">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-semibold text-gray-500">
+                  <span className="text-xs font-bold text-blue-700">
                     평균 50%
                   </span>
-                  <span className="text-xl font-bold text-blue-600">
-                    {formatMoney(brand.stats.average)}
+                  <span className="text-lg font-black text-blue-600">
+                    {formatMoney(brand.stats.average.profit)}
                   </span>
                 </div>
-                <div className="h-3 bg-gray-200 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-gradient-to-r from-blue-400 to-blue-600 rounded-full"
-                    style={{
-                      width: `${(brand.stats.average / 20000) * 100}%`,
-                    }}
-                  ></div>
+                <div className="grid grid-cols-3 gap-2 text-xs">
+                  <div>
+                    <div className="text-gray-500">매출</div>
+                    <div className="font-semibold text-gray-700">
+                      {formatMoney(brand.stats.average.revenue)}
+                    </div>
+                  </div>
+                  <div>
+                    <div className="text-gray-500">비용</div>
+                    <div className="font-semibold text-gray-700">
+                      {formatMoney(brand.stats.average.cost)}
+                    </div>
+                  </div>
+                  <div>
+                    <div className="text-gray-500">순이익</div>
+                    <div className="font-semibold text-blue-600">
+                      {formatMoney(brand.stats.average.profit)}
+                    </div>
+                  </div>
                 </div>
               </div>
 
               {/* Bottom 10% */}
-              <div>
+              <div className="bg-orange-50 p-4 rounded-xl">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-semibold text-gray-500">
+                  <span className="text-xs font-bold text-orange-700">
                     하위 10%
                   </span>
-                  <span className="text-xl font-bold text-orange-600">
-                    {formatMoney(brand.stats.bottom10)}
+                  <span className="text-lg font-black text-orange-600">
+                    {formatMoney(brand.stats.bottom10.profit)}
                   </span>
                 </div>
-                <div className="h-3 bg-gray-200 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-gradient-to-r from-orange-400 to-orange-600 rounded-full"
-                    style={{
-                      width: `${(brand.stats.bottom10 / 20000) * 100}%`,
-                    }}
-                  ></div>
+                <div className="grid grid-cols-3 gap-2 text-xs">
+                  <div>
+                    <div className="text-gray-500">매출</div>
+                    <div className="font-semibold text-gray-700">
+                      {formatMoney(brand.stats.bottom10.revenue)}
+                    </div>
+                  </div>
+                  <div>
+                    <div className="text-gray-500">비용</div>
+                    <div className="font-semibold text-gray-700">
+                      {formatMoney(brand.stats.bottom10.cost)}
+                    </div>
+                  </div>
+                  <div>
+                    <div className="text-gray-500">순이익</div>
+                    <div className="font-semibold text-orange-600">
+                      {formatMoney(brand.stats.bottom10.profit)}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
 
             {/* Note */}
-            <div className="mt-8 p-4 bg-gray-50 rounded-xl">
-              <p className="text-xs text-gray-500 leading-relaxed">
-                💡 연 매출 기준 통계입니다. 실제 수익은 임대료, 인건비 등
-                운영비를 제외한 금액입니다.
-              </p>
-            </div>
+            {brand.note && (
+              <div className="mt-5 p-3 bg-gray-50 rounded-xl">
+                <p className="text-xs text-gray-500 leading-relaxed">
+                  💡 {brand.note}
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>
