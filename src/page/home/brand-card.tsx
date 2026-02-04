@@ -206,21 +206,21 @@ export default function BrandCard({ brand }: BrandCardProps) {
                   </div>
                 </div>
                 <div className="grid grid-cols-3 gap-2 relative z-10">
-                  <div className="bg-white/60 backdrop-blur-sm rounded-xl p-2.5">
-                    <div className="text-xs text-gray-500 mb-1 font-medium">💰 매출</div>
-                    <div className="font-bold text-gray-800 text-sm">
+                  <div className="bg-white/60 backdrop-blur-sm rounded-xl p-2.5 cursor-pointer transition-all duration-300 hover:scale-110 hover:bg-green-600 hover:shadow-xl group">
+                    <div className="text-xs text-gray-500 mb-1 font-medium group-hover:text-green-100 transition-colors">💰 매출</div>
+                    <div className="font-bold text-gray-800 text-sm group-hover:text-white transition-colors">
                       {formatMoney(brand.stats.top10.revenue)}
                     </div>
                   </div>
-                  <div className="bg-white/60 backdrop-blur-sm rounded-xl p-2.5">
-                    <div className="text-xs text-gray-500 mb-1 font-medium">💸 비용</div>
-                    <div className="font-bold text-gray-800 text-sm">
+                  <div className="bg-white/60 backdrop-blur-sm rounded-xl p-2.5 cursor-pointer transition-all duration-300 hover:scale-110 hover:bg-green-600 hover:shadow-xl group">
+                    <div className="text-xs text-gray-500 mb-1 font-medium group-hover:text-green-100 transition-colors">💸 비용</div>
+                    <div className="font-bold text-gray-800 text-sm group-hover:text-white transition-colors">
                       {formatMoney(brand.stats.top10.cost)}
                     </div>
                   </div>
-                  <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-xl p-2.5 shadow-md">
-                    <div className="text-xs text-green-100 mb-1 font-medium">✨ 수익</div>
-                    <div className="font-bold text-white text-sm">
+                  <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-xl p-2.5 shadow-md cursor-pointer transition-all duration-300 hover:scale-110 hover:from-white hover:to-white hover:shadow-xl group">
+                    <div className="text-xs text-green-100 mb-1 font-medium group-hover:text-gray-500 transition-colors">✨ 수익</div>
+                    <div className="font-bold text-white text-sm group-hover:text-gray-800 transition-colors">
                       {formatMoney(brand.stats.top10.profit)}
                     </div>
                   </div>
@@ -362,21 +362,21 @@ export default function BrandCard({ brand }: BrandCardProps) {
                   </div>
                 </div>
                 <div className="grid grid-cols-3 gap-2 relative z-10">
-                  <div className="bg-white/60 backdrop-blur-sm rounded-xl p-2.5">
-                    <div className="text-xs text-gray-500 mb-1 font-medium">💰 매출</div>
-                    <div className="font-bold text-gray-800 text-sm">
+                  <div className="bg-white/60 backdrop-blur-sm rounded-xl p-2.5 cursor-pointer transition-all duration-300 hover:scale-110 hover:bg-blue-600 hover:shadow-xl group">
+                    <div className="text-xs text-gray-500 mb-1 font-medium group-hover:text-blue-100 transition-colors">💰 매출</div>
+                    <div className="font-bold text-gray-800 text-sm group-hover:text-white transition-colors">
                       {formatMoney(brand.stats.average.revenue)}
                     </div>
                   </div>
-                  <div className="bg-white/60 backdrop-blur-sm rounded-xl p-2.5">
-                    <div className="text-xs text-gray-500 mb-1 font-medium">💸 비용</div>
-                    <div className="font-bold text-gray-800 text-sm">
+                  <div className="bg-white/60 backdrop-blur-sm rounded-xl p-2.5 cursor-pointer transition-all duration-300 hover:scale-110 hover:bg-blue-600 hover:shadow-xl group">
+                    <div className="text-xs text-gray-500 mb-1 font-medium group-hover:text-blue-100 transition-colors">💸 비용</div>
+                    <div className="font-bold text-gray-800 text-sm group-hover:text-white transition-colors">
                       {formatMoney(brand.stats.average.cost)}
                     </div>
                   </div>
-                  <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-2.5 shadow-md">
-                    <div className="text-xs text-blue-100 mb-1 font-medium">✨ 수익</div>
-                    <div className="font-bold text-white text-sm">
+                  <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-2.5 shadow-md cursor-pointer transition-all duration-300 hover:scale-110 hover:from-white hover:to-white hover:shadow-xl group">
+                    <div className="text-xs text-blue-100 mb-1 font-medium group-hover:text-gray-500 transition-colors">✨ 수익</div>
+                    <div className="font-bold text-white text-sm group-hover:text-gray-800 transition-colors">
                       {formatMoney(brand.stats.average.profit)}
                     </div>
                   </div>
@@ -518,21 +518,21 @@ export default function BrandCard({ brand }: BrandCardProps) {
                   </div>
                 </div>
                 <div className="grid grid-cols-3 gap-2 relative z-10">
-                  <div className="bg-white/60 backdrop-blur-sm rounded-xl p-2.5">
-                    <div className="text-xs text-gray-500 mb-1 font-medium">💰 매출</div>
-                    <div className="font-bold text-gray-800 text-sm">
+                  <div className="bg-white/60 backdrop-blur-sm rounded-xl p-2.5 cursor-pointer transition-all duration-300 hover:scale-110 hover:bg-orange-600 hover:shadow-xl group">
+                    <div className="text-xs text-gray-500 mb-1 font-medium group-hover:text-orange-100 transition-colors">💰 매출</div>
+                    <div className="font-bold text-gray-800 text-sm group-hover:text-white transition-colors">
                       {formatMoney(brand.stats.bottom10.revenue)}
                     </div>
                   </div>
-                  <div className="bg-white/60 backdrop-blur-sm rounded-xl p-2.5">
-                    <div className="text-xs text-gray-500 mb-1 font-medium">💸 비용</div>
-                    <div className="font-bold text-gray-800 text-sm">
+                  <div className="bg-white/60 backdrop-blur-sm rounded-xl p-2.5 cursor-pointer transition-all duration-300 hover:scale-110 hover:bg-orange-600 hover:shadow-xl group">
+                    <div className="text-xs text-gray-500 mb-1 font-medium group-hover:text-orange-100 transition-colors">💸 비용</div>
+                    <div className="font-bold text-gray-800 text-sm group-hover:text-white transition-colors">
                       {formatMoney(brand.stats.bottom10.cost)}
                     </div>
                   </div>
-                  <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl p-2.5 shadow-md">
-                    <div className="text-xs text-orange-100 mb-1 font-medium">✨ 수익</div>
-                    <div className="font-bold text-white text-sm">
+                  <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl p-2.5 shadow-md cursor-pointer transition-all duration-300 hover:scale-110 hover:from-white hover:to-white hover:shadow-xl group">
+                    <div className="text-xs text-orange-100 mb-1 font-medium group-hover:text-gray-500 transition-colors">✨ 수익</div>
+                    <div className="font-bold text-white text-sm group-hover:text-gray-800 transition-colors">
                       {formatMoney(brand.stats.bottom10.profit)}
                     </div>
                   </div>
