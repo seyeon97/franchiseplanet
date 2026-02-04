@@ -26,21 +26,12 @@
     scrollbar-width: none;
   }
 
-  @keyframes race {
+  @keyframes orbit {
     0% {
-      transform: translateX(-100%);
+      transform: rotate(0deg);
     }
     100% {
-      transform: translateX(100vw);
-    }
-  }
-
-  @keyframes dash {
-    0% {
-      transform: translateX(-100%);
-    }
-    100% {
-      transform: translateX(100%);
+      transform: rotate(360deg);
     }
   }
 }

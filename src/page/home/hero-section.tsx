@@ -1,67 +1,121 @@
 "use client";
 
+import { useMemo } from "react";
+
 export default function HeroSection() {
   // 가맹점 수 순위 (많은 순)
   const racingBrands = [
-    { name: "컴포즈커피", logo: "☕", color: "#8B4513", speed: 25, position: 1 },
-    { name: "메가커피", logo: "☕", color: "#F25C05", speed: 23, position: 2 },
-    { name: "교촌치킨", logo: "🍗", color: "#DC143C", speed: 21, position: 3 },
-    { name: "맘스터치", logo: "🍔", color: "#FF6B35", speed: 19, position: 4 },
-    { name: "본죽", logo: "🍲", color: "#228B22", speed: 17, position: 5 },
-    { name: "설빙", logo: "🍧", color: "#FFB6C1", speed: 15, position: 6 },
+    { name: "컴포즈커피", color: "#8B4513", speed: 25, lane: 1 },
+    { name: "메가커피", color: "#F25C05", speed: 23, lane: 2 },
+    { name: "교촌치킨", color: "#DC143C", speed: 21, lane: 3 },
+    { name: "맘스터치", color: "#FF6B35", speed: 19, lane: 4 },
+    { name: "본죽", color: "#228B22", speed: 17, lane: 5 },
+    { name: "설빙", color: "#FFB6C1", speed: 15, lane: 6 },
   ];
 
-  return (
-    <section className="min-h-screen snap-start flex items-center justify-center bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 text-white relative overflow-hidden">
-      {/* Racing Track Background */}
-      <div className="absolute inset-0">
-        {/* Road Lines */}
-        <div className="absolute top-1/4 w-full h-1 bg-white/30 animate-pulse"></div>
-        <div className="absolute top-1/2 w-full h-1 bg-white/30 animate-pulse" style={{ animationDelay: "0.5s" }}></div>
-        <div className="absolute top-3/4 w-full h-1 bg-white/30 animate-pulse" style={{ animationDelay: "1s" }}></div>
+  // Generate stars - fixed positions
+  const stars = useMemo(() => {
+    const starPositions = [
+      { top: 15, left: 20, delay: 0.5, opacity: 0.6 },
+      { top: 25, left: 75, delay: 1.2, opacity: 0.8 },
+      { top: 35, left: 40, delay: 2.1, opacity: 0.5 },
+      { top: 45, left: 85, delay: 0.8, opacity: 0.7 },
+      { top: 55, left: 10, delay: 1.5, opacity: 0.9 },
+      { top: 65, left: 60, delay: 0.3, opacity: 0.4 },
+      { top: 75, left: 30, delay: 1.8, opacity: 0.6 },
+      { top: 85, left: 90, delay: 2.5, opacity: 0.7 },
+      { top: 10, left: 50, delay: 1.0, opacity: 0.8 },
+      { top: 20, left: 95, delay: 0.6, opacity: 0.5 },
+      { top: 30, left: 15, delay: 2.2, opacity: 0.9 },
+      { top: 40, left: 65, delay: 1.4, opacity: 0.6 },
+      { top: 50, left: 45, delay: 0.9, opacity: 0.7 },
+      { top: 60, left: 80, delay: 1.7, opacity: 0.4 },
+      { top: 70, left: 25, delay: 2.3, opacity: 0.8 },
+      { top: 80, left: 55, delay: 0.4, opacity: 0.5 },
+      { top: 90, left: 70, delay: 1.9, opacity: 0.6 },
+      { top: 12, left: 35, delay: 1.1, opacity: 0.7 },
+      { top: 22, left: 88, delay: 2.6, opacity: 0.9 },
+      { top: 32, left: 5, delay: 0.7, opacity: 0.4 },
+      { top: 42, left: 48, delay: 1.6, opacity: 0.8 },
+      { top: 52, left: 92, delay: 2.4, opacity: 0.5 },
+      { top: 62, left: 18, delay: 0.2, opacity: 0.6 },
+      { top: 72, left: 72, delay: 1.3, opacity: 0.7 },
+      { top: 82, left: 38, delay: 2.7, opacity: 0.9 },
+      { top: 92, left: 58, delay: 0.5, opacity: 0.4 },
+      { top: 8, left: 28, delay: 1.0, opacity: 0.8 },
+      { top: 18, left: 82, delay: 2.0, opacity: 0.6 },
+      { top: 28, left: 52, delay: 0.8, opacity: 0.5 },
+      { top: 38, left: 12, delay: 1.5, opacity: 0.7 },
+    ];
+    return starPositions.map((star, i) => ({ ...star, id: i }));
+  }, []);
 
-        {/* Moving dashed lines */}
-        <div className="absolute top-1/3 w-full h-0.5 overflow-hidden">
-          <div className="h-full bg-gradient-to-r from-transparent via-white/40 to-transparent animate-[dash_3s_linear_infinite]"></div>
+  return (
+    <section className="min-h-screen snap-start flex items-center justify-center text-white relative overflow-hidden">
+      {/* Space Background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black via-indigo-950 to-purple-950">
+        {/* Stars */}
+        <div className="absolute inset-0">
+          {stars.map((star) => (
+            <div
+              key={star.id}
+              className="absolute w-1 h-1 bg-white rounded-full animate-pulse"
+              style={{
+                top: `${star.top}%`,
+                left: `${star.left}%`,
+                animationDelay: `${star.delay}s`,
+                opacity: star.opacity,
+              }}
+            ></div>
+          ))}
         </div>
-        <div className="absolute top-2/3 w-full h-0.5 overflow-hidden">
-          <div className="h-full bg-gradient-to-r from-transparent via-white/40 to-transparent animate-[dash_3s_linear_infinite]" style={{ animationDelay: "1.5s" }}></div>
-        </div>
+
+        {/* Nebula effects */}
+        <div className="absolute top-20 left-20 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 right-20 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl"></div>
       </div>
 
-      {/* Racing Brands */}
-      <div className="absolute inset-0 pointer-events-none">
-        {racingBrands.map((brand, idx) => (
-          <div
-            key={brand.name}
-            className="absolute"
-            style={{
-              top: `${15 + idx * 12}%`,
-              left: "0",
-              animation: `race ${brand.speed}s linear infinite`,
-            }}
-          >
+      {/* Racing Track - Circular */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div className="relative" style={{ width: "800px", height: "800px" }}>
+          {/* Track lanes */}
+          {[...Array(6)].map((_, i) => (
             <div
-              className="flex items-center gap-3 px-4 py-2 rounded-full shadow-lg backdrop-blur-sm"
+              key={i}
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-dashed border-white/20"
               style={{
-                background: `linear-gradient(135deg, ${brand.color}dd 0%, ${brand.color} 100%)`,
-                boxShadow: `0 0 20px ${brand.color}88`,
+                width: `${800 - i * 100}px`,
+                height: `${800 - i * 100}px`,
               }}
-            >
-              <div className="text-3xl">{brand.logo}</div>
-              <div className="text-white font-black text-sm whitespace-nowrap">
-                {brand.name}
-                <div className="text-xs opacity-80">#{brand.position}</div>
+            ></div>
+          ))}
+
+          {/* Racing Brands on Track */}
+          {racingBrands.map((brand) => {
+            const radius = 400 - brand.lane * 50;
+            return (
+              <div
+                key={brand.name}
+                className="absolute top-1/2 left-1/2"
+                style={{
+                  animation: `orbit ${brand.speed}s linear infinite`,
+                  transformOrigin: "0 0",
+                }}
+              >
+                <div
+                  className="font-black text-xl whitespace-nowrap"
+                  style={{
+                    color: brand.color,
+                    textShadow: `0 0 20px ${brand.color}aa, 0 0 40px ${brand.color}66, 0 0 60px ${brand.color}44`,
+                    transform: `translateX(${radius}px) translateY(-50%) rotate(0deg)`,
+                  }}
+                >
+                  {brand.name}
+                </div>
               </div>
-              {/* Speed lines */}
-              <div className="flex gap-1 ml-2">
-                <div className="w-2 h-0.5 bg-white/60 rounded"></div>
-                <div className="w-3 h-0.5 bg-white/40 rounded"></div>
-                <div className="w-4 h-0.5 bg-white/20 rounded"></div>
-              </div>
-            </div>
-          </div>
-        ))}
+            );
+          })}
+        </div>
       </div>
 
       <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
