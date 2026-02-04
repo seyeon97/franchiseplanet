@@ -232,6 +232,121 @@ export default function BrandCard({ brand }: BrandCardProps) {
               </div>
             </div>
 
+            {/* Detailed Breakdown - Only for MegaCoffee */}
+            {isMegaCoffee && (
+              <div className="space-y-3 mt-6">
+                {/* Variable Costs */}
+                <div className="bg-gray-50 rounded-xl shadow-sm overflow-hidden">
+                  <button
+                    onClick={() => toggleStats("variable")}
+                    className="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-100 transition-colors"
+                  >
+                    <span className="text-sm font-bold text-gray-800">
+                      📊 변동비 상세보기
+                    </span>
+                    <svg
+                      className={`w-5 h-5 text-gray-600 transition-transform ${
+                        expandedStats === "variable" ? "rotate-180" : ""
+                      }`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </button>
+
+                  {expandedStats === "variable" && (
+                    <div className="px-4 pb-4 border-t border-gray-200">
+                      <div className="mt-3 space-y-2">
+                        {variableCosts.map((cost, idx) => (
+                          <div
+                            key={idx}
+                            className="flex items-center justify-between text-xs py-2 border-b border-gray-100 last:border-0"
+                          >
+                            <span className="text-gray-600 font-medium text-left flex-1">
+                              {cost.label}
+                            </span>
+                            <div className="flex gap-2 text-right">
+                              <span className="text-orange-600 font-semibold w-16">
+                                {formatMoney(cost.bottom10)}
+                              </span>
+                              <span className="text-blue-600 font-semibold w-16">
+                                {formatMoney(cost.average)}
+                              </span>
+                              <span className="text-green-600 font-semibold w-16">
+                                {formatMoney(cost.top10)}
+                              </span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Fixed Costs */}
+                <div className="bg-gray-50 rounded-xl shadow-sm overflow-hidden">
+                  <button
+                    onClick={() => toggleStats("fixed")}
+                    className="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-100 transition-colors"
+                  >
+                    <span className="text-sm font-bold text-gray-800">
+                      🏢 고정비 상세보기
+                    </span>
+                    <svg
+                      className={`w-5 h-5 text-gray-600 transition-transform ${
+                        expandedStats === "fixed" ? "rotate-180" : ""
+                      }`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </button>
+
+                  {expandedStats === "fixed" && (
+                    <div className="px-4 pb-4 border-t border-gray-200">
+                      <div className="mt-3 space-y-2">
+                        {fixedCosts.map((cost, idx) => (
+                          <div
+                            key={idx}
+                            className="flex items-center justify-between text-xs py-2 border-b border-gray-100 last:border-0"
+                          >
+                            <span className="text-gray-600 font-medium text-left flex-1">
+                              {cost.label}
+                            </span>
+                            <div className="flex gap-2 text-right">
+                              <span className="text-orange-600 font-semibold w-16">
+                                {formatMoney(cost.bottom10)}
+                              </span>
+                              <span className="text-blue-600 font-semibold w-16">
+                                {formatMoney(cost.average)}
+                              </span>
+                              <span className="text-green-600 font-semibold w-16">
+                                {formatMoney(cost.top10)}
+                              </span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
             {/* Disclaimer - Moved below stats */}
             <div className="mt-6">
               <div
@@ -266,121 +381,6 @@ export default function BrandCard({ brand }: BrandCardProps) {
                   </div>
                 </div>
               </div>
-
-              {/* Detailed Breakdown - Only for MegaCoffee */}
-              {isMegaCoffee && (
-                <div className="space-y-3 px-6 pb-6">
-                  {/* Variable Costs */}
-                  <div className="bg-gray-50 rounded-xl shadow-sm overflow-hidden">
-                    <button
-                      onClick={() => toggleStats("variable")}
-                      className="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-100 transition-colors"
-                    >
-                      <span className="text-sm font-bold text-gray-800">
-                        📊 변동비 상세보기
-                      </span>
-                      <svg
-                        className={`w-5 h-5 text-gray-600 transition-transform ${
-                          expandedStats === "variable" ? "rotate-180" : ""
-                        }`}
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </button>
-
-                    {expandedStats === "variable" && (
-                      <div className="px-4 pb-4 border-t border-gray-200">
-                        <div className="mt-3 space-y-2">
-                          {variableCosts.map((cost, idx) => (
-                            <div
-                              key={idx}
-                              className="flex items-center justify-between text-xs py-2 border-b border-gray-100 last:border-0"
-                            >
-                              <span className="text-gray-600 font-medium text-left flex-1">
-                                {cost.label}
-                              </span>
-                              <div className="flex gap-2 text-right">
-                                <span className="text-orange-600 font-semibold w-16">
-                                  {formatMoney(cost.bottom10)}
-                                </span>
-                                <span className="text-blue-600 font-semibold w-16">
-                                  {formatMoney(cost.average)}
-                                </span>
-                                <span className="text-green-600 font-semibold w-16">
-                                  {formatMoney(cost.top10)}
-                                </span>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Fixed Costs */}
-                  <div className="bg-gray-50 rounded-xl shadow-sm overflow-hidden">
-                    <button
-                      onClick={() => toggleStats("fixed")}
-                      className="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-100 transition-colors"
-                    >
-                      <span className="text-sm font-bold text-gray-800">
-                        🏢 고정비 상세보기
-                      </span>
-                      <svg
-                        className={`w-5 h-5 text-gray-600 transition-transform ${
-                          expandedStats === "fixed" ? "rotate-180" : ""
-                        }`}
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </button>
-
-                    {expandedStats === "fixed" && (
-                      <div className="px-4 pb-4 border-t border-gray-200">
-                        <div className="mt-3 space-y-2">
-                          {fixedCosts.map((cost, idx) => (
-                            <div
-                              key={idx}
-                              className="flex items-center justify-between text-xs py-2 border-b border-gray-100 last:border-0"
-                            >
-                              <span className="text-gray-600 font-medium text-left flex-1">
-                                {cost.label}
-                              </span>
-                              <div className="flex gap-2 text-right">
-                                <span className="text-orange-600 font-semibold w-16">
-                                  {formatMoney(cost.bottom10)}
-                                </span>
-                                <span className="text-blue-600 font-semibold w-16">
-                                  {formatMoney(cost.average)}
-                                </span>
-                                <span className="text-green-600 font-semibold w-16">
-                                  {formatMoney(cost.top10)}
-                                </span>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
             </div>
           </div>
         </div>
