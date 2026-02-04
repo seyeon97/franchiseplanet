@@ -50,7 +50,6 @@ export default function BrandsSliderSection({
                 <BrandThumbnail
                   key={brand.id}
                   logo={brand.logo}
-                  logoImage={brand.logoImage}
                   name={brand.name}
                   category={brand.category}
                   color={brand.color}
