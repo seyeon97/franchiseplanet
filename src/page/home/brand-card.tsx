@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import BrandDetailBreakdown from "./brand-detail-breakdown";
 
 interface BrandData {
   id: string;
@@ -36,9 +35,8 @@ interface BrandCardProps {
 }
 
 export default function BrandCard({ brand }: BrandCardProps) {
-  const [currentPage, setCurrentPage] = useState(0);
+  const [expandedStats, setExpandedStats] = useState<string | null>(null);
   const isMegaCoffee = brand.name === "메가커피";
-  const totalPages = isMegaCoffee ? 2 : 1;
 
   const formatMoney = (amount: number) => {
     if (amount >= 10000) {
@@ -53,16 +51,28 @@ export default function BrandCard({ brand }: BrandCardProps) {
     brand.stats.bottom10.revenue
   );
 
-  const handleNextPage = () => {
-    if (currentPage < totalPages - 1) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
+  // 변동비 데이터 (메가커피 전용)
+  const variableCosts = [
+    { label: "원가율 (36%)", bottom10: 7200000, average: 12816000, top10: 28800000 },
+    { label: "카드수수료 (1.5%)", bottom10: 300000, average: 534000, top10: 1200000 },
+    { label: "배달수수료 (30%)", bottom10: 1200000, average: 2136000, top10: 4800000 },
+    { label: "플랫폼수수료 (5%)", bottom10: 800000, average: 1424000, top10: 3200000 },
+    { label: "수도광열비 (2%)", bottom10: 400000, average: 712000, top10: 1600000 },
+    { label: "인건비 (21~25%)", bottom10: 5000000, average: 7832000, top10: 16800000 },
+  ];
 
-  const handlePrevPage = () => {
-    if (currentPage > 0) {
-      setCurrentPage(currentPage - 1);
-    }
+  // 고정비 데이터 (메가커피 전용)
+  const fixedCosts = [
+    { label: "임대료", bottom10: 3520000, average: 2200000, top10: 3850000 },
+    { label: "관리비", bottom10: 300000, average: 220000, top10: 385000 },
+    { label: "광고비", bottom10: 100000, average: 100000, top10: 100000 },
+    { label: "정기 서비스", bottom10: 300000, average: 300000, top10: 300000 },
+    { label: "소모품비", bottom10: 300000, average: 300000, top10: 300000 },
+    { label: "로열티", bottom10: 165000, average: 165000, top10: 165000 },
+  ];
+
+  const toggleStats = (section: string) => {
+    setExpandedStats(expandedStats === section ? null : section);
   };
 
   return (
@@ -78,10 +88,6 @@ export default function BrandCard({ brand }: BrandCardProps) {
           className="relative bg-white rounded-3xl shadow-2xl overflow-hidden"
           style={{ aspectRatio: "9/16" }}
         >
-          {/* Page Content */}
-          <div className="relative h-full">
-            {currentPage === 0 ? (
-              <>
           {/* Header with Logo */}
           <div
             className="relative h-28 flex items-center justify-center"
@@ -260,77 +266,123 @@ export default function BrandCard({ brand }: BrandCardProps) {
                   </div>
                 </div>
               </div>
+
+              {/* Detailed Breakdown - Only for MegaCoffee */}
+              {isMegaCoffee && (
+                <div className="space-y-3 px-6 pb-6">
+                  {/* Variable Costs */}
+                  <div className="bg-gray-50 rounded-xl shadow-sm overflow-hidden">
+                    <button
+                      onClick={() => toggleStats("variable")}
+                      className="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-100 transition-colors"
+                    >
+                      <span className="text-sm font-bold text-gray-800">
+                        📊 변동비 상세보기
+                      </span>
+                      <svg
+                        className={`w-5 h-5 text-gray-600 transition-transform ${
+                          expandedStats === "variable" ? "rotate-180" : ""
+                        }`}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </svg>
+                    </button>
+
+                    {expandedStats === "variable" && (
+                      <div className="px-4 pb-4 border-t border-gray-200">
+                        <div className="mt-3 space-y-2">
+                          {variableCosts.map((cost, idx) => (
+                            <div
+                              key={idx}
+                              className="flex items-center justify-between text-xs py-2 border-b border-gray-100 last:border-0"
+                            >
+                              <span className="text-gray-600 font-medium text-left flex-1">
+                                {cost.label}
+                              </span>
+                              <div className="flex gap-2 text-right">
+                                <span className="text-orange-600 font-semibold w-16">
+                                  {formatMoney(cost.bottom10)}
+                                </span>
+                                <span className="text-blue-600 font-semibold w-16">
+                                  {formatMoney(cost.average)}
+                                </span>
+                                <span className="text-green-600 font-semibold w-16">
+                                  {formatMoney(cost.top10)}
+                                </span>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Fixed Costs */}
+                  <div className="bg-gray-50 rounded-xl shadow-sm overflow-hidden">
+                    <button
+                      onClick={() => toggleStats("fixed")}
+                      className="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-100 transition-colors"
+                    >
+                      <span className="text-sm font-bold text-gray-800">
+                        🏢 고정비 상세보기
+                      </span>
+                      <svg
+                        className={`w-5 h-5 text-gray-600 transition-transform ${
+                          expandedStats === "fixed" ? "rotate-180" : ""
+                        }`}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </svg>
+                    </button>
+
+                    {expandedStats === "fixed" && (
+                      <div className="px-4 pb-4 border-t border-gray-200">
+                        <div className="mt-3 space-y-2">
+                          {fixedCosts.map((cost, idx) => (
+                            <div
+                              key={idx}
+                              className="flex items-center justify-between text-xs py-2 border-b border-gray-100 last:border-0"
+                            >
+                              <span className="text-gray-600 font-medium text-left flex-1">
+                                {cost.label}
+                              </span>
+                              <div className="flex gap-2 text-right">
+                                <span className="text-orange-600 font-semibold w-16">
+                                  {formatMoney(cost.bottom10)}
+                                </span>
+                                <span className="text-blue-600 font-semibold w-16">
+                                  {formatMoney(cost.average)}
+                                </span>
+                                <span className="text-green-600 font-semibold w-16">
+                                  {formatMoney(cost.top10)}
+                                </span>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
-              </>
-            ) : (
-              <BrandDetailBreakdown brandName={brand.name} color={brand.color} />
-            )}
-          </div>
-
-          {/* Navigation Buttons */}
-          {isMegaCoffee && (
-            <>
-              {/* Page Indicator */}
-              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 z-20">
-                {Array.from({ length: totalPages }).map((_, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => setCurrentPage(idx)}
-                    className={`w-2 h-2 rounded-full transition-all ${
-                      currentPage === idx
-                        ? "bg-white w-6"
-                        : "bg-white/50"
-                    }`}
-                  />
-                ))}
-              </div>
-
-              {/* Previous Button */}
-              {currentPage > 0 && (
-                <button
-                  onClick={handlePrevPage}
-                  className="absolute left-2 top-1/2 transform -translate-y-1/2 w-10 h-10 bg-white/80 rounded-full flex items-center justify-center shadow-lg hover:bg-white transition-all z-20"
-                >
-                  <svg
-                    className="w-6 h-6 text-gray-800"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M15 19l-7-7 7-7"
-                    />
-                  </svg>
-                </button>
-              )}
-
-              {/* Next Button */}
-              {currentPage < totalPages - 1 && (
-                <button
-                  onClick={handleNextPage}
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2 w-10 h-10 bg-white/80 rounded-full flex items-center justify-center shadow-lg hover:bg-white transition-all z-20"
-                >
-                  <svg
-                    className="w-6 h-6 text-gray-800"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
-                </button>
-              )}
-            </>
-          )}
         </div>
       </div>
     </div>
