@@ -5,8 +5,8 @@ interface BrandData {
   name: string;
   category: string;
   logo: string;
-  image: string;
   color: string;
+  startupCost: string;
   stats: {
     top10: {
       revenue: number;
@@ -25,7 +25,6 @@ interface BrandData {
     };
   };
   description: string;
-  note?: string;
 }
 
 interface BrandCardProps {
@@ -59,24 +58,15 @@ export default function BrandCard({ brand }: BrandCardProps) {
           className="relative bg-white rounded-3xl shadow-2xl overflow-hidden"
           style={{ aspectRatio: "9/16" }}
         >
-          {/* Header Image */}
-          <div className="relative h-48 overflow-hidden">
-            <img
-              src={brand.image}
-              alt={brand.name}
-              className="w-full h-full object-cover"
-            />
-            <div
-              className="absolute inset-0"
-              style={{
-                background: `linear-gradient(to bottom, transparent 0%, ${brand.color}88 100%)`,
-              }}
-            ></div>
-
+          {/* Header with Logo */}
+          <div
+            className="relative h-56 flex items-center justify-center"
+            style={{
+              background: `linear-gradient(135deg, ${brand.color}dd 0%, ${brand.color} 100%)`,
+            }}
+          >
             {/* Logo */}
-            <div className="absolute top-4 left-4 text-5xl drop-shadow-lg">
-              {brand.logo}
-            </div>
+            <div className="text-9xl drop-shadow-2xl">{brand.logo}</div>
 
             {/* Category badge */}
             <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-full text-xs font-semibold text-gray-800">
@@ -88,15 +78,23 @@ export default function BrandCard({ brand }: BrandCardProps) {
           <div className="p-6">
             {/* Brand name */}
             <h2
-              className="text-3xl font-black mb-1"
+              className="text-3xl font-black mb-2"
               style={{ color: brand.color }}
             >
               {brand.name}
             </h2>
+
+            {/* Startup Cost */}
+            <div className="mb-3 px-3 py-2 bg-amber-50 rounded-lg border border-amber-200">
+              <p className="text-xs text-amber-700 font-semibold">
+                💰 창업비용: {brand.startupCost}
+              </p>
+            </div>
+
             <p className="text-gray-600 text-sm mb-6">{brand.description}</p>
 
             {/* Stats */}
-            <div className="space-y-5">
+            <div className="space-y-4">
               {/* Top 10% */}
               <div className="bg-green-50 p-4 rounded-xl">
                 <div className="flex items-center justify-between mb-2">
@@ -193,15 +191,6 @@ export default function BrandCard({ brand }: BrandCardProps) {
                 </div>
               </div>
             </div>
-
-            {/* Note */}
-            {brand.note && (
-              <div className="mt-5 p-3 bg-gray-50 rounded-xl">
-                <p className="text-xs text-gray-500 leading-relaxed">
-                  💡 {brand.note}
-                </p>
-              </div>
-            )}
           </div>
         </div>
       </div>

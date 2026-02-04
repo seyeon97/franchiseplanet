@@ -8,8 +8,8 @@ const mockBrands = [
     name: "메가커피",
     category: "카페",
     logo: "☕",
-    image: "https://images.unsplash.com/photo-1511920170033-f8396924c348?w=800",
     color: "#E67E22",
+    startupCost: "1.5억~2억원",
     stats: {
       top10: {
         revenue: 8000,
@@ -28,15 +28,14 @@ const mockBrands = [
       },
     },
     description: "합리적인 가격의 메가급 커피 전문점",
-    note: "창업비용 1.5억~2억 (보증금을 제외한 추정 창업비용). 월세, 인건비, 배달 비중에 따라 순수익에 차이가 있을 수 있습니다.",
   },
   {
     id: "2",
     name: "맘스터치",
     category: "치킨·버거",
     logo: "🍔",
-    image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800",
     color: "#FF6B35",
+    startupCost: "2억~3억원",
     stats: {
       top10: {
         revenue: 15000,
@@ -61,8 +60,8 @@ const mockBrands = [
     name: "컴포즈커피",
     category: "카페",
     logo: "☕",
-    image: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800",
     color: "#8B4513",
+    startupCost: "1억~1.5억원",
     stats: {
       top10: {
         revenue: 12000,
@@ -87,8 +86,8 @@ const mockBrands = [
     name: "교촌치킨",
     category: "치킨",
     logo: "🍗",
-    image: "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=800",
     color: "#DC143C",
+    startupCost: "2.5억~3.5억원",
     stats: {
       top10: {
         revenue: 18000,
@@ -113,8 +112,8 @@ const mockBrands = [
     name: "설빙",
     category: "디저트",
     logo: "🍧",
-    image: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=800",
     color: "#FFB6C1",
+    startupCost: "1.5억~2.5억원",
     stats: {
       top10: {
         revenue: 10000,
@@ -139,8 +138,8 @@ const mockBrands = [
     name: "본죽",
     category: "한식",
     logo: "🍲",
-    image: "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=800",
     color: "#228B22",
+    startupCost: "1.5억~2억원",
     stats: {
       top10: {
         revenue: 11000,
