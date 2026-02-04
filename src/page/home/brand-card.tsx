@@ -119,12 +119,12 @@ export default function BrandCard({ brand }: BrandCardProps) {
       <div className="w-full max-w-md">
         {/* Card */}
         <div
-          className="relative bg-white rounded-3xl shadow-2xl overflow-hidden"
-          style={{ aspectRatio: "9/16" }}
+          className="relative bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col"
+          style={{ height: "calc(100vh - 3rem)" }}
         >
           {/* Header with Logo */}
           <div
-            className="relative h-28 flex items-center justify-center"
+            className="relative h-28 flex items-center justify-center flex-shrink-0"
             style={{
               background: `linear-gradient(135deg, ${brand.color}dd 0%, ${brand.color} 100%)`,
             }}
@@ -146,8 +146,8 @@ export default function BrandCard({ brand }: BrandCardProps) {
             </div>
           </div>
 
-          {/* Content */}
-          <div className="p-6">
+          {/* Content - Scrollable */}
+          <div className="p-6 overflow-y-auto flex-1">
             {/* Brand name */}
             <h2
               className="text-3xl font-black mb-2"
