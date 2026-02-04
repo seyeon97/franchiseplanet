@@ -88,17 +88,23 @@ export default function BrandCard({ brand }: BrandCardProps) {
             {/* Brand name */}
             {brand.name === "메가커피" ? (
               <div
-                className="inline-block mb-3 px-8 py-3 rounded-full"
+                className="inline-block mb-3 px-6 py-2"
                 style={{
-                  border: `3px solid ${brand.color}`,
-                  boxShadow: `0 0 20px ${brand.color}99, 0 0 40px ${brand.color}66, inset 0 0 20px ${brand.color}22`,
+                  border: `2px solid`,
+                  borderRadius: "20px",
+                  borderImage: `linear-gradient(135deg, ${brand.color} 0%, #FFB366 100%) 1`,
+                  background: `linear-gradient(135deg, ${brand.color}11 0%, #FFB36611 100%)`,
+                  boxShadow: `0 0 20px ${brand.color}88, 0 0 35px ${brand.color}55`,
                 }}
               >
                 <h2
-                  className="text-3xl font-black"
+                  className="text-2xl font-black"
                   style={{
-                    color: brand.color,
-                    textShadow: `0 0 20px ${brand.color}99, 0 0 40px ${brand.color}66`,
+                    background: `linear-gradient(135deg, ${brand.color} 0%, #FFB366 100%)`,
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    textShadow: `0 0 20px ${brand.color}77`,
+                    filter: `drop-shadow(0 0 15px ${brand.color}66)`,
                   }}
                 >
                   {brand.name}
