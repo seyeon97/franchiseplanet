@@ -288,7 +288,7 @@ export default function BrandCard({ brand }: BrandCardProps) {
                       >
                         알아두세요
                       </h4>
-                      <div className="space-y-2.5 text-xs text-gray-700 leading-relaxed">
+                      <div className="space-y-2.5 text-xs leading-relaxed" style={{ color: "#FF7C01" }}>
                         <p>• 사장님 하루 10시간 / 주5일 이상 출근 기준</p>
                         <p>• 월세, 인건비, 배달 비중에 따라 순수익 차이 발생</p>
                         <p>• 이자비용 및 각종 세금 미포함</p>
