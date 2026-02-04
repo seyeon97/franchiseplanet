@@ -87,28 +87,39 @@ export default function BrandCard({ brand }: BrandCardProps) {
           <div className="p-6">
             {/* Brand name */}
             {brand.name === "메가커피" ? (
-              <div
-                className="inline-block mb-3 px-6 py-2"
-                style={{
-                  border: `2px solid`,
-                  borderRadius: "20px",
-                  borderImage: `linear-gradient(135deg, ${brand.color} 0%, #FFB366 100%) 1`,
-                  background: `linear-gradient(135deg, ${brand.color}11 0%, #FFB36611 100%)`,
-                  boxShadow: `0 0 20px ${brand.color}88, 0 0 35px ${brand.color}55`,
-                }}
-              >
-                <h2
-                  className="text-2xl font-black"
+              <div className="mb-3">
+                <div
+                  className="inline-block px-5 py-1.5 relative"
                   style={{
-                    background: `linear-gradient(135deg, ${brand.color} 0%, #FFB366 100%)`,
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    textShadow: `0 0 20px ${brand.color}77`,
-                    filter: `drop-shadow(0 0 15px ${brand.color}66)`,
+                    borderRadius: "16px",
+                    background: `linear-gradient(135deg, ${brand.color}11 0%, #FFB36611 100%)`,
                   }}
                 >
-                  {brand.name}
-                </h2>
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      borderRadius: "16px",
+                      padding: "2px",
+                      background: `linear-gradient(135deg, ${brand.color} 0%, #FFB366 100%)`,
+                      WebkitMask:
+                        "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+                      WebkitMaskComposite: "xor",
+                      maskComposite: "exclude",
+                      boxShadow: `0 0 20px ${brand.color}99, 0 0 30px ${brand.color}66`,
+                    }}
+                  ></div>
+                  <h2
+                    className="text-xl font-black relative z-10"
+                    style={{
+                      background: `linear-gradient(135deg, ${brand.color} 0%, #FFB366 100%)`,
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      filter: `drop-shadow(0 0 12px ${brand.color}77)`,
+                    }}
+                  >
+                    {brand.name}
+                  </h2>
+                </div>
               </div>
             ) : (
               <h2
