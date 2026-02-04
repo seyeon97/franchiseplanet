@@ -188,11 +188,11 @@ export default function BrandCard({ brand }: BrandCardProps) {
               <div className="relative overflow-hidden rounded-2xl p-5 shadow-lg border group cursor-pointer transition-all duration-300" style={{
                 background: "linear-gradient(135deg, #FEF9C3 0%, #FDE68A 30%, #D1FAE5 70%, #A7F3D0 100%)",
                 borderColor: "#10B981",
-                boxShadow: "0 4px 12px rgba(16, 185, 129, 0.15)",
+                boxShadow: "0 4px 12px rgba(16, 185, 129, 0.15), 0 0 20px rgba(91, 72, 255, 0.15)",
               }}>
                 {/* Signature color accent - subtle border glow on hover */}
                 <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style={{
-                  boxShadow: "inset 0 0 0 2px rgba(91, 72, 255, 0.3)",
+                  boxShadow: "inset 0 0 0 2px rgba(91, 72, 255, 0.4), 0 0 25px rgba(91, 72, 255, 0.25)",
                 }}></div>
                 {/* Content wrapper */}
                 <div className="relative z-10">
@@ -369,11 +369,11 @@ export default function BrandCard({ brand }: BrandCardProps) {
               <div className="relative overflow-hidden rounded-2xl p-5 shadow-lg border group cursor-pointer transition-all duration-300" style={{
                 background: "linear-gradient(135deg, #FEF3C7 0%, #FDE68A 50%, #EAB308 100%)",
                 borderColor: "#CA8A04",
-                boxShadow: "0 4px 12px rgba(202, 138, 4, 0.15)",
+                boxShadow: "0 4px 12px rgba(202, 138, 4, 0.15), 0 0 20px rgba(28, 91, 255, 0.15)",
               }}>
                 {/* Signature color accent - subtle border glow on hover */}
                 <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style={{
-                  boxShadow: "inset 0 0 0 2px rgba(28, 91, 255, 0.3)",
+                  boxShadow: "inset 0 0 0 2px rgba(28, 91, 255, 0.4), 0 0 25px rgba(28, 91, 255, 0.25)",
                 }}></div>
                 {/* Content wrapper */}
                 <div className="relative z-10">
@@ -550,11 +550,11 @@ export default function BrandCard({ brand }: BrandCardProps) {
               <div className="relative overflow-hidden rounded-2xl p-5 shadow-lg border group cursor-pointer transition-all duration-300" style={{
                 background: "linear-gradient(135deg, #FEE2E2 0%, #FECACA 30%, #FCA5A5 70%, #7C2D12 100%)",
                 borderColor: "#EF4444",
-                boxShadow: "0 4px 12px rgba(239, 68, 68, 0.15)",
+                boxShadow: "0 4px 12px rgba(239, 68, 68, 0.15), 0 0 20px rgba(91, 72, 255, 0.15)",
               }}>
                 {/* Signature color accent - subtle border glow on hover */}
                 <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style={{
-                  boxShadow: "inset 0 0 0 2px rgba(91, 72, 255, 0.3)",
+                  boxShadow: "inset 0 0 0 2px rgba(91, 72, 255, 0.4), 0 0 25px rgba(91, 72, 255, 0.25)",
                 }}></div>
                 {/* Content wrapper */}
                 <div className="relative z-10">
