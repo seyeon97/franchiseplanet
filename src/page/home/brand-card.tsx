@@ -35,13 +35,15 @@ interface BrandCardProps {
 }
 
 export default function BrandCard({ brand }: BrandCardProps) {
-  const [expandedStats, setExpandedStats] = useState<string | null>(null);
+  const [expandedTop10Variable, setExpandedTop10Variable] = useState(false);
+  const [expandedTop10Fixed, setExpandedTop10Fixed] = useState(false);
+  const [expandedAverageVariable, setExpandedAverageVariable] = useState(false);
+  const [expandedAverageFixed, setExpandedAverageFixed] = useState(false);
+  const [expandedBottom10Variable, setExpandedBottom10Variable] = useState(false);
+  const [expandedBottom10Fixed, setExpandedBottom10Fixed] = useState(false);
   const isMegaCoffee = brand.name === "메가커피";
 
   const formatMoney = (amount: number) => {
-    if (amount >= 10000) {
-      return `${(amount / 10000).toFixed(1)}억원`;
-    }
     return `${amount.toLocaleString()}만원`;
   };
 
@@ -52,27 +54,59 @@ export default function BrandCard({ brand }: BrandCardProps) {
   );
 
   // 변동비 데이터 (메가커피 전용)
-  const variableCosts = [
-    { label: "원가율 (36%)", bottom10: 7200000, average: 12816000, top10: 28800000 },
-    { label: "카드수수료 (1.5%)", bottom10: 300000, average: 534000, top10: 1200000 },
-    { label: "배달수수료 (30%)", bottom10: 1200000, average: 2136000, top10: 4800000 },
-    { label: "플랫폼수수료 (5%)", bottom10: 800000, average: 1424000, top10: 3200000 },
-    { label: "수도광열비 (2%)", bottom10: 400000, average: 712000, top10: 1600000 },
-    { label: "인건비 (21~25%)", bottom10: 5000000, average: 7832000, top10: 16800000 },
-  ];
+  const variableCosts = {
+    top10: [
+      { label: "원가율 (36%)", amount: 2880 },
+      { label: "카드수수료 (1.5%)", amount: 120 },
+      { label: "배달수수료 (30%)", amount: 480 },
+      { label: "플랫폼수수료 (5%)", amount: 320 },
+      { label: "수도광열비 (2%)", amount: 160 },
+      { label: "인건비 (21~25%)", amount: 1680 },
+    ],
+    average: [
+      { label: "원가율 (36%)", amount: 1281.6 },
+      { label: "카드수수료 (1.5%)", amount: 53.4 },
+      { label: "배달수수료 (30%)", amount: 213.6 },
+      { label: "플랫폼수수료 (5%)", amount: 142.4 },
+      { label: "수도광열비 (2%)", amount: 71.2 },
+      { label: "인건비 (21~25%)", amount: 783.2 },
+    ],
+    bottom10: [
+      { label: "원가율 (36%)", amount: 720 },
+      { label: "카드수수료 (1.5%)", amount: 30 },
+      { label: "배달수수료 (30%)", amount: 120 },
+      { label: "플랫폼수수료 (5%)", amount: 80 },
+      { label: "수도광열비 (2%)", amount: 40 },
+      { label: "인건비 (21~25%)", amount: 500 },
+    ],
+  };
 
   // 고정비 데이터 (메가커피 전용)
-  const fixedCosts = [
-    { label: "임대료", bottom10: 3520000, average: 2200000, top10: 3850000 },
-    { label: "관리비", bottom10: 300000, average: 220000, top10: 385000 },
-    { label: "광고비", bottom10: 100000, average: 100000, top10: 100000 },
-    { label: "정기 서비스", bottom10: 300000, average: 300000, top10: 300000 },
-    { label: "소모품비", bottom10: 300000, average: 300000, top10: 300000 },
-    { label: "로열티", bottom10: 165000, average: 165000, top10: 165000 },
-  ];
-
-  const toggleStats = (section: string) => {
-    setExpandedStats(expandedStats === section ? null : section);
+  const fixedCosts = {
+    top10: [
+      { label: "임대료", amount: 385 },
+      { label: "관리비", amount: 38.5 },
+      { label: "광고비", amount: 10 },
+      { label: "정기 서비스", amount: 30 },
+      { label: "소모품비", amount: 30 },
+      { label: "로열티", amount: 16.5 },
+    ],
+    average: [
+      { label: "임대료", amount: 220 },
+      { label: "관리비", amount: 22 },
+      { label: "광고비", amount: 10 },
+      { label: "정기 서비스", amount: 30 },
+      { label: "소모품비", amount: 30 },
+      { label: "로열티", amount: 16.5 },
+    ],
+    bottom10: [
+      { label: "임대료", amount: 352 },
+      { label: "관리비", amount: 30 },
+      { label: "광고비", amount: 10 },
+      { label: "정기 서비스", amount: 30 },
+      { label: "소모품비", amount: 30 },
+      { label: "로열티", amount: 16.5 },
+    ],
   };
 
   return (
@@ -167,6 +201,105 @@ export default function BrandCard({ brand }: BrandCardProps) {
                 </div>
               </div>
 
+              {/* Top 10% Breakdown - Only for MegaCoffee */}
+              {isMegaCoffee && (
+                <div className="space-y-2">
+                  {/* Variable Costs */}
+                  <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-green-200">
+                    <button
+                      onClick={() => setExpandedTop10Variable(!expandedTop10Variable)}
+                      className="w-full px-4 py-2.5 flex items-center justify-between hover:bg-green-50 transition-colors"
+                    >
+                      <span className="text-xs font-bold text-green-700">
+                        📊 변동비 상세보기
+                      </span>
+                      <svg
+                        className={`w-4 h-4 text-green-600 transition-transform ${
+                          expandedTop10Variable ? "rotate-180" : ""
+                        }`}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </svg>
+                    </button>
+
+                    {expandedTop10Variable && (
+                      <div className="px-4 pb-3 border-t border-green-100 bg-green-50/50">
+                        <div className="mt-2 space-y-1.5">
+                          {variableCosts.top10.map((cost, idx) => (
+                            <div
+                              key={idx}
+                              className="flex items-center justify-between text-xs py-1.5"
+                            >
+                              <span className="text-gray-600 font-medium">
+                                {cost.label}
+                              </span>
+                              <span className="text-green-700 font-semibold">
+                                {formatMoney(cost.amount)}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Fixed Costs */}
+                  <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-green-200">
+                    <button
+                      onClick={() => setExpandedTop10Fixed(!expandedTop10Fixed)}
+                      className="w-full px-4 py-2.5 flex items-center justify-between hover:bg-green-50 transition-colors"
+                    >
+                      <span className="text-xs font-bold text-green-700">
+                        🏢 고정비 상세보기
+                      </span>
+                      <svg
+                        className={`w-4 h-4 text-green-600 transition-transform ${
+                          expandedTop10Fixed ? "rotate-180" : ""
+                        }`}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </svg>
+                    </button>
+
+                    {expandedTop10Fixed && (
+                      <div className="px-4 pb-3 border-t border-green-100 bg-green-50/50">
+                        <div className="mt-2 space-y-1.5">
+                          {fixedCosts.top10.map((cost, idx) => (
+                            <div
+                              key={idx}
+                              className="flex items-center justify-between text-xs py-1.5"
+                            >
+                              <span className="text-gray-600 font-medium">
+                                {cost.label}
+                              </span>
+                              <span className="text-green-700 font-semibold">
+                                {formatMoney(cost.amount)}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
               {/* Average */}
               <div className="bg-blue-50 p-4 rounded-xl">
                 <div className="flex items-center justify-between mb-2">
@@ -199,6 +332,105 @@ export default function BrandCard({ brand }: BrandCardProps) {
                 </div>
               </div>
 
+              {/* Average Breakdown - Only for MegaCoffee */}
+              {isMegaCoffee && (
+                <div className="space-y-2">
+                  {/* Variable Costs */}
+                  <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-blue-200">
+                    <button
+                      onClick={() => setExpandedAverageVariable(!expandedAverageVariable)}
+                      className="w-full px-4 py-2.5 flex items-center justify-between hover:bg-blue-50 transition-colors"
+                    >
+                      <span className="text-xs font-bold text-blue-700">
+                        📊 변동비 상세보기
+                      </span>
+                      <svg
+                        className={`w-4 h-4 text-blue-600 transition-transform ${
+                          expandedAverageVariable ? "rotate-180" : ""
+                        }`}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </svg>
+                    </button>
+
+                    {expandedAverageVariable && (
+                      <div className="px-4 pb-3 border-t border-blue-100 bg-blue-50/50">
+                        <div className="mt-2 space-y-1.5">
+                          {variableCosts.average.map((cost, idx) => (
+                            <div
+                              key={idx}
+                              className="flex items-center justify-between text-xs py-1.5"
+                            >
+                              <span className="text-gray-600 font-medium">
+                                {cost.label}
+                              </span>
+                              <span className="text-blue-700 font-semibold">
+                                {formatMoney(cost.amount)}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Fixed Costs */}
+                  <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-blue-200">
+                    <button
+                      onClick={() => setExpandedAverageFixed(!expandedAverageFixed)}
+                      className="w-full px-4 py-2.5 flex items-center justify-between hover:bg-blue-50 transition-colors"
+                    >
+                      <span className="text-xs font-bold text-blue-700">
+                        🏢 고정비 상세보기
+                      </span>
+                      <svg
+                        className={`w-4 h-4 text-blue-600 transition-transform ${
+                          expandedAverageFixed ? "rotate-180" : ""
+                        }`}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </svg>
+                    </button>
+
+                    {expandedAverageFixed && (
+                      <div className="px-4 pb-3 border-t border-blue-100 bg-blue-50/50">
+                        <div className="mt-2 space-y-1.5">
+                          {fixedCosts.average.map((cost, idx) => (
+                            <div
+                              key={idx}
+                              className="flex items-center justify-between text-xs py-1.5"
+                            >
+                              <span className="text-gray-600 font-medium">
+                                {cost.label}
+                              </span>
+                              <span className="text-blue-700 font-semibold">
+                                {formatMoney(cost.amount)}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
               {/* Bottom 10% */}
               <div className="bg-orange-50 p-4 rounded-xl">
                 <div className="flex items-center justify-between mb-2">
@@ -230,122 +462,106 @@ export default function BrandCard({ brand }: BrandCardProps) {
                   </div>
                 </div>
               </div>
+
+              {/* Bottom 10% Breakdown - Only for MegaCoffee */}
+              {isMegaCoffee && (
+                <div className="space-y-2">
+                  {/* Variable Costs */}
+                  <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-orange-200">
+                    <button
+                      onClick={() => setExpandedBottom10Variable(!expandedBottom10Variable)}
+                      className="w-full px-4 py-2.5 flex items-center justify-between hover:bg-orange-50 transition-colors"
+                    >
+                      <span className="text-xs font-bold text-orange-700">
+                        📊 변동비 상세보기
+                      </span>
+                      <svg
+                        className={`w-4 h-4 text-orange-600 transition-transform ${
+                          expandedBottom10Variable ? "rotate-180" : ""
+                        }`}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </svg>
+                    </button>
+
+                    {expandedBottom10Variable && (
+                      <div className="px-4 pb-3 border-t border-orange-100 bg-orange-50/50">
+                        <div className="mt-2 space-y-1.5">
+                          {variableCosts.bottom10.map((cost, idx) => (
+                            <div
+                              key={idx}
+                              className="flex items-center justify-between text-xs py-1.5"
+                            >
+                              <span className="text-gray-600 font-medium">
+                                {cost.label}
+                              </span>
+                              <span className="text-orange-700 font-semibold">
+                                {formatMoney(cost.amount)}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Fixed Costs */}
+                  <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-orange-200">
+                    <button
+                      onClick={() => setExpandedBottom10Fixed(!expandedBottom10Fixed)}
+                      className="w-full px-4 py-2.5 flex items-center justify-between hover:bg-orange-50 transition-colors"
+                    >
+                      <span className="text-xs font-bold text-orange-700">
+                        🏢 고정비 상세보기
+                      </span>
+                      <svg
+                        className={`w-4 h-4 text-orange-600 transition-transform ${
+                          expandedBottom10Fixed ? "rotate-180" : ""
+                        }`}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </svg>
+                    </button>
+
+                    {expandedBottom10Fixed && (
+                      <div className="px-4 pb-3 border-t border-orange-100 bg-orange-50/50">
+                        <div className="mt-2 space-y-1.5">
+                          {fixedCosts.bottom10.map((cost, idx) => (
+                            <div
+                              key={idx}
+                              className="flex items-center justify-between text-xs py-1.5"
+                            >
+                              <span className="text-gray-600 font-medium">
+                                {cost.label}
+                              </span>
+                              <span className="text-orange-700 font-semibold">
+                                {formatMoney(cost.amount)}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
-
-            {/* Detailed Breakdown - Only for MegaCoffee */}
-            {isMegaCoffee && (
-              <div className="space-y-3 mt-6">
-                {/* Variable Costs */}
-                <div className="bg-gray-50 rounded-xl shadow-sm overflow-hidden">
-                  <button
-                    onClick={() => toggleStats("variable")}
-                    className="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-100 transition-colors"
-                  >
-                    <span className="text-sm font-bold text-gray-800">
-                      📊 변동비 상세보기
-                    </span>
-                    <svg
-                      className={`w-5 h-5 text-gray-600 transition-transform ${
-                        expandedStats === "variable" ? "rotate-180" : ""
-                      }`}
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M19 9l-7 7-7-7"
-                      />
-                    </svg>
-                  </button>
-
-                  {expandedStats === "variable" && (
-                    <div className="px-4 pb-4 border-t border-gray-200">
-                      <div className="mt-3 space-y-2">
-                        {variableCosts.map((cost, idx) => (
-                          <div
-                            key={idx}
-                            className="flex items-center justify-between text-xs py-2 border-b border-gray-100 last:border-0"
-                          >
-                            <span className="text-gray-600 font-medium text-left flex-1">
-                              {cost.label}
-                            </span>
-                            <div className="flex gap-2 text-right">
-                              <span className="text-orange-600 font-semibold w-16">
-                                {formatMoney(cost.bottom10)}
-                              </span>
-                              <span className="text-blue-600 font-semibold w-16">
-                                {formatMoney(cost.average)}
-                              </span>
-                              <span className="text-green-600 font-semibold w-16">
-                                {formatMoney(cost.top10)}
-                              </span>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                {/* Fixed Costs */}
-                <div className="bg-gray-50 rounded-xl shadow-sm overflow-hidden">
-                  <button
-                    onClick={() => toggleStats("fixed")}
-                    className="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-100 transition-colors"
-                  >
-                    <span className="text-sm font-bold text-gray-800">
-                      🏢 고정비 상세보기
-                    </span>
-                    <svg
-                      className={`w-5 h-5 text-gray-600 transition-transform ${
-                        expandedStats === "fixed" ? "rotate-180" : ""
-                      }`}
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M19 9l-7 7-7-7"
-                      />
-                    </svg>
-                  </button>
-
-                  {expandedStats === "fixed" && (
-                    <div className="px-4 pb-4 border-t border-gray-200">
-                      <div className="mt-3 space-y-2">
-                        {fixedCosts.map((cost, idx) => (
-                          <div
-                            key={idx}
-                            className="flex items-center justify-between text-xs py-2 border-b border-gray-100 last:border-0"
-                          >
-                            <span className="text-gray-600 font-medium text-left flex-1">
-                              {cost.label}
-                            </span>
-                            <div className="flex gap-2 text-right">
-                              <span className="text-orange-600 font-semibold w-16">
-                                {formatMoney(cost.bottom10)}
-                              </span>
-                              <span className="text-blue-600 font-semibold w-16">
-                                {formatMoney(cost.average)}
-                              </span>
-                              <span className="text-green-600 font-semibold w-16">
-                                {formatMoney(cost.top10)}
-                              </span>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
 
             {/* Disclaimer - Moved below stats */}
             <div className="mt-6">
