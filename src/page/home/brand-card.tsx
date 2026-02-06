@@ -159,7 +159,7 @@ export default function BrandCard({ brand }: BrandCardProps) {
               {/* Brand name */}
               <div className="inline-block relative">
                 <h2
-                  className="text-2xl font-bold px-5 py-2.5 relative z-10"
+                  className="text-xl font-bold px-4 py-2 relative z-10"
                   style={{
                     background: "linear-gradient(135deg, #F144BB 0%, #803CFA 50%, #0064FF 100%)",
                     WebkitBackgroundClip: "text",
