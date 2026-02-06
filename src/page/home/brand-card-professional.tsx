@@ -192,16 +192,12 @@ export default function BrandCardProfessional({ brand }: BrandCardProps) {
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-3">
                     <div
-                      className="w-14 h-14 rounded-lg flex items-center justify-center"
+                      className="w-16 h-16 rounded-lg flex items-center justify-center font-black text-3xl text-white"
                       style={{
-                        backgroundColor: "#d1fae5",
+                        backgroundColor: "#10b981",
                       }}
                     >
-                      <img
-                        src="/planet-winner.png"
-                        alt="일등"
-                        className="w-12 h-12 object-contain"
-                      />
+                      A+
                     </div>
                     <div>
                       <span className="text-lg font-bold text-gray-900">상위 10%</span>
@@ -248,8 +244,8 @@ export default function BrandCardProfessional({ brand }: BrandCardProps) {
                     <div className="sticky top-0 bg-green-600 p-6 rounded-t-2xl">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4">
-                          <div className="w-14 h-14 rounded-lg bg-white flex items-center justify-center">
-                            <img src="/planet-winner.png" alt="일등" className="w-12 h-12 object-contain" />
+                          <div className="w-14 h-14 rounded-lg bg-white flex items-center justify-center font-black text-3xl text-green-600">
+                            A+
                           </div>
                           <div>
                             <h3 className="text-2xl font-bold text-white">상위 10%</h3>
@@ -331,16 +327,12 @@ export default function BrandCardProfessional({ brand }: BrandCardProps) {
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-3">
                     <div
-                      className="w-14 h-14 rounded-lg flex items-center justify-center"
+                      className="w-16 h-16 rounded-lg flex items-center justify-center font-black text-3xl text-white"
                       style={{
-                        backgroundColor: "#dbeafe",
+                        backgroundColor: "#3b82f6",
                       }}
                     >
-                      <img
-                        src="/planet-middle.png"
-                        alt="중간"
-                        className="w-12 h-12 object-contain"
-                      />
+                      B
                     </div>
                     <div>
                       <span className="text-lg font-bold text-gray-900">평균 50%</span>
@@ -387,8 +379,8 @@ export default function BrandCardProfessional({ brand }: BrandCardProps) {
                     <div className="sticky top-0 bg-blue-600 p-6 rounded-t-2xl">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4">
-                          <div className="w-14 h-14 rounded-lg bg-white flex items-center justify-center">
-                            <img src="/planet-middle.png" alt="중간" className="w-12 h-12 object-contain" />
+                          <div className="w-14 h-14 rounded-lg bg-white flex items-center justify-center font-black text-3xl text-blue-600">
+                            B
                           </div>
                           <div>
                             <h3 className="text-2xl font-bold text-white">평균 50%</h3>
@@ -470,16 +462,12 @@ export default function BrandCardProfessional({ brand }: BrandCardProps) {
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-3">
                     <div
-                      className="w-14 h-14 rounded-lg flex items-center justify-center"
+                      className="w-16 h-16 rounded-lg flex items-center justify-center font-black text-3xl text-white"
                       style={{
-                        backgroundColor: "#fee2e2",
+                        backgroundColor: "#ef4444",
                       }}
                     >
-                      <img
-                        src="/planet-last.png"
-                        alt="꼴등"
-                        className="w-12 h-12 object-contain"
-                      />
+                      C
                     </div>
                     <div>
                       <span className="text-lg font-bold text-gray-900">하위 10%</span>
@@ -526,8 +514,8 @@ export default function BrandCardProfessional({ brand }: BrandCardProps) {
                     <div className="sticky top-0 bg-red-600 p-6 rounded-t-2xl">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4">
-                          <div className="w-14 h-14 rounded-lg bg-white flex items-center justify-center">
-                            <img src="/planet-last.png" alt="꼴등" className="w-12 h-12 object-contain" />
+                          <div className="w-14 h-14 rounded-lg bg-white flex items-center justify-center font-black text-3xl text-red-600">
+                            C
                           </div>
                           <div>
                             <h3 className="text-2xl font-bold text-white">하위 10%</h3>
