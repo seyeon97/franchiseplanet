@@ -127,7 +127,7 @@ export default function BrandCard({ brand }: BrandCardProps) {
         >
           {/* Header with Logo */}
           <div
-            className="relative h-28 flex items-center justify-center flex-shrink-0"
+            className="relative h-20 flex items-center justify-center flex-shrink-0"
             style={{
               background: "linear-gradient(135deg, #F144BB 0%, #803CFA 50%, #0064FF 100%)",
             }}
@@ -137,17 +137,17 @@ export default function BrandCard({ brand }: BrandCardProps) {
               <img
                 src={brand.logoImage}
                 alt={`${brand.name} logo`}
-                className="h-14 object-contain"
+                className="h-10 object-contain"
                 style={{
                   filter: "drop-shadow(0 0 8px rgba(255, 255, 255, 0.4)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2))",
                 }}
               />
             ) : (
-              <div className="text-7xl drop-shadow-2xl">{brand.logo}</div>
+              <div className="text-5xl drop-shadow-2xl">{brand.logo}</div>
             )}
 
             {/* Category badge */}
-            <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-full text-xs font-semibold text-gray-800">
+            <div className="absolute top-2 right-2 bg-white/90 backdrop-blur-sm px-2.5 py-1 rounded-full text-xs font-semibold text-gray-800">
               {brand.category}
             </div>
           </div>
