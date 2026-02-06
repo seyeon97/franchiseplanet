@@ -4,6 +4,7 @@ import React, { useRef } from "react";
 import HeroSection from "./hero-section";
 import BrandsSliderSection from "./brands-slider-section";
 import BrandCard from "./brand-card";
+import BrandCardTetris from "./brand-card-tetris";
 
 const mockBrands = [
   {
@@ -194,7 +195,7 @@ export default function HomePage() {
       />
       {selectedBrand && (
         <div ref={detailRef}>
-          <BrandCard brand={selectedBrand} />
+          <BrandCardTetris brand={selectedBrand} />
         </div>
       )}
     </main>
