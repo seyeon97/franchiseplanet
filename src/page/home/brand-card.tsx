@@ -153,9 +153,17 @@ export default function BrandCard({ brand }: BrandCardProps) {
           <div className="p-6 overflow-y-auto flex-1">
             {/* Brand name */}
             <h2
-              className="text-2xl font-semibold mb-4"
+              className="text-2xl font-bold mb-4 inline-block"
               style={{
-                color: brand.color,
+                background: "linear-gradient(135deg, #F144BB 0%, #803CFA 50%, #0064FF 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+                WebkitTextStroke: "2px transparent",
+                backgroundImage: "linear-gradient(135deg, #F144BB 0%, #803CFA 50%, #0064FF 100%)",
+                WebkitTextStrokeWidth: "2px",
+                WebkitTextStrokeColor: "transparent",
+                filter: "drop-shadow(0 0 10px rgba(241, 68, 187, 0.3)) drop-shadow(0 0 15px rgba(128, 60, 250, 0.2))",
               }}
             >
               {brand.name}
