@@ -927,52 +927,52 @@ export default function BrandCard({ brand }: BrandCardProps) {
                 </div>
               )}
             </div>
+          </div>
 
-            {/* Disclaimer - Moved below stats */}
-            <div className="mt-6 mb-6">
+          {/* Disclaimer - Fixed at bottom */}
+          <div className="px-6 pb-6 flex-shrink-0">
+            <div
+              className="relative overflow-hidden rounded-2xl p-4 shadow-lg border"
+              style={{
+                background: `linear-gradient(135deg, ${brand.color}10 0%, ${brand.color}05 100%)`,
+                borderColor: `${brand.color}30`,
+              }}
+            >
               <div
-                className="relative overflow-hidden rounded-2xl p-5 shadow-lg border"
+                className="absolute -right-12 -bottom-12 w-40 h-40 rounded-full opacity-5"
                 style={{
-                  background: `linear-gradient(135deg, ${brand.color}10 0%, ${brand.color}05 100%)`,
-                  borderColor: `${brand.color}30`,
+                  background: brand.color,
                 }}
-              >
-                <div
-                  className="absolute -right-12 -bottom-12 w-40 h-40 rounded-full opacity-5"
-                  style={{
-                    background: brand.color,
-                  }}
-                ></div>
-                <div className="relative z-10">
-                  <div className="flex items-start gap-3.5">
-                    <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 shadow-md" style={{
-                      background: `linear-gradient(135deg, ${brand.color}40, ${brand.color}30)`,
-                    }}>
-                      <span className="text-xl">💡</span>
-                    </div>
-                    <div className="flex-1">
-                      <h4
-                        className="text-sm font-black mb-3"
-                        style={{ color: brand.color }}
-                      >
-                        알아두세요
-                      </h4>
-                      <div className="space-y-2.5">
-                        {[
-                          "사장님 하루 10시간 / 주5일 이상 출근 기준",
-                          "월세, 인건비, 배달 비중에 따라 순수익 차이 발생",
-                          "이자비용 및 각종 세금 미포함",
-                        ].map((text, idx) => (
-                          <div key={idx} className="flex items-start gap-2.5">
-                            <div className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style={{
-                              background: brand.color,
-                            }}></div>
-                            <p className="text-xs leading-relaxed text-gray-700 font-medium">
-                              {text}
-                            </p>
-                          </div>
-                        ))}
-                      </div>
+              ></div>
+              <div className="relative z-10">
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 shadow-md" style={{
+                    background: `linear-gradient(135deg, ${brand.color}40, ${brand.color}30)`,
+                  }}>
+                    <span className="text-lg">💡</span>
+                  </div>
+                  <div className="flex-1">
+                    <h4
+                      className="text-xs font-black mb-2"
+                      style={{ color: brand.color }}
+                    >
+                      알아두세요
+                    </h4>
+                    <div className="space-y-1.5">
+                      {[
+                        "사장님 하루 10시간 / 주5일 이상 출근 기준",
+                        "월세, 인건비, 배달 비중에 따라 순수익 차이 발생",
+                        "이자비용 및 각종 세금 미포함",
+                      ].map((text, idx) => (
+                        <div key={idx} className="flex items-start gap-2">
+                          <div className="w-1 h-1 rounded-full mt-1.5 flex-shrink-0" style={{
+                            background: brand.color,
+                          }}></div>
+                          <p className="text-xs leading-relaxed text-gray-700 font-medium">
+                            {text}
+                          </p>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
