@@ -41,6 +41,7 @@ export default function BrandCard({ brand }: BrandCardProps) {
   const [expandedAverageFixed, setExpandedAverageFixed] = useState(false);
   const [expandedBottom10Variable, setExpandedBottom10Variable] = useState(false);
   const [expandedBottom10Fixed, setExpandedBottom10Fixed] = useState(false);
+  const [showTop10Detail, setShowTop10Detail] = useState(false);
   const isMegaCoffee = brand.name === "메가커피";
 
   const formatMoney = (amount: number) => {
@@ -205,11 +206,14 @@ export default function BrandCard({ brand }: BrandCardProps) {
             {/* Stats */}
             <div className="space-y-4">
               {/* Top 10% - Peaceful Green Planet */}
-              <div className="relative overflow-hidden rounded-2xl p-5 shadow-lg border group cursor-pointer transition-all duration-300" style={{
-                background: "linear-gradient(135deg, #FEF9C3 0%, #FDE68A 30%, #D1FAE5 70%, #A7F3D0 100%)",
-                borderColor: "#10B981",
-                boxShadow: "0 4px 12px rgba(16, 185, 129, 0.15), 0 0 20px rgba(91, 72, 255, 0.15)",
-              }}>
+              <div
+                onClick={() => isMegaCoffee && setShowTop10Detail(!showTop10Detail)}
+                className="relative overflow-hidden rounded-2xl p-5 shadow-lg border group cursor-pointer transition-all duration-300"
+                style={{
+                  background: "linear-gradient(135deg, #FEF9C3 0%, #FDE68A 30%, #D1FAE5 70%, #A7F3D0 100%)",
+                  borderColor: "#10B981",
+                  boxShadow: "0 4px 12px rgba(16, 185, 129, 0.15), 0 0 20px rgba(91, 72, 255, 0.15)",
+                }}>
                 {/* Signature color accent - subtle border glow on hover */}
                 <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style={{
                   boxShadow: "inset 0 0 0 2px rgba(91, 72, 255, 0.4), 0 0 25px rgba(91, 72, 255, 0.25)",
@@ -272,9 +276,61 @@ export default function BrandCard({ brand }: BrandCardProps) {
                 </div>
               </div>
 
-              {/* Top 10% Breakdown - Only for MegaCoffee */}
-              {isMegaCoffee && (
-                <div className="space-y-3">
+              {/* Top 10% Detail Modal - Only for MegaCoffee */}
+              {isMegaCoffee && showTop10Detail && (
+                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setShowTop10Detail(false)}>
+                  <div className="bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+                    {/* Header */}
+                    <div className="sticky top-0 bg-gradient-to-r from-green-500 to-emerald-600 p-6 rounded-t-3xl">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <div className="w-16 h-16 rounded-full flex items-center justify-center shadow-xl bg-white/20 backdrop-blur-sm">
+                            <img
+                              src="/planet-winner.png"
+                              alt="일등 행성"
+                              className="w-full h-full object-contain p-2"
+                            />
+                          </div>
+                          <div>
+                            <h3 className="text-2xl font-black text-white">일등</h3>
+                            <p className="text-sm text-white/80">상위 10% 상세 분석</p>
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => setShowTop10Detail(false)}
+                          className="w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center transition-colors"
+                        >
+                          <span className="text-white text-xl">✕</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="p-6 space-y-6">
+                      {/* Summary Cards */}
+                      <div className="grid grid-cols-3 gap-3">
+                        <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-4 border border-green-200">
+                          <div className="text-xs text-green-600 mb-1 font-semibold">💰 매출</div>
+                          <div className="font-black text-green-800 text-lg">
+                            {formatMoney(brand.stats.top10.revenue)}
+                          </div>
+                        </div>
+                        <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-4 border border-green-200">
+                          <div className="text-xs text-green-600 mb-1 font-semibold">💸 비용</div>
+                          <div className="font-black text-green-800 text-lg">
+                            {formatMoney(brand.stats.top10.cost)}
+                          </div>
+                        </div>
+                        <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl p-4 shadow-lg">
+                          <div className="text-xs text-white mb-1 font-semibold">✨ 수익</div>
+                          <div className="font-black text-white text-lg">
+                            {formatMoney(brand.stats.top10.profit)}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Breakdown sections */}
+                      <div className="space-y-3">
                   {/* Variable Costs */}
                   <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-md overflow-hidden border border-green-200/50">
                     <button
@@ -381,6 +437,9 @@ export default function BrandCard({ brand }: BrandCardProps) {
                         </div>
                       </div>
                     )}
+                  </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}
