@@ -42,6 +42,8 @@ export default function BrandCard({ brand }: BrandCardProps) {
   const [expandedBottom10Variable, setExpandedBottom10Variable] = useState(false);
   const [expandedBottom10Fixed, setExpandedBottom10Fixed] = useState(false);
   const [showTop10Detail, setShowTop10Detail] = useState(false);
+  const [showAverageDetail, setShowAverageDetail] = useState(false);
+  const [showBottom10Detail, setShowBottom10Detail] = useState(false);
   const isMegaCoffee = brand.name === "메가커피";
 
   const formatMoney = (amount: number) => {
@@ -445,11 +447,14 @@ export default function BrandCard({ brand }: BrandCardProps) {
               )}
 
               {/* Average - Moon-like Yellow Planet */}
-              <div className="relative overflow-hidden rounded-2xl p-5 shadow-lg border group cursor-pointer transition-all duration-300" style={{
-                background: "linear-gradient(135deg, #FEF3C7 0%, #FDE68A 50%, #EAB308 100%)",
-                borderColor: "#CA8A04",
-                boxShadow: "0 4px 12px rgba(202, 138, 4, 0.15), 0 0 20px rgba(28, 91, 255, 0.15)",
-              }}>
+              <div
+                onClick={() => isMegaCoffee && setShowAverageDetail(!showAverageDetail)}
+                className="relative overflow-hidden rounded-2xl p-5 shadow-lg border group cursor-pointer transition-all duration-300"
+                style={{
+                  background: "linear-gradient(135deg, #FEF3C7 0%, #FDE68A 50%, #EAB308 100%)",
+                  borderColor: "#CA8A04",
+                  boxShadow: "0 4px 12px rgba(202, 138, 4, 0.15), 0 0 20px rgba(28, 91, 255, 0.15)",
+                }}>
                 {/* Signature color accent - subtle border glow on hover */}
                 <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style={{
                   boxShadow: "inset 0 0 0 2px rgba(28, 91, 255, 0.4), 0 0 25px rgba(28, 91, 255, 0.25)",
@@ -511,6 +516,174 @@ export default function BrandCard({ brand }: BrandCardProps) {
                 </div>
                 </div>
               </div>
+
+              {/* Average Detail Modal - Only for MegaCoffee */}
+              {isMegaCoffee && showAverageDetail && (
+                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setShowAverageDetail(false)}>
+                  <div className="bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+                    {/* Header */}
+                    <div className="sticky top-0 bg-gradient-to-r from-yellow-500 to-amber-600 p-6 rounded-t-3xl">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <div className="w-16 h-16 rounded-full flex items-center justify-center shadow-xl bg-white/20 backdrop-blur-sm">
+                            <img
+                              src="/planet-middle.png"
+                              alt="중간 행성"
+                              className="w-full h-full object-contain p-2"
+                            />
+                          </div>
+                          <div>
+                            <h3 className="text-2xl font-black text-white">중간</h3>
+                            <p className="text-sm text-white/80">평균 50% 상세 분석</p>
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => setShowAverageDetail(false)}
+                          className="w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center transition-colors"
+                        >
+                          <span className="text-white text-xl">✕</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="p-6 space-y-6">
+                      {/* Summary Cards */}
+                      <div className="grid grid-cols-3 gap-3">
+                        <div className="bg-gradient-to-br from-yellow-50 to-amber-50 rounded-xl p-4 border border-yellow-200">
+                          <div className="text-xs text-yellow-600 mb-1 font-semibold">💰 매출</div>
+                          <div className="font-black text-yellow-800 text-lg">
+                            {formatMoney(brand.stats.average.revenue)}
+                          </div>
+                        </div>
+                        <div className="bg-gradient-to-br from-yellow-50 to-amber-50 rounded-xl p-4 border border-yellow-200">
+                          <div className="text-xs text-yellow-600 mb-1 font-semibold">💸 비용</div>
+                          <div className="font-black text-yellow-800 text-lg">
+                            {formatMoney(brand.stats.average.cost)}
+                          </div>
+                        </div>
+                        <div className="bg-gradient-to-br from-yellow-500 to-amber-600 rounded-xl p-4 shadow-lg">
+                          <div className="text-xs text-white mb-1 font-semibold">✨ 수익</div>
+                          <div className="font-black text-white text-lg">
+                            {formatMoney(brand.stats.average.profit)}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Breakdown sections */}
+                      <div className="space-y-3">
+                  {/* Variable Costs */}
+                  <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-md overflow-hidden border border-yellow-200/50">
+                    <button
+                      onClick={() => setExpandedAverageVariable(!expandedAverageVariable)}
+                      className="w-full px-4 py-3.5 flex items-center justify-between hover:bg-yellow-50/50 transition-all"
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-yellow-500 to-yellow-600 flex items-center justify-center shadow-sm">
+                          <span className="text-white text-sm">📊</span>
+                        </div>
+                        <span className="text-sm font-bold text-yellow-700">
+                          변동비 상세보기
+                        </span>
+                      </div>
+                      <div className={`w-6 h-6 rounded-lg bg-yellow-100 flex items-center justify-center transition-transform ${
+                        expandedAverageVariable ? "rotate-180" : ""
+                      }`}>
+                        <svg
+                          className="w-4 h-4 text-yellow-600"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M19 9l-7 7-7-7"
+                          />
+                        </svg>
+                      </div>
+                    </button>
+
+                    {expandedAverageVariable && (
+                      <div className="px-4 pb-4 border-t border-yellow-100/50 bg-gradient-to-b from-yellow-50/30 to-transparent">
+                        <div className="mt-3 space-y-2">
+                          {variableCosts.average.map((cost, idx) => (
+                            <div
+                              key={idx}
+                              className="flex items-center justify-between p-2.5 rounded-xl bg-white/60 hover:bg-white/80 transition-colors"
+                            >
+                              <span className="text-xs text-gray-700 font-medium">
+                                {cost.label}
+                              </span>
+                              <span className="text-sm text-yellow-700 font-bold">
+                                {formatMoney(cost.amount)}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Fixed Costs */}
+                  <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-md overflow-hidden border border-yellow-200/50">
+                    <button
+                      onClick={() => setExpandedAverageFixed(!expandedAverageFixed)}
+                      className="w-full px-4 py-3.5 flex items-center justify-between hover:bg-yellow-50/50 transition-all"
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-yellow-500 to-yellow-600 flex items-center justify-center shadow-sm">
+                          <span className="text-white text-sm">🏢</span>
+                        </div>
+                        <span className="text-sm font-bold text-yellow-700">
+                          고정비 상세보기
+                        </span>
+                      </div>
+                      <div className={`w-6 h-6 rounded-lg bg-yellow-100 flex items-center justify-center transition-transform ${
+                        expandedAverageFixed ? "rotate-180" : ""
+                      }`}>
+                        <svg
+                          className="w-4 h-4 text-yellow-600"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M19 9l-7 7-7-7"
+                          />
+                        </svg>
+                      </div>
+                    </button>
+
+                    {expandedAverageFixed && (
+                      <div className="px-4 pb-4 border-t border-yellow-100/50 bg-gradient-to-b from-yellow-50/30 to-transparent">
+                        <div className="mt-3 space-y-2">
+                          {fixedCosts.average.map((cost, idx) => (
+                            <div
+                              key={idx}
+                              className="flex items-center justify-between p-2.5 rounded-xl bg-white/60 hover:bg-white/80 transition-colors"
+                            >
+                              <span className="text-xs text-gray-700 font-medium">
+                                {cost.label}
+                              </span>
+                              <span className="text-sm text-yellow-700 font-bold">
+                                {formatMoney(cost.amount)}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* Average Breakdown - Only for MegaCoffee */}
               {isMegaCoffee && (
@@ -626,11 +799,14 @@ export default function BrandCard({ brand }: BrandCardProps) {
               )}
 
               {/* Bottom 10% - Exploding Red/Brown Planet */}
-              <div className="relative overflow-hidden rounded-2xl p-5 shadow-lg border group cursor-pointer transition-all duration-300" style={{
-                background: "linear-gradient(135deg, #FEE2E2 0%, #FECACA 30%, #FCA5A5 70%, #7C2D12 100%)",
-                borderColor: "#EF4444",
-                boxShadow: "0 4px 12px rgba(239, 68, 68, 0.15), 0 0 20px rgba(91, 72, 255, 0.15)",
-              }}>
+              <div
+                onClick={() => isMegaCoffee && setShowBottom10Detail(!showBottom10Detail)}
+                className="relative overflow-hidden rounded-2xl p-5 shadow-lg border group cursor-pointer transition-all duration-300"
+                style={{
+                  background: "linear-gradient(135deg, #FEE2E2 0%, #FECACA 30%, #FCA5A5 70%, #7C2D12 100%)",
+                  borderColor: "#EF4444",
+                  boxShadow: "0 4px 12px rgba(239, 68, 68, 0.15), 0 0 20px rgba(91, 72, 255, 0.15)",
+                }}>
                 {/* Signature color accent - subtle border glow on hover */}
                 <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style={{
                   boxShadow: "inset 0 0 0 2px rgba(91, 72, 255, 0.4), 0 0 25px rgba(91, 72, 255, 0.25)",
@@ -692,6 +868,174 @@ export default function BrandCard({ brand }: BrandCardProps) {
                 </div>
                 </div>
               </div>
+
+              {/* Bottom 10% Detail Modal - Only for MegaCoffee */}
+              {isMegaCoffee && showBottom10Detail && (
+                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setShowBottom10Detail(false)}>
+                  <div className="bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+                    {/* Header */}
+                    <div className="sticky top-0 bg-gradient-to-r from-red-500 to-rose-600 p-6 rounded-t-3xl">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <div className="w-16 h-16 rounded-full flex items-center justify-center shadow-xl bg-white/20 backdrop-blur-sm">
+                            <img
+                              src="/planet-last.png"
+                              alt="꼴등 행성"
+                              className="w-full h-full object-contain p-2"
+                            />
+                          </div>
+                          <div>
+                            <h3 className="text-2xl font-black text-white">꼴등</h3>
+                            <p className="text-sm text-white/80">하위 10% 상세 분석</p>
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => setShowBottom10Detail(false)}
+                          className="w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center transition-colors"
+                        >
+                          <span className="text-white text-xl">✕</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="p-6 space-y-6">
+                      {/* Summary Cards */}
+                      <div className="grid grid-cols-3 gap-3">
+                        <div className="bg-gradient-to-br from-red-50 to-rose-50 rounded-xl p-4 border border-red-200">
+                          <div className="text-xs text-red-600 mb-1 font-semibold">💰 매출</div>
+                          <div className="font-black text-red-800 text-lg">
+                            {formatMoney(brand.stats.bottom10.revenue)}
+                          </div>
+                        </div>
+                        <div className="bg-gradient-to-br from-red-50 to-rose-50 rounded-xl p-4 border border-red-200">
+                          <div className="text-xs text-red-600 mb-1 font-semibold">💸 비용</div>
+                          <div className="font-black text-red-800 text-lg">
+                            {formatMoney(brand.stats.bottom10.cost)}
+                          </div>
+                        </div>
+                        <div className="bg-gradient-to-br from-red-500 to-rose-600 rounded-xl p-4 shadow-lg">
+                          <div className="text-xs text-white mb-1 font-semibold">✨ 수익</div>
+                          <div className="font-black text-white text-lg">
+                            {formatMoney(brand.stats.bottom10.profit)}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Breakdown sections */}
+                      <div className="space-y-3">
+                  {/* Variable Costs */}
+                  <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-md overflow-hidden border border-red-200/50">
+                    <button
+                      onClick={() => setExpandedBottom10Variable(!expandedBottom10Variable)}
+                      className="w-full px-4 py-3.5 flex items-center justify-between hover:bg-red-50/50 transition-all"
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-red-500 to-red-600 flex items-center justify-center shadow-sm">
+                          <span className="text-white text-sm">📊</span>
+                        </div>
+                        <span className="text-sm font-bold text-red-700">
+                          변동비 상세보기
+                        </span>
+                      </div>
+                      <div className={`w-6 h-6 rounded-lg bg-red-100 flex items-center justify-center transition-transform ${
+                        expandedBottom10Variable ? "rotate-180" : ""
+                      }`}>
+                        <svg
+                          className="w-4 h-4 text-red-600"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M19 9l-7 7-7-7"
+                          />
+                        </svg>
+                      </div>
+                    </button>
+
+                    {expandedBottom10Variable && (
+                      <div className="px-4 pb-4 border-t border-red-100/50 bg-gradient-to-b from-red-50/30 to-transparent">
+                        <div className="mt-3 space-y-2">
+                          {variableCosts.bottom10.map((cost, idx) => (
+                            <div
+                              key={idx}
+                              className="flex items-center justify-between p-2.5 rounded-xl bg-white/60 hover:bg-white/80 transition-colors"
+                            >
+                              <span className="text-xs text-gray-700 font-medium">
+                                {cost.label}
+                              </span>
+                              <span className="text-sm text-red-700 font-bold">
+                                {formatMoney(cost.amount)}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Fixed Costs */}
+                  <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-md overflow-hidden border border-red-200/50">
+                    <button
+                      onClick={() => setExpandedBottom10Fixed(!expandedBottom10Fixed)}
+                      className="w-full px-4 py-3.5 flex items-center justify-between hover:bg-red-50/50 transition-all"
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-red-500 to-red-600 flex items-center justify-center shadow-sm">
+                          <span className="text-white text-sm">🏢</span>
+                        </div>
+                        <span className="text-sm font-bold text-red-700">
+                          고정비 상세보기
+                        </span>
+                      </div>
+                      <div className={`w-6 h-6 rounded-lg bg-red-100 flex items-center justify-center transition-transform ${
+                        expandedBottom10Fixed ? "rotate-180" : ""
+                      }`}>
+                        <svg
+                          className="w-4 h-4 text-red-600"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M19 9l-7 7-7-7"
+                          />
+                        </svg>
+                      </div>
+                    </button>
+
+                    {expandedBottom10Fixed && (
+                      <div className="px-4 pb-4 border-t border-red-100/50 bg-gradient-to-b from-red-50/30 to-transparent">
+                        <div className="mt-3 space-y-2">
+                          {fixedCosts.bottom10.map((cost, idx) => (
+                            <div
+                              key={idx}
+                              className="flex items-center justify-between p-2.5 rounded-xl bg-white/60 hover:bg-white/80 transition-colors"
+                            >
+                              <span className="text-xs text-gray-700 font-medium">
+                                {cost.label}
+                              </span>
+                              <span className="text-sm text-red-700 font-bold">
+                                {formatMoney(cost.amount)}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* Bottom 10% Breakdown - Only for MegaCoffee */}
               {isMegaCoffee && (
