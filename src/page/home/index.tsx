@@ -5,6 +5,7 @@ import HeroSection from "./hero-section";
 import BrandsSliderSection from "./brands-slider-section";
 import BrandCard from "./brand-card";
 import BrandCardTetris from "./brand-card-tetris";
+import BrandCardProfessional from "./brand-card-professional";
 
 const mockBrands = [
   {
@@ -195,7 +196,7 @@ export default function HomePage() {
       />
       {selectedBrand && (
         <div ref={detailRef}>
-          <BrandCardTetris brand={selectedBrand} />
+          <BrandCardProfessional brand={selectedBrand} />
         </div>
       )}
     </main>
