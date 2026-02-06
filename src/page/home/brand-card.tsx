@@ -154,53 +154,56 @@ export default function BrandCard({ brand }: BrandCardProps) {
 
           {/* Content - Scrollable */}
           <div className="p-6 overflow-y-auto flex-1">
-            {/* Brand name */}
-            <div className="mb-4 inline-block relative">
-              <h2
-                className="text-2xl font-bold px-5 py-2.5 relative z-10"
-                style={{
-                  background: "linear-gradient(135deg, #F144BB 0%, #803CFA 50%, #0064FF 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                }}
-              >
-                {brand.name}
-              </h2>
-              {/* Gradient border box */}
-              <div
-                className="absolute inset-0 rounded-xl pointer-events-none"
-                style={{
-                  background: "linear-gradient(135deg, #F144BB 0%, #803CFA 50%, #0064FF 100%)",
-                  padding: "2px",
-                  WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-                  WebkitMaskComposite: "xor",
-                  maskComposite: "exclude",
-                  boxShadow: "0 0 15px rgba(241, 68, 187, 0.4), 0 0 25px rgba(128, 60, 250, 0.3)",
-                }}
-              />
-            </div>
+            {/* Brand name and Startup Cost in one row */}
+            <div className="mb-4 flex items-start justify-between gap-4">
+              {/* Brand name */}
+              <div className="inline-block relative">
+                <h2
+                  className="text-2xl font-bold px-5 py-2.5 relative z-10"
+                  style={{
+                    background: "linear-gradient(135deg, #F144BB 0%, #803CFA 50%, #0064FF 100%)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    backgroundClip: "text",
+                  }}
+                >
+                  {brand.name}
+                </h2>
+                {/* Gradient border box */}
+                <div
+                  className="absolute inset-0 rounded-xl pointer-events-none"
+                  style={{
+                    background: "linear-gradient(135deg, #F144BB 0%, #803CFA 50%, #0064FF 100%)",
+                    padding: "2px",
+                    WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+                    WebkitMaskComposite: "xor",
+                    maskComposite: "exclude",
+                    boxShadow: "0 0 15px rgba(241, 68, 187, 0.4), 0 0 25px rgba(128, 60, 250, 0.3)",
+                  }}
+                />
+              </div>
 
-            {/* Startup Cost */}
-            <div className="mb-4 p-4 rounded-2xl relative overflow-hidden" style={{
-              background: `linear-gradient(135deg, ${brand.color}15, ${brand.color}08)`,
-            }}>
-              <div className="absolute -right-4 -top-4 w-24 h-24 rounded-full opacity-10" style={{
-                background: brand.color,
-              }}></div>
-              <div className="flex items-center gap-3 relative z-10">
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{
-                  background: `linear-gradient(135deg, ${brand.color}30, ${brand.color}20)`,
-                }}>
-                  <span className="text-xl">💳</span>
-                </div>
-                <div>
-                  <p className="text-xs font-medium text-gray-500 mb-0.5">
-                    초기 투자 <span className="text-gray-400">(보증금을 제외한 추정 창업비용)</span>
-                  </p>
-                  <p className="text-sm font-bold" style={{ color: brand.color }}>
-                    {brand.startupCost}
-                  </p>
+              {/* Startup Cost */}
+              <div className="p-3 rounded-2xl relative overflow-hidden flex-shrink-0" style={{
+                background: `linear-gradient(135deg, ${brand.color}15, ${brand.color}08)`,
+              }}>
+                <div className="absolute -right-4 -top-4 w-24 h-24 rounded-full opacity-10" style={{
+                  background: brand.color,
+                }}></div>
+                <div className="flex items-center gap-2 relative z-10">
+                  <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{
+                    background: `linear-gradient(135deg, ${brand.color}30, ${brand.color}20)`,
+                  }}>
+                    <span className="text-lg">💳</span>
+                  </div>
+                  <div>
+                    <p className="text-xs font-medium text-gray-500 mb-0.5">
+                      초기 투자 <span className="text-gray-400">(보증금을 제외한 추정 창업비용)</span>
+                    </p>
+                    <p className="text-sm font-bold" style={{ color: brand.color }}>
+                      {brand.startupCost}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
