@@ -181,11 +181,11 @@ export default function BrandCard({ brand }: BrandCardProps) {
             </div>
 
             {/* Stats */}
-            <div className="space-y-4">
+            <div className="space-y-3">
               {/* Top 10% - Peaceful Green Planet */}
               <div
                 onClick={() => isMegaCoffee && setShowTop10Detail(!showTop10Detail)}
-                className="relative overflow-hidden rounded-2xl p-5 shadow-lg border group cursor-pointer transition-all duration-300"
+                className="relative overflow-hidden rounded-2xl p-3 shadow-lg border group cursor-pointer transition-all duration-300"
                 style={{
                   background: "linear-gradient(135deg, #FEF9C3 0%, #FDE68A 30%, #D1FAE5 70%, #A7F3D0 100%)",
                   borderColor: "#10B981",
@@ -198,9 +198,9 @@ export default function BrandCard({ brand }: BrandCardProps) {
                 {/* Content wrapper */}
                 <div className="relative z-10">
 
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-14 h-14 rounded-full flex items-center justify-center shadow-2xl relative overflow-hidden">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    <div className="w-12 h-12 rounded-full flex items-center justify-center shadow-2xl relative overflow-hidden">
                       <img
                         src="/planet-winner.png"
                         alt="일등 행성"
@@ -211,7 +211,7 @@ export default function BrandCard({ brand }: BrandCardProps) {
                       />
                     </div>
                     <div>
-                      <span className="text-xl font-black text-green-700">
+                      <span className="text-lg font-black text-green-700">
                         일등
                       </span>
                       <div className="text-xs font-bold text-green-600">상위 10%</div>
@@ -219,7 +219,7 @@ export default function BrandCard({ brand }: BrandCardProps) {
                   </div>
                   <div className="text-right">
                     <div className="text-xs text-green-700 font-bold mb-0.5">월 순수익</div>
-                    <div className="text-2xl font-black text-green-700">
+                    <div className="text-xl font-black text-green-700">
                       {formatMoney(brand.stats.top10.profit)}
                     </div>
                   </div>
@@ -424,7 +424,7 @@ export default function BrandCard({ brand }: BrandCardProps) {
               {/* Average - Moon-like Yellow Planet */}
               <div
                 onClick={() => isMegaCoffee && setShowAverageDetail(!showAverageDetail)}
-                className="relative overflow-hidden rounded-2xl p-5 shadow-lg border group cursor-pointer transition-all duration-300"
+                className="relative overflow-hidden rounded-2xl p-3 shadow-lg border group cursor-pointer transition-all duration-300"
                 style={{
                   background: "linear-gradient(135deg, #FEF3C7 0%, #FDE68A 50%, #EAB308 100%)",
                   borderColor: "#CA8A04",
@@ -437,9 +437,9 @@ export default function BrandCard({ brand }: BrandCardProps) {
                 {/* Content wrapper */}
                 <div className="relative z-10">
 
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-14 h-14 rounded-full flex items-center justify-center shadow-xl relative overflow-hidden">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    <div className="w-12 h-12 rounded-full flex items-center justify-center shadow-xl relative overflow-hidden">
                       <img
                         src="/planet-middle.png"
                         alt="중간 행성"
@@ -450,7 +450,7 @@ export default function BrandCard({ brand }: BrandCardProps) {
                       />
                     </div>
                     <div>
-                      <span className="text-xl font-black text-slate-700">
+                      <span className="text-lg font-black text-slate-700">
                         중간
                       </span>
                       <div className="text-xs font-bold text-slate-600">평균 50%</div>
@@ -458,7 +458,7 @@ export default function BrandCard({ brand }: BrandCardProps) {
                   </div>
                   <div className="text-right">
                     <div className="text-xs text-slate-700 font-bold mb-0.5">월 순수익</div>
-                    <div className="text-2xl font-black text-slate-700">
+                    <div className="text-xl font-black text-slate-700">
                       {formatMoney(brand.stats.average.profit)}
                     </div>
                   </div>
@@ -663,7 +663,7 @@ export default function BrandCard({ brand }: BrandCardProps) {
               {/* Bottom 10% - Exploding Red/Brown Planet */}
               <div
                 onClick={() => isMegaCoffee && setShowBottom10Detail(!showBottom10Detail)}
-                className="relative overflow-hidden rounded-2xl p-5 shadow-lg border group cursor-pointer transition-all duration-300"
+                className="relative overflow-hidden rounded-2xl p-3 shadow-lg border group cursor-pointer transition-all duration-300"
                 style={{
                   background: "linear-gradient(135deg, #FEE2E2 0%, #FECACA 30%, #FCA5A5 70%, #7C2D12 100%)",
                   borderColor: "#EF4444",
@@ -676,9 +676,9 @@ export default function BrandCard({ brand }: BrandCardProps) {
                 {/* Content wrapper */}
                 <div className="relative z-10">
 
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-14 h-14 rounded-full flex items-center justify-center shadow-xl relative overflow-hidden">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    <div className="w-12 h-12 rounded-full flex items-center justify-center shadow-xl relative overflow-hidden">
                       <img
                         src="/planet-last.png"
                         alt="꼴등 행성"
@@ -689,7 +689,7 @@ export default function BrandCard({ brand }: BrandCardProps) {
                       />
                     </div>
                     <div>
-                      <span className="text-xl font-black text-red-700">
+                      <span className="text-lg font-black text-red-700">
                         꼴등
                       </span>
                       <div className="text-xs font-bold text-red-600">하위 10%</div>
@@ -697,7 +697,7 @@ export default function BrandCard({ brand }: BrandCardProps) {
                   </div>
                   <div className="text-right">
                     <div className="text-xs text-red-700 font-bold mb-0.5">월 순수익</div>
-                    <div className="text-2xl font-black text-red-700">
+                    <div className="text-xl font-black text-red-700">
                       {formatMoney(brand.stats.bottom10.profit)}
                     </div>
                   </div>
