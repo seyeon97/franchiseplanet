@@ -203,8 +203,6 @@ export default function BrandCard({ brand }: BrandCardProps) {
               </div>
             </div>
 
-            <p className="text-gray-600 text-sm mb-6 leading-relaxed">{brand.description}</p>
-
             {/* Stats */}
             <div className="space-y-4">
               {/* Top 10% - Peaceful Green Planet */}
