@@ -195,11 +195,12 @@ export default function BrandCard({ brand }: BrandCardProps) {
                   <span className="text-xl">💳</span>
                 </div>
                 <div>
-                  <p className="text-xs font-medium text-gray-500 mb-0.5">초기 투자</p>
+                  <p className="text-xs font-medium text-gray-500 mb-0.5">
+                    초기 투자 <span className="text-gray-400">(보증금을 제외한 추정 창업비용)</span>
+                  </p>
                   <p className="text-sm font-bold" style={{ color: brand.color }}>
                     {brand.startupCost}
                   </p>
-                  <p className="text-xs text-gray-400 mt-0.5">(보증금을 제외한 추정 창업비용)</p>
                 </div>
               </div>
             </div>
