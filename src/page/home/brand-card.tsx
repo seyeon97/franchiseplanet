@@ -199,6 +199,7 @@ export default function BrandCard({ brand }: BrandCardProps) {
                   <p className="text-sm font-bold" style={{ color: brand.color }}>
                     {brand.startupCost}
                   </p>
+                  <p className="text-xs text-gray-400 mt-0.5">(보증금을 제외한 추정 창업비용)</p>
                 </div>
               </div>
             </div>
