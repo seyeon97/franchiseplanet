@@ -152,22 +152,31 @@ export default function BrandCard({ brand }: BrandCardProps) {
           {/* Content - Scrollable */}
           <div className="p-6 overflow-y-auto flex-1">
             {/* Brand name */}
-            <h2
-              className="text-2xl font-bold mb-4 inline-block"
-              style={{
-                background: "linear-gradient(135deg, #F144BB 0%, #803CFA 50%, #0064FF 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-                WebkitTextStroke: "2px transparent",
-                backgroundImage: "linear-gradient(135deg, #F144BB 0%, #803CFA 50%, #0064FF 100%)",
-                WebkitTextStrokeWidth: "2px",
-                WebkitTextStrokeColor: "transparent",
-                filter: "drop-shadow(0 0 10px rgba(241, 68, 187, 0.3)) drop-shadow(0 0 15px rgba(128, 60, 250, 0.2))",
-              }}
-            >
-              {brand.name}
-            </h2>
+            <div className="mb-4 inline-block relative">
+              <h2
+                className="text-2xl font-bold px-5 py-2.5 relative z-10"
+                style={{
+                  background: "linear-gradient(135deg, #F144BB 0%, #803CFA 50%, #0064FF 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}
+              >
+                {brand.name}
+              </h2>
+              {/* Gradient border box */}
+              <div
+                className="absolute inset-0 rounded-xl pointer-events-none"
+                style={{
+                  background: "linear-gradient(135deg, #F144BB 0%, #803CFA 50%, #0064FF 100%)",
+                  padding: "2px",
+                  WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+                  WebkitMaskComposite: "xor",
+                  maskComposite: "exclude",
+                  boxShadow: "0 0 15px rgba(241, 68, 187, 0.4), 0 0 25px rgba(128, 60, 250, 0.3)",
+                }}
+              />
+            </div>
 
             {/* Startup Cost */}
             <div className="mb-4 p-4 rounded-2xl relative overflow-hidden" style={{
@@ -193,10 +202,10 @@ export default function BrandCard({ brand }: BrandCardProps) {
 
             <p className="text-gray-600 text-sm mb-6 leading-relaxed">{brand.description}</p>
 
-            {/* Stats - Grid layout for 3 cards */}
-            <div className="grid grid-cols-3 gap-3 mb-6">
+            {/* Stats */}
+            <div className="space-y-4">
               {/* Top 10% - Peaceful Green Planet */}
-              <div className="relative overflow-hidden rounded-xl p-3 shadow-lg border group cursor-pointer transition-all duration-300" style={{
+              <div className="relative overflow-hidden rounded-2xl p-5 shadow-lg border group cursor-pointer transition-all duration-300" style={{
                 background: "linear-gradient(135deg, #FEF9C3 0%, #FDE68A 30%, #D1FAE5 70%, #A7F3D0 100%)",
                 borderColor: "#10B981",
                 boxShadow: "0 4px 12px rgba(16, 185, 129, 0.15), 0 0 20px rgba(91, 72, 255, 0.15)",
@@ -263,9 +272,8 @@ export default function BrandCard({ brand }: BrandCardProps) {
                 </div>
               </div>
 
-
-              {/* Average - Moon-like Yellow Planet */}
-              <div className="relative overflow-hidden rounded-xl p-3 shadow-lg border group cursor-pointer transition-all duration-300" style={{
+              {/* Top 10% Breakdown - Only for MegaCoffee */}
+              {isMegaCoffee && (
                 <div className="space-y-3">
                   {/* Variable Costs */}
                   <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-md overflow-hidden border border-green-200/50">
