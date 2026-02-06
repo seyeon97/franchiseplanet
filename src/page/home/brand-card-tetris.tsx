@@ -38,6 +38,12 @@ export default function BrandCardTetris({ brand }: BrandCardProps) {
   const [showTop10Detail, setShowTop10Detail] = useState(false);
   const [showAverageDetail, setShowAverageDetail] = useState(false);
   const [showBottom10Detail, setShowBottom10Detail] = useState(false);
+  const [expandedTop10Variable, setExpandedTop10Variable] = useState(false);
+  const [expandedTop10Fixed, setExpandedTop10Fixed] = useState(false);
+  const [expandedAverageVariable, setExpandedAverageVariable] = useState(false);
+  const [expandedAverageFixed, setExpandedAverageFixed] = useState(false);
+  const [expandedBottom10Variable, setExpandedBottom10Variable] = useState(false);
+  const [expandedBottom10Fixed, setExpandedBottom10Fixed] = useState(false);
   const isMegaCoffee = brand.name === "메가커피";
 
   const formatMoney = (amount: number) => {
@@ -294,6 +300,230 @@ export default function BrandCardTetris({ brand }: BrandCardProps) {
                 </div>
               </div>
 
+              {/* Top 10% Detail Modal - Only for MegaCoffee */}
+              {isMegaCoffee && showTop10Detail && (
+                <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setShowTop10Detail(false)}>
+                  <div
+                    className="bg-[#16213e] rounded-lg shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border-4"
+                    style={{
+                      borderColor: "#00ff00",
+                      boxShadow: "0 0 40px rgba(0, 255, 0, 0.6)",
+                    }}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {/* Header */}
+                    <div
+                      className="sticky top-0 p-6"
+                      style={{
+                        background: "linear-gradient(180deg, #00ff00 0%, #00cc00 100%)",
+                        boxShadow: "0 4px 20px rgba(0, 255, 0, 0.5)",
+                      }}
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <div
+                            className="w-16 h-16 flex items-center justify-center"
+                            style={{
+                              background: "#1a1a2e",
+                              clipPath: "polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%)",
+                            }}
+                          >
+                            <img
+                              src="/planet-winner.png"
+                              alt="일등"
+                              className="w-14 h-14 object-contain"
+                            />
+                          </div>
+                          <div>
+                            <h3 className="text-3xl font-black text-[#1a1a2e] uppercase tracking-wide">일등</h3>
+                            <p className="text-sm text-[#1a1a2e]/80 font-bold">상위 10% 상세 분석</p>
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => setShowTop10Detail(false)}
+                          className="w-10 h-10 flex items-center justify-center transition-colors font-black text-2xl"
+                          style={{
+                            background: "#1a1a2e",
+                            color: "#00ff00",
+                          }}
+                        >
+                          ✕
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="p-6 space-y-6">
+                      {/* Summary Cards */}
+                      <div className="grid grid-cols-3 gap-3">
+                        <div
+                          className="p-4 border-2"
+                          style={{
+                            background: "rgba(0, 255, 0, 0.1)",
+                            borderColor: "#00ff00",
+                          }}
+                        >
+                          <div className="text-xs text-[#00ff00] mb-1 font-semibold uppercase">💰 매출</div>
+                          <div className="font-black text-white text-lg">
+                            {formatMoney(brand.stats.top10.revenue)}
+                          </div>
+                        </div>
+                        <div
+                          className="p-4 border-2"
+                          style={{
+                            background: "rgba(0, 255, 0, 0.1)",
+                            borderColor: "#00ff00",
+                          }}
+                        >
+                          <div className="text-xs text-[#00ff00] mb-1 font-semibold uppercase">💸 비용</div>
+                          <div className="font-black text-white text-lg">
+                            {formatMoney(brand.stats.top10.cost)}
+                          </div>
+                        </div>
+                        <div
+                          className="p-4 border-2"
+                          style={{
+                            background: "#00ff00",
+                            borderColor: "#00ff00",
+                            boxShadow: "0 0 20px rgba(0, 255, 0, 0.6)",
+                          }}
+                        >
+                          <div className="text-xs text-[#1a1a2e] mb-1 font-semibold uppercase">✨ 수익</div>
+                          <div className="font-black text-[#1a1a2e] text-lg">
+                            {formatMoney(brand.stats.top10.profit)}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Breakdown sections */}
+                      <div className="space-y-3">
+                        {/* Variable Costs */}
+                        <div
+                          className="overflow-hidden border-2"
+                          style={{
+                            background: "rgba(0, 255, 0, 0.05)",
+                            borderColor: "#00ff00",
+                          }}
+                        >
+                          <button
+                            onClick={() => setExpandedTop10Variable(!expandedTop10Variable)}
+                            className="w-full px-4 py-3.5 flex items-center justify-between hover:bg-[#00ff00]/10 transition-all"
+                          >
+                            <div className="flex items-center gap-2.5">
+                              <div
+                                className="w-8 h-8 flex items-center justify-center text-sm font-black"
+                                style={{
+                                  background: "#00ff00",
+                                  color: "#1a1a2e",
+                                }}
+                              >
+                                📊
+                              </div>
+                              <span className="text-sm font-black text-[#00ff00] uppercase">
+                                변동비 상세보기
+                              </span>
+                            </div>
+                            <div
+                              className={`w-6 h-6 flex items-center justify-center transition-transform ${
+                                expandedTop10Variable ? "rotate-180" : ""
+                              }`}
+                              style={{ color: "#00ff00" }}
+                            >
+                              ▼
+                            </div>
+                          </button>
+
+                          {expandedTop10Variable && (
+                            <div className="px-4 pb-4 border-t-2" style={{ borderColor: "#00ff00" }}>
+                              <div className="mt-3 space-y-2">
+                                {variableCosts.top10.map((cost, idx) => (
+                                  <div
+                                    key={idx}
+                                    className="flex items-center justify-between p-2.5 border"
+                                    style={{
+                                      background: "rgba(0, 0, 0, 0.3)",
+                                      borderColor: "#00ff00",
+                                    }}
+                                  >
+                                    <span className="text-xs text-gray-300 font-medium">
+                                      {cost.label}
+                                    </span>
+                                    <span className="text-sm text-[#00ff00] font-bold">
+                                      {formatMoney(cost.amount)}
+                                    </span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Fixed Costs */}
+                        <div
+                          className="overflow-hidden border-2"
+                          style={{
+                            background: "rgba(0, 255, 0, 0.05)",
+                            borderColor: "#00ff00",
+                          }}
+                        >
+                          <button
+                            onClick={() => setExpandedTop10Fixed(!expandedTop10Fixed)}
+                            className="w-full px-4 py-3.5 flex items-center justify-between hover:bg-[#00ff00]/10 transition-all"
+                          >
+                            <div className="flex items-center gap-2.5">
+                              <div
+                                className="w-8 h-8 flex items-center justify-center text-sm font-black"
+                                style={{
+                                  background: "#00ff00",
+                                  color: "#1a1a2e",
+                                }}
+                              >
+                                🏢
+                              </div>
+                              <span className="text-sm font-black text-[#00ff00] uppercase">
+                                고정비 상세보기
+                              </span>
+                            </div>
+                            <div
+                              className={`w-6 h-6 flex items-center justify-center transition-transform ${
+                                expandedTop10Fixed ? "rotate-180" : ""
+                              }`}
+                              style={{ color: "#00ff00" }}
+                            >
+                              ▼
+                            </div>
+                          </button>
+
+                          {expandedTop10Fixed && (
+                            <div className="px-4 pb-4 border-t-2" style={{ borderColor: "#00ff00" }}>
+                              <div className="mt-3 space-y-2">
+                                {fixedCosts.top10.map((cost, idx) => (
+                                  <div
+                                    key={idx}
+                                    className="flex items-center justify-between p-2.5 border"
+                                    style={{
+                                      background: "rgba(0, 0, 0, 0.3)",
+                                      borderColor: "#00ff00",
+                                    }}
+                                  >
+                                    <span className="text-xs text-gray-300 font-medium">
+                                      {cost.label}
+                                    </span>
+                                    <span className="text-sm text-[#00ff00] font-bold">
+                                      {formatMoney(cost.amount)}
+                                    </span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {/* Average - Yellow Tetris Block */}
               <div
                 onClick={() => isMegaCoffee && setShowAverageDetail(!showAverageDetail)}
@@ -379,6 +609,116 @@ export default function BrandCardTetris({ brand }: BrandCardProps) {
                 </div>
               </div>
 
+              {/* Average Detail Modal - Only for MegaCoffee */}
+              {isMegaCoffee && showAverageDetail && (
+                <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setShowAverageDetail(false)}>
+                  <div
+                    className="bg-[#16213e] rounded-lg shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border-4"
+                    style={{
+                      borderColor: "#ffff00",
+                      boxShadow: "0 0 40px rgba(255, 255, 0, 0.6)",
+                    }}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <div
+                      className="sticky top-0 p-6"
+                      style={{
+                        background: "linear-gradient(180deg, #ffff00 0%, #cccc00 100%)",
+                        boxShadow: "0 4px 20px rgba(255, 255, 0, 0.5)",
+                      }}
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <div
+                            className="w-16 h-16 flex items-center justify-center"
+                            style={{
+                              background: "#1a1a2e",
+                              clipPath: "polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%)",
+                            }}
+                          >
+                            <img src="/planet-middle.png" alt="중간" className="w-14 h-14 object-contain" />
+                          </div>
+                          <div>
+                            <h3 className="text-3xl font-black text-[#1a1a2e] uppercase tracking-wide">중간</h3>
+                            <p className="text-sm text-[#1a1a2e]/80 font-bold">평균 50% 상세 분석</p>
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => setShowAverageDetail(false)}
+                          className="w-10 h-10 flex items-center justify-center font-black text-2xl"
+                          style={{ background: "#1a1a2e", color: "#ffff00" }}
+                        >
+                          ✕
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="p-6 space-y-6">
+                      <div className="grid grid-cols-3 gap-3">
+                        <div className="p-4 border-2" style={{ background: "rgba(255, 255, 0, 0.1)", borderColor: "#ffff00" }}>
+                          <div className="text-xs text-[#ffff00] mb-1 font-semibold uppercase">💰 매출</div>
+                          <div className="font-black text-white text-lg">{formatMoney(brand.stats.average.revenue)}</div>
+                        </div>
+                        <div className="p-4 border-2" style={{ background: "rgba(255, 255, 0, 0.1)", borderColor: "#ffff00" }}>
+                          <div className="text-xs text-[#ffff00] mb-1 font-semibold uppercase">💸 비용</div>
+                          <div className="font-black text-white text-lg">{formatMoney(brand.stats.average.cost)}</div>
+                        </div>
+                        <div className="p-4 border-2" style={{ background: "#ffff00", borderColor: "#ffff00", boxShadow: "0 0 20px rgba(255, 255, 0, 0.6)" }}>
+                          <div className="text-xs text-[#1a1a2e] mb-1 font-semibold uppercase">✨ 수익</div>
+                          <div className="font-black text-[#1a1a2e] text-lg">{formatMoney(brand.stats.average.profit)}</div>
+                        </div>
+                      </div>
+
+                      <div className="space-y-3">
+                        <div className="overflow-hidden border-2" style={{ background: "rgba(255, 255, 0, 0.05)", borderColor: "#ffff00" }}>
+                          <button onClick={() => setExpandedAverageVariable(!expandedAverageVariable)} className="w-full px-4 py-3.5 flex items-center justify-between hover:bg-[#ffff00]/10 transition-all">
+                            <div className="flex items-center gap-2.5">
+                              <div className="w-8 h-8 flex items-center justify-center text-sm font-black" style={{ background: "#ffff00", color: "#1a1a2e" }}>📊</div>
+                              <span className="text-sm font-black text-[#ffff00] uppercase">변동비 상세보기</span>
+                            </div>
+                            <div className={`w-6 h-6 flex items-center justify-center transition-transform ${expandedAverageVariable ? "rotate-180" : ""}`} style={{ color: "#ffff00" }}>▼</div>
+                          </button>
+                          {expandedAverageVariable && (
+                            <div className="px-4 pb-4 border-t-2" style={{ borderColor: "#ffff00" }}>
+                              <div className="mt-3 space-y-2">
+                                {variableCosts.average.map((cost, idx) => (
+                                  <div key={idx} className="flex items-center justify-between p-2.5 border" style={{ background: "rgba(0, 0, 0, 0.3)", borderColor: "#ffff00" }}>
+                                    <span className="text-xs text-gray-300 font-medium">{cost.label}</span>
+                                    <span className="text-sm text-[#ffff00] font-bold">{formatMoney(cost.amount)}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="overflow-hidden border-2" style={{ background: "rgba(255, 255, 0, 0.05)", borderColor: "#ffff00" }}>
+                          <button onClick={() => setExpandedAverageFixed(!expandedAverageFixed)} className="w-full px-4 py-3.5 flex items-center justify-between hover:bg-[#ffff00]/10 transition-all">
+                            <div className="flex items-center gap-2.5">
+                              <div className="w-8 h-8 flex items-center justify-center text-sm font-black" style={{ background: "#ffff00", color: "#1a1a2e" }}>🏢</div>
+                              <span className="text-sm font-black text-[#ffff00] uppercase">고정비 상세보기</span>
+                            </div>
+                            <div className={`w-6 h-6 flex items-center justify-center transition-transform ${expandedAverageFixed ? "rotate-180" : ""}`} style={{ color: "#ffff00" }}>▼</div>
+                          </button>
+                          {expandedAverageFixed && (
+                            <div className="px-4 pb-4 border-t-2" style={{ borderColor: "#ffff00" }}>
+                              <div className="mt-3 space-y-2">
+                                {fixedCosts.average.map((cost, idx) => (
+                                  <div key={idx} className="flex items-center justify-between p-2.5 border" style={{ background: "rgba(0, 0, 0, 0.3)", borderColor: "#ffff00" }}>
+                                    <span className="text-xs text-gray-300 font-medium">{cost.label}</span>
+                                    <span className="text-sm text-[#ffff00] font-bold">{formatMoney(cost.amount)}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {/* Bottom 10% - Red Tetris Block */}
               <div
                 onClick={() => isMegaCoffee && setShowBottom10Detail(!showBottom10Detail)}
@@ -463,6 +803,116 @@ export default function BrandCardTetris({ brand }: BrandCardProps) {
                   </div>
                 </div>
               </div>
+
+              {/* Bottom 10% Detail Modal - Only for MegaCoffee */}
+              {isMegaCoffee && showBottom10Detail && (
+                <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setShowBottom10Detail(false)}>
+                  <div
+                    className="bg-[#16213e] rounded-lg shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border-4"
+                    style={{
+                      borderColor: "#ff0000",
+                      boxShadow: "0 0 40px rgba(255, 0, 0, 0.6)",
+                    }}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <div
+                      className="sticky top-0 p-6"
+                      style={{
+                        background: "linear-gradient(180deg, #ff0000 0%, #cc0000 100%)",
+                        boxShadow: "0 4px 20px rgba(255, 0, 0, 0.5)",
+                      }}
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <div
+                            className="w-16 h-16 flex items-center justify-center"
+                            style={{
+                              background: "#1a1a2e",
+                              clipPath: "polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%)",
+                            }}
+                          >
+                            <img src="/planet-last.png" alt="꼴등" className="w-14 h-14 object-contain" />
+                          </div>
+                          <div>
+                            <h3 className="text-3xl font-black text-[#1a1a2e] uppercase tracking-wide">꼴등</h3>
+                            <p className="text-sm text-[#1a1a2e]/80 font-bold">하위 10% 상세 분석</p>
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => setShowBottom10Detail(false)}
+                          className="w-10 h-10 flex items-center justify-center font-black text-2xl"
+                          style={{ background: "#1a1a2e", color: "#ff0000" }}
+                        >
+                          ✕
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="p-6 space-y-6">
+                      <div className="grid grid-cols-3 gap-3">
+                        <div className="p-4 border-2" style={{ background: "rgba(255, 0, 0, 0.1)", borderColor: "#ff0000" }}>
+                          <div className="text-xs text-[#ff0000] mb-1 font-semibold uppercase">💰 매출</div>
+                          <div className="font-black text-white text-lg">{formatMoney(brand.stats.bottom10.revenue)}</div>
+                        </div>
+                        <div className="p-4 border-2" style={{ background: "rgba(255, 0, 0, 0.1)", borderColor: "#ff0000" }}>
+                          <div className="text-xs text-[#ff0000] mb-1 font-semibold uppercase">💸 비용</div>
+                          <div className="font-black text-white text-lg">{formatMoney(brand.stats.bottom10.cost)}</div>
+                        </div>
+                        <div className="p-4 border-2" style={{ background: "#ff0000", borderColor: "#ff0000", boxShadow: "0 0 20px rgba(255, 0, 0, 0.6)" }}>
+                          <div className="text-xs text-[#1a1a2e] mb-1 font-semibold uppercase">✨ 수익</div>
+                          <div className="font-black text-[#1a1a2e] text-lg">{formatMoney(brand.stats.bottom10.profit)}</div>
+                        </div>
+                      </div>
+
+                      <div className="space-y-3">
+                        <div className="overflow-hidden border-2" style={{ background: "rgba(255, 0, 0, 0.05)", borderColor: "#ff0000" }}>
+                          <button onClick={() => setExpandedBottom10Variable(!expandedBottom10Variable)} className="w-full px-4 py-3.5 flex items-center justify-between hover:bg-[#ff0000]/10 transition-all">
+                            <div className="flex items-center gap-2.5">
+                              <div className="w-8 h-8 flex items-center justify-center text-sm font-black" style={{ background: "#ff0000", color: "#1a1a2e" }}>📊</div>
+                              <span className="text-sm font-black text-[#ff0000] uppercase">변동비 상세보기</span>
+                            </div>
+                            <div className={`w-6 h-6 flex items-center justify-center transition-transform ${expandedBottom10Variable ? "rotate-180" : ""}`} style={{ color: "#ff0000" }}>▼</div>
+                          </button>
+                          {expandedBottom10Variable && (
+                            <div className="px-4 pb-4 border-t-2" style={{ borderColor: "#ff0000" }}>
+                              <div className="mt-3 space-y-2">
+                                {variableCosts.bottom10.map((cost, idx) => (
+                                  <div key={idx} className="flex items-center justify-between p-2.5 border" style={{ background: "rgba(0, 0, 0, 0.3)", borderColor: "#ff0000" }}>
+                                    <span className="text-xs text-gray-300 font-medium">{cost.label}</span>
+                                    <span className="text-sm text-[#ff0000] font-bold">{formatMoney(cost.amount)}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="overflow-hidden border-2" style={{ background: "rgba(255, 0, 0, 0.05)", borderColor: "#ff0000" }}>
+                          <button onClick={() => setExpandedBottom10Fixed(!expandedBottom10Fixed)} className="w-full px-4 py-3.5 flex items-center justify-between hover:bg-[#ff0000]/10 transition-all">
+                            <div className="flex items-center gap-2.5">
+                              <div className="w-8 h-8 flex items-center justify-center text-sm font-black" style={{ background: "#ff0000", color: "#1a1a2e" }}>🏢</div>
+                              <span className="text-sm font-black text-[#ff0000] uppercase">고정비 상세보기</span>
+                            </div>
+                            <div className={`w-6 h-6 flex items-center justify-center transition-transform ${expandedBottom10Fixed ? "rotate-180" : ""}`} style={{ color: "#ff0000" }}>▼</div>
+                          </button>
+                          {expandedBottom10Fixed && (
+                            <div className="px-4 pb-4 border-t-2" style={{ borderColor: "#ff0000" }}>
+                              <div className="mt-3 space-y-2">
+                                {fixedCosts.bottom10.map((cost, idx) => (
+                                  <div key={idx} className="flex items-center justify-between p-2.5 border" style={{ background: "rgba(0, 0, 0, 0.3)", borderColor: "#ff0000" }}>
+                                    <span className="text-xs text-gray-300 font-medium">{cost.label}</span>
+                                    <span className="text-sm text-[#ff0000] font-bold">{formatMoney(cost.amount)}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
