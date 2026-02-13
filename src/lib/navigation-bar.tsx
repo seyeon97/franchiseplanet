@@ -8,20 +8,18 @@ export default function NavigationBar() {
 
   const renderIcon = (id: string, isActive: boolean) => {
     const gradientId = `gradient-nav-${id}-${isActive ? 'active' : 'inactive'}`;
-    const strokeColor = isActive ? `url(#${gradientId})` : 'currentColor';
+    const strokeColor = `url(#${gradientId})`;
 
     switch (id) {
       case "home":
         return (
           <svg className="w-6 h-6" fill="none" stroke={strokeColor} viewBox="0 0 24 24">
-            {isActive && (
-              <defs>
-                <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" style={{ stopColor: '#3182F6' }} />
-                  <stop offset="100%" style={{ stopColor: '#00C896' }} />
-                </linearGradient>
-              </defs>
-            )}
+            <defs>
+              <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style={{ stopColor: isActive ? '#3182F6' : '#9CA3AF' }} />
+                <stop offset="100%" style={{ stopColor: isActive ? '#00C896' : '#6B7280' }} />
+              </linearGradient>
+            </defs>
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -33,14 +31,12 @@ export default function NavigationBar() {
       case "column":
         return (
           <svg className="w-6 h-6" fill="none" stroke={strokeColor} viewBox="0 0 24 24">
-            {isActive && (
-              <defs>
-                <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" style={{ stopColor: '#3182F6' }} />
-                  <stop offset="100%" style={{ stopColor: '#00C896' }} />
-                </linearGradient>
-              </defs>
-            )}
+            <defs>
+              <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style={{ stopColor: isActive ? '#3182F6' : '#9CA3AF' }} />
+                <stop offset="100%" style={{ stopColor: isActive ? '#00C896' : '#6B7280' }} />
+              </linearGradient>
+            </defs>
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -52,14 +48,12 @@ export default function NavigationBar() {
       case "resources":
         return (
           <svg className="w-6 h-6" fill="none" stroke={strokeColor} viewBox="0 0 24 24">
-            {isActive && (
-              <defs>
-                <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" style={{ stopColor: '#3182F6' }} />
-                  <stop offset="100%" style={{ stopColor: '#00C896' }} />
-                </linearGradient>
-              </defs>
-            )}
+            <defs>
+              <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style={{ stopColor: isActive ? '#3182F6' : '#9CA3AF' }} />
+                <stop offset="100%" style={{ stopColor: isActive ? '#00C896' : '#6B7280' }} />
+              </linearGradient>
+            </defs>
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -71,14 +65,12 @@ export default function NavigationBar() {
       case "offline":
         return (
           <svg className="w-6 h-6" fill="none" stroke={strokeColor} viewBox="0 0 24 24">
-            {isActive && (
-              <defs>
-                <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" style={{ stopColor: '#3182F6' }} />
-                  <stop offset="100%" style={{ stopColor: '#00C896' }} />
-                </linearGradient>
-              </defs>
-            )}
+            <defs>
+              <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style={{ stopColor: isActive ? '#3182F6' : '#9CA3AF' }} />
+                <stop offset="100%" style={{ stopColor: isActive ? '#00C896' : '#6B7280' }} />
+              </linearGradient>
+            </defs>
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -96,14 +88,12 @@ export default function NavigationBar() {
       case "more":
         return (
           <svg className="w-6 h-6" fill="none" stroke={strokeColor} viewBox="0 0 24 24">
-            {isActive && (
-              <defs>
-                <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" style={{ stopColor: '#3182F6' }} />
-                  <stop offset="100%" style={{ stopColor: '#00C896' }} />
-                </linearGradient>
-              </defs>
-            )}
+            <defs>
+              <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style={{ stopColor: isActive ? '#3182F6' : '#9CA3AF' }} />
+                <stop offset="100%" style={{ stopColor: isActive ? '#00C896' : '#6B7280' }} />
+              </linearGradient>
+            </defs>
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -138,24 +128,22 @@ export default function NavigationBar() {
                 className={`flex flex-col items-center justify-center py-2 px-3 rounded-xl transition-all ${
                   isActive
                     ? "bg-gradient-to-br from-blue-50 to-cyan-50"
-                    : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
+                    : "hover:bg-gray-50"
                 }`}
               >
                 <div className={`mb-1 ${isActive ? "scale-110" : ""} transition-transform`}>
                   {renderIcon(item.id, isActive)}
                 </div>
                 <span
-                  className={`text-xs font-bold ${isActive ? "" : "font-medium"}`}
-                  style={
-                    isActive
-                      ? {
-                          backgroundImage: "linear-gradient(135deg, #3182F6 0%, #00C896 100%)",
-                          backgroundClip: "text",
-                          WebkitBackgroundClip: "text",
-                          WebkitTextFillColor: "transparent",
-                        }
-                      : undefined
-                  }
+                  className={`text-xs ${isActive ? "font-bold" : "font-medium"}`}
+                  style={{
+                    backgroundImage: isActive
+                      ? "linear-gradient(135deg, #3182F6 0%, #00C896 100%)"
+                      : "linear-gradient(135deg, #9CA3AF 0%, #6B7280 100%)",
+                    backgroundClip: "text",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                  }}
                 >
                   {item.label}
                 </span>
