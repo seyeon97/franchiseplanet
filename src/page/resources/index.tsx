@@ -455,11 +455,11 @@ export default function ResourcesView() {
 
       {/* 자료 상세 페이지 */}
       {selectedResource && (
-        <div className="fixed inset-0 bg-white z-50 overflow-y-auto">
+        <div className={`fixed inset-0 bg-gradient-to-br ${selectedResource.bgColor} z-50 overflow-y-auto`}>
           {/* 닫기 버튼 */}
           <button
             onClick={handleClose}
-            className="fixed top-4 right-4 z-10 w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-900 hover:bg-gray-200 transition-colors"
+            className="fixed top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-gray-900 hover:bg-white transition-colors shadow-lg"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -471,18 +471,18 @@ export default function ResourcesView() {
             {/* 헤더 */}
             <div className="text-center mb-8">
               <div className="text-6xl mb-4">{selectedResource.thumbnail}</div>
-              <span className="text-sm font-bold text-gray-600 bg-gray-100 px-4 py-2 rounded-full">
+              <span className="text-sm font-bold text-white bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full">
                 {selectedResource.type}
               </span>
-              <h1 className="text-3xl font-black text-gray-900 mt-4 mb-2">
+              <h1 className="text-3xl font-black text-white mt-4 mb-2">
                 {selectedResource.title}
               </h1>
-              <p className="text-sm text-gray-500 mb-2">{selectedResource.provider}</p>
-              <p className="text-sm text-gray-400">{selectedResource.date}</p>
+              <p className="text-sm text-white/80 mb-2">{selectedResource.provider}</p>
+              <p className="text-sm text-white/60">{selectedResource.date}</p>
             </div>
 
             {/* 본문 */}
-            <div className="bg-gray-50 rounded-3xl p-6 md:p-8">
+            <div className="bg-white/95 backdrop-blur-sm rounded-3xl p-6 md:p-8">
               <div className="prose max-w-none">
                 {selectedResource.content.split("\n").map((line, index) => {
                   if (line.startsWith("# ")) {
