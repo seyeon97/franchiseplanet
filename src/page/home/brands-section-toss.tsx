@@ -202,57 +202,44 @@ export default function BrandsSectionToss({
 
             {/* 전체 브랜드 리스트 */}
             {showAllBrands && (
-              <div className="mb-6 space-y-2">
-                {brands.map((brand, index) => (
-                  <button
-                    key={brand.id}
-                    onClick={() => onBrandClick(brand.id)}
-                    className="w-full bg-white rounded-2xl p-4 flex items-center justify-between hover:shadow-md transition-all"
-                  >
-                    <div className="flex items-center gap-3">
-                      <span className="text-sm font-bold text-gray-400 w-6">
+              <div className="mb-6 -mx-4 px-4 overflow-x-auto scrollbar-hide">
+                <div className="flex gap-3 pb-2">
+                  {brands.map((brand, index) => (
+                    <button
+                      key={brand.id}
+                      onClick={() => onBrandClick(brand.id)}
+                      className="flex-shrink-0 w-32 bg-white rounded-2xl p-4 flex flex-col items-center gap-2 hover:shadow-md transition-all"
+                    >
+                      <span className="text-xs font-bold text-gray-400">
                         {index + 1}
                       </span>
                       {brand.logoImage ? (
-                        <div className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center overflow-hidden flex-shrink-0">
+                        <div className="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center overflow-hidden">
                           <img
                             src={brand.logoImage}
                             alt={brand.name}
-                            className="w-8 h-8 object-contain"
+                            className="w-10 h-10 object-contain"
                           />
                         </div>
                       ) : (
                         <div
-                          className="w-10 h-10 rounded-xl flex items-center justify-center text-lg flex-shrink-0"
+                          className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl"
                           style={{ backgroundColor: `${brand.color}15` }}
                         >
                           {brand.logo}
                         </div>
                       )}
-                      <div className="text-left">
-                        <h3 className="text-base font-bold text-gray-900">
+                      <div className="text-center">
+                        <h3 className="text-sm font-bold text-gray-900 truncate w-full">
                           {brand.name}
                         </h3>
-                        <p className="text-xs text-gray-500 font-medium">
+                        <p className="text-xs text-gray-500 font-medium truncate w-full">
                           {brand.category}
                         </p>
                       </div>
-                    </div>
-                    <svg
-                      className="w-5 h-5 text-gray-400"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2.5}
-                        d="M9 5l7 7-7 7"
-                      />
-                    </svg>
-                  </button>
-                ))}
+                    </button>
+                  ))}
+                </div>
               </div>
             )}
 
