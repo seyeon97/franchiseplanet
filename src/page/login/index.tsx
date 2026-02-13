@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Script from "next/script";
 import { kakaoConfig } from "@/lib/kakao-config";
 
 // Kakao SDK 타입 정의
@@ -131,8 +132,26 @@ export default function LoginView() {
   };
 
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center px-4 py-8">
-      <div className="max-w-md w-full">
+    <>
+      <Script
+        src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"
+        integrity="sha384-TiCUE00h+afnCyGMvP7r3N6U0e+vR2LS5J0nQJvWGDqKLqU+Gi8AJ6JvNIMXPVWk"
+        crossOrigin="anonymous"
+        strategy="beforeInteractive"
+        onLoad={() => {
+          console.log("카카오 SDK 스크립트 로드됨!");
+          if (window.Kakao && !window.Kakao.isInitialized()) {
+            window.Kakao.init(kakaoConfig.javascriptKey);
+            console.log("카카오 SDK 초기화 완료!");
+            setIsKakaoReady(true);
+          }
+        }}
+        onError={() => {
+          console.error("카카오 SDK 스크립트 로드 실패!");
+        }}
+      />
+      <div className="min-h-screen bg-white flex items-center justify-center px-4 py-8">
+        <div className="max-w-md w-full">
         {/* 로고 */}
         <div className="text-center mb-8">
           <h1 className="text-3xl md:text-4xl font-black text-gray-900 mb-2">
@@ -203,5 +222,6 @@ export default function LoginView() {
         </button>
       </div>
     </div>
+    </>
   );
 }
