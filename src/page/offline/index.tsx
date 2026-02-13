@@ -573,7 +573,7 @@ export default function OfflineView() {
 
               {/* 결제 수단 선택 */}
               <div className="space-y-3">
-                <h3 className="font-bold text-gray-900 mb-3">결제 수단</h3>
+                <h3 className="font-bold text-gray-900 mb-3 text-center">결제 수단</h3>
 
                 {/* 신용/체크카드 */}
                 <button
