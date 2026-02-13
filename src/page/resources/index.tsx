@@ -332,20 +332,74 @@ export default function ResourcesView() {
 
           {/* 카테고리 탭 */}
           <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide -mx-5 px-5">
-            {categories.map((cat) => (
-              <button
-                key={cat.id}
-                onClick={() => setSelectedCategory(cat.id)}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl font-bold text-sm whitespace-nowrap transition-all ${
-                  selectedCategory === cat.id
-                    ? "bg-[#1a1f2e] text-white shadow-[0_4px_12px_rgba(26,31,46,0.2)]"
-                    : "bg-[#f5f5f7] text-gray-600 hover:bg-gray-200"
-                }`}
-              >
-                <span className="text-base">{cat.icon}</span>
-                <span>{cat.label}</span>
-              </button>
-            ))}
+            {categories.map((cat) => {
+              const isActive = selectedCategory === cat.id;
+              return (
+                <button
+                  key={cat.id}
+                  onClick={() => setSelectedCategory(cat.id)}
+                  className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl font-bold text-sm whitespace-nowrap transition-all ${
+                    isActive
+                      ? "bg-[#1a1f2e] text-white shadow-[0_4px_12px_rgba(26,31,46,0.2)]"
+                      : "bg-[#f5f5f7] text-gray-600 hover:bg-gray-200"
+                  }`}
+                >
+                  {/* SVG 아이콘 */}
+                  {cat.id === "all" && (
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
+                      <defs>
+                        <linearGradient id={`gradient-all-${isActive ? 'active' : 'inactive'}`} x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" style={{ stopColor: isActive ? '#ffffff' : '#3098F2' }} />
+                          <stop offset="100%" style={{ stopColor: isActive ? '#ffffff' : '#11BFAE' }} />
+                        </linearGradient>
+                      </defs>
+                      <path d="M3 7C3 5.89543 3.89543 5 5 5H9C10.1046 5 11 5.89543 11 7V9C11 10.1046 10.1046 11 9 11H5C3.89543 11 3 10.1046 3 9V7Z" fill={`url(#gradient-all-${isActive ? 'active' : 'inactive'})`} />
+                      <path d="M3 15C3 13.8954 3.89543 13 5 13H9C10.1046 13 11 13.8954 11 15V19C11 20.1046 10.1046 21 9 21H5C3.89543 21 3 20.1046 3 19V15Z" fill={`url(#gradient-all-${isActive ? 'active' : 'inactive'})`} />
+                      <path d="M13 7C13 5.89543 13.8954 5 15 5H19C20.1046 5 21 5.89543 21 7V9C21 10.1046 20.1046 11 19 11H15C13.8954 11 13 10.1046 13 9V7Z" fill={`url(#gradient-all-${isActive ? 'active' : 'inactive'})`} />
+                      <path d="M13 15C13 13.8954 13.8954 13 15 13H19C20.1046 13 21 13.8954 21 15V19C21 20.1046 20.1046 21 19 21H15C13.8954 21 13 20.1046 13 19V15Z" fill={`url(#gradient-all-${isActive ? 'active' : 'inactive'})`} />
+                    </svg>
+                  )}
+                  {cat.id === "market" && (
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
+                      <defs>
+                        <linearGradient id={`gradient-market-${isActive ? 'active' : 'inactive'}`} x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" style={{ stopColor: isActive ? '#ffffff' : '#3098F2' }} />
+                          <stop offset="100%" style={{ stopColor: isActive ? '#ffffff' : '#11BFAE' }} />
+                        </linearGradient>
+                      </defs>
+                      <path d="M3 3V21H21" stroke={`url(#gradient-market-${isActive ? 'active' : 'inactive'})`} strokeWidth="2" strokeLinecap="round" />
+                      <path d="M7 14L10 11L14 15L20 9" stroke={`url(#gradient-market-${isActive ? 'active' : 'inactive'})`} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  )}
+                  {cat.id === "checklist" && (
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
+                      <defs>
+                        <linearGradient id={`gradient-check-${isActive ? 'active' : 'inactive'}`} x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" style={{ stopColor: isActive ? '#ffffff' : '#3098F2' }} />
+                          <stop offset="100%" style={{ stopColor: isActive ? '#ffffff' : '#11BFAE' }} />
+                        </linearGradient>
+                      </defs>
+                      <rect x="3" y="3" width="18" height="18" rx="4" fill={`url(#gradient-check-${isActive ? 'active' : 'inactive'})`} />
+                      <path d="M7 12L10 15L17 8" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  )}
+                  {cat.id === "contract" && (
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
+                      <defs>
+                        <linearGradient id={`gradient-contract-${isActive ? 'active' : 'inactive'}`} x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" style={{ stopColor: isActive ? '#ffffff' : '#3098F2' }} />
+                          <stop offset="100%" style={{ stopColor: isActive ? '#ffffff' : '#11BFAE' }} />
+                        </linearGradient>
+                      </defs>
+                      <path d="M14 2H6C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8L14 2Z" fill={`url(#gradient-contract-${isActive ? 'active' : 'inactive'})`} />
+                      <path d="M14 2V8H20" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M8 13H16M8 17H16" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
+                    </svg>
+                  )}
+                  <span>{cat.label}</span>
+                </button>
+              );
+            })}
           </div>
         </div>
 
