@@ -209,7 +209,7 @@ export default function BrandsSectionToss({
 
             {/* 전체 브랜드 리스트 */}
             {showAllBrands && (
-              <div className="mb-6 space-y-2 animate-in fade-in slide-in-from-top-4 duration-300">
+              <div className="mb-6 space-y-2">
                 {brands.map((brand, index) => (
                   <button
                     key={brand.id}
