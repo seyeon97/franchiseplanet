@@ -284,7 +284,7 @@ export default function ColumnView() {
                   {/* 클릭 힌트 */}
                   <div className="absolute bottom-52 left-1/2 transform -translate-x-1/2 w-full px-6">
                     <div
-                      className="bg-white rounded-2xl px-6 py-4 shadow-xl mx-auto max-w-sm"
+                      className="bg-white rounded-2xl px-5 py-3 shadow-xl mx-auto max-w-xs"
                       style={{
                         animation: "scale-pulse 1.5s ease-in-out infinite",
                       }}
