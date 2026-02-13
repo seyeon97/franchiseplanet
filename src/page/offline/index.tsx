@@ -70,7 +70,7 @@ export default function OfflineView() {
     <div className="h-screen bg-gray-50 flex flex-col pb-20">
       {/* 고정 헤더 */}
       <div className="px-6 pt-8 pb-4 max-w-2xl mx-auto w-full">
-        <h1 className="text-4xl font-black mb-3 leading-tight text-[#101828]">
+        <h1 className="text-4xl font-extrabold mb-3 leading-tight text-[#101828]">
           전문가와 함께하는
           <br />
           <span
