@@ -127,19 +127,17 @@ export default async function Layout({
 }>) {
   return (
     <html lang="ko">
-      <head>
-        <script
-          src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"
-          integrity="sha384-TiCUE00h+afnCyGMvP7r3N6U0e+vR2LS5J0nQJvWGDqKLqU+Gi8AJ6JvNIMXPVWk"
-          crossOrigin="anonymous"
-        ></script>
-      </head>
       <body
         className={`${pretendard.variable} ${notoSansMono.variable} antialiased`}
       >
         <RootLayout>{children}</RootLayout>
         <ReactGrabInit />
         <SandboxBridge />
+        <script
+          src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"
+          integrity="sha384-TiCUE00h+afnCyGMvP7r3N6U0e+vR2LS5J0nQJvWGDqKLqU+Gi8AJ6JvNIMXPVWk"
+          crossOrigin="anonymous"
+        ></script>
       </body>
     </html>
   );
