@@ -127,8 +127,8 @@ export default function NavigationBar() {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white/[0.01] backdrop-blur-md border-t border-gray-200/[0.01] z-50 safe-area-inset-bottom">
-      <div className="max-w-2xl mx-auto px-2 py-2">
+    <nav className="fixed bottom-0 left-0 right-0 bg-white z-50 safe-area-inset-bottom">
+      <div className="max-w-2xl mx-auto px-2 py-1">
         <div className="grid grid-cols-5 gap-1">
           {navItems.map((item) => {
             const isActive = pathname === item.path;
@@ -136,13 +136,13 @@ export default function NavigationBar() {
               <button
                 key={item.id}
                 onClick={() => router.push(item.path)}
-                className={`flex flex-col items-center justify-center py-2 px-3 rounded-xl transition-all relative ${
+                className={`flex flex-col items-center justify-center py-1.5 px-2 rounded-xl transition-all relative ${
                   isActive
                     ? ""
                     : "hover:bg-gray-50"
                 }`}
               >
-                <div className={`mb-1 ${isActive ? "scale-110" : ""} transition-transform`}>
+                <div className={`mb-0.5 ${isActive ? "scale-110" : ""} transition-transform`}>
                   {renderIcon(item.id, isActive)}
                 </div>
                 <span
