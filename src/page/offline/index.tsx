@@ -33,25 +33,27 @@ export default function OfflineView() {
   ];
 
   return (
-    <div className="h-screen overflow-x-scroll snap-x snap-mandatory scroll-smooth">
+    <div className="h-screen overflow-x-scroll snap-x snap-mandatory scroll-smooth bg-gray-50">
       <div className="flex h-full">
         {programs.map((program, index) => (
           <div
             key={program.id}
-            className="min-w-full h-full snap-start flex flex-col bg-white px-4 py-6 pb-24 relative"
+            className="min-w-full h-full snap-start flex flex-col px-6 py-8 pb-24 relative"
           >
-            {/* 헤더 - 모든 카드에 표시 */}
-            <div className="mb-4">
-              <h1 className="text-2xl font-black text-[#101828] mb-1">
-                오프라인 임장
+            {/* 헤더 */}
+            <div className="mb-8 max-w-2xl mx-auto w-full">
+              <h1 className="text-4xl font-black text-[#101828] mb-3 leading-tight">
+                전문가와 함께하는
+                <br />
+                현장 임장
               </h1>
-              <p className="text-base text-gray-600 font-medium">
-                전문가와 함께하는 현장 답사
+              <p className="text-lg text-gray-600 font-medium">
+                성공 창업의 시작, 입지 분석부터
               </p>
             </div>
 
             <div className="max-w-2xl w-full mx-auto flex-1 flex items-center justify-center">
-              <button className="text-left group w-full max-w-md">
+              <button className="text-left group w-full">
                 <div className="bg-white rounded-3xl overflow-hidden shadow-lg group-hover:shadow-2xl transition-shadow duration-300">
                   {/* 카드 상단 - 그라데이션 영역 */}
                   <div className={`bg-gradient-to-br ${program.bgColor} p-5 pb-10 relative`}>
@@ -97,40 +99,57 @@ export default function OfflineView() {
 
             </div>
 
-            {/* 스와이프 힌트 */}
-            {index === 0 && (
-              <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2">
-                <div className="flex items-center gap-3 animate-bounce">
-                  <svg
-                    className="w-6 h-6 text-gray-400 rotate-180"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2.5}
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
-                  <div className="text-sm text-gray-400 font-medium">옆으로 스와이프</div>
-                  <svg
-                    className="w-6 h-6 text-gray-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2.5}
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
-                </div>
+            {/* 하단 정보 및 페이지 인디케이터 */}
+            <div className="mt-8 max-w-2xl mx-auto w-full">
+              {/* 페이지 인디케이터 */}
+              <div className="flex justify-center gap-2 mb-4">
+                {programs.map((_, idx) => (
+                  <div
+                    key={idx}
+                    className={`h-1.5 rounded-full transition-all duration-300 ${
+                      idx === index
+                        ? "w-8 bg-[#101828]"
+                        : "w-1.5 bg-gray-300"
+                    }`}
+                  />
+                ))}
               </div>
-            )}
+
+              {/* 스와이프 힌트 */}
+              {index === 0 && (
+                <div className="text-center">
+                  <div className="inline-flex items-center gap-3 text-gray-400 animate-pulse">
+                    <svg
+                      className="w-5 h-5 rotate-180"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2.5}
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                    <span className="text-sm font-medium">옆으로 스와이프</span>
+                    <svg
+                      className="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2.5}
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         ))}
       </div>
