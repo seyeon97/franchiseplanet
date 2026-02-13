@@ -39,99 +39,111 @@ export default function ResourcesView() {
   const resources = [
     {
       id: 1,
-      title: "2024 프랜차이즈 시장 분석 보고서",
-      description: "최신 트렌드와 성장 전망 분석",
+      title: "프랜차이즈 시장 분석 보고서",
+      description: "2024년 최신 트렌드와 성장 전망",
       type: "PDF",
       size: "2.5MB",
       downloads: 1240,
-      views: 3500,
+      views: 17400,
       rating: 4.8,
+      reviews: 284,
       date: "2024.02.13",
       thumbnail: "📊",
-      bgColor: "from-blue-50 to-blue-100",
+      bgColor: "from-blue-400 to-blue-500",
       category: "market",
-      badge: "인기",
+      badge: "62% 특가",
       badgeColor: "bg-red-500",
+      provider: "프차플래닛 리서치",
     },
     {
       id: 2,
-      title: "카페 프랜차이즈 입지 선정 가이드",
-      description: "상권 분석부터 임대차 계약까지",
+      title: "카페 창업 입지 선정 가이드",
+      description: "상권 분석, 임대차 계약, 주요 체크리스트",
       type: "PDF",
       size: "1.8MB",
       downloads: 856,
-      views: 2100,
+      views: 8560,
       rating: 4.5,
+      reviews: 142,
       date: "2024.02.10",
       thumbnail: "☕",
-      bgColor: "from-amber-50 to-orange-100",
+      bgColor: "from-amber-400 to-orange-500",
       category: "checklist",
       badge: null,
       badgeColor: null,
+      provider: "창업 컨설팅",
     },
     {
       id: 3,
-      title: "프랜차이즈 계약서 검토 체크리스트",
-      description: "계약 전 반드시 확인할 필수 항목",
+      title: "프랜차이즈 계약서 검토 가이드",
+      description: "계약 전 반드시 확인할 필수 항목 정리",
       type: "PDF",
       size: "3.2MB",
       downloads: 2103,
-      views: 5200,
+      views: 21030,
       rating: 4.9,
+      reviews: 512,
       date: "2024.02.05",
       thumbnail: "📋",
-      bgColor: "from-green-50 to-emerald-100",
+      bgColor: "from-green-400 to-emerald-500",
       category: "contract",
       badge: "추천",
       badgeColor: "bg-blue-500",
+      provider: "법률 자문팀",
     },
     {
       id: 4,
       title: "치킨 프랜차이즈 수익성 분석",
-      description: "매출 구조와 비용 상세 분석",
+      description: "매출 구조, 비용 분석, 손익 시뮬레이션",
       type: "PDF",
       size: "2.1MB",
       downloads: 654,
-      views: 1800,
+      views: 4410,
       rating: 4.3,
+      reviews: 89,
       date: "2024.02.01",
       thumbnail: "🍗",
-      bgColor: "from-yellow-50 to-amber-100",
+      bgColor: "from-yellow-400 to-amber-500",
       category: "market",
-      badge: null,
-      badgeColor: null,
+      badge: "57% 특가",
+      badgeColor: "bg-red-500",
+      provider: "업종 분석팀",
     },
     {
       id: 5,
       title: "편의점 창업 완벽 가이드",
-      description: "점포 선정부터 운영 노하우까지",
+      description: "점포 선정부터 운영 노하우까지 총정리",
       type: "PDF",
       size: "4.5MB",
       downloads: 1890,
-      views: 4200,
+      views: 18900,
       rating: 4.7,
+      reviews: 356,
       date: "2024.01.28",
       thumbnail: "🏪",
-      bgColor: "from-purple-50 to-purple-100",
+      bgColor: "from-purple-400 to-purple-500",
       category: "checklist",
       badge: "인기",
       badgeColor: "bg-red-500",
+      provider: "편의점 전문가",
     },
     {
       id: 6,
       title: "가맹점주 권리 보호 안내서",
-      description: "분쟁 해결 및 법적 권리 총정리",
+      description: "분쟁 해결 절차 및 법적 권리 종합 가이드",
       type: "PDF",
       size: "1.9MB",
       downloads: 432,
-      views: 1200,
+      views: 4320,
       rating: 4.6,
+      reviews: 78,
       date: "2024.01.25",
       thumbnail: "⚖️",
-      bgColor: "from-gray-50 to-gray-100",
+      bgColor: "from-gray-400 to-gray-500",
       category: "contract",
       badge: null,
       badgeColor: null,
+      provider: "법률 상담소",
     },
   ];
 
@@ -169,24 +181,25 @@ export default function ResourcesView() {
         </div>
 
         {/* 자료 카드 그리드 */}
-        <div className="p-4">
-          <div className="grid grid-cols-2 gap-3">
+        <div className="p-3">
+          <div className="grid grid-cols-2 gap-2.5">
             {filteredResources.map((resource) => (
               <button
                 key={resource.id}
                 onClick={() => handleDownload(resource.id, resource.title)}
-                className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all border border-gray-100"
+                className="bg-white rounded-xl overflow-hidden hover:scale-[1.02] transition-transform"
               >
                 {/* 썸네일 영역 */}
                 <div
-                  className={`relative aspect-square bg-gradient-to-br ${resource.bgColor} flex items-center justify-center`}
+                  className={`relative aspect-square bg-gradient-to-br ${resource.bgColor} flex items-center justify-center overflow-hidden`}
                 >
-                  <span className="text-6xl">{resource.thumbnail}</span>
+                  {/* 큰 이모지 썸네일 */}
+                  <span className="text-7xl opacity-90">{resource.thumbnail}</span>
 
-                  {/* 배지 */}
+                  {/* 할인/배지 */}
                   {resource.badge && (
                     <div
-                      className={`absolute top-2 left-2 ${resource.badgeColor} text-white text-xs font-bold px-2 py-1 rounded-lg`}
+                      className={`absolute top-2 left-2 ${resource.badgeColor} text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-md`}
                     >
                       {resource.badge}
                     </div>
@@ -194,24 +207,37 @@ export default function ResourcesView() {
                 </div>
 
                 {/* 정보 영역 */}
-                <div className="p-3 text-left">
-                  <h3 className="text-sm font-bold text-gray-900 mb-1 line-clamp-2 leading-tight">
+                <div className="p-2.5 text-left">
+                  {/* 제목 */}
+                  <h3 className="text-sm font-bold text-gray-900 mb-0.5 line-clamp-2 leading-tight min-h-[2.5rem]">
                     {resource.title}
                   </h3>
-                  <p className="text-xs text-gray-500 mb-2 line-clamp-1">
+
+                  {/* 설명 */}
+                  <p className="text-xs text-gray-500 mb-2 line-clamp-2 leading-snug">
                     {resource.description}
                   </p>
 
                   {/* 통계 */}
-                  <div className="flex items-center gap-2 text-xs text-gray-600">
+                  <div className="flex items-center gap-2 text-xs text-gray-600 mb-1.5">
                     <div className="flex items-center gap-0.5">
-                      <span>👁</span>
-                      <span>{(resource.views / 1000).toFixed(1)}k</span>
+                      <span className="text-xs">👁</span>
+                      <span className="font-medium">
+                        {resource.views >= 10000
+                          ? `${(resource.views / 10000).toFixed(1)}만`
+                          : `${(resource.views / 1000).toFixed(1)}k`}
+                      </span>
                     </div>
                     <div className="flex items-center gap-0.5">
-                      <span>⭐</span>
-                      <span>{resource.rating}</span>
+                      <span className="text-xs">⭐</span>
+                      <span className="font-medium">{resource.rating.toFixed(1)}</span>
+                      <span className="text-gray-400">({resource.reviews})</span>
                     </div>
+                  </div>
+
+                  {/* 제공자 */}
+                  <div className="text-xs text-gray-400 truncate">
+                    {resource.provider}
                   </div>
                 </div>
               </button>
