@@ -7,32 +7,50 @@ export default function PaymentSuccessView() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isProcessing, setIsProcessing] = useState(true);
+  const [paymentInfo, setPaymentInfo] = useState({
+    programTitle: "",
+    date: "",
+    location: "",
+    price: "0",
+  });
 
   useEffect(() => {
-    // URL 파라미터에서 결제 정보 가져오기
-    const programTitle = searchParams.get("programTitle");
-    const programName = searchParams.get("programName");
-    const date = searchParams.get("date");
-    const time = searchParams.get("time");
-    const location = searchParams.get("location");
-    const price = searchParams.get("price");
+    // localStorage에서 대기중인 결제 정보 가져오기
+    const pendingPaymentStr = localStorage.getItem("pendingPayment");
 
-    if (programTitle && programName && date && time && location && price) {
-      // 결제 내역을 localStorage에 저장
-      const paymentHistory = JSON.parse(localStorage.getItem("paymentHistory") || "[]");
-      const newPayment = {
-        id: `payment_${Date.now()}`,
-        programTitle: decodeURIComponent(programTitle),
-        programName: decodeURIComponent(programName),
-        date: decodeURIComponent(date),
-        time: decodeURIComponent(time),
-        location: decodeURIComponent(location),
-        price: parseInt(price),
-        paymentDate: new Date().toLocaleDateString('ko-KR'),
-        status: "예정",
-      };
-      paymentHistory.unshift(newPayment);
-      localStorage.setItem("paymentHistory", JSON.stringify(paymentHistory));
+    if (pendingPaymentStr) {
+      try {
+        const pendingPayment = JSON.parse(pendingPaymentStr);
+
+        // 화면에 표시할 정보 설정
+        setPaymentInfo({
+          programTitle: pendingPayment.programTitle,
+          date: pendingPayment.date,
+          location: pendingPayment.location,
+          price: pendingPayment.price.toString(),
+        });
+
+        // 결제 내역을 localStorage에 저장
+        const paymentHistory = JSON.parse(localStorage.getItem("paymentHistory") || "[]");
+        const newPayment = {
+          id: `payment_${Date.now()}`,
+          programTitle: pendingPayment.programTitle,
+          programName: pendingPayment.programName,
+          date: pendingPayment.date,
+          time: pendingPayment.time,
+          location: pendingPayment.location,
+          price: pendingPayment.price,
+          paymentDate: new Date().toLocaleDateString('ko-KR'),
+          status: "예정",
+        };
+        paymentHistory.unshift(newPayment);
+        localStorage.setItem("paymentHistory", JSON.stringify(paymentHistory));
+
+        // 대기중인 결제 정보 삭제
+        localStorage.removeItem("pendingPayment");
+      } catch (error) {
+        console.error("결제 정보 처리 오류:", error);
+      }
     }
 
     setIsProcessing(false);
@@ -48,11 +66,6 @@ export default function PaymentSuccessView() {
       </div>
     );
   }
-
-  const programTitle = searchParams.get("programTitle") ? decodeURIComponent(searchParams.get("programTitle")!) : "";
-  const date = searchParams.get("date") ? decodeURIComponent(searchParams.get("date")!) : "";
-  const location = searchParams.get("location") ? decodeURIComponent(searchParams.get("location")!) : "";
-  const price = searchParams.get("price") || "0";
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
@@ -71,7 +84,7 @@ export default function PaymentSuccessView() {
 
         {/* 설명 */}
         <p className="text-base text-gray-600 text-center mb-8 leading-relaxed">
-          <span className="font-bold text-gray-900">{programTitle}</span> 프로그램이
+          <span className="font-bold text-gray-900">{paymentInfo.programTitle}</span> 프로그램이
           <br />
           성공적으로 결제되었습니다
         </p>
@@ -81,21 +94,21 @@ export default function PaymentSuccessView() {
           <div className="space-y-3">
             <div className="flex justify-between items-start">
               <span className="text-sm text-gray-600 font-medium">프로그램</span>
-              <span className="font-bold text-gray-900 text-right">{programTitle}</span>
+              <span className="font-bold text-gray-900 text-right">{paymentInfo.programTitle}</span>
             </div>
             <div className="flex justify-between items-start">
               <span className="text-sm text-gray-600 font-medium">일시</span>
-              <span className="font-bold text-gray-900 text-right">{date}</span>
+              <span className="font-bold text-gray-900 text-right">{paymentInfo.date}</span>
             </div>
             <div className="flex justify-between items-start">
               <span className="text-sm text-gray-600 font-medium">장소</span>
-              <span className="font-bold text-gray-900 text-right">{location}</span>
+              <span className="font-bold text-gray-900 text-right">{paymentInfo.location}</span>
             </div>
             <div className="border-t border-blue-200 pt-3 mt-3">
               <div className="flex justify-between items-center">
                 <span className="text-base font-bold text-gray-900">결제 금액</span>
                 <span className="text-2xl font-black bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
-                  {parseInt(price).toLocaleString()}원
+                  {parseInt(paymentInfo.price).toLocaleString()}원
                 </span>
               </div>
             </div>

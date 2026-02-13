@@ -538,17 +538,30 @@ export default function OfflineView() {
                       const orderName = selectedProgram.title;
                       const customerName = localStorage.getItem("userName") || "고객";
 
+                      // 결제 정보를 localStorage에 미리 저장 (successUrl을 짧게 유지하기 위해)
+                      const pendingPayment = {
+                        orderId: orderId,
+                        programId: selectedProgram.id,
+                        programTitle: selectedProgram.title,
+                        programName: selectedProgram.name,
+                        date: selectedProgram.date,
+                        time: selectedProgram.time,
+                        location: selectedProgram.location,
+                        price: selectedProgram.price,
+                      };
+                      localStorage.setItem("pendingPayment", JSON.stringify(pendingPayment));
+
                       // 토스페이먼츠 SDK 로드 (동적 import로 클라이언트에서만 실행)
                       const { loadTossPayments } = await import("@tosspayments/payment-sdk");
                       const tossPayments = await loadTossPayments(clientKey);
 
-                      // 결제 요청
+                      // 결제 요청 - URL을 짧게 유지
                       await tossPayments.requestPayment("카드", {
                         amount: selectedProgram.price,
                         orderId: orderId,
                         orderName: orderName,
                         customerName: customerName,
-                        successUrl: `${window.location.origin}/payment-success?programId=${selectedProgram.id}&programTitle=${encodeURIComponent(selectedProgram.title)}&programName=${encodeURIComponent(selectedProgram.name)}&date=${encodeURIComponent(selectedProgram.date)}&time=${encodeURIComponent(selectedProgram.time)}&location=${encodeURIComponent(selectedProgram.location)}&price=${selectedProgram.price}`,
+                        successUrl: `${window.location.origin}/payment-success`,
                         failUrl: `${window.location.origin}/payment-fail`,
                       });
                     } catch (error) {
