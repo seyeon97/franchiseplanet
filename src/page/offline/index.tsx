@@ -2,11 +2,30 @@
 
 import { useRef, useState, useEffect } from "react";
 
+interface Program {
+  id: number;
+  name: string;
+  category: string;
+  title: string;
+  description: string;
+  bgColor: string;
+  imageUrl: string;
+  price: number;
+  date: string;
+  time: string;
+  location: string;
+  duration: string;
+  maxParticipants: number;
+  details: string[];
+}
+
 export default function OfflineView() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const isScrollingRef = useRef(false);
+  const [selectedProgram, setSelectedProgram] = useState<Program | null>(null);
+  const [showPayment, setShowPayment] = useState(false);
 
   // 스크롤 위치에 따라 현재 인덱스 업데이트
   useEffect(() => {
@@ -75,7 +94,7 @@ export default function OfflineView() {
   };
 
   // 예시 임장 프로그램 데이터
-  const programs = [
+  const programs: Program[] = [
     {
       id: 1,
       name: "장사해커 컨설턴트",
@@ -83,7 +102,20 @@ export default function OfflineView() {
       title: "강남역 임장",
       description: "강남역 상권 분석부터 유동인구 파악까지 전문가와 함께하는 현장 답사",
       bgColor: "from-[#2F85F2] to-[#1F9CD3]",
-      imageUrl: "👨‍💼", // 실제로는 강사 사진 URL
+      imageUrl: "👨‍💼",
+      price: 150000,
+      date: "2024년 3월 15일 (토)",
+      time: "오전 10:00 - 오후 2:00",
+      location: "강남역 2번 출구 앞",
+      duration: "4시간",
+      maxParticipants: 10,
+      details: [
+        "강남역 상권 전체 분석 및 유동인구 측정",
+        "주요 상권별 임대료 및 권리금 정보 제공",
+        "성공/실패 사례 현장 방문 및 분석",
+        "1:1 맞춤 상권 컨설팅 30분 제공",
+        "상권분석 리포트 제공 (PDF)",
+      ],
     },
     {
       id: 2,
@@ -93,6 +125,19 @@ export default function OfflineView() {
       description: "핫플레이스 성수동! 트렌디한 상권의 숨은 매력 찾기",
       bgColor: "from-[#1F9CD3] to-[#0BB7AD]",
       imageUrl: "👨‍💼",
+      price: 180000,
+      date: "2024년 3월 22일 (토)",
+      time: "오후 2:00 - 오후 6:00",
+      location: "성수역 3번 출구 앞",
+      duration: "4시간",
+      maxParticipants: 8,
+      details: [
+        "성수동 핫플레이스 투어 및 트렌드 분석",
+        "F&B 창업 최적 입지 선정 노하우",
+        "성공 브랜드 케이스 스터디",
+        "임대 협상 전략 및 팁 공유",
+        "성수동 상권 분석 자료 제공",
+      ],
     },
     {
       id: 3,
@@ -102,6 +147,19 @@ export default function OfflineView() {
       description: "젊음의 거리 홍대, 창업 전 꼭 확인해야 할 입지 포인트",
       bgColor: "from-[#0BB7AD] to-[#08C698]",
       imageUrl: "👩‍💼",
+      price: 160000,
+      date: "2024년 3월 29일 (토)",
+      time: "오전 10:00 - 오후 2:00",
+      location: "홍대입구역 9번 출구 앞",
+      duration: "4시간",
+      maxParticipants: 12,
+      details: [
+        "홍대 메인/서브 상권 구분 및 특징 분석",
+        "유동인구 동선 파악 및 최적 입지 찾기",
+        "주말/평일 상권 차이 분석",
+        "프랜차이즈 vs 개인 창업 입지 비교",
+        "홍대 상권 트렌드 리포트 제공",
+      ],
     },
   ];
 
@@ -146,7 +204,10 @@ export default function OfflineView() {
               style={{ scrollSnapAlign: 'center', scrollSnapStop: 'always' }}
             >
               <div className="max-w-2xl w-full mx-auto flex-1 flex items-center justify-center">
-                <button className="text-left group w-full">
+                <button
+                  onClick={() => setSelectedProgram(program)}
+                  className="text-left group w-full"
+                >
                   <div className="bg-white rounded-3xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.08)] group-hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)] transition-all duration-300">
                     {/* 카드 상단 - 그라데이션 영역 */}
                     <div className={`bg-gradient-to-br ${program.bgColor} p-5 pb-10 relative`}>
@@ -284,6 +345,220 @@ export default function OfflineView() {
           )}
         </div>
       </div>
+
+      {/* 자세히보기 모달 */}
+      {selectedProgram && !showPayment && (
+        <div className="fixed inset-0 bg-black/70 z-50 flex items-end md:items-center justify-center">
+          <div className="bg-white rounded-t-3xl md:rounded-3xl w-full md:max-w-2xl max-h-[90vh] overflow-y-auto pb-6">
+            {/* 모달 헤더 */}
+            <div className="sticky top-0 bg-white rounded-t-3xl z-10 pb-4">
+              <div className="flex justify-end p-4">
+                <button
+                  onClick={() => setSelectedProgram(null)}
+                  className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors"
+                >
+                  <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* 프로그램 헤더 */}
+              <div className={`bg-gradient-to-br ${selectedProgram.bgColor} mx-4 rounded-2xl p-6 text-center`}>
+                <div className="text-6xl mb-3">{selectedProgram.imageUrl}</div>
+                <h2 className="text-2xl font-black text-white mb-1">{selectedProgram.title}</h2>
+                <p className="text-white/90 font-medium">{selectedProgram.name}</p>
+              </div>
+            </div>
+
+            {/* 모달 내용 */}
+            <div className="px-6 space-y-6">
+              {/* 프로그램 정보 */}
+              <div className="space-y-3">
+                <div className="flex items-start gap-3">
+                  <div className="w-6 h-6 flex-shrink-0 mt-0.5">
+                    <svg className="w-full h-full text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500 font-medium">일시</p>
+                    <p className="text-base font-bold text-gray-900">{selectedProgram.date}</p>
+                    <p className="text-sm text-gray-700 font-medium">{selectedProgram.time}</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <div className="w-6 h-6 flex-shrink-0 mt-0.5">
+                    <svg className="w-full h-full text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500 font-medium">장소</p>
+                    <p className="text-base font-bold text-gray-900">{selectedProgram.location}</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <div className="w-6 h-6 flex-shrink-0 mt-0.5">
+                    <svg className="w-full h-full text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500 font-medium">소요시간</p>
+                    <p className="text-base font-bold text-gray-900">{selectedProgram.duration}</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <div className="w-6 h-6 flex-shrink-0 mt-0.5">
+                    <svg className="w-full h-full text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500 font-medium">정원</p>
+                    <p className="text-base font-bold text-gray-900">최대 {selectedProgram.maxParticipants}명</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* 구분선 */}
+              <div className="border-t border-gray-200"></div>
+
+              {/* 프로그램 상세 */}
+              <div>
+                <h3 className="text-lg font-black text-gray-900 mb-3">프로그램 내용</h3>
+                <ul className="space-y-2">
+                  {selectedProgram.details.map((detail, idx) => (
+                    <li key={idx} className="flex items-start gap-2">
+                      <span className="text-blue-500 font-bold mt-1">✓</span>
+                      <span className="text-sm text-gray-700 font-medium leading-relaxed">{detail}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* 구분선 */}
+              <div className="border-t border-gray-200"></div>
+
+              {/* 가격 및 결제 버튼 */}
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-lg font-bold text-gray-900">참가 비용</span>
+                  <span className="text-2xl font-black text-gray-900">
+                    {selectedProgram.price.toLocaleString()}원
+                  </span>
+                </div>
+
+                <button
+                  onClick={() => setShowPayment(true)}
+                  className={`w-full bg-gradient-to-r ${selectedProgram.bgColor} text-white font-bold py-4 rounded-2xl hover:shadow-lg transition-all`}
+                >
+                  결제하기
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 결제 모달 (토스페이먼츠) */}
+      {selectedProgram && showPayment && (
+        <div className="fixed inset-0 bg-black/70 z-50 flex items-end md:items-center justify-center">
+          <div className="bg-white rounded-t-3xl md:rounded-3xl w-full md:max-w-lg max-h-[90vh] overflow-y-auto">
+            {/* 모달 헤더 */}
+            <div className="sticky top-0 bg-white rounded-t-3xl z-10 border-b border-gray-200">
+              <div className="flex items-center justify-between p-4">
+                <h2 className="text-xl font-black text-gray-900">결제하기</h2>
+                <button
+                  onClick={() => {
+                    setShowPayment(false);
+                    setSelectedProgram(null);
+                  }}
+                  className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors"
+                >
+                  <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            {/* 결제 내용 */}
+            <div className="p-6 space-y-6">
+              {/* 주문 정보 */}
+              <div className="bg-gray-50 rounded-2xl p-4 space-y-3">
+                <h3 className="font-bold text-gray-900">주문 정보</h3>
+                <div className="space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-600">프로그램</span>
+                    <span className="font-bold text-gray-900">{selectedProgram.title}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-600">일시</span>
+                    <span className="font-medium text-gray-900">{selectedProgram.date}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-600">강사</span>
+                    <span className="font-medium text-gray-900">{selectedProgram.name}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* 결제 금액 */}
+              <div className="space-y-3">
+                <div className="flex justify-between text-base">
+                  <span className="text-gray-600 font-medium">상품 금액</span>
+                  <span className="font-bold text-gray-900">{selectedProgram.price.toLocaleString()}원</span>
+                </div>
+                <div className="border-t border-gray-200 pt-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-lg font-bold text-gray-900">최종 결제 금액</span>
+                    <span className="text-2xl font-black text-blue-600">
+                      {selectedProgram.price.toLocaleString()}원
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* 토스페이먼츠 간편결제 버튼 */}
+              <div className="space-y-3">
+                <button
+                  onClick={() => {
+                    alert(`토스페이먼츠 결제가 진행됩니다.\n\n프로그램: ${selectedProgram.title}\n금액: ${selectedProgram.price.toLocaleString()}원\n\n실제 서비스에서는 토스페이먼츠 SDK를 연동하여 결제가 진행됩니다.`);
+                    setShowPayment(false);
+                    setSelectedProgram(null);
+                  }}
+                  className="w-full bg-[#0064FF] text-white font-bold py-4 rounded-2xl hover:bg-[#0052CC] transition-all flex items-center justify-center gap-2"
+                >
+                  <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z" />
+                  </svg>
+                  <span>토스페이 간편결제</span>
+                </button>
+
+                <p className="text-xs text-gray-500 text-center">
+                  결제 진행 시 토스페이먼츠의 안전한 결제창으로 이동합니다
+                </p>
+              </div>
+
+              {/* 유의사항 */}
+              <div className="bg-yellow-50 border border-yellow-200 rounded-2xl p-4">
+                <h4 className="font-bold text-gray-900 mb-2 text-sm">환불 및 취소 안내</h4>
+                <ul className="space-y-1 text-xs text-gray-600">
+                  <li>• 프로그램 7일 전: 100% 환불</li>
+                  <li>• 프로그램 3일 전: 50% 환불</li>
+                  <li>• 프로그램 1일 전: 환불 불가</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
