@@ -573,7 +573,7 @@ export default function OfflineView() {
 
               {/* 결제 수단 선택 */}
               <div className="space-y-3">
-                <h3 className="font-bold text-gray-900 mb-3 text-center">결제 수단</h3>
+                <h3 className="font-bold text-gray-900 mb-3">결제 수단</h3>
 
                 {/* 신용/체크카드 */}
                 <button
@@ -629,18 +629,13 @@ export default function OfflineView() {
                       alert("결제 중 오류가 발생했습니다. 다시 시도해주세요.");
                     }
                   }}
-                  className="w-full bg-white border-2 border-gray-300 text-gray-900 font-bold py-4 rounded-2xl hover:border-blue-500 hover:bg-blue-50 transition-all flex items-center justify-between px-6"
+                  className="w-full bg-white border-2 border-gray-300 text-gray-900 font-bold py-4 rounded-2xl hover:border-blue-500 hover:bg-blue-50 transition-all flex items-center justify-center gap-3"
                   disabled={!iamportLoaded}
                 >
-                  <div className="flex items-center gap-3">
-                    <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-                    </svg>
-                    <span>신용/체크카드</span>
-                  </div>
-                  <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
                   </svg>
+                  <span>신용/체크카드</span>
                 </button>
 
                 {/* 카카오페이 */}
@@ -697,18 +692,13 @@ export default function OfflineView() {
                       alert("결제 중 오류가 발생했습니다. 다시 시도해주세요.");
                     }
                   }}
-                  className="w-full bg-[#FEE500] text-[#3C1E1E] font-bold py-4 rounded-2xl hover:bg-[#FFD700] transition-all flex items-center justify-between px-6"
+                  className="w-full bg-[#FEE500] text-[#3C1E1E] font-bold py-4 rounded-2xl hover:bg-[#FFD700] transition-all flex items-center justify-center gap-3"
                   disabled={!iamportLoaded}
                 >
-                  <div className="flex items-center gap-3">
-                    <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 3C7.03 3 3 6.58 3 11c0 2.58 1.47 4.85 3.66 6.33L6 21l4.5-2.7c.49.08.99.12 1.5.12 4.97 0 9-3.58 9-8s-4.03-8-9-8z"/>
-                    </svg>
-                    <span>카카오페이</span>
-                  </div>
-                  <svg className="w-5 h-5 text-[#3C1E1E]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 3C7.03 3 3 6.58 3 11c0 2.58 1.47 4.85 3.66 6.33L6 21l4.5-2.7c.49.08.99.12 1.5.12 4.97 0 9-3.58 9-8s-4.03-8-9-8z"/>
                   </svg>
+                  <span>카카오페이</span>
                 </button>
 
                 {/* 네이버페이 */}
@@ -765,18 +755,13 @@ export default function OfflineView() {
                       alert("결제 중 오류가 발생했습니다. 다시 시도해주세요.");
                     }
                   }}
-                  className="w-full bg-[#03C75A] text-white font-bold py-4 rounded-2xl hover:bg-[#02B350] transition-all flex items-center justify-between px-6"
+                  className="w-full bg-[#03C75A] text-white font-bold py-4 rounded-2xl hover:bg-[#02B350] transition-all flex items-center justify-center gap-3"
                   disabled={!iamportLoaded}
                 >
-                  <div className="flex items-center gap-3">
-                    <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M16.273 12.845L7.376 0H0v24h7.726V11.156L16.624 24H24V0h-7.727z"/>
-                    </svg>
-                    <span>네이버페이</span>
-                  </div>
-                  <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M16.273 12.845L7.376 0H0v24h7.726V11.156L16.624 24H24V0h-7.727z"/>
                   </svg>
+                  <span>네이버페이</span>
                 </button>
 
                 {/* 실시간 계좌이체 */}
@@ -833,18 +818,13 @@ export default function OfflineView() {
                       alert("결제 중 오류가 발생했습니다. 다시 시도해주세요.");
                     }
                   }}
-                  className="w-full bg-white border-2 border-gray-300 text-gray-900 font-bold py-4 rounded-2xl hover:border-green-500 hover:bg-green-50 transition-all flex items-center justify-between px-6"
+                  className="w-full bg-white border-2 border-gray-300 text-gray-900 font-bold py-4 rounded-2xl hover:border-green-500 hover:bg-green-50 transition-all flex items-center justify-center gap-3"
                   disabled={!iamportLoaded}
                 >
-                  <div className="flex items-center gap-3">
-                    <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
-                    </svg>
-                    <span>실시간 계좌이체</span>
-                  </div>
-                  <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
                   </svg>
+                  <span>실시간 계좌이체</span>
                 </button>
 
                 <p className="text-xs text-gray-500 text-center mt-4">
