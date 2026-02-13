@@ -78,7 +78,7 @@ export default function OfflineView() {
   const programs = [
     {
       id: 1,
-      name: "김창업 컨설턴트",
+      name: "장사해커 컨설턴트",
       category: "임장",
       title: "강남역 임장",
       description: "강남역 상권 분석부터 유동인구 파악까지 전문가와 함께하는 현장 답사",
