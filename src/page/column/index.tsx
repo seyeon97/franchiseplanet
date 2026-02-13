@@ -284,14 +284,13 @@ export default function ColumnView() {
                   {/* 클릭 힌트 */}
                   <div className="absolute bottom-56 left-1/2 transform -translate-x-1/2 w-full px-6">
                     <div
-                      className="bg-white rounded-2xl px-6 py-4 shadow-xl border-2 mx-auto max-w-sm"
+                      className="bg-white rounded-2xl px-6 py-4 shadow-xl mx-auto max-w-sm"
                       style={{
-                        borderImage: "linear-gradient(135deg, #3098F2 0%, #11BFAE 100%) 1",
                         animation: "scale-pulse 1.5s ease-in-out infinite",
                       }}
                     >
                       <p className="text-base font-black text-center" style={{
-                        background: "linear-gradient(135deg, #3098F2 0%, #11BFAE 100%)",
+                        background: `linear-gradient(135deg, ${column.bgGradient.includes('3098F2') ? '#3098F2' : column.bgGradient.includes('25A6D9') ? '#25A6D9' : '#11BFAE'} 0%, ${column.bgGradient.includes('3098F2') ? '#11BFAE' : column.bgGradient.includes('25A6D9') ? '#3098F2' : '#25A6D9'} 100%)`,
                         WebkitBackgroundClip: "text",
                         WebkitTextFillColor: "transparent",
                         backgroundClip: "text",
