@@ -1,9 +1,70 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 type TabType = "brands" | "columns" | "resources" | "offline";
+
+interface Brand {
+  id: number;
+  name: string;
+  category: string;
+  totalCost: number;
+  thumbnail: string;
+  description: string;
+  monthlyRevenue: number;
+  fixedCosts: {
+    franchise: number;
+    interior: number;
+    deposit: number;
+    equipment: number;
+  };
+  variableCosts: {
+    rent: number;
+    labor: number;
+    materials: number;
+    utilities: number;
+  };
+}
+
+interface Column {
+  id: number;
+  title: string;
+  category: string;
+  summary: string;
+  content: string;
+  thumbnail: string;
+  bgGradient: string;
+  date: string;
+  isNew: boolean;
+}
+
+interface Resource {
+  id: number;
+  title: string;
+  category: string;
+  summary: string;
+  content: string;
+  thumbnail: string;
+  date: string;
+}
+
+interface OfflineProgram {
+  id: number;
+  name: string;
+  title: string;
+  description: string;
+  imageUrl: string;
+  price: number;
+  date: string;
+  time: string;
+  location: string;
+  duration: string;
+  maxParticipants: number;
+  bgGradient: string;
+  details: string[];
+  category: string;
+}
 
 export default function AdminView() {
   const router = useRouter();
@@ -336,14 +397,14 @@ function BrandManagement() {
 
 // 브랜드 목록 컴포넌트
 function BrandList() {
-  const [brands, setBrands] = useState<any[]>([]);
+  const [brands, setBrands] = useState<Brand[]>([]);
 
-  useState(() => {
+  useEffect(() => {
     const savedBrands = localStorage.getItem("adminBrands");
     if (savedBrands) {
       setBrands(JSON.parse(savedBrands));
     }
-  });
+  }, []);
 
   const handleDelete = (id: number) => {
     if (confirm("정말 삭제하시겠습니까?")) {
@@ -536,14 +597,14 @@ function ColumnManagement() {
 
 // 칼럼 목록 컴포넌트
 function ColumnList() {
-  const [columns, setColumns] = useState<any[]>([]);
+  const [columns, setColumns] = useState<Column[]>([]);
 
-  useState(() => {
+  useEffect(() => {
     const savedColumns = localStorage.getItem("adminColumns");
     if (savedColumns) {
       setColumns(JSON.parse(savedColumns));
     }
-  });
+  }, []);
 
   const handleDelete = (id: number) => {
     if (confirm("정말 삭제하시겠습니까?")) {
@@ -725,14 +786,14 @@ function ResourceManagement() {
 
 // 자료실 목록 컴포넌트
 function ResourceList() {
-  const [resources, setResources] = useState<any[]>([]);
+  const [resources, setResources] = useState<Resource[]>([]);
 
-  useState(() => {
+  useEffect(() => {
     const savedResources = localStorage.getItem("adminResources");
     if (savedResources) {
       setResources(JSON.parse(savedResources));
     }
-  });
+  }, []);
 
   const handleDelete = (id: number) => {
     if (confirm("정말 삭제하시겠습니까?")) {
@@ -1020,14 +1081,14 @@ function OfflineManagement() {
 
 // 오프라인 프로그램 목록 컴포넌트
 function OfflineProgramList() {
-  const [programs, setPrograms] = useState<any[]>([]);
+  const [programs, setPrograms] = useState<OfflineProgram[]>([]);
 
-  useState(() => {
+  useEffect(() => {
     const savedPrograms = localStorage.getItem("adminOfflinePrograms");
     if (savedPrograms) {
       setPrograms(JSON.parse(savedPrograms));
     }
-  });
+  }, []);
 
   const handleDelete = (id: number) => {
     if (confirm("정말 삭제하시겠습니까?")) {
