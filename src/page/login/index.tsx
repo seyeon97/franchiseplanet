@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Script from "next/script";
 import { kakaoConfig } from "@/lib/kakao-config";
 
 // Kakao SDK 타입 정의
@@ -61,6 +60,38 @@ export default function LoginView() {
   };
 
   useEffect(() => {
+    // 카카오 SDK 스크립트 동적 로드
+    const loadKakaoScript = () => {
+      return new Promise<void>((resolve, reject) => {
+        // 이미 로드된 경우
+        if (window.Kakao) {
+          console.log("카카오 SDK 이미 존재함");
+          resolve();
+          return;
+        }
+
+        // 스크립트 생성
+        const script = document.createElement("script");
+        script.src = "https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js";
+        script.integrity =
+          "sha384-TiCUE00h+afnCyGMvP7r3N6U0e+vR2LS5J0nQJvWGDqKLqU+Gi8AJ6JvNIMXPVWk";
+        script.crossOrigin = "anonymous";
+        script.async = true;
+
+        script.onload = () => {
+          console.log("카카오 SDK 스크립트 로드 성공!");
+          resolve();
+        };
+
+        script.onerror = () => {
+          console.error("카카오 SDK 스크립트 로드 실패!");
+          reject(new Error("Script load failed"));
+        };
+
+        document.body.appendChild(script);
+      });
+    };
+
     // Kakao SDK 초기화
     const initKakao = () => {
       if (window.Kakao && !window.Kakao.isInitialized()) {
@@ -74,35 +105,32 @@ export default function LoginView() {
       }
     };
 
-    // SDK 로드 대기 (최대 5초)
-    let attempts = 0;
-    const maxAttempts = 50;
-
-    if (window.Kakao) {
-      initKakao();
-    } else {
-      console.log("카카오 SDK 로드 대기 중...");
-      // SDK 로드 완료 대기
-      const checkKakao = setInterval(() => {
-        attempts++;
-        if (window.Kakao) {
-          console.log("카카오 SDK 로드 완료!");
-          initKakao();
-          clearInterval(checkKakao);
-        } else if (attempts >= maxAttempts) {
-          console.error("카카오 SDK 로드 실패 (타임아웃)");
-          clearInterval(checkKakao);
-        }
-      }, 100);
-
-      return () => clearInterval(checkKakao);
-    }
+    // SDK 로드 및 초기화
+    loadKakaoScript()
+      .then(() => {
+        // 스크립트 로드 후 Kakao 객체가 생성될 때까지 대기
+        let attempts = 0;
+        const maxAttempts = 50;
+        const checkKakao = setInterval(() => {
+          attempts++;
+          if (window.Kakao) {
+            console.log("Kakao 객체 사용 가능!");
+            initKakao();
+            clearInterval(checkKakao);
+          } else if (attempts >= maxAttempts) {
+            console.error("Kakao 객체 생성 타임아웃");
+            clearInterval(checkKakao);
+          }
+        }, 100);
+      })
+      .catch((error) => {
+        console.error("카카오 SDK 로드 중 에러:", error);
+      });
 
     // URL에서 인증 코드 확인
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get("code");
     if (code) {
-      // 인증 코드가 있으면 로그인 성공 처리
       handleKakaoCallback();
     }
   }, []);
@@ -132,25 +160,7 @@ export default function LoginView() {
   };
 
   return (
-    <>
-      <Script
-        src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"
-        integrity="sha384-TiCUE00h+afnCyGMvP7r3N6U0e+vR2LS5J0nQJvWGDqKLqU+Gi8AJ6JvNIMXPVWk"
-        crossOrigin="anonymous"
-        strategy="beforeInteractive"
-        onLoad={() => {
-          console.log("카카오 SDK 스크립트 로드됨!");
-          if (window.Kakao && !window.Kakao.isInitialized()) {
-            window.Kakao.init(kakaoConfig.javascriptKey);
-            console.log("카카오 SDK 초기화 완료!");
-            setIsKakaoReady(true);
-          }
-        }}
-        onError={() => {
-          console.error("카카오 SDK 스크립트 로드 실패!");
-        }}
-      />
-      <div className="min-h-screen bg-white flex items-center justify-center px-4 py-8">
+    <div className="min-h-screen bg-white flex items-center justify-center px-4 py-8">
         <div className="max-w-md w-full">
         {/* 로고 */}
         <div className="text-center mb-8">
@@ -222,6 +232,5 @@ export default function LoginView() {
         </button>
       </div>
     </div>
-    </>
   );
 }
