@@ -571,8 +571,11 @@ export default function OfflineView() {
                 </div>
               </div>
 
-              {/* 아임포트 간편결제 버튼 */}
+              {/* 결제 수단 선택 */}
               <div className="space-y-3">
+                <h3 className="font-bold text-gray-900 mb-3">결제 수단</h3>
+
+                {/* 신용/체크카드 */}
                 <button
                   onClick={() => {
                     if (!iamportLoaded || typeof window === 'undefined' || !window.IMP) {
@@ -582,15 +585,12 @@ export default function OfflineView() {
 
                     try {
                       const IMP = window.IMP;
-                      // 아임포트 가맹점 식별코드 (테스트용)
                       IMP.init("imp10391932");
 
-                      // 주문 ID 및 정보 생성
                       const orderId = `ORDER_${Date.now()}`;
                       const customerName = localStorage.getItem("userName") || "고객";
                       const userEmail = localStorage.getItem("userEmail") || "customer@example.com";
 
-                      // 결제 정보를 localStorage에 미리 저장
                       const pendingPayment = {
                         orderId: orderId,
                         programId: selectedProgram.id,
@@ -603,10 +603,9 @@ export default function OfflineView() {
                       };
                       localStorage.setItem("pendingPayment", JSON.stringify(pendingPayment));
 
-                      // 아임포트 결제 요청
                       IMP.request_pay(
                         {
-                          pg: "kakaopay.TC0ONETIME", // 카카오페이 간편결제 (테스트용)
+                          pg: "html5_inicis", // 이니시스 웹 표준 결제
                           pay_method: "card",
                           merchant_uid: orderId,
                           name: selectedProgram.title,
@@ -617,10 +616,8 @@ export default function OfflineView() {
                         },
                         (rsp: IamportResponse) => {
                           if (rsp.success) {
-                            // 결제 성공
                             window.location.href = "/payment-success";
                           } else {
-                            // 결제 실패
                             console.error("결제 실패:", rsp);
                             localStorage.removeItem("pendingPayment");
                             window.location.href = `/payment-fail?message=${encodeURIComponent(rsp.error_msg || "결제에 실패했습니다")}`;
@@ -632,16 +629,225 @@ export default function OfflineView() {
                       alert("결제 중 오류가 발생했습니다. 다시 시도해주세요.");
                     }
                   }}
-                  className="w-full bg-gradient-to-r from-[#FEE500] to-[#FFD700] text-[#3C1E1E] font-bold py-4 rounded-2xl hover:shadow-lg transition-all flex items-center justify-center gap-2"
+                  className="w-full bg-white border-2 border-gray-300 text-gray-900 font-bold py-4 rounded-2xl hover:border-blue-500 hover:bg-blue-50 transition-all flex items-center justify-between px-6"
                   disabled={!iamportLoaded}
                 >
-                  <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 3C7.03 3 3 7.03 3 12s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7zm-1-11h2v6h-2zm0 8h2v2h-2z"/>
+                  <div className="flex items-center gap-3">
+                    <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                    </svg>
+                    <span>신용/체크카드</span>
+                  </div>
+                  <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
-                  <span>카카오페이 간편결제</span>
                 </button>
 
-                <p className="text-xs text-gray-500 text-center">
+                {/* 카카오페이 */}
+                <button
+                  onClick={() => {
+                    if (!iamportLoaded || typeof window === 'undefined' || !window.IMP) {
+                      alert("결제 모듈을 불러오는 중입니다. 잠시 후 다시 시도해주세요.");
+                      return;
+                    }
+
+                    try {
+                      const IMP = window.IMP;
+                      IMP.init("imp10391932");
+
+                      const orderId = `ORDER_${Date.now()}`;
+                      const customerName = localStorage.getItem("userName") || "고객";
+                      const userEmail = localStorage.getItem("userEmail") || "customer@example.com";
+
+                      const pendingPayment = {
+                        orderId: orderId,
+                        programId: selectedProgram.id,
+                        programTitle: selectedProgram.title,
+                        programName: selectedProgram.name,
+                        date: selectedProgram.date,
+                        time: selectedProgram.time,
+                        location: selectedProgram.location,
+                        price: selectedProgram.price,
+                      };
+                      localStorage.setItem("pendingPayment", JSON.stringify(pendingPayment));
+
+                      IMP.request_pay(
+                        {
+                          pg: "kakaopay.TC0ONETIME",
+                          pay_method: "card",
+                          merchant_uid: orderId,
+                          name: selectedProgram.title,
+                          amount: selectedProgram.price,
+                          buyer_email: userEmail,
+                          buyer_name: customerName,
+                          buyer_tel: "010-0000-0000",
+                        },
+                        (rsp: IamportResponse) => {
+                          if (rsp.success) {
+                            window.location.href = "/payment-success";
+                          } else {
+                            console.error("결제 실패:", rsp);
+                            localStorage.removeItem("pendingPayment");
+                            window.location.href = `/payment-fail?message=${encodeURIComponent(rsp.error_msg || "결제에 실패했습니다")}`;
+                          }
+                        }
+                      );
+                    } catch (error) {
+                      console.error("결제 오류:", error);
+                      alert("결제 중 오류가 발생했습니다. 다시 시도해주세요.");
+                    }
+                  }}
+                  className="w-full bg-[#FEE500] text-[#3C1E1E] font-bold py-4 rounded-2xl hover:bg-[#FFD700] transition-all flex items-center justify-between px-6"
+                  disabled={!iamportLoaded}
+                >
+                  <div className="flex items-center gap-3">
+                    <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 3C7.03 3 3 6.58 3 11c0 2.58 1.47 4.85 3.66 6.33L6 21l4.5-2.7c.49.08.99.12 1.5.12 4.97 0 9-3.58 9-8s-4.03-8-9-8z"/>
+                    </svg>
+                    <span>카카오페이</span>
+                  </div>
+                  <svg className="w-5 h-5 text-[#3C1E1E]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+
+                {/* 네이버페이 */}
+                <button
+                  onClick={() => {
+                    if (!iamportLoaded || typeof window === 'undefined' || !window.IMP) {
+                      alert("결제 모듈을 불러오는 중입니다. 잠시 후 다시 시도해주세요.");
+                      return;
+                    }
+
+                    try {
+                      const IMP = window.IMP;
+                      IMP.init("imp10391932");
+
+                      const orderId = `ORDER_${Date.now()}`;
+                      const customerName = localStorage.getItem("userName") || "고객";
+                      const userEmail = localStorage.getItem("userEmail") || "customer@example.com";
+
+                      const pendingPayment = {
+                        orderId: orderId,
+                        programId: selectedProgram.id,
+                        programTitle: selectedProgram.title,
+                        programName: selectedProgram.name,
+                        date: selectedProgram.date,
+                        time: selectedProgram.time,
+                        location: selectedProgram.location,
+                        price: selectedProgram.price,
+                      };
+                      localStorage.setItem("pendingPayment", JSON.stringify(pendingPayment));
+
+                      IMP.request_pay(
+                        {
+                          pg: "naverpay",
+                          pay_method: "card",
+                          merchant_uid: orderId,
+                          name: selectedProgram.title,
+                          amount: selectedProgram.price,
+                          buyer_email: userEmail,
+                          buyer_name: customerName,
+                          buyer_tel: "010-0000-0000",
+                        },
+                        (rsp: IamportResponse) => {
+                          if (rsp.success) {
+                            window.location.href = "/payment-success";
+                          } else {
+                            console.error("결제 실패:", rsp);
+                            localStorage.removeItem("pendingPayment");
+                            window.location.href = `/payment-fail?message=${encodeURIComponent(rsp.error_msg || "결제에 실패했습니다")}`;
+                          }
+                        }
+                      );
+                    } catch (error) {
+                      console.error("결제 오류:", error);
+                      alert("결제 중 오류가 발생했습니다. 다시 시도해주세요.");
+                    }
+                  }}
+                  className="w-full bg-[#03C75A] text-white font-bold py-4 rounded-2xl hover:bg-[#02B350] transition-all flex items-center justify-between px-6"
+                  disabled={!iamportLoaded}
+                >
+                  <div className="flex items-center gap-3">
+                    <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M16.273 12.845L7.376 0H0v24h7.726V11.156L16.624 24H24V0h-7.727z"/>
+                    </svg>
+                    <span>네이버페이</span>
+                  </div>
+                  <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+
+                {/* 실시간 계좌이체 */}
+                <button
+                  onClick={() => {
+                    if (!iamportLoaded || typeof window === 'undefined' || !window.IMP) {
+                      alert("결제 모듈을 불러오는 중입니다. 잠시 후 다시 시도해주세요.");
+                      return;
+                    }
+
+                    try {
+                      const IMP = window.IMP;
+                      IMP.init("imp10391932");
+
+                      const orderId = `ORDER_${Date.now()}`;
+                      const customerName = localStorage.getItem("userName") || "고객";
+                      const userEmail = localStorage.getItem("userEmail") || "customer@example.com";
+
+                      const pendingPayment = {
+                        orderId: orderId,
+                        programId: selectedProgram.id,
+                        programTitle: selectedProgram.title,
+                        programName: selectedProgram.name,
+                        date: selectedProgram.date,
+                        time: selectedProgram.time,
+                        location: selectedProgram.location,
+                        price: selectedProgram.price,
+                      };
+                      localStorage.setItem("pendingPayment", JSON.stringify(pendingPayment));
+
+                      IMP.request_pay(
+                        {
+                          pg: "html5_inicis",
+                          pay_method: "trans", // 실시간 계좌이체
+                          merchant_uid: orderId,
+                          name: selectedProgram.title,
+                          amount: selectedProgram.price,
+                          buyer_email: userEmail,
+                          buyer_name: customerName,
+                          buyer_tel: "010-0000-0000",
+                        },
+                        (rsp: IamportResponse) => {
+                          if (rsp.success) {
+                            window.location.href = "/payment-success";
+                          } else {
+                            console.error("결제 실패:", rsp);
+                            localStorage.removeItem("pendingPayment");
+                            window.location.href = `/payment-fail?message=${encodeURIComponent(rsp.error_msg || "결제에 실패했습니다")}`;
+                          }
+                        }
+                      );
+                    } catch (error) {
+                      console.error("결제 오류:", error);
+                      alert("결제 중 오류가 발생했습니다. 다시 시도해주세요.");
+                    }
+                  }}
+                  className="w-full bg-white border-2 border-gray-300 text-gray-900 font-bold py-4 rounded-2xl hover:border-green-500 hover:bg-green-50 transition-all flex items-center justify-between px-6"
+                  disabled={!iamportLoaded}
+                >
+                  <div className="flex items-center gap-3">
+                    <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                    </svg>
+                    <span>실시간 계좌이체</span>
+                  </div>
+                  <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+
+                <p className="text-xs text-gray-500 text-center mt-4">
                   결제 진행 시 아임포트의 안전한 결제창으로 이동합니다
                 </p>
               </div>
