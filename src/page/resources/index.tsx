@@ -325,24 +325,33 @@ export default function ResourcesView() {
       <div className="min-h-screen bg-white pb-20">
       <div className="max-w-2xl mx-auto">
         {/* 헤더 */}
-        <div className="sticky top-0 bg-white z-10 px-4 py-4 border-b border-gray-100">
-          <h1 className="text-2xl font-black text-[#101828] mb-4">
-            자료실
+        <div className="sticky top-0 bg-white z-10 px-6 pt-8 pb-6 border-b border-gray-100">
+          <h1 className="text-4xl font-black mb-6 leading-tight text-[#101828]">
+            창업 성공을 위한
+            <br />
+            <span
+              className="bg-clip-text text-transparent"
+              style={{
+                backgroundImage: "linear-gradient(90deg, #3098F2 0%, #11BFAE 100%)",
+              }}
+            >
+              필수 자료실
+            </span>
           </h1>
 
           {/* 카테고리 탭 */}
-          <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide -mx-4 px-4">
+          <div className="flex gap-2.5 overflow-x-auto pb-1 scrollbar-hide -mx-6 px-6">
             {categories.map((cat) => (
               <button
                 key={cat.id}
                 onClick={() => setSelectedCategory(cat.id)}
-                className={`px-4 py-2 rounded-full font-bold text-sm whitespace-nowrap transition-all ${
+                className={`px-5 py-2.5 rounded-full font-bold text-sm whitespace-nowrap transition-all ${
                   selectedCategory === cat.id
-                    ? "bg-gray-900 text-white"
-                    : "bg-gray-100 text-gray-600"
+                    ? "bg-[#101828] text-white shadow-[0_2px_12px_rgba(0,0,0,0.15)]"
+                    : "bg-gray-50 text-gray-600 hover:bg-gray-100"
                 }`}
               >
-                <span className="mr-1">{cat.icon}</span>
+                <span className="mr-1.5">{cat.icon}</span>
                 {cat.label}
               </button>
             ))}
