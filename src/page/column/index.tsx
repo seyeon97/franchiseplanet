@@ -132,9 +132,10 @@ export default function ColumnView() {
     },
   ];
 
-  const handleColumnClick = (column: Column) => {
-    if (!isLoggedIn) {
-      if (confirm("칼럼을 읽으려면 로그인이 필요합니다. 로그인 하시겠습니까?")) {
+  const handleColumnClick = (column: Column, index: number) => {
+    // 처음 2개 칼럼은 무료, 3번째부터 로그인 필요
+    if (index >= 2 && !isLoggedIn) {
+      if (confirm("이 칼럼을 읽으려면 로그인이 필요합니다. 로그인 하시겠습니까?")) {
         router.push("/login");
       }
       return;
@@ -204,7 +205,7 @@ export default function ColumnView() {
                 key={column.id}
                 onClick={() => {
                   setCurrentIndex(index);
-                  handleColumnClick(column);
+                  handleColumnClick(column, index);
                 }}
                 className="relative h-screen w-full cursor-pointer"
               >
@@ -239,6 +240,28 @@ export default function ColumnView() {
                   <p className="text-sm text-white/70 font-medium mb-8">
                     {column.date}
                   </p>
+
+                  {/* 로그인 필요 표시 */}
+                  {index >= 2 && !isLoggedIn && (
+                    <div className="mt-6 bg-white/20 backdrop-blur-sm rounded-2xl px-6 py-3 flex items-center gap-2">
+                      <svg
+                        className="w-5 h-5 text-white"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                        />
+                      </svg>
+                      <span className="text-sm font-bold text-white">
+                        로그인하고 읽기
+                      </span>
+                    </div>
+                  )}
 
                   {/* 스와이프 안내 */}
                   <div className="absolute bottom-24 left-1/2 transform -translate-x-1/2">
