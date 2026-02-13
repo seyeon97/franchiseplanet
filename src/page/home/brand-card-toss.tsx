@@ -184,12 +184,6 @@ export default function BrandCardToss({ brand }: BrandCardProps) {
             </div>
             <div className="text-lg md:text-xl font-black text-gray-900">{brand.startupCost}</div>
           </div>
-
-          <h3 className="text-2xl md:text-3xl font-black text-gray-900 leading-tight">
-            실제 매출은
-            <br />
-            얼마나 될까요?
-          </h3>
         </div>
 
         {/* 통계 카드들 */}
