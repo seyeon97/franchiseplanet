@@ -290,10 +290,7 @@ export default function ColumnView() {
                       }}
                     >
                       <p className="text-base font-black text-center" style={{
-                        background: `linear-gradient(135deg, ${column.bgGradient.includes('3098F2') ? '#3098F2' : column.bgGradient.includes('25A6D9') ? '#25A6D9' : '#11BFAE'} 0%, ${column.bgGradient.includes('3098F2') ? '#11BFAE' : column.bgGradient.includes('25A6D9') ? '#3098F2' : '#25A6D9'} 100%)`,
-                        WebkitBackgroundClip: "text",
-                        WebkitTextFillColor: "transparent",
-                        backgroundClip: "text",
+                        color: column.bgGradient.includes('3098F2') ? '#3098F2' : column.bgGradient.includes('25A6D9') ? '#25A6D9' : '#11BFAE',
                       }}>
                         👆 칼럼을 눌러보세요!
                       </p>
