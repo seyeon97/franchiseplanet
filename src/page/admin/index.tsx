@@ -835,14 +835,26 @@ function EditModal({
 
   const updateNestedField = (parent: string, field: string, value: number) => {
     const brandData = formData as Brand;
-    const parentData = brandData[parent as keyof Brand];
-    if (typeof parentData === 'object' && parentData !== null) {
+
+    if (parent === 'fixedCosts') {
+      const updatedFixedCosts = {
+        ...brandData.fixedCosts,
+        [field]: value,
+      };
+      const totalCost = updatedFixedCosts.franchise + updatedFixedCosts.interior + updatedFixedCosts.deposit + updatedFixedCosts.equipment;
       setFormData({
         ...formData,
-        [parent]: {
-          ...parentData,
-          [field]: value,
-        },
+        fixedCosts: updatedFixedCosts,
+        totalCost: totalCost,
+      });
+    } else if (parent === 'variableCosts') {
+      const updatedVariableCosts = {
+        ...brandData.variableCosts,
+        [field]: value,
+      };
+      setFormData({
+        ...formData,
+        variableCosts: updatedVariableCosts,
       });
     }
   };
@@ -923,7 +935,18 @@ function EditModal({
               </div>
 
               <div className="border-t pt-4">
-                <h3 className="font-bold text-gray-900 mb-3">고정 비용 (만원)</h3>
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="font-bold text-gray-900">고정 비용 (만원)</h3>
+                  <div className="text-sm">
+                    <span className="text-gray-500">총 고정비: </span>
+                    <span className="font-bold text-blue-600">
+                      {((formData as Brand).fixedCosts.franchise +
+                        (formData as Brand).fixedCosts.interior +
+                        (formData as Brand).fixedCosts.deposit +
+                        (formData as Brand).fixedCosts.equipment).toLocaleString()}만원
+                    </span>
+                  </div>
+                </div>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">가맹비</label>
@@ -965,7 +988,18 @@ function EditModal({
               </div>
 
               <div className="border-t pt-4">
-                <h3 className="font-bold text-gray-900 mb-3">변동 비용 (만원/월)</h3>
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="font-bold text-gray-900">변동 비용 (만원/월)</h3>
+                  <div className="text-sm">
+                    <span className="text-gray-500">총 변동비: </span>
+                    <span className="font-bold text-orange-600">
+                      {((formData as Brand).variableCosts.rent +
+                        (formData as Brand).variableCosts.labor +
+                        (formData as Brand).variableCosts.materials +
+                        (formData as Brand).variableCosts.utilities).toLocaleString()}만원/월
+                    </span>
+                  </div>
+                </div>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">임대료</label>
