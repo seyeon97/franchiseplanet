@@ -223,24 +223,24 @@ export default function ColumnView() {
                 />
 
                 {/* 콘텐츠 */}
-                <div className="relative h-full flex flex-col items-center justify-center px-6 text-center pt-20">
+                <div className="relative h-full flex flex-col items-center justify-start px-6 text-center pt-32">
                   {/* 썸네일 아이콘 */}
-                  <div className="text-8xl mb-4">{column.thumbnail}</div>
+                  <div className="text-7xl mb-3">{column.thumbnail}</div>
 
                   {/* 카테고리 */}
-                  <div className="mb-3">
+                  <div className="mb-2">
                     <span className="text-sm font-bold text-gray-900 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full">
                       {column.category}
                     </span>
                   </div>
 
                   {/* 제목 */}
-                  <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-3 leading-tight break-keep">
+                  <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-2 leading-tight break-keep">
                     {column.title}
                   </h2>
 
                   {/* 요약 */}
-                  <p className="text-lg text-gray-800 font-medium mb-4 max-w-md break-keep">
+                  <p className="text-lg text-gray-800 font-medium mb-3 max-w-md break-keep">
                     {column.summary}
                   </p>
 
