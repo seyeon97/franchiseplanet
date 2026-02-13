@@ -326,7 +326,7 @@ export default function ResourcesView() {
       <div className="max-w-2xl mx-auto">
         {/* 헤더 */}
         <div className="sticky top-0 bg-white z-10 px-5 pt-6 pb-5">
-          <h1 className="text-3xl font-black mb-5 text-[#101828]">
+          <h1 className="text-3xl font-extrabold mb-5 text-[#101828]">
             자료실
           </h1>
 
