@@ -152,11 +152,14 @@ export default function ResourcesView() {
       ? resources
       : resources.filter((r) => r.category === selectedCategory);
 
+  const featuredResource = filteredResources[0];
+  const otherResources = filteredResources.slice(1);
+
   return (
-    <div className="min-h-screen bg-white pb-20">
-      <div className="max-w-2xl mx-auto">
+    <div className="min-h-screen bg-gray-50 pb-20">
+      <div className="max-w-6xl mx-auto">
         {/* 헤더 */}
-        <div className="sticky top-0 bg-white border-b border-gray-200 z-10 px-4 py-4">
+        <div className="sticky top-0 bg-gray-50 z-10 px-4 py-4 md:px-6">
           <h1 className="text-2xl font-black text-gray-900 mb-4">
             자료실
           </h1>
@@ -170,7 +173,7 @@ export default function ResourcesView() {
                 className={`px-4 py-2 rounded-xl font-bold text-sm whitespace-nowrap transition-all ${
                   selectedCategory === cat.id
                     ? "bg-gray-900 text-white"
-                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                    : "bg-white text-gray-600 hover:bg-gray-100 shadow-sm"
                 }`}
               >
                 <span className="mr-1">{cat.icon}</span>
@@ -180,69 +183,99 @@ export default function ResourcesView() {
           </div>
         </div>
 
-        {/* 자료 카드 그리드 */}
-        <div className="p-3">
-          <div className="grid grid-cols-2 gap-2.5">
-            {filteredResources.map((resource) => (
-              <button
-                key={resource.id}
-                onClick={() => handleDownload(resource.id, resource.title)}
-                className="bg-white rounded-xl overflow-hidden hover:scale-[1.02] transition-transform"
-              >
-                {/* 썸네일 영역 */}
-                <div
-                  className={`relative aspect-square bg-gradient-to-br ${resource.bgColor} flex items-center justify-center overflow-hidden`}
+        <div className="px-4 md:px-6">
+          {/* Featured Post */}
+          {featuredResource && (
+            <div className="mb-8">
+              <p className="text-xs text-gray-400 uppercase tracking-wide mb-2">
+                FEATURED POST
+              </p>
+              <div className="grid md:grid-cols-2 gap-6 bg-white rounded-3xl overflow-hidden shadow-lg">
+                {/* Featured 이미지 */}
+                <button
+                  onClick={() =>
+                    handleDownload(featuredResource.id, featuredResource.title)
+                  }
+                  className={`relative aspect-square bg-gradient-to-br ${featuredResource.bgColor} flex items-center justify-center p-12 hover:scale-105 transition-transform`}
                 >
-                  {/* 큰 이모지 썸네일 */}
-                  <span className="text-7xl opacity-90">{resource.thumbnail}</span>
-
-                  {/* 할인/배지 */}
-                  {resource.badge && (
+                  <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-8 w-full h-3/4 flex items-center justify-center">
+                    <span className="text-8xl">{featuredResource.thumbnail}</span>
+                  </div>
+                  {featuredResource.badge && (
                     <div
-                      className={`absolute top-2 left-2 ${resource.badgeColor} text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-md`}
+                      className={`absolute top-4 left-4 ${featuredResource.badgeColor} text-white text-sm font-bold px-3 py-1.5 rounded-full shadow-lg`}
                     >
-                      {resource.badge}
+                      {featuredResource.badge}
                     </div>
                   )}
-                </div>
+                </button>
 
-                {/* 정보 영역 */}
-                <div className="p-2.5 text-left">
-                  {/* 제목 */}
-                  <h3 className="text-sm font-bold text-gray-900 mb-0.5 line-clamp-2 leading-tight min-h-[2.5rem]">
-                    {resource.title}
-                  </h3>
-
-                  {/* 설명 */}
-                  <p className="text-xs text-gray-500 mb-2 line-clamp-2 leading-snug">
-                    {resource.description}
+                {/* Featured 정보 */}
+                <div className="p-8 flex flex-col justify-center">
+                  <h2 className="text-3xl font-black text-gray-900 mb-3 leading-tight">
+                    {featuredResource.title}
+                  </h2>
+                  <p className="text-base text-gray-600 mb-4">
+                    {featuredResource.description}
                   </p>
-
-                  {/* 통계 */}
-                  <div className="flex items-center gap-2 text-xs text-gray-600 mb-1.5">
-                    <div className="flex items-center gap-0.5">
-                      <span className="text-xs">👁</span>
-                      <span className="font-medium">
-                        {resource.views >= 10000
-                          ? `${(resource.views / 10000).toFixed(1)}만`
-                          : `${(resource.views / 1000).toFixed(1)}k`}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-0.5">
-                      <span className="text-xs">⭐</span>
-                      <span className="font-medium">{resource.rating.toFixed(1)}</span>
-                      <span className="text-gray-400">({resource.reviews})</span>
-                    </div>
-                  </div>
-
-                  {/* 제공자 */}
-                  <div className="text-xs text-gray-400 truncate">
-                    {resource.provider}
-                  </div>
+                  <p className="text-sm text-gray-400 mb-6">
+                    {featuredResource.date}
+                  </p>
+                  <button
+                    onClick={() =>
+                      handleDownload(featuredResource.id, featuredResource.title)
+                    }
+                    className="bg-gray-900 hover:bg-gray-800 text-white font-bold py-3 px-6 rounded-xl transition-colors w-fit"
+                  >
+                    다운로드
+                  </button>
                 </div>
-              </button>
-            ))}
-          </div>
+              </div>
+            </div>
+          )}
+
+          {/* 나머지 자료 그리드 */}
+          {otherResources.length > 0 && (
+            <div className="grid md:grid-cols-3 gap-4">
+              {otherResources.map((resource) => (
+                <button
+                  key={resource.id}
+                  onClick={() => handleDownload(resource.id, resource.title)}
+                  className="group"
+                >
+                  {/* 카드 이미지 */}
+                  <div
+                    className={`relative aspect-square bg-gradient-to-br ${resource.bgColor} rounded-3xl overflow-hidden mb-3 group-hover:scale-105 transition-transform`}
+                  >
+                    <div className="absolute inset-0 flex items-center justify-center p-8">
+                      <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-6 w-full h-3/4 flex items-center justify-center">
+                        <span className="text-6xl">{resource.thumbnail}</span>
+                      </div>
+                    </div>
+                    {resource.badge && (
+                      <div
+                        className={`absolute top-3 left-3 ${resource.badgeColor} text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-md`}
+                      >
+                        {resource.badge}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* 카드 정보 */}
+                  <div className="text-left">
+                    <p className="text-xs text-gray-400 mb-1">Trend report</p>
+                    <h3 className="text-lg font-bold text-gray-900 mb-1 line-clamp-2">
+                      {resource.title}
+                    </h3>
+                    <p className="text-sm text-gray-500 mb-2 line-clamp-1">
+                      {resource.description}
+                    </p>
+                    <p className="text-xs text-gray-400">{resource.date}</p>
+                  </div>
+                </button>
+              ))}
+            </div>
+          )}
 
           {/* 결과 없음 */}
           {filteredResources.length === 0 && (
