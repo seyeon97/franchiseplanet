@@ -50,9 +50,9 @@ export default function LoginView() {
       localStorage.setItem("isLoggedIn", "true");
       localStorage.setItem("userEmail", "kakao@user.com");
 
-      // URL 정리하고 메인으로 이동
+      // URL 정리하고 마이페이지로 이동
       window.history.replaceState({}, document.title, "/login");
-      router.push("/");
+      router.push("/more");
     } catch (error) {
       console.error("카카오 로그인 처리 실패:", error);
       alert("로그인 처리 중 오류가 발생했습니다.");
@@ -160,7 +160,7 @@ export default function LoginView() {
   const handleTempLogin = () => {
     localStorage.setItem("isLoggedIn", "true");
     localStorage.setItem("userEmail", "test@user.com");
-    router.push("/");
+    router.push("/more");
   };
 
   return (
