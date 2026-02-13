@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 interface Brand {
   id: string;
   name: string;
@@ -27,6 +29,17 @@ export default function BrandsSectionToss({
   onBrandClick,
   selectedBrandId,
 }: BrandsSectionTossProps) {
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // 검색 필터링
+  const filteredBrands = brands.filter((brand) => {
+    const query = searchQuery.toLowerCase();
+    return (
+      brand.name.toLowerCase().includes(query) ||
+      brand.category.toLowerCase().includes(query)
+    );
+  });
+
   return (
     <section className="min-h-screen snap-start bg-gray-50 px-4 py-12 md:px-6 md:py-20">
       <div className="max-w-2xl mx-auto">
@@ -36,13 +49,56 @@ export default function BrandsSectionToss({
           <br />
           궁금하세요?
         </h2>
-        <p className="text-base md:text-lg text-gray-600 mb-8 md:mb-12 font-medium">
+        <p className="text-base md:text-lg text-gray-600 mb-6 md:mb-8 font-medium">
           브랜드를 선택하면 실제 매출 정보를 볼 수 있어요
         </p>
 
+        {/* 검색창 - 토스 스타일 */}
+        <div className="mb-6 md:mb-8">
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="브랜드명 또는 카테고리 검색..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full bg-white rounded-2xl md:rounded-3xl px-5 md:px-6 py-4 md:py-5 text-base md:text-lg font-medium text-gray-900 placeholder-gray-400 shadow-md focus:shadow-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+            />
+            {searchQuery ? (
+              <button
+                onClick={() => setSearchQuery("")}
+                className="absolute right-4 md:right-5 top-1/2 -translate-y-1/2 w-8 h-8 md:w-10 md:h-10 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center text-gray-600 font-bold transition-colors"
+              >
+                ✕
+              </button>
+            ) : (
+              <div className="absolute right-4 md:right-5 top-1/2 -translate-y-1/2 text-gray-400">
+                <svg
+                  className="w-5 h-5 md:w-6 md:h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2.5}
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
+                </svg>
+              </div>
+            )}
+          </div>
+          {searchQuery && (
+            <p className="mt-3 text-sm md:text-base text-gray-500 font-medium">
+              {filteredBrands.length}개 브랜드 찾음
+            </p>
+          )}
+        </div>
+
         {/* 브랜드 그리드 - 많은 브랜드에 최적화 */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
-          {brands.map((brand) => (
+        {filteredBrands.length > 0 ? (
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+            {filteredBrands.map((brand) => (
             <button
               key={brand.id}
               onClick={() => onBrandClick(brand.id)}
@@ -87,6 +143,17 @@ export default function BrandsSectionToss({
             </button>
           ))}
         </div>
+        ) : (
+          <div className="text-center py-16 md:py-20">
+            <div className="text-6xl md:text-7xl mb-4">🔍</div>
+            <p className="text-lg md:text-xl font-bold text-gray-900 mb-2">
+              검색 결과가 없습니다
+            </p>
+            <p className="text-sm md:text-base text-gray-500 font-medium">
+              다른 검색어를 입력해보세요
+            </p>
+          </div>
+        )}
       </div>
     </section>
   );
