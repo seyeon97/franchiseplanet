@@ -1,6 +1,40 @@
 "use client";
 
+import { useRef, useState, useEffect } from "react";
+
 export default function OfflineView() {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  // 스크롤 위치에 따라 현재 인덱스 업데이트
+  useEffect(() => {
+    const handleScroll = () => {
+      if (scrollRef.current) {
+        const scrollLeft = scrollRef.current.scrollLeft;
+        const width = scrollRef.current.offsetWidth;
+        const index = Math.round(scrollLeft / width);
+        setCurrentIndex(index);
+      }
+    };
+
+    const scrollElement = scrollRef.current;
+    if (scrollElement) {
+      scrollElement.addEventListener("scroll", handleScroll);
+      return () => scrollElement.removeEventListener("scroll", handleScroll);
+    }
+  }, []);
+
+  // 인디케이터 클릭 시 해당 카드로 스크롤
+  const scrollToIndex = (index: number) => {
+    if (scrollRef.current) {
+      const width = scrollRef.current.offsetWidth;
+      scrollRef.current.scrollTo({
+        left: width * index,
+        behavior: "smooth",
+      });
+    }
+  };
+
   // 예시 임장 프로그램 데이터
   const programs = [
     {
@@ -47,7 +81,11 @@ export default function OfflineView() {
       </div>
 
       {/* 카드 스와이프 영역 */}
-      <div className="flex-1 overflow-x-scroll snap-x snap-mandatory scroll-smooth">
+      <div
+        ref={scrollRef}
+        className="flex-1 overflow-x-scroll snap-x snap-mandatory scroll-smooth scrollbar-hide"
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+      >
         <div className="flex h-full">
           {programs.map((program, index) => (
             <div
@@ -106,52 +144,56 @@ export default function OfflineView() {
 
       {/* 고정 하단 인디케이터 */}
       <div className="px-6 pb-4 max-w-2xl mx-auto w-full">
-        {/* 페이지 인디케이터 */}
+        {/* 페이지 인디케이터 - 클릭 가능 */}
         <div className="flex justify-center gap-2 mb-4">
           {programs.map((_, idx) => (
-            <div
+            <button
               key={idx}
-              className={`h-1.5 rounded-full transition-all duration-300 ${
-                idx === 0
+              onClick={() => scrollToIndex(idx)}
+              className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
+                idx === currentIndex
                   ? "w-8 bg-[#101828]"
-                  : "w-1.5 bg-gray-300"
+                  : "w-1.5 bg-gray-300 hover:bg-gray-400"
               }`}
+              aria-label={`${idx + 1}번째 카드로 이동`}
             />
           ))}
         </div>
 
-        {/* 스와이프 힌트 */}
-        <div className="text-center">
-          <div className="inline-flex items-center gap-3 text-gray-400 animate-pulse">
-            <svg
-              className="w-5 h-5 rotate-180"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2.5}
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
-            <span className="text-sm font-medium">옆으로 스와이프</span>
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2.5}
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
+        {/* 스와이프 힌트 - 첫 번째 페이지에서만 표시 */}
+        {currentIndex === 0 && (
+          <div className="text-center">
+            <div className="inline-flex items-center gap-3 text-gray-400 animate-pulse">
+              <svg
+                className="w-5 h-5 rotate-180"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2.5}
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+              <span className="text-sm font-medium">옆으로 스와이프</span>
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2.5}
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
