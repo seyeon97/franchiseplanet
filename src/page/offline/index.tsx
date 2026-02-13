@@ -54,8 +54,8 @@ export default function OfflineView() {
             >
               <div className="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300">
                 {/* 카드 상단 - 그라데이션 영역 */}
-                <div className={`bg-gradient-to-br ${program.bgColor} p-8 pb-16 relative`}>
-                  <div className="text-xs font-bold text-white/90 mb-3 tracking-wide">
+                <div className={`bg-gradient-to-br ${program.bgColor} p-6 pb-12 relative`}>
+                  <div className="text-xs font-bold text-white/90 mb-2 tracking-wide">
                     ★ 프랜차이즈 / 상권분석 전문가
                   </div>
                   <h3 className="text-3xl font-black text-white leading-tight mb-2">
@@ -71,16 +71,16 @@ export default function OfflineView() {
                 </div>
 
                 {/* 카드 하단 정보 */}
-                <div className="pt-20 pb-8 px-8 text-center bg-gradient-to-b from-gray-50 to-white">
+                <div className="pt-20 pb-6 px-6 text-center bg-gradient-to-b from-gray-50 to-white">
                   <h4 className="text-xl font-black text-[#101828] mb-2">
                     {program.name}
                   </h4>
-                  <div className="inline-block mb-4">
+                  <div className="inline-block mb-3">
                     <span className="text-xs font-bold text-gray-600 bg-gray-100 px-3 py-1.5 rounded-full">
                       {program.category}
                     </span>
                   </div>
-                  <p className="text-base text-gray-600 leading-relaxed mb-6">
+                  <p className="text-base text-gray-600 leading-relaxed mb-4">
                     {program.description}
                   </p>
 
