@@ -223,7 +223,7 @@ export default function ColumnView() {
                 />
 
                 {/* 콘텐츠 */}
-                <div className="relative h-full flex flex-col items-center justify-start px-6 text-center pt-32">
+                <div className="relative h-full flex flex-col items-center justify-start px-6 text-center pt-28">
                   {/* 썸네일 아이콘 */}
                   <div className="text-7xl mb-3">{column.thumbnail}</div>
 
