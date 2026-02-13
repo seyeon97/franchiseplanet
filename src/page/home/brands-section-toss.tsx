@@ -31,6 +31,9 @@ export default function BrandsSectionToss({
 }: BrandsSectionTossProps) {
   const [searchQuery, setSearchQuery] = useState("");
 
+  // 인기 브랜드 TOP3
+  const topBrands = brands.slice(0, 3);
+
   // 검색 필터링
   const filteredBrands = brands.filter((brand) => {
     const query = searchQuery.toLowerCase();
@@ -50,7 +53,7 @@ export default function BrandsSectionToss({
           궁금하세요?
         </h2>
         <p className="text-base md:text-lg text-gray-600 mb-6 md:mb-8 font-medium">
-          브랜드를 선택하면 실제 매출 정보를 볼 수 있어요
+          인기 브랜드를 선택하거나 검색해보세요
         </p>
 
         {/* 검색창 - 토스 스타일 */}
@@ -88,71 +91,155 @@ export default function BrandsSectionToss({
               </div>
             )}
           </div>
-          {searchQuery && (
-            <p className="mt-3 text-sm md:text-base text-gray-500 font-medium">
-              {filteredBrands.length}개 브랜드 찾음
-            </p>
-          )}
         </div>
 
-        {/* 브랜드 그리드 - 많은 브랜드에 최적화 */}
-        {filteredBrands.length > 0 ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
-            {filteredBrands.map((brand) => (
-            <button
-              key={brand.id}
-              onClick={() => onBrandClick(brand.id)}
-              className={`bg-white rounded-2xl md:rounded-3xl p-4 md:p-5 flex flex-col items-center text-center transition-all duration-300 ${
-                selectedBrandId === brand.id
-                  ? "shadow-xl scale-[1.05] ring-2 ring-blue-500"
-                  : "shadow-md hover:shadow-lg hover:scale-[1.02]"
-              }`}
-            >
-              {/* 로고 */}
-              {brand.logoImage ? (
-                <div className="w-16 h-16 md:w-20 md:h-20 rounded-xl md:rounded-2xl bg-gray-100 flex items-center justify-center overflow-hidden mb-3 flex-shrink-0">
-                  <img
-                    src={brand.logoImage}
-                    alt={brand.name}
-                    className="w-14 h-14 md:w-16 md:h-16 object-contain"
-                  />
-                </div>
-              ) : (
-                <div
-                  className="w-16 h-16 md:w-20 md:h-20 rounded-xl md:rounded-2xl flex items-center justify-center text-3xl md:text-4xl mb-3 flex-shrink-0"
-                  style={{ backgroundColor: `${brand.color}15` }}
-                >
-                  {brand.logo}
-                </div>
-              )}
-
-              {/* 브랜드명 */}
-              <h3 className="text-base md:text-lg font-bold text-gray-900 mb-1 line-clamp-1">
-                {brand.name}
-              </h3>
-
-              {/* 카테고리 */}
-              <p className="text-xs md:text-sm text-gray-500 font-medium mb-2 line-clamp-1">
-                {brand.category}
-              </p>
-
-              {/* 창업비용 */}
-              <div className="text-xs md:text-sm font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-full">
-                {brand.startupCost}
+        {/* 검색 중일 때만 검색 결과 표시 */}
+        {searchQuery ? (
+          <>
+            <p className="mb-4 text-sm md:text-base text-gray-500 font-medium">
+              검색결과 {filteredBrands.length}개
+            </p>
+            {filteredBrands.length > 0 ? (
+              <div className="space-y-2">
+                {filteredBrands.map((brand, index) => (
+                  <button
+                    key={brand.id}
+                    onClick={() => {
+                      onBrandClick(brand.id);
+                      setSearchQuery("");
+                    }}
+                    className="w-full bg-white rounded-2xl p-4 flex items-center justify-between hover:shadow-md transition-all"
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="text-sm font-bold text-gray-400 w-6">
+                        {index + 1}
+                      </span>
+                      {brand.logoImage ? (
+                        <div className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center overflow-hidden flex-shrink-0">
+                          <img
+                            src={brand.logoImage}
+                            alt={brand.name}
+                            className="w-8 h-8 object-contain"
+                          />
+                        </div>
+                      ) : (
+                        <div
+                          className="w-10 h-10 rounded-xl flex items-center justify-center text-lg flex-shrink-0"
+                          style={{ backgroundColor: `${brand.color}15` }}
+                        >
+                          {brand.logo}
+                        </div>
+                      )}
+                      <div className="text-left">
+                        <h3 className="text-base font-bold text-gray-900">
+                          {brand.name}
+                        </h3>
+                        <p className="text-xs text-gray-500 font-medium">
+                          {brand.category}
+                        </p>
+                      </div>
+                    </div>
+                    <svg
+                      className="w-5 h-5 text-gray-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2.5}
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </button>
+                ))}
               </div>
-            </button>
-          ))}
-        </div>
+            ) : (
+              <div className="text-center py-16 md:py-20">
+                <div className="text-6xl md:text-7xl mb-4">🔍</div>
+                <p className="text-lg md:text-xl font-bold text-gray-900 mb-2">
+                  검색 결과가 없습니다
+                </p>
+                <p className="text-sm md:text-base text-gray-500 font-medium">
+                  다른 검색어를 입력해보세요
+                </p>
+              </div>
+            )}
+          </>
         ) : (
-          <div className="text-center py-16 md:py-20">
-            <div className="text-6xl md:text-7xl mb-4">🔍</div>
-            <p className="text-lg md:text-xl font-bold text-gray-900 mb-2">
-              검색 결과가 없습니다
-            </p>
-            <p className="text-sm md:text-base text-gray-500 font-medium">
-              다른 검색어를 입력해보세요
-            </p>
-          </div>
+          <>
+            {/* 인기 브랜드 TOP3 */}
+            <div className="mb-6">
+              <h3 className="text-lg md:text-xl font-black text-gray-900 mb-4 flex items-center gap-2">
+                <span className="text-2xl">🔥</span>
+                인기 브랜드 TOP3
+              </h3>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+                {topBrands.map((brand, index) => (
+                  <button
+                    key={brand.id}
+                    onClick={() => onBrandClick(brand.id)}
+                    className={`relative bg-white rounded-2xl md:rounded-3xl p-4 md:p-5 flex flex-col items-center text-center transition-all duration-300 ${
+                      selectedBrandId === brand.id
+                        ? "shadow-xl scale-[1.05] ring-2 ring-blue-500"
+                        : "shadow-md hover:shadow-lg hover:scale-[1.02]"
+                    }`}
+                  >
+                    {/* TOP3 배지 */}
+                    <div className="absolute top-2 left-2 w-8 h-8 md:w-10 md:h-10 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center shadow-lg">
+                      <span className="text-white font-black text-sm md:text-base">
+                        {index + 1}
+                      </span>
+                    </div>
+
+                    {/* 로고 */}
+                    {brand.logoImage ? (
+                      <div className="w-16 h-16 md:w-20 md:h-20 rounded-xl md:rounded-2xl bg-gray-100 flex items-center justify-center overflow-hidden mb-3 flex-shrink-0">
+                        <img
+                          src={brand.logoImage}
+                          alt={brand.name}
+                          className="w-14 h-14 md:w-16 md:h-16 object-contain"
+                        />
+                      </div>
+                    ) : (
+                      <div
+                        className="w-16 h-16 md:w-20 md:h-20 rounded-xl md:rounded-2xl flex items-center justify-center text-3xl md:text-4xl mb-3 flex-shrink-0"
+                        style={{ backgroundColor: `${brand.color}15` }}
+                      >
+                        {brand.logo}
+                      </div>
+                    )}
+
+                    {/* 브랜드명 */}
+                    <h3 className="text-base md:text-lg font-bold text-gray-900 mb-1 line-clamp-1">
+                      {brand.name}
+                    </h3>
+
+                    {/* 카테고리 */}
+                    <p className="text-xs md:text-sm text-gray-500 font-medium mb-2 line-clamp-1">
+                      {brand.category}
+                    </p>
+
+                    {/* 창업비용 */}
+                    <div className="text-xs md:text-sm font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-full">
+                      {brand.startupCost}
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* 다른 브랜드 보기 안내 */}
+            <div className="bg-white rounded-2xl md:rounded-3xl p-6 text-center shadow-md">
+              <p className="text-base md:text-lg font-bold text-gray-900 mb-2">
+                다른 브랜드를 찾으시나요?
+              </p>
+              <p className="text-sm md:text-base text-gray-500 font-medium">
+                위의 검색창에서 브랜드명이나 카테고리를 검색해보세요
+              </p>
+            </div>
+          </>
         )}
       </div>
     </section>
