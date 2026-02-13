@@ -633,7 +633,7 @@ export default function OfflineView() {
                   disabled={!iamportLoaded}
                 >
                   <div className="w-6 h-6 flex items-center justify-center">
-                    <svg className="w-full h-full" viewBox="0 0 24 24" fill="currentColor">
+                    <svg className="w-4 h-5" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M16.273 12.845L7.376 0H0v24h7.726V11.156L16.624 24H24V0h-7.727z"/>
                     </svg>
                   </div>
