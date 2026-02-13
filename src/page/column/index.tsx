@@ -275,7 +275,7 @@ export default function ColumnView() {
                   <div className="absolute bottom-24 left-1/2 transform -translate-x-1/2">
                     <div className="flex flex-col items-center gap-2 animate-bounce">
                       <svg
-                        className="w-8 h-8 text-white/60"
+                        className="w-8 h-8 text-gray-900"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -287,7 +287,7 @@ export default function ColumnView() {
                           d="M7 11l5-5m0 0l5 5m-5-5v12"
                         />
                       </svg>
-                      <span className="text-sm text-white/60 font-medium">
+                      <span className="text-sm text-gray-900 font-medium">
                         위로 스와이프
                       </span>
                     </div>
