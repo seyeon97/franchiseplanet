@@ -272,10 +272,23 @@ export default function ColumnView() {
                   )}
 
                   {/* 클릭 힌트 */}
-                  <div className="absolute bottom-48 left-1/2 transform -translate-x-1/2">
-                    <div className="bg-white/80 backdrop-blur-sm rounded-2xl px-6 py-3">
-                      <p className="text-sm text-gray-900 font-bold text-center">
-                        👆 칼럼을 눌러 상세 내용을 확인하세요
+                  <div className="absolute bottom-48 left-1/2 transform -translate-x-1/2 w-full px-6">
+                    <div
+                      className="bg-white rounded-2xl px-6 py-4 shadow-xl border-2 mx-auto max-w-sm"
+                      style={{
+                        borderImage: "linear-gradient(135deg, #3098F2 0%, #11BFAE 100%) 1",
+                      }}
+                    >
+                      <p className="text-base font-black text-center" style={{
+                        background: "linear-gradient(135deg, #3098F2 0%, #11BFAE 100%)",
+                        WebkitBackgroundClip: "text",
+                        WebkitTextFillColor: "transparent",
+                        backgroundClip: "text",
+                      }}>
+                        👆 칼럼을 눌러보세요!
+                      </p>
+                      <p className="text-xs text-gray-600 text-center mt-1 font-medium">
+                        상세 내용 확인하기
                       </p>
                     </div>
                   </div>
