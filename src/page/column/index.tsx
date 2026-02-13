@@ -198,12 +198,12 @@ export default function ColumnView() {
       <div className="min-h-screen bg-black pb-20">
         <div className="max-w-2xl mx-auto">
           {/* 헤더 */}
-          <div className="px-4 pt-8 pb-4">
+          <div className="px-4 pt-8 pb-4 sticky top-0 bg-black z-10">
             <h1 className="text-2xl font-black text-white">이슈 칼럼</h1>
           </div>
 
           {/* 세로 스크롤 썸네일 */}
-          <div className="space-y-0">
+          <div className="space-y-4 px-4">
             {columns.map((column, index) => (
               <div
                 key={column.id}
@@ -211,7 +211,7 @@ export default function ColumnView() {
                   setCurrentIndex(index);
                   handleColumnClick(column);
                 }}
-                className="relative h-screen w-full cursor-pointer"
+                className="relative h-[600px] w-full cursor-pointer rounded-3xl overflow-hidden"
               >
                 {/* 배경 그라데이션 */}
                 <div
@@ -241,31 +241,9 @@ export default function ColumnView() {
                   </p>
 
                   {/* 날짜 */}
-                  <p className="text-sm text-white/70 font-medium mb-8">
+                  <p className="text-sm text-white/70 font-medium">
                     {column.date}
                   </p>
-
-                  {/* 스와이프 안내 */}
-                  <div className="absolute bottom-24 left-1/2 transform -translate-x-1/2">
-                    <div className="flex flex-col items-center gap-2 animate-bounce">
-                      <svg
-                        className="w-8 h-8 text-white/60"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M7 11l5-5m0 0l5 5m-5-5v12"
-                        />
-                      </svg>
-                      <span className="text-sm text-white/60 font-medium">
-                        위로 스와이프
-                      </span>
-                    </div>
-                  </div>
                 </div>
               </div>
             ))}
