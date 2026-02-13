@@ -70,10 +70,12 @@ export default function OfflineView() {
     <div className="h-screen bg-gray-50 flex flex-col pb-20">
       {/* 고정 헤더 */}
       <div className="px-6 pt-8 pb-4 max-w-2xl mx-auto w-full">
-        <h1 className="text-4xl font-black text-[#101828] mb-3 leading-tight">
-          전문가와 함께하는
+        <h1 className="text-4xl font-black mb-3 leading-tight">
+          <span className="text-[#101828]">전문가와 함께하는</span>
           <br />
-          현장 임장
+          <span className="bg-gradient-to-r from-[#3098F2] via-[#25A6D9] to-[#11BFAE] bg-clip-text text-transparent">
+            현장 임장
+          </span>
         </h1>
         <p className="text-lg text-gray-600 font-medium">
           성공 창업의 시작, 입지 분석부터
