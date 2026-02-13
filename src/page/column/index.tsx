@@ -255,7 +255,7 @@ export default function ColumnView() {
                   </p>
 
                   {/* 날짜 */}
-                  <p className="text-sm text-gray-700 font-medium mb-2">
+                  <p className="text-sm text-gray-700 font-medium mb-36">
                     {column.date}
                   </p>
 
