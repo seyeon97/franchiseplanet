@@ -1,6 +1,30 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+
 export default function ColumnView() {
+  const router = useRouter();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    // 로그인 상태 체크
+    const loggedIn = localStorage.getItem("isLoggedIn") === "true";
+    setIsLoggedIn(loggedIn);
+  }, []);
+
+  const handleColumnClick = (columnId: number) => {
+    if (!isLoggedIn) {
+      // 로그인 필요 알림
+      if (confirm("칼럼을 읽으려면 로그인이 필요합니다. 로그인 하시겠습니까?")) {
+        router.push("/login");
+      }
+      return;
+    }
+    // 로그인된 경우 칼럼 상세 페이지로 이동
+    alert("칼럼 상세 페이지 (준비중)");
+  };
+
   // 예시 칼럼 데이터
   const columns = [
     {
@@ -50,6 +74,7 @@ export default function ColumnView() {
           {columns.map((column) => (
             <article
               key={column.id}
+              onClick={() => handleColumnClick(column.id)}
               className="bg-white rounded-2xl md:rounded-3xl p-5 md:p-6 shadow-md hover:shadow-xl transition-all cursor-pointer"
             >
               <div className="flex gap-4">

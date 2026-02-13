@@ -1,10 +1,40 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+
 export default function MyPageView() {
+  const router = useRouter();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userEmail, setUserEmail] = useState("");
+
+  useEffect(() => {
+    // 로그인 상태 체크
+    const loggedIn = localStorage.getItem("isLoggedIn") === "true";
+    const email = localStorage.getItem("userEmail") || "";
+
+    if (!loggedIn) {
+      // 로그인 안 되어 있으면 로그인 페이지로
+      router.push("/login");
+      return;
+    }
+
+    setIsLoggedIn(loggedIn);
+    setUserEmail(email);
+  }, [router]);
+
+  const handleLogout = () => {
+    if (confirm("로그아웃 하시겠습니까?")) {
+      localStorage.removeItem("isLoggedIn");
+      localStorage.removeItem("userEmail");
+      router.push("/");
+    }
+  };
+
   // 예시 사용자 데이터
   const user = {
-    name: "홍길동",
-    email: "hong@example.com",
+    name: userEmail.split("@")[0] || "사용자",
+    email: userEmail,
     joinDate: "2024.01.15",
     avatar: "👤",
   };
@@ -159,7 +189,10 @@ export default function MyPageView() {
                 </svg>
               </button>
 
-              <button className="w-full bg-white rounded-2xl p-5 flex items-center justify-between shadow-md hover:shadow-lg transition-all">
+              <button
+                onClick={handleLogout}
+                className="w-full bg-white rounded-2xl p-5 flex items-center justify-between shadow-md hover:shadow-lg transition-all"
+              >
                 <span className="text-base md:text-lg font-bold text-red-600">
                   로그아웃
                 </span>

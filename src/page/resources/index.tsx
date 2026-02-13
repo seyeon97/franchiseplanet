@@ -1,6 +1,30 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+
 export default function ResourcesView() {
+  const router = useRouter();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    // 로그인 상태 체크
+    const loggedIn = localStorage.getItem("isLoggedIn") === "true";
+    setIsLoggedIn(loggedIn);
+  }, []);
+
+  const handleDownload = (resourceId: number, title: string) => {
+    if (!isLoggedIn) {
+      // 로그인 필요 알림
+      if (confirm("자료를 다운로드하려면 로그인이 필요합니다. 로그인 하시겠습니까?")) {
+        router.push("/login");
+      }
+      return;
+    }
+    // 로그인된 경우 다운로드 처리
+    alert(`"${title}" 다운로드를 시작합니다 (준비중)`);
+  };
+
   // 예시 자료 데이터
   const resources = [
     {
@@ -81,7 +105,10 @@ export default function ResourcesView() {
                     <span>•</span>
                     <span>다운로드: {resource.downloads.toLocaleString()}회</span>
                   </div>
-                  <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-4 rounded-xl transition-colors">
+                  <button
+                    onClick={() => handleDownload(resource.id, resource.title)}
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-4 rounded-xl transition-colors"
+                  >
                     다운로드
                   </button>
                 </div>
