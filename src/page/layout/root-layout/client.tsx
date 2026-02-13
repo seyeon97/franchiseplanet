@@ -3,6 +3,7 @@
 import { StateProvider } from '@/lib/state'
 import { Toaster } from '@/lib/components/ui/sonner'
 import { useUser, type User } from '@/state/user'
+import NavigationBar from '@/lib/navigation-bar'
 
 /**
  * UserInit Component (Internal)
@@ -43,6 +44,7 @@ export function RootLayoutClient({
     <StateProvider>
       <UserInit user={user} />
       {children}
+      <NavigationBar />
       <Toaster />
     </StateProvider>
   )

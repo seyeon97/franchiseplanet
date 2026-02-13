@@ -185,18 +185,20 @@ export default function HomePage() {
   );
 
   return (
-    <main className="h-screen overflow-y-scroll snap-y snap-mandatory scroll-smooth">
-      <HeroSectionToss />
-      <BrandsSectionToss
-        brands={mockBrands}
-        onBrandClick={handleBrandClick}
-        selectedBrandId={selectedBrandId}
-      />
-      {selectedBrand && (
-        <div ref={detailRef}>
-          <BrandCardToss brand={selectedBrand} />
-        </div>
-      )}
-    </main>
+    <>
+      <main className="h-screen overflow-y-scroll snap-y snap-mandatory scroll-smooth pb-20">
+        <HeroSectionToss />
+        <BrandsSectionToss
+          brands={mockBrands}
+          onBrandClick={handleBrandClick}
+          selectedBrandId={selectedBrandId}
+        />
+        {selectedBrand && (
+          <div ref={detailRef}>
+            <BrandCardToss brand={selectedBrand} />
+          </div>
+        )}
+      </main>
+    </>
   );
 }
