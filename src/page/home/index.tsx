@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useEffect } from "react";
 import HeroSectionToss from "./hero-section-toss";
 import BrandsSectionToss from "./brands-section-toss";
 import BrandCardToss from "./brand-card-toss";
@@ -169,20 +169,36 @@ export default function HomePage() {
   const [selectedBrandId, setSelectedBrandId] = React.useState<string | null>(
     null
   );
-  const detailRef = useRef<HTMLDivElement | null>(null);
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
 
   const handleBrandClick = (brandId: string) => {
     setSelectedBrandId(brandId);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    // Wait for animation to finish before clearing selected brand
     setTimeout(() => {
-      if (detailRef.current) {
-        detailRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
-      }
-    }, 100);
+      setSelectedBrandId(null);
+    }, 300);
   };
 
   const selectedBrand = mockBrands.find(
     (brand) => brand.id === selectedBrandId
   );
+
+  // Prevent body scroll when modal is open
+  useEffect(() => {
+    if (isModalOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isModalOpen]);
 
   return (
     <>
@@ -193,12 +209,60 @@ export default function HomePage() {
           onBrandClick={handleBrandClick}
           selectedBrandId={selectedBrandId}
         />
-        {selectedBrand && (
-          <div ref={detailRef}>
-            <BrandCardToss brand={selectedBrand} />
-          </div>
-        )}
       </main>
+
+      {/* Modal with slide-up transition */}
+      {selectedBrand && (
+        <div
+          className={`fixed inset-0 z-50 transition-opacity duration-300 ${
+            isModalOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+          }`}
+          onClick={handleCloseModal}
+        >
+          {/* Backdrop */}
+          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
+
+          {/* Modal content */}
+          <div
+            className={`absolute inset-x-0 bottom-0 bg-white rounded-t-3xl transition-transform duration-300 ${
+              isModalOpen ? "translate-y-0" : "translate-y-full"
+            }`}
+            onClick={(e) => e.stopPropagation()}
+            style={{ maxHeight: "90vh" }}
+          >
+            {/* Close button */}
+            <div className="sticky top-0 z-10 bg-white border-b border-gray-100 px-4 py-3 flex items-center justify-between rounded-t-3xl">
+              <button
+                onClick={handleCloseModal}
+                className="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors"
+              >
+                <svg
+                  className="w-6 h-6 text-gray-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2.5}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+              <h2 className="text-lg font-black text-gray-900">
+                {selectedBrand.name}
+              </h2>
+              <div className="w-10" />
+            </div>
+
+            {/* Scrollable content */}
+            <div className="overflow-y-auto pb-20" style={{ maxHeight: "calc(90vh - 60px)" }}>
+              <BrandCardToss brand={selectedBrand} />
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
