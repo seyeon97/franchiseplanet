@@ -279,7 +279,6 @@ export default function AdminView() {
       localStorage.setItem("resources", JSON.stringify(initialResources));
       localStorage.setItem("offlinePrograms", JSON.stringify(initialOfflinePrograms));
 
-      alert("초기 데이터가 로드되었습니다!");
       loadData();
     }
   };
@@ -304,6 +303,22 @@ export default function AdminView() {
   };
 
   useEffect(() => {
+    // 처음 마운트 시 데이터가 없으면 초기 데이터 자동 생성
+    if (typeof window !== 'undefined') {
+      const hasData = localStorage.getItem("brands") ||
+                      localStorage.getItem("columns") ||
+                      localStorage.getItem("resources") ||
+                      localStorage.getItem("offlinePrograms");
+
+      if (!hasData) {
+        initializeData();
+      } else {
+        loadData();
+      }
+    }
+  }, []);
+
+  useEffect(() => {
     loadData();
   }, [activeTab]);
 
@@ -325,12 +340,6 @@ export default function AdminView() {
               <span className="text-sm text-gray-500 font-medium">Admin</span>
             </div>
             <div className="flex items-center gap-3">
-              <button
-                onClick={initializeData}
-                className="px-4 py-2 text-sm font-bold text-blue-600 hover:text-blue-700 bg-blue-50 rounded-lg transition-colors"
-              >
-                📥 초기 데이터 로드
-              </button>
               <div className="flex items-center gap-2 px-3 py-1.5 bg-gray-100 rounded-lg">
                 <span className="text-sm text-gray-600">👤</span>
                 <span className="text-sm font-bold text-gray-900">관리자</span>
