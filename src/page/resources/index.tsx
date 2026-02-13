@@ -52,10 +52,10 @@ export default function ResourcesView() {
 
   // 카테고리
   const categories = [
-    { id: "all", label: "전체", icon: "📁" },
+    { id: "all", label: "전체", icon: "📂" },
     { id: "market", label: "시장분석", icon: "📊" },
     { id: "checklist", label: "체크리스트", icon: "✅" },
-    { id: "contract", label: "계약서", icon: "📋" },
+    { id: "contract", label: "계약서", icon: "📄" },
   ];
 
   const [selectedCategory, setSelectedCategory] = useState("all");
