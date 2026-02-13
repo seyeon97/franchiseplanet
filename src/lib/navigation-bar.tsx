@@ -7,13 +7,22 @@ export default function NavigationBar() {
   const router = useRouter();
 
   const renderIcon = (id: string, isActive: boolean) => {
-    const strokeColor = isActive ? '#ffffff' : '#3182F6';
+    const gradientId = `gradient-nav-${id}`;
+    const strokeColor = isActive ? `url(#${gradientId})` : '#3182F6';
     const strokeWidth = 2;
 
     switch (id) {
       case "home":
         return (
           <svg className="w-6 h-6" fill="none" stroke={strokeColor} viewBox="0 0 24 24">
+            {isActive && (
+              <defs>
+                <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style={{ stopColor: '#3182F6' }} />
+                  <stop offset="100%" style={{ stopColor: '#00C896' }} />
+                </linearGradient>
+              </defs>
+            )}
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -25,6 +34,14 @@ export default function NavigationBar() {
       case "column":
         return (
           <svg className="w-6 h-6" fill="none" stroke={strokeColor} viewBox="0 0 24 24">
+            {isActive && (
+              <defs>
+                <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style={{ stopColor: '#3182F6' }} />
+                  <stop offset="100%" style={{ stopColor: '#00C896' }} />
+                </linearGradient>
+              </defs>
+            )}
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -36,6 +53,14 @@ export default function NavigationBar() {
       case "resources":
         return (
           <svg className="w-6 h-6" fill="none" stroke={strokeColor} viewBox="0 0 24 24">
+            {isActive && (
+              <defs>
+                <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style={{ stopColor: '#3182F6' }} />
+                  <stop offset="100%" style={{ stopColor: '#00C896' }} />
+                </linearGradient>
+              </defs>
+            )}
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -47,6 +72,14 @@ export default function NavigationBar() {
       case "offline":
         return (
           <svg className="w-6 h-6" fill="none" stroke={strokeColor} viewBox="0 0 24 24">
+            {isActive && (
+              <defs>
+                <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style={{ stopColor: '#3182F6' }} />
+                  <stop offset="100%" style={{ stopColor: '#00C896' }} />
+                </linearGradient>
+              </defs>
+            )}
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -64,6 +97,14 @@ export default function NavigationBar() {
       case "more":
         return (
           <svg className="w-6 h-6" fill="none" stroke={strokeColor} viewBox="0 0 24 24">
+            {isActive && (
+              <defs>
+                <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style={{ stopColor: '#3182F6' }} />
+                  <stop offset="100%" style={{ stopColor: '#00C896' }} />
+                </linearGradient>
+              </defs>
+            )}
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -95,18 +136,11 @@ export default function NavigationBar() {
               <button
                 key={item.id}
                 onClick={() => router.push(item.path)}
-                className={`flex flex-col items-center justify-center py-2 px-3 rounded-xl transition-all ${
+                className={`flex flex-col items-center justify-center py-2 px-3 rounded-xl transition-all relative ${
                   isActive
                     ? ""
                     : "hover:bg-gray-50"
                 }`}
-                style={
-                  isActive
-                    ? {
-                        backgroundImage: "linear-gradient(135deg, #3182F6 0%, #00C896 100%)",
-                      }
-                    : undefined
-                }
               >
                 <div className={`mb-1 ${isActive ? "scale-110" : ""} transition-transform`}>
                   {renderIcon(item.id, isActive)}
@@ -116,7 +150,10 @@ export default function NavigationBar() {
                   style={
                     isActive
                       ? {
-                          color: "#ffffff",
+                          backgroundImage: "linear-gradient(135deg, #3182F6 0%, #00C896 100%)",
+                          backgroundClip: "text",
+                          WebkitBackgroundClip: "text",
+                          WebkitTextFillColor: "transparent",
                         }
                       : {
                           color: "#3182F6",
@@ -125,6 +162,14 @@ export default function NavigationBar() {
                 >
                   {item.label}
                 </span>
+                {isActive && (
+                  <div
+                    className="absolute bottom-0 left-1/2 -translate-x-1/2 h-1 w-8 rounded-full"
+                    style={{
+                      backgroundImage: "linear-gradient(90deg, #3182F6 0%, #00C896 100%)",
+                    }}
+                  />
+                )}
               </button>
             );
           })}
