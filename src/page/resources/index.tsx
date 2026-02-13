@@ -75,7 +75,7 @@ export default function ResourcesView() {
     },
     {
       id: 3,
-      title: "프랜차이즈 계약서 검토 가이드",
+      title: "프랜차이즈 계약서 가이드",
       description: "계약 전 반드시 확인할 필수 항목 정리",
       type: "PDF",
       size: "3.2MB",
