@@ -27,7 +27,6 @@ export default function OfflineView() {
   const isScrollingRef = useRef(false);
   const [selectedProgram, setSelectedProgram] = useState<Program | null>(null);
   const [showPayment, setShowPayment] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
 
   // 스크롤 위치에 따라 현재 인덱스 업데이트
   useEffect(() => {
