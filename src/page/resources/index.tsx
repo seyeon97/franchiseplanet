@@ -52,7 +52,7 @@ export default function ResourcesView() {
 
   // 카테고리
   const categories = [
-    { id: "all", label: "전체", icon: "📑" },
+    { id: "all", label: "전체", icon: "📁" },
     { id: "market", label: "시장분석", icon: "📊" },
     { id: "checklist", label: "체크리스트", icon: "✅" },
     { id: "contract", label: "계약서", icon: "📋" },
@@ -325,34 +325,25 @@ export default function ResourcesView() {
       <div className="min-h-screen bg-white pb-20">
       <div className="max-w-2xl mx-auto">
         {/* 헤더 */}
-        <div className="sticky top-0 bg-white z-10 px-6 pt-8 pb-6 border-b border-gray-100">
-          <h1 className="text-4xl font-black mb-6 leading-tight text-[#101828]">
-            창업 성공을 위한
-            <br />
-            <span
-              className="bg-clip-text text-transparent"
-              style={{
-                backgroundImage: "linear-gradient(90deg, #3098F2 0%, #11BFAE 100%)",
-              }}
-            >
-              필수 자료실
-            </span>
+        <div className="sticky top-0 bg-white z-10 px-5 pt-6 pb-5">
+          <h1 className="text-3xl font-black mb-5 text-[#101828]">
+            자료실
           </h1>
 
           {/* 카테고리 탭 */}
-          <div className="flex gap-2.5 overflow-x-auto pb-1 scrollbar-hide -mx-6 px-6">
+          <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide -mx-5 px-5">
             {categories.map((cat) => (
               <button
                 key={cat.id}
                 onClick={() => setSelectedCategory(cat.id)}
-                className={`px-5 py-2.5 rounded-full font-bold text-sm whitespace-nowrap transition-all ${
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl font-bold text-sm whitespace-nowrap transition-all ${
                   selectedCategory === cat.id
-                    ? "bg-[#101828] text-white shadow-[0_2px_12px_rgba(0,0,0,0.15)]"
-                    : "bg-gray-50 text-gray-600 hover:bg-gray-100"
+                    ? "bg-[#1a1f2e] text-white shadow-[0_4px_12px_rgba(26,31,46,0.2)]"
+                    : "bg-[#f5f5f7] text-gray-600 hover:bg-gray-200"
                 }`}
               >
-                <span className="mr-1.5">{cat.icon}</span>
-                {cat.label}
+                <span className="text-base">{cat.icon}</span>
+                <span>{cat.label}</span>
               </button>
             ))}
           </div>
