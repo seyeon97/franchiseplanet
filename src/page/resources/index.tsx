@@ -156,24 +156,24 @@ export default function ResourcesView() {
   const otherResources = filteredResources.slice(1);
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-20">
-      <div className="max-w-6xl mx-auto">
+    <div className="min-h-screen bg-white pb-20">
+      <div className="max-w-2xl mx-auto">
         {/* 헤더 */}
-        <div className="sticky top-0 bg-gray-50 z-10 px-4 py-4 md:px-6">
+        <div className="sticky top-0 bg-white z-10 px-4 py-4 border-b border-gray-100">
           <h1 className="text-2xl font-black text-gray-900 mb-4">
             자료실
           </h1>
 
           {/* 카테고리 탭 */}
-          <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+          <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide -mx-4 px-4">
             {categories.map((cat) => (
               <button
                 key={cat.id}
                 onClick={() => setSelectedCategory(cat.id)}
-                className={`px-4 py-2 rounded-xl font-bold text-sm whitespace-nowrap transition-all ${
+                className={`px-4 py-2 rounded-full font-bold text-sm whitespace-nowrap transition-all ${
                   selectedCategory === cat.id
                     ? "bg-gray-900 text-white"
-                    : "bg-white text-gray-600 hover:bg-gray-100 shadow-sm"
+                    : "bg-gray-100 text-gray-600"
                 }`}
               >
                 <span className="mr-1">{cat.icon}</span>
@@ -183,78 +183,74 @@ export default function ResourcesView() {
           </div>
         </div>
 
-        <div className="px-4 md:px-6">
+        <div className="px-4">
           {/* Featured Post */}
           {featuredResource && (
-            <div className="mb-8">
-              <p className="text-xs text-gray-400 uppercase tracking-wide mb-2">
+            <div className="py-6">
+              <p className="text-xs text-gray-400 uppercase tracking-wide mb-3">
                 FEATURED POST
               </p>
-              <div className="grid md:grid-cols-2 gap-6 bg-white rounded-3xl overflow-hidden shadow-lg">
+              <button
+                onClick={() =>
+                  handleDownload(featuredResource.id, featuredResource.title)
+                }
+                className="w-full"
+              >
                 {/* Featured 이미지 */}
-                <button
-                  onClick={() =>
-                    handleDownload(featuredResource.id, featuredResource.title)
-                  }
-                  className={`relative aspect-square bg-gradient-to-br ${featuredResource.bgColor} flex items-center justify-center p-12 hover:scale-105 transition-transform`}
+                <div
+                  className={`relative w-full aspect-[4/3] bg-gradient-to-br ${featuredResource.bgColor} rounded-3xl overflow-hidden mb-4`}
                 >
-                  <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-8 w-full h-3/4 flex items-center justify-center">
-                    <span className="text-8xl">{featuredResource.thumbnail}</span>
+                  <div className="absolute inset-0 flex items-center justify-center p-10">
+                    <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-6 w-full h-3/4 flex items-center justify-center">
+                      <span className="text-7xl">{featuredResource.thumbnail}</span>
+                    </div>
                   </div>
                   {featuredResource.badge && (
                     <div
-                      className={`absolute top-4 left-4 ${featuredResource.badgeColor} text-white text-sm font-bold px-3 py-1.5 rounded-full shadow-lg`}
+                      className={`absolute top-4 left-4 ${featuredResource.badgeColor} text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg`}
                     >
                       {featuredResource.badge}
                     </div>
                   )}
-                </button>
+                </div>
 
                 {/* Featured 정보 */}
-                <div className="p-8 flex flex-col justify-center">
-                  <h2 className="text-3xl font-black text-gray-900 mb-3 leading-tight">
+                <div className="text-left">
+                  <h2 className="text-2xl font-black text-gray-900 mb-2 leading-tight">
                     {featuredResource.title}
                   </h2>
-                  <p className="text-base text-gray-600 mb-4">
+                  <p className="text-base text-gray-600 mb-2">
                     {featuredResource.description}
                   </p>
-                  <p className="text-sm text-gray-400 mb-6">
+                  <p className="text-sm text-gray-400">
                     {featuredResource.date}
                   </p>
-                  <button
-                    onClick={() =>
-                      handleDownload(featuredResource.id, featuredResource.title)
-                    }
-                    className="bg-gray-900 hover:bg-gray-800 text-white font-bold py-3 px-6 rounded-xl transition-colors w-fit"
-                  >
-                    다운로드
-                  </button>
                 </div>
-              </div>
+              </button>
             </div>
           )}
 
-          {/* 나머지 자료 그리드 */}
+          {/* 나머지 자료 그리드 - 2열 */}
           {otherResources.length > 0 && (
-            <div className="grid md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 gap-3 pb-6">
               {otherResources.map((resource) => (
                 <button
                   key={resource.id}
                   onClick={() => handleDownload(resource.id, resource.title)}
-                  className="group"
+                  className="text-left"
                 >
                   {/* 카드 이미지 */}
                   <div
-                    className={`relative aspect-square bg-gradient-to-br ${resource.bgColor} rounded-3xl overflow-hidden mb-3 group-hover:scale-105 transition-transform`}
+                    className={`relative aspect-square bg-gradient-to-br ${resource.bgColor} rounded-2xl overflow-hidden mb-2.5`}
                   >
-                    <div className="absolute inset-0 flex items-center justify-center p-8">
-                      <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-6 w-full h-3/4 flex items-center justify-center">
-                        <span className="text-6xl">{resource.thumbnail}</span>
+                    <div className="absolute inset-0 flex items-center justify-center p-6">
+                      <div className="bg-white/20 backdrop-blur-sm rounded-xl p-4 w-full h-3/4 flex items-center justify-center">
+                        <span className="text-5xl">{resource.thumbnail}</span>
                       </div>
                     </div>
                     {resource.badge && (
                       <div
-                        className={`absolute top-3 left-3 ${resource.badgeColor} text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-md`}
+                        className={`absolute top-2.5 left-2.5 ${resource.badgeColor} text-white text-xs font-bold px-2 py-0.5 rounded-full shadow-md`}
                       >
                         {resource.badge}
                       </div>
@@ -262,12 +258,12 @@ export default function ResourcesView() {
                   </div>
 
                   {/* 카드 정보 */}
-                  <div className="text-left">
+                  <div>
                     <p className="text-xs text-gray-400 mb-1">Trend report</p>
-                    <h3 className="text-lg font-bold text-gray-900 mb-1 line-clamp-2">
+                    <h3 className="text-sm font-bold text-gray-900 mb-1 line-clamp-2 leading-tight">
                       {resource.title}
                     </h3>
-                    <p className="text-sm text-gray-500 mb-2 line-clamp-1">
+                    <p className="text-xs text-gray-500 mb-1.5 line-clamp-1">
                       {resource.description}
                     </p>
                     <p className="text-xs text-gray-400">{resource.date}</p>
