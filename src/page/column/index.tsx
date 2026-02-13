@@ -209,7 +209,7 @@ export default function ColumnView() {
             transform: scale(1);
           }
           50% {
-            transform: scale(1.05);
+            transform: scale(1.02);
           }
         }
       `}</style>
