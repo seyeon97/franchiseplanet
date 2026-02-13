@@ -60,7 +60,15 @@ export default function ChatBot() {
     <div className="h-screen bg-gray-50 flex flex-col pb-20">
       {/* 헤더 */}
       <div className="px-6 pt-4 pb-3 bg-white shadow-sm">
-        <h1 className="text-2xl font-extrabold mb-1 leading-tight bg-gradient-to-r from-[#3182F6] to-[#00C896] bg-clip-text text-transparent">
+        <h1
+          className="text-2xl font-extrabold mb-1 leading-tight"
+          style={{
+            background: "linear-gradient(90deg, #3182F6 0%, #00C896 100%)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            backgroundClip: "text",
+          }}
+        >
           전문가 상담
         </h1>
         <p className="text-sm text-gray-600 font-medium">
