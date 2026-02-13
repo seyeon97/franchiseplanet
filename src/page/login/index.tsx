@@ -119,21 +119,20 @@ export default function LoginView() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center px-4 py-8">
+    <div className="min-h-screen bg-white flex items-center justify-center px-4 py-8">
       <div className="max-w-md w-full">
         {/* 로고 */}
         <div className="text-center mb-8">
-          <div className="text-6xl mb-4">🌍</div>
-          <h1 className="text-3xl md:text-4xl font-black text-white mb-2">
+          <h1 className="text-3xl md:text-4xl font-black text-gray-900 mb-2">
             프차플래닛
           </h1>
-          <p className="text-base md:text-lg text-blue-100 font-medium">
+          <p className="text-base md:text-lg text-gray-600 font-medium">
             프랜차이즈의 모든 것
           </p>
         </div>
 
         {/* 로그인 폼 */}
-        <div className="bg-white rounded-3xl p-6 md:p-8 shadow-2xl">
+        <div className="bg-white rounded-3xl p-6 md:p-8 border border-gray-200">
           <h2 className="text-2xl md:text-3xl font-black text-gray-900 mb-3 text-center">
             로그인
           </h2>
@@ -177,7 +176,7 @@ export default function LoginView() {
         {/* 뒤로가기 */}
         <button
           onClick={() => router.back()}
-          className="mt-6 w-full text-white font-bold py-3 hover:bg-white/10 rounded-xl transition-colors"
+          className="mt-6 w-full text-gray-600 font-bold py-3 hover:bg-gray-100 rounded-xl transition-colors"
         >
           뒤로가기
         </button>
