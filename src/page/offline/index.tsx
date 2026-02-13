@@ -5,33 +5,72 @@ import { useRef, useState, useEffect } from "react";
 export default function OfflineView() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const isScrollingRef = useRef(false);
 
   // 스크롤 위치에 따라 현재 인덱스 업데이트
   useEffect(() => {
     const handleScroll = () => {
-      if (scrollRef.current) {
+      if (scrollRef.current && !isScrollingRef.current) {
         const scrollLeft = scrollRef.current.scrollLeft;
         const width = scrollRef.current.offsetWidth;
         const index = Math.round(scrollLeft / width);
-        setCurrentIndex(index);
+
+        // Clear previous timeout
+        if (scrollTimeoutRef.current) {
+          clearTimeout(scrollTimeoutRef.current);
+        }
+
+        // Set a timeout to snap to the nearest card after scrolling stops
+        scrollTimeoutRef.current = setTimeout(() => {
+          if (scrollRef.current) {
+            const currentScrollLeft = scrollRef.current.scrollLeft;
+            const currentWidth = scrollRef.current.offsetWidth;
+            const targetIndex = Math.round(currentScrollLeft / currentWidth);
+
+            setCurrentIndex(targetIndex);
+
+            // Ensure we're snapped to the correct position
+            isScrollingRef.current = true;
+            scrollRef.current.scrollTo({
+              left: currentWidth * targetIndex,
+              behavior: "smooth",
+            });
+
+            setTimeout(() => {
+              isScrollingRef.current = false;
+            }, 300);
+          }
+        }, 50);
       }
     };
 
     const scrollElement = scrollRef.current;
     if (scrollElement) {
       scrollElement.addEventListener("scroll", handleScroll);
-      return () => scrollElement.removeEventListener("scroll", handleScroll);
+      return () => {
+        scrollElement.removeEventListener("scroll", handleScroll);
+        if (scrollTimeoutRef.current) {
+          clearTimeout(scrollTimeoutRef.current);
+        }
+      };
     }
   }, []);
 
   // 인디케이터 클릭 시 해당 카드로 스크롤
   const scrollToIndex = (index: number) => {
     if (scrollRef.current) {
+      isScrollingRef.current = true;
       const width = scrollRef.current.offsetWidth;
       scrollRef.current.scrollTo({
         left: width * index,
         behavior: "smooth",
       });
+      setCurrentIndex(index);
+
+      setTimeout(() => {
+        isScrollingRef.current = false;
+      }, 300);
     }
   };
 
@@ -90,14 +129,21 @@ export default function OfflineView() {
       {/* 카드 스와이프 영역 */}
       <div
         ref={scrollRef}
-        className="flex-1 overflow-x-scroll snap-x snap-mandatory scroll-smooth scrollbar-hide"
-        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        className="flex-1 overflow-x-scroll snap-x snap-mandatory scrollbar-hide"
+        style={{
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
+          scrollSnapType: 'x mandatory',
+          scrollBehavior: 'smooth',
+          WebkitOverflowScrolling: 'touch'
+        }}
       >
         <div className="flex h-full">
           {programs.map((program, index) => (
             <div
               key={program.id}
-              className="min-w-full h-full snap-start flex flex-col px-6 py-4 relative"
+              className="min-w-full h-full snap-center flex flex-col px-6 py-4 relative"
+              style={{ scrollSnapAlign: 'center', scrollSnapStop: 'always' }}
             >
               <div className="max-w-2xl w-full mx-auto flex-1 flex items-center justify-center">
                 <button className="text-left group w-full">
