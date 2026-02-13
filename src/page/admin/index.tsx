@@ -77,16 +77,34 @@ export default function AdminView() {
   // localStorage에서 데이터 로드
   const loadData = () => {
     if (typeof window !== 'undefined') {
-      setBrands(JSON.parse(localStorage.getItem("brands") || "[]"));
-      setColumns(JSON.parse(localStorage.getItem("columns") || "[]"));
-      setResources(JSON.parse(localStorage.getItem("resources") || "[]"));
-      setOfflinePrograms(JSON.parse(localStorage.getItem("offlinePrograms") || "[]"));
+      try {
+        const brandsData = localStorage.getItem("brands");
+        const columnsData = localStorage.getItem("columns");
+        const resourcesData = localStorage.getItem("resources");
+        const offlineData = localStorage.getItem("offlinePrograms");
+
+        console.log("브랜드 데이터:", brandsData);
+        console.log("칼럼 데이터:", columnsData);
+        console.log("자료실 데이터:", resourcesData);
+        console.log("오프라인 데이터:", offlineData);
+
+        setBrands(brandsData ? JSON.parse(brandsData) : []);
+        setColumns(columnsData ? JSON.parse(columnsData) : []);
+        setResources(resourcesData ? JSON.parse(resourcesData) : []);
+        setOfflinePrograms(offlineData ? JSON.parse(offlineData) : []);
+      } catch (error) {
+        console.error("데이터 로드 오류:", error);
+      }
     }
   };
 
   useEffect(() => {
     loadData();
-  }, [activeTab]);
+
+    // 5초마다 데이터 새로고침
+    const interval = setInterval(loadData, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
   const tabs = [
     { id: "brands" as TabType, label: "브랜드", count: brands.length },
