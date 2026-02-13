@@ -211,13 +211,6 @@ export default function MoreView() {
             </button>
           ))}
         </div>
-
-        {/* 버전 정보 */}
-        <div className="px-4 py-8 text-center">
-          <p className="text-sm text-gray-400 font-medium">
-            프차플래닛 v1.0.0
-          </p>
-        </div>
       </div>
     </div>
   );
