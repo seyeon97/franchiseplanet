@@ -471,14 +471,14 @@ export default function ResourcesView() {
             {/* 헤더 */}
             <div className="text-center mb-8">
               <div className="text-6xl mb-4">{selectedResource.thumbnail}</div>
-              <span className="text-sm font-bold text-white bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full">
+              <span className="text-sm font-bold text-gray-700 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full">
                 {selectedResource.type}
               </span>
-              <h1 className="text-3xl font-black text-white mt-4 mb-2">
+              <h1 className="text-3xl font-black text-gray-900 mt-4 mb-2">
                 {selectedResource.title}
               </h1>
-              <p className="text-sm text-white/80 mb-2">{selectedResource.provider}</p>
-              <p className="text-sm text-white/60">{selectedResource.date}</p>
+              <p className="text-sm text-gray-800 mb-2">{selectedResource.provider}</p>
+              <p className="text-sm text-gray-600">{selectedResource.date}</p>
             </div>
 
             {/* 본문 */}
