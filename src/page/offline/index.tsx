@@ -94,7 +94,7 @@ export default function OfflineView() {
             >
               <div className="max-w-2xl w-full mx-auto flex-1 flex items-center justify-center">
                 <button className="text-left group w-full">
-                  <div className="bg-white rounded-3xl overflow-hidden shadow-lg group-hover:shadow-2xl transition-shadow duration-300">
+                  <div className="bg-white rounded-3xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.08)] group-hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)] transition-all duration-300">
                     {/* 카드 상단 - 그라데이션 영역 */}
                     <div className={`bg-gradient-to-br ${program.bgColor} p-5 pb-10 relative`}>
                       <div className="text-xs font-bold text-white/90 mb-1.5 tracking-wide">
@@ -106,7 +106,7 @@ export default function OfflineView() {
 
                       {/* 강사 사진 - 카드 하단으로 걸쳐지도록 */}
                       <div className="absolute -bottom-12 left-1/2 transform -translate-x-1/2 z-10">
-                        <div className="w-24 h-24 rounded-[2.5rem] bg-white shadow-xl flex items-center justify-center text-5xl border-3 border-white group-hover:scale-110 transition-transform duration-300">
+                        <div className="w-24 h-24 rounded-[2.5rem] bg-white shadow-[0_4px_16px_rgba(0,0,0,0.1)] flex items-center justify-center text-5xl border-3 border-white group-hover:scale-105 transition-all duration-300">
                           {program.imageUrl}
                         </div>
                       </div>
@@ -127,7 +127,7 @@ export default function OfflineView() {
                       </p>
 
                       {/* CTA 버튼 */}
-                      <div className={`inline-flex items-center gap-2 bg-gradient-to-r ${program.bgColor} text-white font-bold px-5 py-2.5 rounded-full group-hover:shadow-lg transition-shadow duration-300`}>
+                      <div className={`inline-flex items-center gap-2 bg-gradient-to-r ${program.bgColor} text-white font-bold px-5 py-2.5 rounded-full group-hover:shadow-[0_4px_12px_rgba(0,0,0,0.15)] transition-all duration-300`}>
                         <span>자세히 보기</span>
                         <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
