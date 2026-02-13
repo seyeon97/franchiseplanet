@@ -219,7 +219,7 @@ export default function BrandCardToss({ brand }: BrandCardProps) {
                 </div>
               </div>
             </div>
-            <div className="grid grid-cols-3 gap-2 md:gap-3">
+            <div className="grid grid-cols-3 gap-2 md:gap-3 mb-3">
               <div className="bg-gray-50 rounded-xl md:rounded-2xl p-2 md:p-3 text-center">
                 <div className="text-xs text-gray-500 mb-1 font-medium">매출</div>
                 <div className="text-sm md:text-base font-bold text-gray-900">{formatMoney(brand.stats.top10.revenue)}</div>
@@ -232,6 +232,12 @@ export default function BrandCardToss({ brand }: BrandCardProps) {
                 <div className="text-xs text-white mb-1 font-bold">수익</div>
                 <div className="text-sm md:text-base font-bold text-white">{formatMoney(brand.stats.top10.profit)}</div>
               </div>
+            </div>
+            <div className="flex items-center justify-center gap-1 text-blue-600 text-sm font-bold">
+              <span>자세히 보기</span>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+              </svg>
             </div>
           </div>
 
@@ -257,7 +263,7 @@ export default function BrandCardToss({ brand }: BrandCardProps) {
                 </div>
               </div>
             </div>
-            <div className="grid grid-cols-3 gap-2 md:gap-3">
+            <div className="grid grid-cols-3 gap-2 md:gap-3 mb-3">
               <div className="bg-gray-50 rounded-xl md:rounded-2xl p-2 md:p-3 text-center">
                 <div className="text-xs text-gray-500 mb-1 font-medium">매출</div>
                 <div className="text-sm md:text-base font-bold text-gray-900">{formatMoney(brand.stats.average.revenue)}</div>
@@ -270,6 +276,12 @@ export default function BrandCardToss({ brand }: BrandCardProps) {
                 <div className="text-xs text-white mb-1 font-bold">수익</div>
                 <div className="text-sm md:text-base font-bold text-white">{formatMoney(brand.stats.average.profit)}</div>
               </div>
+            </div>
+            <div className="flex items-center justify-center gap-1 text-gray-600 text-sm font-bold">
+              <span>자세히 보기</span>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+              </svg>
             </div>
           </div>
 
@@ -295,7 +307,7 @@ export default function BrandCardToss({ brand }: BrandCardProps) {
                 </div>
               </div>
             </div>
-            <div className="grid grid-cols-3 gap-2 md:gap-3">
+            <div className="grid grid-cols-3 gap-2 md:gap-3 mb-3">
               <div className="bg-gray-50 rounded-xl md:rounded-2xl p-2 md:p-3 text-center">
                 <div className="text-xs text-gray-500 mb-1 font-medium">매출</div>
                 <div className="text-sm md:text-base font-bold text-gray-900">{formatMoney(brand.stats.bottom10.revenue)}</div>
@@ -308,6 +320,12 @@ export default function BrandCardToss({ brand }: BrandCardProps) {
                 <div className="text-xs text-white mb-1 font-bold">수익</div>
                 <div className="text-sm md:text-base font-bold text-white">{formatMoney(brand.stats.bottom10.profit)}</div>
               </div>
+            </div>
+            <div className="flex items-center justify-center gap-1 text-red-500 text-sm font-bold">
+              <span>자세히 보기</span>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+              </svg>
             </div>
           </div>
         </div>
