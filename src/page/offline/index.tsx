@@ -33,26 +33,15 @@ export default function OfflineView() {
   ];
 
   return (
-    <div className="min-h-screen bg-white pb-20">
-      <div className="max-w-2xl mx-auto px-4 py-8">
-        {/* 헤더 */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-black text-[#101828] mb-2">
-            오프라인 임장
-          </h1>
-          <p className="text-lg text-gray-600 font-medium">
-            전문가와 함께하는 현장 답사
-          </p>
-        </div>
-
-        {/* 임장 프로그램 카드 그리드 */}
-        <div className="grid grid-cols-1 gap-5">
-          {programs.map((program) => (
-            <button
-              key={program.id}
-              className="text-left group hover:scale-[1.02] transition-transform duration-300"
-            >
-              <div className="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300">
+    <div className="h-screen overflow-y-scroll snap-y snap-mandatory scroll-smooth pb-20">
+      {programs.map((program, index) => (
+        <div
+          key={program.id}
+          className="min-h-screen snap-start flex items-center justify-center bg-white px-4 py-8 relative"
+        >
+          <div className="max-w-2xl w-full">
+            <button className="text-left group w-full">
+              <div className="bg-white rounded-3xl overflow-hidden shadow-lg group-hover:shadow-2xl transition-shadow duration-300">
                 {/* 카드 상단 - 그라데이션 영역 */}
                 <div className={`bg-gradient-to-br ${program.bgColor} p-5 pb-10 relative`}>
                   <div className="text-xs font-bold text-white/90 mb-1.5 tracking-wide">
@@ -94,9 +83,31 @@ export default function OfflineView() {
                 </div>
               </div>
             </button>
-          ))}
+
+            {/* 스크롤 힌트 */}
+            {index === 0 && (
+              <div className="absolute bottom-24 left-1/2 transform -translate-x-1/2">
+                <div className="flex flex-col items-center gap-3 animate-bounce">
+                  <div className="text-sm text-gray-400 font-medium">아래로 스크롤</div>
+                  <svg
+                    className="w-6 h-6 text-gray-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2.5}
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      ))}
     </div>
   );
 }
