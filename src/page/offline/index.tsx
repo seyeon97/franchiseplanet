@@ -71,7 +71,8 @@ export default function OfflineView() {
       {/* 고정 헤더 */}
       <div className="px-6 pt-8 pb-4 max-w-2xl mx-auto w-full">
         <h1 className="text-4xl font-black mb-3 leading-tight">
-          <span className="text-[#101828]">전문가와 함께하는</span>
+          <span className="bg-gradient-to-r from-[#3098F2] via-[#25A6D9] to-[#11BFAE] bg-clip-text text-transparent">전문가</span>
+          <span className="text-[#101828]">와 함께하는</span>
           <br />
           <span className="bg-gradient-to-r from-[#3098F2] via-[#25A6D9] to-[#11BFAE] bg-clip-text text-transparent">
             현장 임장
