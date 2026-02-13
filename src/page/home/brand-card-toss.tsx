@@ -50,61 +50,82 @@ export default function BrandCardToss({ brand }: BrandCardProps) {
     return `${amount.toLocaleString()}만원`;
   };
 
-  // 변동비 데이터
-  const variableCosts = {
-    top10: [
-      { label: "원가율 (36%)", amount: 2880 },
-      { label: "카드수수료 (1.5%)", amount: 120 },
-      { label: "배달수수료 (30%)", amount: 480 },
-      { label: "플랫폼수수료 (5%)", amount: 320 },
-      { label: "수도광열비 (2%)", amount: 160 },
-      { label: "인건비 (21~25%)", amount: 1680 },
-    ],
-    average: [
-      { label: "원가율 (36%)", amount: 1281.6 },
-      { label: "카드수수료 (1.5%)", amount: 53.4 },
-      { label: "배달수수료 (30%)", amount: 213.6 },
-      { label: "플랫폼수수료 (5%)", amount: 142.4 },
-      { label: "수도광열비 (2%)", amount: 71.2 },
-      { label: "인건비 (21~25%)", amount: 783.2 },
-    ],
-    bottom10: [
-      { label: "원가율 (36%)", amount: 720 },
-      { label: "카드수수료 (1.5%)", amount: 30 },
-      { label: "배달수수료 (30%)", amount: 120 },
-      { label: "플랫폼수수료 (5%)", amount: 80 },
-      { label: "수도광열비 (2%)", amount: 40 },
-      { label: "인건비 (21~25%)", amount: 500 },
-    ],
+  // 브랜드별 변동비/고정비 데이터 생성
+  const getBrandCosts = () => {
+    const { top10, average, bottom10 } = brand.stats;
+
+    // 변동비 비율 설정 (브랜드 카테고리별 차이)
+    const isFood = brand.category.includes("치킨") || brand.category.includes("버거") || brand.category.includes("한식");
+    const isCafe = brand.category.includes("카페");
+    const isDessert = brand.category.includes("디저트");
+
+    const variableRates = {
+      food: { cogs: 0.38, card: 0.015, delivery: 0.32, platform: 0.05, utility: 0.025, labor: 0.23 },
+      cafe: { cogs: 0.36, card: 0.015, delivery: 0.30, platform: 0.05, utility: 0.02, labor: 0.22 },
+      dessert: { cogs: 0.34, card: 0.015, delivery: 0.28, platform: 0.05, utility: 0.022, labor: 0.20 },
+    };
+
+    const rates = isFood ? variableRates.food : isCafe ? variableRates.cafe : variableRates.dessert;
+
+    return {
+      variable: {
+        top10: [
+          { label: `원가율 (${(rates.cogs * 100).toFixed(0)}%)`, amount: Math.round(top10.revenue * rates.cogs) },
+          { label: `카드수수료 (${(rates.card * 100).toFixed(1)}%)`, amount: Math.round(top10.revenue * rates.card) },
+          { label: `배달수수료 (${(rates.delivery * 100).toFixed(0)}%)`, amount: Math.round(top10.revenue * rates.delivery * 0.4) },
+          { label: `플랫폼수수료 (${(rates.platform * 100).toFixed(0)}%)`, amount: Math.round(top10.revenue * rates.platform) },
+          { label: `수도광열비 (${(rates.utility * 100).toFixed(1)}%)`, amount: Math.round(top10.revenue * rates.utility) },
+          { label: `인건비 (${(rates.labor * 100).toFixed(0)}%)`, amount: Math.round(top10.revenue * rates.labor) },
+        ],
+        average: [
+          { label: `원가율 (${(rates.cogs * 100).toFixed(0)}%)`, amount: Math.round(average.revenue * rates.cogs) },
+          { label: `카드수수료 (${(rates.card * 100).toFixed(1)}%)`, amount: Math.round(average.revenue * rates.card) },
+          { label: `배달수수료 (${(rates.delivery * 100).toFixed(0)}%)`, amount: Math.round(average.revenue * rates.delivery * 0.4) },
+          { label: `플랫폼수수료 (${(rates.platform * 100).toFixed(0)}%)`, amount: Math.round(average.revenue * rates.platform) },
+          { label: `수도광열비 (${(rates.utility * 100).toFixed(1)}%)`, amount: Math.round(average.revenue * rates.utility) },
+          { label: `인건비 (${(rates.labor * 100).toFixed(0)}%)`, amount: Math.round(average.revenue * rates.labor) },
+        ],
+        bottom10: [
+          { label: `원가율 (${(rates.cogs * 100).toFixed(0)}%)`, amount: Math.round(bottom10.revenue * rates.cogs) },
+          { label: `카드수수료 (${(rates.card * 100).toFixed(1)}%)`, amount: Math.round(bottom10.revenue * rates.card) },
+          { label: `배달수수료 (${(rates.delivery * 100).toFixed(0)}%)`, amount: Math.round(bottom10.revenue * rates.delivery * 0.4) },
+          { label: `플랫폼수수료 (${(rates.platform * 100).toFixed(0)}%)`, amount: Math.round(bottom10.revenue * rates.platform) },
+          { label: `수도광열비 (${(rates.utility * 100).toFixed(1)}%)`, amount: Math.round(bottom10.revenue * rates.utility) },
+          { label: `인건비 (${(rates.labor * 100).toFixed(0)}%)`, amount: Math.round(bottom10.revenue * rates.labor) },
+        ],
+      },
+      fixed: {
+        top10: [
+          { label: "임대료", amount: Math.round(top10.revenue * 0.048) },
+          { label: "관리비", amount: Math.round(top10.revenue * 0.0048) },
+          { label: "광고비", amount: Math.round(top10.revenue * 0.012) },
+          { label: "정기 서비스", amount: 30 },
+          { label: "소모품비", amount: Math.round(top10.revenue * 0.004) },
+          { label: "로열티", amount: Math.round(top10.revenue * 0.002) },
+        ],
+        average: [
+          { label: "임대료", amount: Math.round(average.revenue * 0.062) },
+          { label: "관리비", amount: Math.round(average.revenue * 0.0062) },
+          { label: "광고비", amount: Math.round(average.revenue * 0.0028) },
+          { label: "정기 서비스", amount: 30 },
+          { label: "소모품비", amount: Math.round(average.revenue * 0.0084) },
+          { label: "로열티", amount: Math.round(average.revenue * 0.0046) },
+        ],
+        bottom10: [
+          { label: "임대료", amount: Math.round(bottom10.revenue * 0.176) },
+          { label: "관리비", amount: Math.round(bottom10.revenue * 0.015) },
+          { label: "광고비", amount: Math.round(bottom10.revenue * 0.005) },
+          { label: "정기 서비스", amount: 30 },
+          { label: "소모품비", amount: Math.round(bottom10.revenue * 0.015) },
+          { label: "로열티", amount: Math.round(bottom10.revenue * 0.008) },
+        ],
+      },
+    };
   };
 
-  // 고정비 데이터
-  const fixedCosts = {
-    top10: [
-      { label: "임대료", amount: 385 },
-      { label: "관리비", amount: 38.5 },
-      { label: "광고비", amount: 10 },
-      { label: "정기 서비스", amount: 30 },
-      { label: "소모품비", amount: 30 },
-      { label: "로열티", amount: 16.5 },
-    ],
-    average: [
-      { label: "임대료", amount: 220 },
-      { label: "관리비", amount: 22 },
-      { label: "광고비", amount: 10 },
-      { label: "정기 서비스", amount: 30 },
-      { label: "소모품비", amount: 30 },
-      { label: "로열티", amount: 16.5 },
-    ],
-    bottom10: [
-      { label: "임대료", amount: 352 },
-      { label: "관리비", amount: 30 },
-      { label: "광고비", amount: 10 },
-      { label: "정기 서비스", amount: 30 },
-      { label: "소모품비", amount: 30 },
-      { label: "로열티", amount: 16.5 },
-    ],
-  };
+  const costs = getBrandCosts();
+  const variableCosts = costs.variable;
+  const fixedCosts = costs.fixed;
 
   return (
     <section className="min-h-screen snap-start bg-white px-4 py-8 md:px-6 md:py-20">
@@ -156,7 +177,7 @@ export default function BrandCardToss({ brand }: BrandCardProps) {
         <div className="space-y-3 md:space-y-4 mb-6 md:mb-8">
           {/* 상위 10% */}
           <div
-            onClick={() => isMegaCoffee && setShowTop10Detail(!showTop10Detail)}
+            onClick={() =>  setShowTop10Detail(!showTop10Detail)}
             className="bg-white rounded-2xl md:rounded-3xl p-4 md:p-6 shadow-lg border-2 border-gray-100 transition-all hover:shadow-xl cursor-pointer"
           >
             <div className="flex items-center justify-between mb-3 md:mb-4">
@@ -194,7 +215,7 @@ export default function BrandCardToss({ brand }: BrandCardProps) {
 
           {/* 평균 50% */}
           <div
-            onClick={() => isMegaCoffee && setShowAverageDetail(!showAverageDetail)}
+            onClick={() =>  setShowAverageDetail(!showAverageDetail)}
             className="bg-white rounded-2xl md:rounded-3xl p-4 md:p-6 shadow-lg border-2 border-gray-100 transition-all hover:shadow-xl cursor-pointer"
           >
             <div className="flex items-center justify-between mb-3 md:mb-4">
@@ -232,7 +253,7 @@ export default function BrandCardToss({ brand }: BrandCardProps) {
 
           {/* 하위 10% */}
           <div
-            onClick={() => isMegaCoffee && setShowBottom10Detail(!showBottom10Detail)}
+            onClick={() =>  setShowBottom10Detail(!showBottom10Detail)}
             className="bg-white rounded-2xl md:rounded-3xl p-4 md:p-6 shadow-lg border-2 border-gray-100 transition-all hover:shadow-xl cursor-pointer"
           >
             <div className="flex items-center justify-between mb-3 md:mb-4">
@@ -287,7 +308,7 @@ export default function BrandCardToss({ brand }: BrandCardProps) {
         </div>
 
         {/* Top 10% Modal */}
-        {isMegaCoffee && showTop10Detail && (
+        { showTop10Detail && (
           <div
             className="fixed inset-0 bg-black/60 z-50 flex items-end md:items-center justify-center"
             onClick={() => setShowTop10Detail(false)}
@@ -412,7 +433,7 @@ export default function BrandCardToss({ brand }: BrandCardProps) {
         )}
 
         {/* Average Modal */}
-        {isMegaCoffee && showAverageDetail && (
+        { showAverageDetail && (
           <div
             className="fixed inset-0 bg-black/60 z-50 flex items-end md:items-center justify-center"
             onClick={() => setShowAverageDetail(false)}
@@ -537,7 +558,7 @@ export default function BrandCardToss({ brand }: BrandCardProps) {
         )}
 
         {/* Bottom 10% Modal */}
-        {isMegaCoffee && showBottom10Detail && (
+        { showBottom10Detail && (
           <div
             className="fixed inset-0 bg-black/60 z-50 flex items-end md:items-center justify-center"
             onClick={() => setShowBottom10Detail(false)}
