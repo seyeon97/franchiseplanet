@@ -12,6 +12,12 @@ export async function sendMessage(
     throw new Error("메시지가 필요합니다");
   }
 
+  // API 키 확인
+  if (!config.GEMINI_API_KEY || config.GEMINI_API_KEY === "YOUR_GEMINI_API_KEY_HERE") {
+    console.error("Gemini API 키가 설정되지 않았습니다.");
+    throw new Error("AI 서비스 설정이 필요합니다. 관리자에게 문의하세요.");
+  }
+
   // 프랜차이즈 창업 전문 시스템 프롬프트
   const systemPrompt = `당신은 프랜차이즈 창업 전문 컨설턴트입니다.
 사용자의 프랜차이즈 창업 관련 질문에 대해 전문적이고 실용적인 조언을 제공합니다.
@@ -72,9 +78,10 @@ export async function sendMessage(
   );
 
   if (!response.ok) {
-    const errorData = await response.json();
-    console.error("Gemini API Error:", errorData);
-    throw new Error("AI 응답을 생성하는데 실패했습니다");
+    const errorText = await response.text();
+    console.error("Gemini API Error Response:", errorText);
+    console.error("Gemini API Status:", response.status);
+    throw new Error(`AI 응답 생성 실패 (${response.status}): ${errorText.substring(0, 200)}`);
   }
 
   const data = (await response.json()) as {
