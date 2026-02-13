@@ -63,21 +63,33 @@ export default function LoginView() {
     // Kakao SDK 초기화
     const initKakao = () => {
       if (window.Kakao && !window.Kakao.isInitialized()) {
+        console.log("카카오 SDK 초기화 중...");
         window.Kakao.init(kakaoConfig.javascriptKey);
+        console.log("카카오 SDK 초기화 완료!");
         setIsKakaoReady(true);
       } else if (window.Kakao && window.Kakao.isInitialized()) {
+        console.log("카카오 SDK 이미 초기화됨");
         setIsKakaoReady(true);
       }
     };
 
-    // SDK 로드 대기
+    // SDK 로드 대기 (최대 5초)
+    let attempts = 0;
+    const maxAttempts = 50;
+
     if (window.Kakao) {
       initKakao();
     } else {
+      console.log("카카오 SDK 로드 대기 중...");
       // SDK 로드 완료 대기
       const checkKakao = setInterval(() => {
+        attempts++;
         if (window.Kakao) {
+          console.log("카카오 SDK 로드 완료!");
           initKakao();
+          clearInterval(checkKakao);
+        } else if (attempts >= maxAttempts) {
+          console.error("카카오 SDK 로드 실패 (타임아웃)");
           clearInterval(checkKakao);
         }
       }, 100);
@@ -92,7 +104,7 @@ export default function LoginView() {
       // 인증 코드가 있으면 로그인 성공 처리
       handleKakaoCallback();
     }
-  }, [handleKakaoCallback]);
+  }, []);
 
   const handleKakaoLogin = () => {
     if (!isKakaoReady) {
@@ -149,6 +161,15 @@ export default function LoginView() {
             <span className="text-2xl">💬</span>
             카카오톡으로 시작하기
           </button>
+
+          {/* 디버그 정보 (개발용) */}
+          {!isKakaoReady && (
+            <div className="mt-4 bg-blue-50 border border-blue-200 rounded-2xl p-4">
+              <p className="text-xs text-blue-800 text-center">
+                🔄 카카오 SDK 로딩 중...
+              </p>
+            </div>
+          )}
 
           {/* 안내 문구 */}
           <div className="mt-6 bg-gray-50 rounded-2xl p-4">
