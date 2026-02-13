@@ -232,7 +232,7 @@ export default function LoginView() {
           {/* 개발자 안내 */}
           <div className="mt-4 bg-orange-50 border border-orange-200 rounded-2xl p-4">
             <p className="text-xs text-orange-800 text-center leading-relaxed">
-              ⚠️ 카카오 로그인이 "연결 거부" 에러가 발생하면
+              ⚠️ 카카오 로그인이 &quot;연결 거부&quot; 에러가 발생하면
               <br />
               카카오 개발자 콘솔에서:
               <br />
