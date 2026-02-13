@@ -38,9 +38,21 @@ export default function OfflineView() {
         {programs.map((program, index) => (
           <div
             key={program.id}
-            className="min-w-full h-full snap-start flex items-center justify-center bg-white px-4 py-8 relative"
+            className="min-w-full h-full snap-start flex flex-col bg-white px-4 py-8 relative"
           >
-            <div className="max-w-2xl w-full">
+            {/* 헤더 - 첫 번째 카드에만 표시 */}
+            {index === 0 && (
+              <div className="mb-6">
+                <h1 className="text-3xl font-black text-[#101828] mb-2">
+                  오프라인 임장
+                </h1>
+                <p className="text-lg text-gray-600 font-medium">
+                  전문가와 함께하는 현장 답사
+                </p>
+              </div>
+            )}
+
+            <div className="max-w-2xl w-full mx-auto flex-1 flex items-center">
               <button className="text-left group w-full">
                 <div className="bg-white rounded-3xl overflow-hidden shadow-lg group-hover:shadow-2xl transition-shadow duration-300">
                   {/* 카드 상단 - 그라데이션 영역 */}
