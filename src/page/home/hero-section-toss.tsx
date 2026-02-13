@@ -2,7 +2,7 @@
 
 export default function HeroSectionToss() {
   return (
-    <section className="min-h-screen flex flex-col items-center justify-center bg-white px-4 py-12 md:px-6 md:py-20">
+    <section className="min-h-screen flex flex-col items-center justify-center bg-white px-4 py-12 md:px-6 md:py-20 snap-start">
       {/* Main Content */}
       <div className="max-w-2xl mx-auto text-center">
         {/* 토스 스타일 큰 타이포그래피 */}

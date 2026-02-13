@@ -202,7 +202,7 @@ export default function HomePage() {
 
   return (
     <>
-      <main className="h-screen overflow-y-scroll scroll-smooth pb-20">
+      <main className="h-screen overflow-y-scroll snap-y snap-mandatory scroll-smooth pb-20">
         <HeroSectionToss />
         <BrandsSectionToss
           brands={mockBrands}
