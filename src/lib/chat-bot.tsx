@@ -57,9 +57,9 @@ export default function ChatBot() {
   };
 
   return (
-    <div className="h-screen bg-gray-50 flex flex-col pb-20">
+    <div className="h-screen bg-gray-50 flex flex-col">
       {/* 헤더 */}
-      <div className="px-6 pt-4 pb-3 bg-white shadow-sm">
+      <div className="px-6 pt-4 pb-3 bg-white shadow-sm flex-shrink-0">
         <h1
           className="text-2xl font-extrabold mb-1 leading-tight"
           style={{
@@ -77,7 +77,7 @@ export default function ChatBot() {
       </div>
 
       {/* 메시지 영역 */}
-      <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
+      <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4 pb-28">
         {messages.map((message, index) => (
           <div
             key={index}
@@ -126,7 +126,7 @@ export default function ChatBot() {
       </div>
 
       {/* 입력 영역 */}
-      <div className="px-4 py-4 bg-white border-t border-gray-200">
+      <div className="px-4 py-3 pb-24 bg-white border-t border-gray-200 flex-shrink-0">
         <form onSubmit={handleSubmit} className="max-w-2xl mx-auto">
           <div className="relative">
             <input
