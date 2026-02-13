@@ -8,7 +8,7 @@ export default function ChatBot() {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
-      content: "안녕하세요! 프랜차이즈 창업 전문 컨설턴트입니다. 프랜차이즈 창업에 대해 궁금하신 점을 편하게 물어보세요.",
+      content: "안녕하세요! 프랜차이즈 창업 전문 컨설턴트입니다. 궁금하신 점을 편하게 물어보세요!",
     },
   ]);
   const [input, setInput] = useState("");
