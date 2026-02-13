@@ -1,16 +1,121 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { kakaoConfig } from "@/lib/kakao-config";
+
+// Kakao SDK 타입 정의
+declare global {
+  interface Window {
+    Kakao: {
+      init: (appKey: string) => void;
+      isInitialized: () => boolean;
+      Auth: {
+        authorize: (options: {
+          redirectUri: string;
+          state?: string;
+        }) => void;
+      };
+      API: {
+        request: (options: {
+          url: string;
+          success: (response: KakaoUserInfo) => void;
+          fail: (error: Error) => void;
+        }) => void;
+      };
+    };
+  }
+}
+
+interface KakaoUserInfo {
+  id: number;
+  kakao_account: {
+    email?: string;
+    profile?: {
+      nickname: string;
+      profile_image_url?: string;
+    };
+  };
+}
 
 export default function LoginView() {
   const router = useRouter();
+  const [isKakaoReady, setIsKakaoReady] = useState(false);
 
-  const handleSocialLogin = (provider: string) => {
-    // 카카오톡 로그인 처리
-    localStorage.setItem("isLoggedIn", "true");
-    localStorage.setItem("userEmail", `user@${provider}.com`);
-    router.back();
+  const handleKakaoCallback = async () => {
+    // 실제 환경에서는 서버로 인증 코드를 보내 액세스 토큰을 받아야 합니다
+    // 여기서는 간단히 로그인 상태만 저장합니다
+    try {
+      // 임시로 로그인 처리
+      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("userEmail", "kakao@user.com");
+
+      // URL 정리하고 메인으로 이동
+      window.history.replaceState({}, document.title, "/login");
+      router.push("/");
+    } catch (error) {
+      console.error("카카오 로그인 처리 실패:", error);
+      alert("로그인 처리 중 오류가 발생했습니다.");
+    }
+  };
+
+  useEffect(() => {
+    // Kakao SDK 초기화
+    const initKakao = () => {
+      if (window.Kakao && !window.Kakao.isInitialized()) {
+        window.Kakao.init(kakaoConfig.javascriptKey);
+        setIsKakaoReady(true);
+      } else if (window.Kakao && window.Kakao.isInitialized()) {
+        setIsKakaoReady(true);
+      }
+    };
+
+    // SDK 로드 대기
+    if (window.Kakao) {
+      initKakao();
+    } else {
+      // SDK 로드 완료 대기
+      const checkKakao = setInterval(() => {
+        if (window.Kakao) {
+          initKakao();
+          clearInterval(checkKakao);
+        }
+      }, 100);
+
+      return () => clearInterval(checkKakao);
+    }
+
+    // URL에서 인증 코드 확인
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get("code");
+    if (code) {
+      // 인증 코드가 있으면 로그인 성공 처리
+      handleKakaoCallback();
+    }
+  }, [handleKakaoCallback]);
+
+  const handleKakaoLogin = () => {
+    if (!isKakaoReady) {
+      alert("카카오 SDK가 로드되지 않았습니다. 잠시 후 다시 시도해주세요.");
+      return;
+    }
+
+    if (kakaoConfig.javascriptKey === "YOUR_KAKAO_JAVASCRIPT_KEY_HERE") {
+      alert(
+        "카카오 JavaScript 키를 설정해주세요.\n\n1. https://developers.kakao.com/console/app 접속\n2. 애플리케이션 추가\n3. JavaScript 키 복사\n4. src/lib/kakao-config.ts 파일에 키 입력\n5. 플랫폼 설정에서 Web 플랫폼 추가 (http://localhost:3000)\n6. 카카오 로그인 활성화 및 Redirect URI 설정 (http://localhost:3000/login)"
+      );
+      return;
+    }
+
+    try {
+      // 카카오 로그인 페이지로 이동
+      window.Kakao.Auth.authorize({
+        redirectUri: kakaoConfig.redirectUri,
+      });
+    } catch (error) {
+      console.error("카카오 로그인 오류:", error);
+      alert("카카오 로그인 중 오류가 발생했습니다.");
+    }
   };
 
   return (
@@ -38,8 +143,9 @@ export default function LoginView() {
 
           {/* 카카오톡 로그인 */}
           <button
-            onClick={() => handleSocialLogin("kakao")}
-            className="w-full bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-4 px-4 rounded-2xl transition-all text-lg flex items-center justify-center gap-3 shadow-lg hover:shadow-xl"
+            onClick={handleKakaoLogin}
+            disabled={!isKakaoReady}
+            className="w-full bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-4 px-4 rounded-2xl transition-all text-lg flex items-center justify-center gap-3 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <span className="text-2xl">💬</span>
             카카오톡으로 시작하기
@@ -53,6 +159,19 @@ export default function LoginView() {
               프차플래닛의 모든 서비스를 이용하세요
             </p>
           </div>
+
+          {/* 개발자 안내 */}
+          {kakaoConfig.javascriptKey === "YOUR_KAKAO_JAVASCRIPT_KEY_HERE" && (
+            <div className="mt-4 bg-yellow-50 border border-yellow-200 rounded-2xl p-4">
+              <p className="text-xs text-yellow-800 text-center leading-relaxed">
+                ⚠️ 개발자 안내: 카카오 JavaScript 키를 설정해주세요
+                <br />
+                <span className="font-mono text-[10px]">
+                  src/lib/kakao-config.ts
+                </span>
+              </p>
+            </div>
+          )}
         </div>
 
         {/* 뒤로가기 */}
