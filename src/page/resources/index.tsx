@@ -371,7 +371,11 @@ export default function ResourcesView() {
                   </div>
                   {featuredResource.badge && (
                     <div
-                      className={`absolute top-3 left-3 ${featuredResource.badgeColor} text-white text-sm font-bold px-3 py-1.5 rounded-full shadow-lg`}
+                      className={`absolute top-3 left-3 bg-white text-sm font-bold px-3 py-1.5 rounded-full shadow-lg ${
+                        featuredResource.badge === "인기"
+                          ? "bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent"
+                          : "bg-gradient-to-r from-blue-500 to-cyan-500 bg-clip-text text-transparent"
+                      }`}
                     >
                       {featuredResource.badge}
                     </div>
@@ -414,7 +418,11 @@ export default function ResourcesView() {
                     </div>
                     {resource.badge && (
                       <div
-                        className={`absolute top-2 left-2 ${resource.badgeColor} text-white text-sm font-bold px-2.5 py-1 rounded-full shadow-lg`}
+                        className={`absolute top-2 left-2 bg-white text-sm font-bold px-2.5 py-1 rounded-full shadow-lg ${
+                          resource.badge === "인기"
+                            ? "bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent"
+                            : "bg-gradient-to-r from-blue-500 to-cyan-500 bg-clip-text text-transparent"
+                        }`}
                       >
                         {resource.badge}
                       </div>
