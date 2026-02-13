@@ -272,11 +272,12 @@ export default function ColumnView() {
                   )}
 
                   {/* 클릭 힌트 */}
-                  <div className="absolute bottom-48 left-1/2 transform -translate-x-1/2 w-full px-6">
+                  <div className="absolute bottom-48 left-1/2 transform -translate-x-1/2 w-full px-6 animate-pulse">
                     <div
-                      className="bg-white rounded-2xl px-6 py-4 shadow-xl border-2 mx-auto max-w-sm"
+                      className="bg-white rounded-2xl px-6 py-4 shadow-xl border-2 mx-auto max-w-sm transform transition-all duration-300 hover:scale-105 hover:shadow-2xl"
                       style={{
                         borderImage: "linear-gradient(135deg, #3098F2 0%, #11BFAE 100%) 1",
+                        animation: "bounce 2s infinite",
                       }}
                     >
                       <p className="text-base font-black text-center" style={{
