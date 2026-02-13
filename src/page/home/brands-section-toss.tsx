@@ -202,7 +202,14 @@ export default function BrandsSectionToss({
 
             {/* 전체 브랜드 리스트 */}
             {showAllBrands && (
-              <div className="mb-6 -mx-4 px-4 overflow-x-auto scrollbar-hide">
+              <div
+                className="mb-6 -mx-4 px-4 overflow-x-auto"
+                style={{
+                  scrollbarWidth: 'none',
+                  msOverflowStyle: 'none',
+                  WebkitOverflowScrolling: 'touch'
+                }}
+              >
                 <div className="flex flex-nowrap gap-3 pb-2">
                   {brands.map((brand, index) => (
                     <button
