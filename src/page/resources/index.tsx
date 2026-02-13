@@ -51,7 +51,7 @@ export default function ResourcesView() {
       thumbnail: "📊",
       bgColor: "from-blue-400 to-blue-500",
       category: "market",
-      badge: "62% 특가",
+      badge: "인기",
       badgeColor: "bg-red-500",
       provider: "프차플래닛 리서치",
     },
@@ -105,7 +105,7 @@ export default function ResourcesView() {
       thumbnail: "🍗",
       bgColor: "from-yellow-400 to-amber-500",
       category: "market",
-      badge: "57% 특가",
+      badge: "인기",
       badgeColor: "bg-red-500",
       provider: "업종 분석팀",
     },
@@ -207,7 +207,7 @@ export default function ResourcesView() {
                   </div>
                   {featuredResource.badge && (
                     <div
-                      className={`absolute top-2 left-2 ${featuredResource.badgeColor} text-white text-xs font-bold px-2 py-0.5 rounded-full shadow-md`}
+                      className={`absolute top-3 left-3 ${featuredResource.badgeColor} text-white text-sm font-bold px-3 py-1.5 rounded-full shadow-lg`}
                     >
                       {featuredResource.badge}
                     </div>
@@ -250,7 +250,7 @@ export default function ResourcesView() {
                     </div>
                     {resource.badge && (
                       <div
-                        className={`absolute top-1.5 left-1.5 ${resource.badgeColor} text-white text-xs font-bold px-1.5 py-0.5 rounded-full shadow-md`}
+                        className={`absolute top-2 left-2 ${resource.badgeColor} text-white text-sm font-bold px-2.5 py-1 rounded-full shadow-lg`}
                       >
                         {resource.badge}
                       </div>
