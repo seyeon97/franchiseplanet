@@ -185,14 +185,11 @@ export default function BrandCardToss({ brand }: BrandCardProps) {
             <div className="text-xl md:text-3xl font-black text-gray-900">{brand.startupCost}</div>
           </div>
 
-          <h3 className="text-2xl md:text-3xl font-black text-gray-900 mb-2 leading-tight">
+          <h3 className="text-2xl md:text-3xl font-black text-gray-900 leading-tight">
             실제 매출은
             <br />
             얼마나 될까요?
           </h3>
-          <p className="text-base md:text-lg text-gray-600 font-medium">
-            상위 10%, 평균, 하위 10% 매장의 실제 데이터예요
-          </p>
         </div>
 
         {/* 통계 카드들 */}
