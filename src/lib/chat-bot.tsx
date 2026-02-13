@@ -78,18 +78,27 @@ export default function ChatBot() {
             }`}
           >
             {message.role === "user" ? (
-              <div className="max-w-[80%] rounded-2xl p-[2px] bg-gradient-to-r from-[#3182F6] to-[#00C896]">
-                <div className="bg-white rounded-2xl px-4 py-3">
-                  <p className="text-base leading-relaxed whitespace-pre-wrap text-gray-900">
+              <div className="relative max-w-[80%]">
+                <div className="rounded-2xl p-[2px] bg-gradient-to-r from-[#3182F6] to-[#00C896]">
+                  <div className="bg-white rounded-2xl px-4 py-3">
+                    <p className="text-base leading-relaxed whitespace-pre-wrap text-gray-900">
+                      {message.content}
+                    </p>
+                  </div>
+                </div>
+                {/* 오른쪽 꼬리 */}
+                <div className="absolute -right-2 bottom-3 w-4 h-4 bg-gradient-to-br from-[#00C896] to-[#00C896] transform rotate-45 rounded-br-md"></div>
+                <div className="absolute -right-[6px] bottom-[14px] w-3 h-3 bg-white transform rotate-45 rounded-br-sm"></div>
+              </div>
+            ) : (
+              <div className="relative max-w-[80%]">
+                <div className="rounded-2xl px-4 py-3 bg-white text-gray-900 shadow-sm">
+                  <p className="text-base leading-relaxed whitespace-pre-wrap">
                     {message.content}
                   </p>
                 </div>
-              </div>
-            ) : (
-              <div className="max-w-[80%] rounded-2xl px-4 py-3 bg-white text-gray-900 shadow-sm">
-                <p className="text-base leading-relaxed whitespace-pre-wrap">
-                  {message.content}
-                </p>
+                {/* 왼쪽 꼬리 */}
+                <div className="absolute -left-2 bottom-3 w-4 h-4 bg-white transform rotate-45 rounded-bl-md shadow-sm"></div>
               </div>
             )}
           </div>
