@@ -113,30 +113,122 @@ export default function AdminView() {
     }
   };
 
-  // 수정 함수들
+  // 새로 추가 함수들
+  const createNewBrand = () => {
+    const newId = brands.length > 0 ? Math.max(...brands.map(b => b.id)) + 1 : 1;
+    const newBrand: Brand = {
+      id: newId,
+      name: "새 브랜드",
+      category: "카테고리",
+      totalCost: 0,
+      thumbnail: "🏪",
+      description: "브랜드 설명을 입력하세요",
+      monthlyRevenue: 0,
+      fixedCosts: { franchise: 0, interior: 0, deposit: 0, equipment: 0 },
+      variableCosts: { rent: 0, labor: 0, materials: 0, utilities: 0 },
+    };
+    setEditModal({ type: "brands", data: newBrand });
+  };
+
+  const createNewColumn = () => {
+    const newId = columns.length > 0 ? Math.max(...columns.map(c => c.id)) + 1 : 1;
+    const newColumn: Column = {
+      id: newId,
+      title: "새 칼럼",
+      category: "카테고리",
+      summary: "요약을 입력하세요",
+      content: "본문을 입력하세요",
+      thumbnail: "📝",
+      bgGradient: "linear-gradient(135deg, #3098F2 0%, #25A6D9 100%)",
+      date: new Date().toLocaleDateString('ko-KR'),
+      isNew: true,
+    };
+    setEditModal({ type: "columns", data: newColumn });
+  };
+
+  const createNewResource = () => {
+    const newId = resources.length > 0 ? Math.max(...resources.map(r => r.id)) + 1 : 1;
+    const newResource: Resource = {
+      id: newId,
+      title: "새 자료",
+      category: "카테고리",
+      summary: "요약을 입력하세요",
+      content: "본문을 입력하세요",
+      thumbnail: "📄",
+      date: new Date().toLocaleDateString('ko-KR'),
+    };
+    setEditModal({ type: "resources", data: newResource });
+  };
+
+  const createNewOfflineProgram = () => {
+    const newId = offlinePrograms.length > 0 ? Math.max(...offlinePrograms.map(p => p.id)) + 1 : 1;
+    const newProgram: OfflineProgram = {
+      id: newId,
+      name: "새 프로그램",
+      title: "프로그램 제목",
+      description: "프로그램 설명을 입력하세요",
+      imageUrl: "👨‍💼",
+      price: 0,
+      date: new Date().toLocaleDateString('ko-KR'),
+      time: "14:00",
+      location: "장소 입력",
+      duration: "2시간",
+      maxParticipants: 10,
+      bgGradient: "linear-gradient(135deg, #10b981 0%, #059669 100%)",
+      details: [],
+      category: "임장",
+    };
+    setEditModal({ type: "offline", data: newProgram });
+  };
+
+  // 저장/추가 함수들
   const saveBrand = (updatedBrand: Brand) => {
-    const updated = brands.map(b => b.id === updatedBrand.id ? updatedBrand : b);
+    const existing = brands.find(b => b.id === updatedBrand.id);
+    let updated: Brand[];
+    if (existing) {
+      updated = brands.map(b => b.id === updatedBrand.id ? updatedBrand : b);
+    } else {
+      updated = [...brands, updatedBrand];
+    }
     setBrands(updated);
     localStorage.setItem("brands", JSON.stringify(updated));
     setEditModal({ type: null, data: null });
   };
 
   const saveColumn = (updatedColumn: Column) => {
-    const updated = columns.map(c => c.id === updatedColumn.id ? updatedColumn : c);
+    const existing = columns.find(c => c.id === updatedColumn.id);
+    let updated: Column[];
+    if (existing) {
+      updated = columns.map(c => c.id === updatedColumn.id ? updatedColumn : c);
+    } else {
+      updated = [...columns, updatedColumn];
+    }
     setColumns(updated);
     localStorage.setItem("columns", JSON.stringify(updated));
     setEditModal({ type: null, data: null });
   };
 
   const saveResource = (updatedResource: Resource) => {
-    const updated = resources.map(r => r.id === updatedResource.id ? updatedResource : r);
+    const existing = resources.find(r => r.id === updatedResource.id);
+    let updated: Resource[];
+    if (existing) {
+      updated = resources.map(r => r.id === updatedResource.id ? updatedResource : r);
+    } else {
+      updated = [...resources, updatedResource];
+    }
     setResources(updated);
     localStorage.setItem("resources", JSON.stringify(updated));
     setEditModal({ type: null, data: null });
   };
 
   const saveOfflineProgram = (updatedProgram: OfflineProgram) => {
-    const updated = offlinePrograms.map(p => p.id === updatedProgram.id ? updatedProgram : p);
+    const existing = offlinePrograms.find(p => p.id === updatedProgram.id);
+    let updated: OfflineProgram[];
+    if (existing) {
+      updated = offlinePrograms.map(p => p.id === updatedProgram.id ? updatedProgram : p);
+    } else {
+      updated = [...offlinePrograms, updatedProgram];
+    }
     setOfflinePrograms(updated);
     localStorage.setItem("offlinePrograms", JSON.stringify(updated));
     setEditModal({ type: null, data: null });
@@ -482,7 +574,15 @@ export default function AdminView() {
                       }개의 콘텐츠
                     </p>
                   </div>
-                  <button className="px-6 py-2.5 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold rounded-xl hover:shadow-lg transition-all">
+                  <button
+                    onClick={() => {
+                      if (activeTab === "brands") createNewBrand();
+                      else if (activeTab === "columns") createNewColumn();
+                      else if (activeTab === "resources") createNewResource();
+                      else if (activeTab === "offline") createNewOfflineProgram();
+                    }}
+                    className="px-6 py-2.5 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold rounded-xl hover:shadow-lg transition-all"
+                  >
                     + 새로 추가
                   </button>
                 </div>
