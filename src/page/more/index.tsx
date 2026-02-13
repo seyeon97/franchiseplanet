@@ -119,10 +119,10 @@ export default function MoreView() {
   };
 
   return (
-    <div className="min-h-screen bg-white pb-20">
+    <div className="min-h-screen bg-gray-50 pb-20">
       <div className="max-w-2xl mx-auto">
         {/* 프로필 영역 */}
-        <div className="px-4 pt-6 pb-4">
+        <div className="bg-white px-4 pt-6 pb-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               {/* 프로필 이미지 */}
@@ -170,12 +170,12 @@ export default function MoreView() {
         </div>
 
         {/* 마이 서비스 섹션 */}
-        <div className="px-4 pt-4 pb-2">
+        <div className="bg-white mt-2 px-4 pt-4 pb-2">
           <h3 className="text-lg font-black text-gray-900">마이 서비스</h3>
         </div>
 
         {/* 서비스 메뉴 리스트 */}
-        <div className="mt-2">
+        <div className="bg-white">
           {serviceMenus.map((item) => (
             <button
               key={item.id}
