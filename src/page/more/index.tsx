@@ -51,44 +51,34 @@ export default function MoreView() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-20">
-      <div className="max-w-2xl mx-auto px-4 py-8 md:px-6 md:py-12">
+    <div className="min-h-screen bg-white pb-20">
+      <div className="max-w-2xl mx-auto">
         {/* 헤더 */}
-        <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-black text-gray-900 mb-2">
-            더보기
+        <div className="px-4 pt-12 pb-8 md:px-6 md:pt-16 md:pb-10">
+          <h1 className="text-3xl md:text-4xl font-black text-gray-900">
+            전체
           </h1>
-          <p className="text-base md:text-lg text-gray-600 font-medium">
-            다양한 서비스와 설정을 확인하세요
-          </p>
         </div>
 
-        {/* 메뉴 리스트 */}
-        <div className="space-y-3">
-          {menuItems.map((item) => (
+        {/* 메뉴 리스트 - 토스 스타일 */}
+        <div>
+          {menuItems.map((item, index) => (
             <button
               key={item.id}
               onClick={() => router.push(item.path)}
-              className="w-full bg-white rounded-2xl md:rounded-3xl p-5 md:p-6 flex items-center gap-4 shadow-md hover:shadow-xl transition-all"
+              className="w-full px-4 md:px-6 py-5 flex items-center justify-between hover:bg-gray-50 active:bg-gray-100 transition-colors border-b border-gray-100 last:border-b-0"
             >
-              {/* 아이콘 */}
-              <div className="w-14 h-14 md:w-16 md:h-16 rounded-xl bg-gradient-to-br from-blue-50 to-cyan-50 flex items-center justify-center text-3xl md:text-4xl flex-shrink-0">
-                {item.icon}
-              </div>
-
-              {/* 텍스트 */}
-              <div className="flex-1 text-left min-w-0">
-                <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-1">
+              {/* 왼쪽: 아이콘 + 텍스트 */}
+              <div className="flex items-center gap-4">
+                <span className="text-2xl">{item.icon}</span>
+                <span className="text-base md:text-lg font-bold text-gray-900">
                   {item.title}
-                </h3>
-                <p className="text-sm md:text-base text-gray-500 font-medium">
-                  {item.description}
-                </p>
+                </span>
               </div>
 
-              {/* 화살표 */}
+              {/* 오른쪽: 화살표 */}
               <svg
-                className="w-5 h-5 md:w-6 md:h-6 text-gray-400 flex-shrink-0"
+                className="w-5 h-5 text-gray-400"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -96,7 +86,7 @@ export default function MoreView() {
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  strokeWidth={2.5}
+                  strokeWidth={2}
                   d="M9 5l7 7-7 7"
                 />
               </svg>
@@ -105,7 +95,7 @@ export default function MoreView() {
         </div>
 
         {/* 버전 정보 */}
-        <div className="mt-8 text-center">
+        <div className="px-4 py-8 text-center">
           <p className="text-sm text-gray-400 font-medium">
             프차플래닛 v1.0.0
           </p>
