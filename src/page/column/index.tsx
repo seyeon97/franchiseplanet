@@ -223,29 +223,29 @@ export default function ColumnView() {
                 />
 
                 {/* 콘텐츠 */}
-                <div className="relative h-full flex flex-col items-center justify-center px-6 text-center">
+                <div className="relative h-full flex flex-col items-center justify-center px-6 text-center pt-20">
                   {/* 썸네일 아이콘 */}
-                  <div className="text-8xl mb-6">{column.thumbnail}</div>
+                  <div className="text-8xl mb-4">{column.thumbnail}</div>
 
                   {/* 카테고리 */}
-                  <div className="mb-4">
+                  <div className="mb-3">
                     <span className="text-sm font-bold text-gray-900 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full">
                       {column.category}
                     </span>
                   </div>
 
                   {/* 제목 */}
-                  <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-4 leading-tight break-keep">
+                  <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-3 leading-tight break-keep">
                     {column.title}
                   </h2>
 
                   {/* 요약 */}
-                  <p className="text-lg text-gray-800 font-medium mb-6 max-w-md break-keep">
+                  <p className="text-lg text-gray-800 font-medium mb-4 max-w-md break-keep">
                     {column.summary}
                   </p>
 
                   {/* 날짜 */}
-                  <p className="text-sm text-gray-700 font-medium mb-4">
+                  <p className="text-sm text-gray-700 font-medium mb-2">
                     {column.date}
                   </p>
 
@@ -272,12 +272,12 @@ export default function ColumnView() {
                   )}
 
                   {/* 클릭 힌트 */}
-                  <div className="absolute bottom-56 left-1/2 transform -translate-x-1/2 w-full px-6 animate-pulse">
+                  <div className="absolute bottom-56 left-1/2 transform -translate-x-1/2 w-full px-6" style={{ animation: "pulse 1s infinite" }}>
                     <div
                       className="bg-white rounded-2xl px-6 py-4 shadow-xl border-2 mx-auto max-w-sm transform transition-all duration-300 hover:scale-105 hover:shadow-2xl"
                       style={{
                         borderImage: "linear-gradient(135deg, #3098F2 0%, #11BFAE 100%) 1",
-                        animation: "bounce 2s infinite",
+                        animation: "bounce 1.5s infinite",
                       }}
                     >
                       <p className="text-base font-black text-center" style={{
