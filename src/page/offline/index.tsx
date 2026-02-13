@@ -33,125 +33,125 @@ export default function OfflineView() {
   ];
 
   return (
-    <div className="h-screen overflow-x-scroll snap-x snap-mandatory scroll-smooth bg-gray-50">
-      <div className="flex h-full">
-        {programs.map((program, index) => (
-          <div
-            key={program.id}
-            className="min-w-full h-full snap-start flex flex-col px-6 py-8 pb-24 relative"
-          >
-            {/* 헤더 */}
-            <div className="mb-8 max-w-2xl mx-auto w-full">
-              <h1 className="text-4xl font-black text-[#101828] mb-3 leading-tight">
-                전문가와 함께하는
-                <br />
-                현장 임장
-              </h1>
-              <p className="text-lg text-gray-600 font-medium">
-                성공 창업의 시작, 입지 분석부터
-              </p>
-            </div>
+    <div className="h-screen bg-gray-50 flex flex-col pb-20">
+      {/* 고정 헤더 */}
+      <div className="px-6 pt-8 pb-4 max-w-2xl mx-auto w-full">
+        <h1 className="text-4xl font-black text-[#101828] mb-3 leading-tight">
+          전문가와 함께하는
+          <br />
+          현장 임장
+        </h1>
+        <p className="text-lg text-gray-600 font-medium">
+          성공 창업의 시작, 입지 분석부터
+        </p>
+      </div>
 
-            <div className="max-w-2xl w-full mx-auto flex-1 flex items-center justify-center">
-              <button className="text-left group w-full">
-                <div className="bg-white rounded-3xl overflow-hidden shadow-lg group-hover:shadow-2xl transition-shadow duration-300">
-                  {/* 카드 상단 - 그라데이션 영역 */}
-                  <div className={`bg-gradient-to-br ${program.bgColor} p-5 pb-10 relative`}>
-                    <div className="text-xs font-bold text-white/90 mb-1.5 tracking-wide">
-                      ★ 프랜차이즈 / 상권분석 전문가
+      {/* 카드 스와이프 영역 */}
+      <div className="flex-1 overflow-x-scroll snap-x snap-mandatory scroll-smooth">
+        <div className="flex h-full">
+          {programs.map((program, index) => (
+            <div
+              key={program.id}
+              className="min-w-full h-full snap-start flex flex-col px-6 py-4 relative"
+            >
+              <div className="max-w-2xl w-full mx-auto flex-1 flex items-center justify-center">
+                <button className="text-left group w-full">
+                  <div className="bg-white rounded-3xl overflow-hidden shadow-lg group-hover:shadow-2xl transition-shadow duration-300">
+                    {/* 카드 상단 - 그라데이션 영역 */}
+                    <div className={`bg-gradient-to-br ${program.bgColor} p-5 pb-10 relative`}>
+                      <div className="text-xs font-bold text-white/90 mb-1.5 tracking-wide">
+                        ★ 프랜차이즈 / 상권분석 전문가
+                      </div>
+                      <h3 className="text-3xl font-black text-white leading-tight mb-2">
+                        {program.title}
+                      </h3>
+
+                      {/* 강사 사진 - 카드 하단으로 걸쳐지도록 */}
+                      <div className="absolute -bottom-12 left-1/2 transform -translate-x-1/2 z-10">
+                        <div className="w-24 h-24 rounded-[2.5rem] bg-white shadow-xl flex items-center justify-center text-5xl border-3 border-white group-hover:scale-110 transition-transform duration-300">
+                          {program.imageUrl}
+                        </div>
+                      </div>
                     </div>
-                    <h3 className="text-3xl font-black text-white leading-tight mb-2">
-                      {program.title}
-                    </h3>
 
-                    {/* 강사 사진 - 카드 하단으로 걸쳐지도록 */}
-                    <div className="absolute -bottom-12 left-1/2 transform -translate-x-1/2 z-10">
-                      <div className="w-24 h-24 rounded-[2.5rem] bg-white shadow-xl flex items-center justify-center text-5xl border-3 border-white group-hover:scale-110 transition-transform duration-300">
-                        {program.imageUrl}
+                    {/* 카드 하단 정보 */}
+                    <div className="pt-16 pb-5 px-5 text-center bg-gradient-to-b from-gray-50 to-white">
+                      <h4 className="text-xl font-black text-[#101828] mb-2">
+                        {program.name}
+                      </h4>
+                      <div className="inline-block mb-3">
+                        <span className="text-xs font-bold text-gray-600 bg-gray-100 px-3 py-1.5 rounded-full">
+                          {program.category}
+                        </span>
+                      </div>
+                      <p className="text-base text-gray-600 leading-relaxed mb-4">
+                        {program.description}
+                      </p>
+
+                      {/* CTA 버튼 */}
+                      <div className={`inline-flex items-center gap-2 bg-gradient-to-r ${program.bgColor} text-white font-bold px-5 py-2.5 rounded-full group-hover:shadow-lg transition-shadow duration-300`}>
+                        <span>자세히 보기</span>
+                        <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
                       </div>
                     </div>
                   </div>
-
-                  {/* 카드 하단 정보 */}
-                  <div className="pt-16 pb-5 px-5 text-center bg-gradient-to-b from-gray-50 to-white">
-                    <h4 className="text-xl font-black text-[#101828] mb-2">
-                      {program.name}
-                    </h4>
-                    <div className="inline-block mb-3">
-                      <span className="text-xs font-bold text-gray-600 bg-gray-100 px-3 py-1.5 rounded-full">
-                        {program.category}
-                      </span>
-                    </div>
-                    <p className="text-base text-gray-600 leading-relaxed mb-4">
-                      {program.description}
-                    </p>
-
-                    {/* CTA 버튼 */}
-                    <div className={`inline-flex items-center gap-2 bg-gradient-to-r ${program.bgColor} text-white font-bold px-5 py-2.5 rounded-full group-hover:shadow-lg transition-shadow duration-300`}>
-                      <span>자세히 보기</span>
-                      <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-              </button>
-
-            </div>
-
-            {/* 하단 정보 및 페이지 인디케이터 */}
-            <div className="mt-8 max-w-2xl mx-auto w-full">
-              {/* 페이지 인디케이터 */}
-              <div className="flex justify-center gap-2 mb-4">
-                {programs.map((_, idx) => (
-                  <div
-                    key={idx}
-                    className={`h-1.5 rounded-full transition-all duration-300 ${
-                      idx === index
-                        ? "w-8 bg-[#101828]"
-                        : "w-1.5 bg-gray-300"
-                    }`}
-                  />
-                ))}
+                </button>
               </div>
-
-              {/* 스와이프 힌트 */}
-              {index === 0 && (
-                <div className="text-center">
-                  <div className="inline-flex items-center gap-3 text-gray-400 animate-pulse">
-                    <svg
-                      className="w-5 h-5 rotate-180"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2.5}
-                        d="M9 5l7 7-7 7"
-                      />
-                    </svg>
-                    <span className="text-sm font-medium">옆으로 스와이프</span>
-                    <svg
-                      className="w-5 h-5"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2.5}
-                        d="M9 5l7 7-7 7"
-                      />
-                    </svg>
-                  </div>
-                </div>
-              )}
             </div>
+          ))}
+        </div>
+      </div>
+
+      {/* 고정 하단 인디케이터 */}
+      <div className="px-6 pb-4 max-w-2xl mx-auto w-full">
+        {/* 페이지 인디케이터 */}
+        <div className="flex justify-center gap-2 mb-4">
+          {programs.map((_, idx) => (
+            <div
+              key={idx}
+              className={`h-1.5 rounded-full transition-all duration-300 ${
+                idx === 0
+                  ? "w-8 bg-[#101828]"
+                  : "w-1.5 bg-gray-300"
+              }`}
+            />
+          ))}
+        </div>
+
+        {/* 스와이프 힌트 */}
+        <div className="text-center">
+          <div className="inline-flex items-center gap-3 text-gray-400 animate-pulse">
+            <svg
+              className="w-5 h-5 rotate-180"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2.5}
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+            <span className="text-sm font-medium">옆으로 스와이프</span>
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2.5}
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
           </div>
-        ))}
+        </div>
       </div>
     </div>
   );
