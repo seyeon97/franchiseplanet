@@ -33,7 +33,7 @@ export default function MoreView() {
     },
     {
       id: "bookmark",
-      title: "내 자산",
+      title: "내 브랜드",
       subtitle: "관심 브랜드 · 저장한 칼럼",
       iconType: "bookmark",
       iconBg: "bg-blue-100",
