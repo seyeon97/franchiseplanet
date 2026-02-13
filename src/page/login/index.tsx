@@ -156,6 +156,13 @@ export default function LoginView() {
     }
   };
 
+  // 임시 로그인 (테스트용)
+  const handleTempLogin = () => {
+    localStorage.setItem("isLoggedIn", "true");
+    localStorage.setItem("userEmail", "test@user.com");
+    router.push("/");
+  };
+
   return (
     <div className="min-h-screen bg-white flex items-center justify-center px-4 py-8">
         <div className="max-w-md w-full">
@@ -197,12 +204,36 @@ export default function LoginView() {
             </div>
           )}
 
+          {/* 임시 로그인 (개발용) */}
+          <button
+            onClick={handleTempLogin}
+            className="w-full mt-4 bg-gray-200 hover:bg-gray-300 text-gray-900 font-bold py-4 px-4 rounded-2xl transition-all text-lg flex items-center justify-center gap-3"
+          >
+            <span className="text-2xl">🔓</span>
+            임시 로그인 (테스트)
+          </button>
+
           {/* 안내 문구 */}
           <div className="mt-6 bg-gray-50 rounded-2xl p-4">
             <p className="text-xs md:text-sm text-gray-600 text-center leading-relaxed">
               카카오톡 계정으로 간편하게 로그인하고
               <br />
               프차플래닛의 모든 서비스를 이용하세요
+            </p>
+          </div>
+
+          {/* 개발자 안내 */}
+          <div className="mt-4 bg-orange-50 border border-orange-200 rounded-2xl p-4">
+            <p className="text-xs text-orange-800 text-center leading-relaxed">
+              ⚠️ 카카오 로그인이 "연결 거부" 에러가 발생하면
+              <br />
+              카카오 개발자 콘솔에서:
+              <br />
+              1. 제품 설정 → 카카오 로그인 → <strong>활성화 ON</strong>
+              <br />
+              2. 앱 설정 → 플랫폼 → <strong>Web 플랫폼 등록</strong>
+              <br />
+              3. 설정 후 <strong>저장 버튼 클릭</strong> 필수!
             </p>
           </div>
 
