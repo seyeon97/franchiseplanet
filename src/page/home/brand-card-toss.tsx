@@ -178,11 +178,11 @@ export default function BrandCardToss({ brand }: BrandCardProps) {
           </div>
 
           {/* 초기 투자금 - 토스 스타일 카드 */}
-          <div className="bg-gray-50 rounded-2xl md:rounded-3xl p-4 md:p-6 mb-6 md:mb-8 text-center">
-            <div className="text-xs md:text-sm text-gray-500 font-medium mb-1 md:mb-2">
-              초기 투자금 <span className="text-gray-400">(보증금 제외)</span>
+          <div className="bg-gray-50 rounded-2xl md:rounded-3xl p-4 md:p-6 mb-6 md:mb-8 flex items-center justify-between">
+            <div className="text-sm md:text-base text-gray-500 font-medium">
+              초기 투자금 <span className="text-gray-400 text-xs md:text-sm">(보증금 제외)</span>
             </div>
-            <div className="text-xl md:text-3xl font-black text-gray-900">{brand.startupCost}</div>
+            <div className="text-lg md:text-xl font-black text-gray-900">{brand.startupCost}</div>
           </div>
 
           <h3 className="text-2xl md:text-3xl font-black text-gray-900 leading-tight">
