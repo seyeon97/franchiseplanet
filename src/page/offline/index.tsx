@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import Script from "next/script";
 
 // 아임포트 타입 선언
 interface IamportResponse {
@@ -50,6 +49,29 @@ export default function OfflineView() {
   const [selectedProgram, setSelectedProgram] = useState<Program | null>(null);
   const [showPayment, setShowPayment] = useState(false);
   const [iamportLoaded, setIamportLoaded] = useState(false);
+
+  // 아임포트 SDK 로드
+  useEffect(() => {
+    if (typeof window !== 'undefined' && !window.IMP) {
+      const script = document.createElement('script');
+      script.src = 'https://cdn.iamport.kr/v1/iamport.js';
+      script.async = true;
+      script.onload = () => {
+        setIamportLoaded(true);
+      };
+      document.head.appendChild(script);
+
+      return () => {
+        // Cleanup
+        const scriptToRemove = document.querySelector('script[src="https://cdn.iamport.kr/v1/iamport.js"]');
+        if (scriptToRemove) {
+          document.head.removeChild(scriptToRemove);
+        }
+      };
+    } else if (window.IMP) {
+      setIamportLoaded(true);
+    }
+  }, []);
 
   // 스크롤 위치에 따라 현재 인덱스 업데이트
   useEffect(() => {
@@ -188,14 +210,7 @@ export default function OfflineView() {
   ];
 
   return (
-    <>
-      {/* 아임포트 SDK 로드 */}
-      <Script
-        src="https://cdn.iamport.kr/v1/iamport.js"
-        onLoad={() => setIamportLoaded(true)}
-      />
-
-      <div className="h-screen bg-gray-50 flex flex-col pb-20">
+    <div className="h-screen bg-gray-50 flex flex-col pb-20">
       {/* 고정 헤더 */}
       <div className="px-6 pt-8 pb-4 max-w-2xl mx-auto w-full">
         <h1 className="text-4xl font-extrabold mb-3 leading-tight text-[#101828]">
@@ -645,7 +660,6 @@ export default function OfflineView() {
         </div>
       )}
 
-      </div>
-    </>
+    </div>
   );
 }
