@@ -469,7 +469,7 @@ export default function OfflineView() {
       {/* 결제 모달 (토스페이먼츠) */}
       {selectedProgram && showPayment && (
         <div className="fixed inset-0 bg-black/70 z-50 flex items-end md:items-center justify-center">
-          <div className="bg-white rounded-t-3xl md:rounded-3xl w-full md:max-w-lg max-h-[90vh] overflow-y-auto">
+          <div className="bg-white rounded-t-3xl md:rounded-3xl w-full md:max-w-lg max-h-[85vh] overflow-y-auto pb-24">
             {/* 모달 헤더 */}
             <div className="sticky top-0 bg-white rounded-t-3xl z-10 border-b border-gray-200">
               <div className="flex items-center justify-between p-4">
