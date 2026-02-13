@@ -26,8 +26,18 @@ export default function BookmarkView() {
 
         <div className="p-4">
           <div className="text-center py-16">
-            <div className="text-6xl mb-4">💼</div>
-            <p className="text-lg font-bold text-gray-900 mb-2">내 자산</p>
+            <div className="mb-4 flex justify-center">
+              <svg className="w-16 h-16" viewBox="0 0 24 24" fill="none">
+                <defs>
+                  <linearGradient id="gradient-bookmark" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style={{ stopColor: '#3182F6' }} />
+                    <stop offset="100%" style={{ stopColor: '#00C896' }} />
+                  </linearGradient>
+                </defs>
+                <path d="M20 21V5C20 4.46957 19.7893 3.96086 19.4142 3.58579C19.0391 3.21071 18.5304 3 18 3H8C7.46957 3 6.96086 3.21071 6.58579 3.58579C6.21071 3.96086 6 4.46957 6 5V21L13 18L20 21Z" fill="url(#gradient-bookmark)" stroke="url(#gradient-bookmark)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </div>
+            <p className="text-lg font-bold text-gray-900 mb-2">내 브랜드</p>
             <p className="text-sm text-gray-500">관심 브랜드와 저장한 칼럼이 표시됩니다</p>
           </div>
         </div>
