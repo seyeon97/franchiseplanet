@@ -20,6 +20,7 @@ export default function ColumnView() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [selectedColumn, setSelectedColumn] = useState<Column | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [showLoginModal, setShowLoginModal] = useState(false);
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
 
@@ -135,12 +136,19 @@ export default function ColumnView() {
   const handleColumnClick = (column: Column, index: number) => {
     // 처음 2개 칼럼은 무료, 3번째부터 로그인 필요
     if (index >= 2 && !isLoggedIn) {
-      if (confirm("이 칼럼을 읽으려면 로그인이 필요합니다. 로그인 하시겠습니까?")) {
-        router.push("/login");
-      }
+      setShowLoginModal(true);
       return;
     }
     setSelectedColumn(column);
+  };
+
+  const handleLoginConfirm = () => {
+    setShowLoginModal(false);
+    router.push("/login");
+  };
+
+  const handleLoginCancel = () => {
+    setShowLoginModal(false);
   };
 
   const handleClose = () => {
@@ -390,6 +398,58 @@ export default function ColumnView() {
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 로그인 필요 모달 */}
+      {showLoginModal && (
+        <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center px-4">
+          <div className="bg-white rounded-3xl p-8 max-w-sm w-full">
+            {/* 아이콘 */}
+            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center mx-auto mb-6">
+              <svg
+                className="w-8 h-8 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                />
+              </svg>
+            </div>
+
+            {/* 제목 */}
+            <h3 className="text-2xl font-black text-gray-900 text-center mb-3">
+              로그인이 필요해요
+            </h3>
+
+            {/* 설명 */}
+            <p className="text-base text-gray-600 text-center mb-8 leading-relaxed">
+              이 칼럼을 읽으려면
+              <br />
+              로그인이 필요합니다
+            </p>
+
+            {/* 버튼 */}
+            <div className="space-y-3">
+              <button
+                onClick={handleLoginConfirm}
+                className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-bold py-4 rounded-2xl hover:shadow-lg transition-all"
+              >
+                로그인하러 가기
+              </button>
+              <button
+                onClick={handleLoginCancel}
+                className="w-full bg-gray-100 text-gray-700 font-bold py-4 rounded-2xl hover:bg-gray-200 transition-all"
+              >
+                취소
+              </button>
             </div>
           </div>
         </div>
