@@ -529,7 +529,8 @@ export default function OfflineView() {
               <div className="space-y-3">
                 <button
                   onClick={() => {
-                    alert(`토스페이먼츠 결제가 진행됩니다.\n\n프로그램: ${selectedProgram.title}\n금액: ${selectedProgram.price.toLocaleString()}원\n\n실제 서비스에서는 토스페이먼츠 SDK를 연동하여 결제가 진행됩니다.`);
+                    // 실제 서비스에서는 토스페이먼츠 SDK 연동
+                    // 현재는 결제 완료 처리
                     setShowPayment(false);
                     setSelectedProgram(null);
                   }}
