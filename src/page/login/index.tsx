@@ -73,9 +73,6 @@ export default function LoginView() {
         // 스크립트 생성
         const script = document.createElement("script");
         script.src = "https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js";
-        script.integrity =
-          "sha384-TiCUE00h+afnCyGMvP7r3N6U0e+vR2LS5J0nQJvWGDqKLqU+Gi8AJ6JvNIMXPVWk";
-        script.crossOrigin = "anonymous";
         script.async = true;
 
         script.onload = () => {
