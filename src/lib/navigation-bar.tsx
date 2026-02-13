@@ -86,7 +86,7 @@ export default function NavigationBar() {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white/50 backdrop-blur-md border-t border-gray-200/50 z-50 safe-area-inset-bottom">
+    <nav className="fixed bottom-0 left-0 right-0 bg-white/30 backdrop-blur-md border-t border-gray-200/30 z-50 safe-area-inset-bottom">
       <div className="max-w-2xl mx-auto px-2 py-2">
         <div className="grid grid-cols-5 gap-1">
           {navItems.map((item) => {
