@@ -197,11 +197,6 @@ export default function ColumnView() {
       {/* 메인 뷰 - 썸네일 그리드 */}
       <div className="min-h-screen bg-black pb-20">
         <div className="max-w-2xl mx-auto">
-          {/* 헤더 */}
-          <div className="px-4 pt-8 pb-4">
-            <h1 className="text-2xl font-black text-white">이슈 칼럼</h1>
-          </div>
-
           {/* 세로 스크롤 썸네일 */}
           <div className="space-y-0">
             {columns.map((column, index) => (
