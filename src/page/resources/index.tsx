@@ -326,7 +326,7 @@ export default function ResourcesView() {
       <div className="max-w-2xl mx-auto">
         {/* 헤더 */}
         <div className="sticky top-0 bg-white z-10 px-4 py-4 border-b border-gray-100">
-          <h1 className="text-2xl font-black text-gray-900 mb-4">
+          <h1 className="text-2xl font-black text-[#101828] mb-4">
             자료실
           </h1>
 
@@ -380,7 +380,7 @@ export default function ResourcesView() {
 
                 {/* Featured 정보 */}
                 <div className="text-left">
-                  <h2 className="text-lg font-black text-gray-900 mb-1 leading-tight line-clamp-2">
+                  <h2 className="text-lg font-black text-[#101828] mb-1 leading-tight line-clamp-2">
                     {featuredResource.title}
                   </h2>
                   <p className="text-sm text-gray-600 mb-1 line-clamp-1">
@@ -424,7 +424,7 @@ export default function ResourcesView() {
                   {/* 카드 정보 - 간결하게 */}
                   <div>
                     <p className="text-xs text-gray-400 mb-1">Trend report</p>
-                    <h3 className="text-base font-bold text-gray-900 mb-1 line-clamp-2 leading-tight">
+                    <h3 className="text-base font-bold text-[#101828] mb-1 line-clamp-2 leading-tight">
                       {resource.title}
                     </h3>
                     <p className="text-sm text-gray-500 mb-1 line-clamp-1">
@@ -441,7 +441,7 @@ export default function ResourcesView() {
           {filteredResources.length === 0 && (
             <div className="text-center py-16">
               <div className="text-6xl mb-4">📭</div>
-              <p className="text-lg font-bold text-gray-900 mb-2">
+              <p className="text-lg font-bold text-[#101828] mb-2">
                 자료가 없습니다
               </p>
               <p className="text-sm text-gray-500">
@@ -459,7 +459,7 @@ export default function ResourcesView() {
           {/* 닫기 버튼 */}
           <button
             onClick={handleClose}
-            className="fixed top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-gray-900 hover:bg-white transition-colors shadow-lg"
+            className="fixed top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-[#101828] hover:bg-white transition-colors shadow-lg"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -474,7 +474,7 @@ export default function ResourcesView() {
               <span className="text-sm font-bold text-gray-700 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full">
                 {selectedResource.type}
               </span>
-              <h1 className="text-3xl font-black text-gray-900 mt-4 mb-2">
+              <h1 className="text-3xl font-black text-[#101828] mt-4 mb-2">
                 {selectedResource.title}
               </h1>
               <p className="text-sm text-gray-800 mb-2">{selectedResource.provider}</p>
@@ -489,19 +489,19 @@ export default function ResourcesView() {
                     return null;
                   } else if (line.startsWith("## ")) {
                     return (
-                      <h2 key={index} className="text-xl font-black mt-6 mb-3 text-gray-900">
+                      <h2 key={index} className="text-xl font-black mt-6 mb-3 text-[#101828]">
                         {line.replace("## ", "")}
                       </h2>
                     );
                   } else if (line.startsWith("### ")) {
                     return (
-                      <h3 key={index} className="text-lg font-bold mt-4 mb-2 text-gray-900">
+                      <h3 key={index} className="text-lg font-bold mt-4 mb-2 text-[#101828]">
                         {line.replace("### ", "")}
                       </h3>
                     );
                   } else if (line.startsWith("**") && line.endsWith("**")) {
                     return (
-                      <p key={index} className="font-bold mt-4 text-gray-900">
+                      <p key={index} className="font-bold mt-4 text-[#101828]">
                         {line.replace(/\*\*/g, "")}
                       </p>
                     );
