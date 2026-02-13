@@ -9,7 +9,7 @@ export default function NavigationBar() {
   const renderIcon = (id: string, isActive: boolean) => {
     const gradientId = `gradient-nav-${id}`;
     const strokeColor = isActive ? '#ffffff' : `url(#${gradientId})`;
-    const strokeWidth = 2.5;
+    const strokeWidth = 2;
 
     switch (id) {
       case "home":
