@@ -271,11 +271,12 @@ export default function ColumnView() {
                     </div>
                   )}
 
-                  {/* 스와이프 안내 */}
+                  {/* 스크롤 힌트 */}
                   <div className="absolute bottom-24 left-1/2 transform -translate-x-1/2">
-                    <div className="flex flex-col items-center gap-2 animate-bounce">
+                    <div className="flex flex-col items-center gap-3 animate-bounce">
+                      <div className="text-sm text-gray-400 font-medium">아래로 스크롤</div>
                       <svg
-                        className="w-8 h-8 text-gray-900"
+                        className="w-6 h-6 text-gray-400"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -283,13 +284,10 @@ export default function ColumnView() {
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M7 11l5-5m0 0l5 5m-5-5v12"
+                          strokeWidth={2.5}
+                          d="M19 9l-7 7-7-7"
                         />
                       </svg>
-                      <span className="text-sm text-gray-900 font-medium">
-                        위로 스와이프
-                      </span>
                     </div>
                   </div>
                 </div>
