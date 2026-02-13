@@ -271,23 +271,30 @@ export default function ColumnView() {
                     </div>
                   )}
 
-                  {/* 스크롤 힌트 */}
+                  {/* 스크롤 및 클릭 힌트 */}
                   <div className="absolute bottom-24 left-1/2 transform -translate-x-1/2">
-                    <div className="flex flex-col items-center gap-3 animate-bounce">
-                      <div className="text-sm text-gray-400 font-medium">아래로 스크롤</div>
-                      <svg
-                        className="w-6 h-6 text-gray-400"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2.5}
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
+                    <div className="flex flex-col items-center gap-3">
+                      <div className="bg-white/80 backdrop-blur-sm rounded-2xl px-6 py-3 mb-2">
+                        <p className="text-sm text-gray-900 font-bold text-center">
+                          👆 칼럼을 눌러 상세 내용을 확인하세요
+                        </p>
+                      </div>
+                      <div className="flex flex-col items-center gap-2 animate-bounce">
+                        <div className="text-sm text-gray-400 font-medium">아래로 스크롤</div>
+                        <svg
+                          className="w-6 h-6 text-gray-400"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2.5}
+                            d="M19 9l-7 7-7-7"
+                          />
+                        </svg>
+                      </div>
                     </div>
                   </div>
                 </div>
