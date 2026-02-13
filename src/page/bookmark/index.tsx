@@ -19,7 +19,7 @@ export default function BookmarkView() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
               </svg>
             </button>
-            <h1 className="text-xl font-black text-gray-900">내 자산</h1>
+            <h1 className="text-xl font-black text-gray-900">내 브랜드</h1>
             <div className="w-10" />
           </div>
         </div>
