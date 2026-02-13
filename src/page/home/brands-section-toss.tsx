@@ -30,6 +30,7 @@ export default function BrandsSectionToss({
   selectedBrandId,
 }: BrandsSectionTossProps) {
   const [searchQuery, setSearchQuery] = useState("");
+  const [showAllBrands, setShowAllBrands] = useState(false);
 
   // 인기 브랜드 TOP3
   const topBrands = brands.slice(0, 3);
@@ -240,15 +241,98 @@ export default function BrandsSectionToss({
               </div>
             </div>
 
-            {/* 다른 브랜드 보기 안내 */}
-            <div className="bg-white rounded-2xl md:rounded-3xl p-6 text-center shadow-md">
-              <p className="text-base md:text-lg font-bold text-gray-900 mb-2">
-                다른 브랜드를 찾으시나요?
-              </p>
-              <p className="text-sm md:text-base text-gray-500 font-medium">
-                위의 검색창에서 브랜드명이나 카테고리를 검색해보세요
-              </p>
-            </div>
+            {/* 전체 브랜드 보기 버튼 */}
+            <button
+              onClick={() => setShowAllBrands(!showAllBrands)}
+              className="w-full bg-white rounded-2xl md:rounded-3xl p-5 md:p-6 shadow-md hover:shadow-lg transition-all flex items-center justify-between"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16M4 18h16" />
+                  </svg>
+                </div>
+                <div className="text-left">
+                  <p className="text-base md:text-lg font-bold text-gray-900">
+                    {showAllBrands ? "전체 브랜드 접기" : "전체 브랜드 보기"}
+                  </p>
+                  <p className="text-xs md:text-sm text-gray-500 font-medium">
+                    {brands.length}개의 브랜드
+                  </p>
+                </div>
+              </div>
+              <svg
+                className={`w-5 h-5 md:w-6 md:h-6 text-gray-400 transition-transform ${
+                  showAllBrands ? "rotate-180" : ""
+                }`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2.5}
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </button>
+
+            {/* 전체 브랜드 리스트 */}
+            {showAllBrands && (
+              <div className="mt-4 space-y-2 animate-in fade-in slide-in-from-top-4 duration-300">
+                {brands.map((brand, index) => (
+                  <button
+                    key={brand.id}
+                    onClick={() => onBrandClick(brand.id)}
+                    className="w-full bg-white rounded-2xl p-4 flex items-center justify-between hover:shadow-md transition-all"
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="text-sm font-bold text-gray-400 w-6">
+                        {index + 1}
+                      </span>
+                      {brand.logoImage ? (
+                        <div className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center overflow-hidden flex-shrink-0">
+                          <img
+                            src={brand.logoImage}
+                            alt={brand.name}
+                            className="w-8 h-8 object-contain"
+                          />
+                        </div>
+                      ) : (
+                        <div
+                          className="w-10 h-10 rounded-xl flex items-center justify-center text-lg flex-shrink-0"
+                          style={{ backgroundColor: `${brand.color}15` }}
+                        >
+                          {brand.logo}
+                        </div>
+                      )}
+                      <div className="text-left">
+                        <h3 className="text-base font-bold text-gray-900">
+                          {brand.name}
+                        </h3>
+                        <p className="text-xs text-gray-500 font-medium">
+                          {brand.category}
+                        </p>
+                      </div>
+                    </div>
+                    <svg
+                      className="w-5 h-5 text-gray-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2.5}
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </button>
+                ))}
+              </div>
+            )}
           </>
         )}
       </div>
