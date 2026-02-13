@@ -119,12 +119,12 @@ export default function MoreView() {
     <div className="min-h-screen bg-white pb-20">
       <div className="max-w-2xl mx-auto">
         {/* 프로필 영역 */}
-        <div className="px-4 pt-8 pb-6">
+        <div className="px-4 pt-6 pb-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
               {/* 프로필 이미지 */}
-              <div className="w-14 h-14 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center shadow-lg">
-                <span className="text-2xl">🚀</span>
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center shadow-lg">
+                <span className="text-xl">🚀</span>
               </div>
               {/* 사용자 정보 */}
               <div>
@@ -136,7 +136,7 @@ export default function MoreView() {
             {/* 설정 아이콘 */}
             <button
               onClick={() => router.push("/settings")}
-              className="w-11 h-11 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors"
+              className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors"
             >
               <svg
                 className="w-6 h-6 text-gray-600"
