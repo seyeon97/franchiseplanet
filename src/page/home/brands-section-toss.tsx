@@ -45,7 +45,7 @@ export default function BrandsSectionToss({
   });
 
   return (
-    <section className="min-h-screen bg-gray-50 px-4 py-12 md:px-6 md:py-20 snap-start">
+    <section className="min-h-screen bg-gray-50 px-4 py-8 md:px-6 md:py-12 snap-start">
       <div className="max-w-2xl mx-auto">
         {/* 헤딩 - 토스 스타일 */}
         <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-3 md:mb-4 leading-tight">
