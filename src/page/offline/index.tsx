@@ -36,50 +36,62 @@ export default function OfflineView() {
     <div className="min-h-screen bg-white pb-20">
       <div className="max-w-2xl mx-auto px-4 py-8">
         {/* 헤더 */}
-        <div className="mb-6">
-          <h1 className="text-2xl font-black text-[#101828] mb-2">
-            오프라인 임장 🚶‍♂️
+        <div className="mb-8">
+          <h1 className="text-3xl font-black text-[#101828] mb-2">
+            오프라인 임장
           </h1>
-          <p className="text-base text-gray-600">
+          <p className="text-lg text-gray-600 font-medium">
             전문가와 함께하는 현장 답사
           </p>
         </div>
 
         {/* 임장 프로그램 카드 그리드 */}
-        <div className="grid grid-cols-1 gap-4">
+        <div className="grid grid-cols-1 gap-6">
           {programs.map((program) => (
             <button
               key={program.id}
-              className="text-left group bg-gray-900 rounded-2xl overflow-hidden"
+              className="text-left group hover:scale-[1.02] transition-transform duration-300"
             >
-              {/* 카드 상단 - 그라데이션 영역 */}
-              <div className={`bg-gradient-to-br ${program.bgColor} p-6 pb-12 relative`}>
-                <div className="text-xs text-white/90 mb-2">
-                  ★프랜차이즈 / 상권분석 전문가와 함께
-                </div>
-                <h3 className="text-2xl font-black text-white leading-tight">
-                  {program.title}
-                </h3>
+              <div className="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300">
+                {/* 카드 상단 - 그라데이션 영역 */}
+                <div className={`bg-gradient-to-br ${program.bgColor} p-8 pb-16 relative`}>
+                  <div className="text-xs font-bold text-white/90 mb-3 tracking-wide">
+                    ★ 프랜차이즈 / 상권분석 전문가
+                  </div>
+                  <h3 className="text-3xl font-black text-white leading-tight mb-2">
+                    {program.title}
+                  </h3>
 
-                {/* 강사 사진 - 카드 하단으로 걸쳐지도록 */}
-                <div className="absolute -bottom-12 left-1/2 transform -translate-x-1/2">
-                  <div className="w-24 h-24 rounded-full bg-gray-300 flex items-center justify-center text-5xl border-4 border-gray-900">
-                    {program.imageUrl}
+                  {/* 강사 사진 - 카드 하단으로 걸쳐지도록 */}
+                  <div className="absolute -bottom-16 left-1/2 transform -translate-x-1/2 z-10">
+                    <div className="w-32 h-32 rounded-full bg-white shadow-xl flex items-center justify-center text-6xl border-4 border-white group-hover:scale-110 transition-transform duration-300">
+                      {program.imageUrl}
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* 카드 하단 정보 */}
-              <div className="pt-14 pb-6 px-6 text-center">
-                <h4 className="text-lg font-bold text-white mb-1">
-                  {program.name}
-                </h4>
-                <p className="text-sm text-gray-400 mb-3">
-                  {program.category}
-                </p>
-                <p className="text-sm text-gray-300 leading-relaxed">
-                  {program.description}
-                </p>
+                {/* 카드 하단 정보 */}
+                <div className="pt-20 pb-8 px-8 text-center bg-gradient-to-b from-gray-50 to-white">
+                  <h4 className="text-xl font-black text-[#101828] mb-2">
+                    {program.name}
+                  </h4>
+                  <div className="inline-block mb-4">
+                    <span className="text-xs font-bold text-gray-600 bg-gray-100 px-3 py-1.5 rounded-full">
+                      {program.category}
+                    </span>
+                  </div>
+                  <p className="text-base text-gray-600 leading-relaxed mb-6">
+                    {program.description}
+                  </p>
+
+                  {/* CTA 버튼 */}
+                  <div className={`inline-flex items-center gap-2 bg-gradient-to-r ${program.bgColor} text-white font-bold px-6 py-3 rounded-full group-hover:shadow-lg transition-shadow duration-300`}>
+                    <span>자세히 보기</span>
+                    <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                </div>
               </div>
             </button>
           ))}
