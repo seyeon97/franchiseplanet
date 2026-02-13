@@ -77,17 +77,21 @@ export default function ChatBot() {
               message.role === "user" ? "justify-end" : "justify-start"
             }`}
           >
-            <div
-              className={`max-w-[80%] rounded-2xl px-4 py-3 ${
-                message.role === "user"
-                  ? "bg-gradient-to-r from-[#3182F6] to-[#00C896] text-white"
-                  : "bg-white text-gray-900 shadow-sm"
-              }`}
-            >
-              <p className="text-base leading-relaxed whitespace-pre-wrap">
-                {message.content}
-              </p>
-            </div>
+            {message.role === "user" ? (
+              <div className="max-w-[80%] rounded-2xl p-[2px] bg-gradient-to-r from-[#3182F6] to-[#00C896]">
+                <div className="bg-white rounded-2xl px-4 py-3">
+                  <p className="text-base leading-relaxed whitespace-pre-wrap text-gray-900">
+                    {message.content}
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <div className="max-w-[80%] rounded-2xl px-4 py-3 bg-white text-gray-900 shadow-sm">
+                <p className="text-base leading-relaxed whitespace-pre-wrap">
+                  {message.content}
+                </p>
+              </div>
+            )}
           </div>
         ))}
         {isLoading && (
