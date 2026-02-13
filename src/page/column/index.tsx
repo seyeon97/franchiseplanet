@@ -231,12 +231,12 @@ export default function ColumnView() {
                   </div>
 
                   {/* 제목 */}
-                  <h2 className="text-3xl md:text-4xl font-black text-white mb-4 leading-tight">
+                  <h2 className="text-3xl md:text-4xl font-black text-white mb-4 leading-tight break-keep">
                     {column.title}
                   </h2>
 
                   {/* 요약 */}
-                  <p className="text-lg text-white/90 font-medium mb-6 max-w-md">
+                  <p className="text-lg text-white/90 font-medium mb-6 max-w-md break-keep">
                     {column.summary}
                   </p>
 
@@ -328,7 +328,7 @@ export default function ColumnView() {
                   <span className="text-sm font-bold text-white bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full">
                     {selectedColumn.category}
                   </span>
-                  <h1 className="text-3xl md:text-4xl font-black text-white mt-4 mb-2">
+                  <h1 className="text-3xl md:text-4xl font-black text-white mt-4 mb-2 break-keep">
                     {selectedColumn.title}
                   </h1>
                   <p className="text-sm text-white/70 font-medium">
