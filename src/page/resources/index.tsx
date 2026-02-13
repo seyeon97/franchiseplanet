@@ -340,9 +340,16 @@ export default function ResourcesView() {
                   onClick={() => setSelectedCategory(cat.id)}
                   className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl font-bold text-sm whitespace-nowrap transition-all ${
                     isActive
-                      ? "bg-[#1a1f2e] text-white shadow-[0_4px_12px_rgba(26,31,46,0.2)]"
+                      ? "text-white shadow-[0_4px_16px_rgba(48,152,242,0.3)]"
                       : "bg-[#f5f5f7] text-gray-600 hover:bg-gray-200"
                   }`}
+                  style={
+                    isActive
+                      ? {
+                          backgroundImage: "linear-gradient(135deg, #3098F2 0%, #11BFAE 100%)",
+                        }
+                      : undefined
+                  }
                 >
                   {/* SVG 아이콘 */}
                   {cat.id === "all" && (
