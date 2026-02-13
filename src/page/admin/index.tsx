@@ -25,6 +25,10 @@ interface Brand {
     materials: number;
     utilities: number;
   };
+  detailedCosts?: {
+    variableCosts: Array<{ label: string; percentage?: string; low: number; mid: number; high: number }>;
+    fixedCosts: Array<{ label: string; low: number; mid: number; high: number }>;
+  };
 }
 
 interface Column {
@@ -665,72 +669,68 @@ export default function AdminView() {
 
                           {/* 상세 비용 보기 */}
                           {expandedBrandId === brand.id && (
-                            <div className="border-t border-gray-200 bg-gray-50 p-4">
-                              <div className="grid grid-cols-2 gap-4">
-                                {/* 고정 비용 */}
-                                <div className="bg-white rounded-lg p-4 border border-gray-200">
-                                  <div className="flex items-center justify-between mb-3">
-                                    <h4 className="font-bold text-gray-900">고정 비용</h4>
-                                    <span className="text-sm font-bold text-blue-600">
-                                      {brand.totalCost.toLocaleString()}만원
-                                    </span>
+                            <div className="border-t border-gray-200 bg-gray-50 p-4 space-y-4">
+                              {brand.detailedCosts ? (
+                                <>
+                                  {/* 변동비 상세 */}
+                                  <div className="bg-white rounded-lg p-4 border border-gray-200">
+                                    <h4 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                                      <span>📊</span> 변동비 상세보기
+                                    </h4>
+                                    <div className="space-y-2">
+                                      <div className="flex items-center text-xs font-semibold text-gray-500 pb-2 border-b">
+                                        <div className="flex-1">항목</div>
+                                        <div className="w-20 text-right text-red-600">최저매출</div>
+                                        <div className="w-20 text-right text-blue-600">평균매출</div>
+                                        <div className="w-20 text-right text-green-600">최고매출</div>
+                                      </div>
+                                      {brand.detailedCosts.variableCosts.map((cost, idx) => (
+                                        <div key={idx} className="flex items-center text-sm py-1.5">
+                                          <div className="flex-1 text-gray-700">
+                                            {cost.label} {cost.percentage && `(${cost.percentage})`}
+                                          </div>
+                                          <div className="w-20 text-right font-medium text-red-600">{cost.low.toLocaleString()}만원</div>
+                                          <div className="w-20 text-right font-medium text-blue-600">{cost.mid.toLocaleString()}만원</div>
+                                          <div className="w-20 text-right font-medium text-green-600">{cost.high.toLocaleString()}만원</div>
+                                        </div>
+                                      ))}
+                                    </div>
                                   </div>
-                                  <div className="space-y-2">
-                                    <div className="flex justify-between text-sm">
-                                      <span className="text-gray-600">가맹비</span>
-                                      <span className="font-medium text-gray-900">{brand.fixedCosts.franchise.toLocaleString()}만원</span>
-                                    </div>
-                                    <div className="flex justify-between text-sm">
-                                      <span className="text-gray-600">인테리어</span>
-                                      <span className="font-medium text-gray-900">{brand.fixedCosts.interior.toLocaleString()}만원</span>
-                                    </div>
-                                    <div className="flex justify-between text-sm">
-                                      <span className="text-gray-600">보증금</span>
-                                      <span className="font-medium text-gray-900">{brand.fixedCosts.deposit.toLocaleString()}만원</span>
-                                    </div>
-                                    <div className="flex justify-between text-sm">
-                                      <span className="text-gray-600">장비</span>
-                                      <span className="font-medium text-gray-900">{brand.fixedCosts.equipment.toLocaleString()}만원</span>
-                                    </div>
-                                  </div>
-                                </div>
 
-                                {/* 변동 비용 */}
-                                <div className="bg-white rounded-lg p-4 border border-gray-200">
-                                  <div className="flex items-center justify-between mb-3">
-                                    <h4 className="font-bold text-gray-900">변동 비용</h4>
-                                    <span className="text-sm font-bold text-orange-600">
-                                      {(brand.variableCosts.rent + brand.variableCosts.labor + brand.variableCosts.materials + brand.variableCosts.utilities).toLocaleString()}만원/월
-                                    </span>
-                                  </div>
-                                  <div className="space-y-2">
-                                    <div className="flex justify-between text-sm">
-                                      <span className="text-gray-600">임대료</span>
-                                      <span className="font-medium text-gray-900">{brand.variableCosts.rent.toLocaleString()}만원</span>
-                                    </div>
-                                    <div className="flex justify-between text-sm">
-                                      <span className="text-gray-600">인건비</span>
-                                      <span className="font-medium text-gray-900">{brand.variableCosts.labor.toLocaleString()}만원</span>
-                                    </div>
-                                    <div className="flex justify-between text-sm">
-                                      <span className="text-gray-600">재료비</span>
-                                      <span className="font-medium text-gray-900">{brand.variableCosts.materials.toLocaleString()}만원</span>
-                                    </div>
-                                    <div className="flex justify-between text-sm">
-                                      <span className="text-gray-600">공과금</span>
-                                      <span className="font-medium text-gray-900">{brand.variableCosts.utilities.toLocaleString()}만원</span>
+                                  {/* 고정비 상세 */}
+                                  <div className="bg-white rounded-lg p-4 border border-gray-200">
+                                    <h4 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                                      <span>🏢</span> 고정비 상세보기
+                                    </h4>
+                                    <div className="space-y-2">
+                                      <div className="flex items-center text-xs font-semibold text-gray-500 pb-2 border-b">
+                                        <div className="flex-1">항목</div>
+                                        <div className="w-20 text-right text-red-600">최저매출</div>
+                                        <div className="w-20 text-right text-blue-600">평균매출</div>
+                                        <div className="w-20 text-right text-green-600">최고매출</div>
+                                      </div>
+                                      {brand.detailedCosts.fixedCosts.map((cost, idx) => (
+                                        <div key={idx} className="flex items-center text-sm py-1.5">
+                                          <div className="flex-1 text-gray-700">{cost.label}</div>
+                                          <div className="w-20 text-right font-medium text-red-600">{cost.low.toLocaleString()}만원</div>
+                                          <div className="w-20 text-right font-medium text-blue-600">{cost.mid.toLocaleString()}만원</div>
+                                          <div className="w-20 text-right font-medium text-green-600">{cost.high.toLocaleString()}만원</div>
+                                        </div>
+                                      ))}
                                     </div>
                                   </div>
+                                </>
+                              ) : (
+                                <div className="text-center py-8">
+                                  <p className="text-sm text-gray-500 mb-3">상세 비용 데이터가 없습니다</p>
+                                  <button
+                                    onClick={() => setEditModal({ type: "brands", data: brand })}
+                                    className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+                                  >
+                                    브랜드 수정하여 추가하기 →
+                                  </button>
                                 </div>
-                              </div>
-
-                              {/* 월 매출 */}
-                              <div className="mt-3 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg p-3 border border-green-200">
-                                <div className="flex items-center justify-between">
-                                  <span className="text-sm font-bold text-gray-700">월 평균 매출</span>
-                                  <span className="text-lg font-black text-green-600">{brand.monthlyRevenue.toLocaleString()}만원</span>
-                                </div>
-                              </div>
+                              )}
                             </div>
                           )}
                         </div>
@@ -958,6 +958,52 @@ function EditModal({
     }
   };
 
+  const initializeDetailedCosts = () => {
+    const brandData = formData as Brand;
+    const defaultDetailedCosts = {
+      variableCosts: [
+        { label: "원가율", percentage: "36%", low: 720, mid: 1282, high: 2880 },
+        { label: "카드수수료", percentage: "1.5%", low: 30, mid: 53, high: 120 },
+        { label: "배달수수료", percentage: "30%", low: 120, mid: 214, high: 480 },
+        { label: "플랫폼수수료", percentage: "5%", low: 80, mid: 142, high: 320 },
+        { label: "수도광열비", percentage: "2%", low: 40, mid: 71, high: 160 },
+        { label: "인건비", percentage: "22%", low: 500, mid: 783, high: 1680 },
+      ],
+      fixedCosts: [
+        { label: "임대료", low: 352, mid: 220, high: 385 },
+        { label: "관리비", low: 30, mid: 22, high: 39 },
+        { label: "광고비", low: 10, mid: 10, high: 10 },
+        { label: "정기 서비스", low: 30, mid: 30, high: 30 },
+        { label: "소모품비", low: 30, mid: 30, high: 30 },
+        { label: "로열티", low: 17, mid: 17, high: 17 },
+      ],
+    };
+
+    setFormData({
+      ...brandData,
+      detailedCosts: defaultDetailedCosts,
+    });
+  };
+
+  const updateDetailedCost = (type: 'variableCosts' | 'fixedCosts', index: number, field: 'label' | 'percentage' | 'low' | 'mid' | 'high', value: string | number) => {
+    const brandData = formData as Brand;
+    if (!brandData.detailedCosts) return;
+
+    const updated = [...brandData.detailedCosts[type]];
+    updated[index] = {
+      ...updated[index],
+      [field]: value,
+    };
+
+    setFormData({
+      ...brandData,
+      detailedCosts: {
+        ...brandData.detailedCosts,
+        [type]: updated,
+      },
+    });
+  };
+
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={onClose}>
       <div
@@ -1137,6 +1183,116 @@ function EditModal({
                     />
                   </div>
                 </div>
+              </div>
+
+              {/* 상세 비용 데이터 */}
+              <div className="border-t pt-4">
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="font-bold text-gray-900">상세 비용 데이터 (매출별 분석)</h3>
+                  {!(formData as Brand).detailedCosts && (
+                    <button
+                      type="button"
+                      onClick={initializeDetailedCosts}
+                      className="px-4 py-2 text-sm bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-600 transition-colors"
+                    >
+                      + 초기 데이터 생성
+                    </button>
+                  )}
+                </div>
+
+                {(formData as Brand).detailedCosts ? (
+                  <>
+                    {/* 변동비 상세 */}
+                    <div className="mb-4 border border-gray-200 rounded-lg p-3 bg-gray-50">
+                      <h4 className="text-sm font-bold text-gray-800 mb-2">📊 변동비 상세</h4>
+                      <div className="space-y-2">
+                        {(formData as Brand).detailedCosts!.variableCosts.map((cost, idx) => (
+                          <div key={idx} className="grid grid-cols-5 gap-2 items-center bg-white p-2 rounded">
+                            <input
+                              type="text"
+                              value={cost.label}
+                              onChange={(e) => updateDetailedCost('variableCosts', idx, 'label', e.target.value)}
+                              placeholder="항목명"
+                              className="px-2 py-1 border border-gray-300 rounded text-sm"
+                            />
+                            <input
+                              type="text"
+                              value={cost.percentage || ''}
+                              onChange={(e) => updateDetailedCost('variableCosts', idx, 'percentage', e.target.value)}
+                              placeholder="% (선택)"
+                              className="px-2 py-1 border border-gray-300 rounded text-sm"
+                            />
+                            <input
+                              type="number"
+                              value={cost.low}
+                              onChange={(e) => updateDetailedCost('variableCosts', idx, 'low', Number(e.target.value))}
+                              placeholder="최저"
+                              className="px-2 py-1 border border-gray-300 rounded text-sm"
+                            />
+                            <input
+                              type="number"
+                              value={cost.mid}
+                              onChange={(e) => updateDetailedCost('variableCosts', idx, 'mid', Number(e.target.value))}
+                              placeholder="평균"
+                              className="px-2 py-1 border border-gray-300 rounded text-sm"
+                            />
+                            <input
+                              type="number"
+                              value={cost.high}
+                              onChange={(e) => updateDetailedCost('variableCosts', idx, 'high', Number(e.target.value))}
+                              placeholder="최고"
+                              className="px-2 py-1 border border-gray-300 rounded text-sm"
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* 고정비 상세 */}
+                    <div className="border border-gray-200 rounded-lg p-3 bg-gray-50">
+                      <h4 className="text-sm font-bold text-gray-800 mb-2">🏢 고정비 상세</h4>
+                      <div className="space-y-2">
+                        {(formData as Brand).detailedCosts!.fixedCosts.map((cost, idx) => (
+                          <div key={idx} className="grid grid-cols-4 gap-2 items-center bg-white p-2 rounded">
+                            <input
+                              type="text"
+                              value={cost.label}
+                              onChange={(e) => updateDetailedCost('fixedCosts', idx, 'label', e.target.value)}
+                              placeholder="항목명"
+                              className="px-2 py-1 border border-gray-300 rounded text-sm"
+                            />
+                            <input
+                              type="number"
+                              value={cost.low}
+                              onChange={(e) => updateDetailedCost('fixedCosts', idx, 'low', Number(e.target.value))}
+                              placeholder="최저"
+                              className="px-2 py-1 border border-gray-300 rounded text-sm"
+                            />
+                            <input
+                              type="number"
+                              value={cost.mid}
+                              onChange={(e) => updateDetailedCost('fixedCosts', idx, 'mid', Number(e.target.value))}
+                              placeholder="평균"
+                              className="px-2 py-1 border border-gray-300 rounded text-sm"
+                            />
+                            <input
+                              type="number"
+                              value={cost.high}
+                              onChange={(e) => updateDetailedCost('fixedCosts', idx, 'high', Number(e.target.value))}
+                              placeholder="최고"
+                              className="px-2 py-1 border border-gray-300 rounded text-sm"
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <div className="text-center py-6 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
+                    <p className="text-sm text-gray-500">상세 비용 데이터가 없습니다</p>
+                    <p className="text-xs text-gray-400 mt-1">초기 데이터 생성 버튼을 눌러 시작하세요</p>
+                  </div>
+                )}
               </div>
             </>
           )}
