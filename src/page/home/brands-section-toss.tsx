@@ -175,25 +175,13 @@ export default function BrandsSectionToss({
               onClick={() => setShowAllBrands(!showAllBrands)}
               className="w-full bg-white rounded-2xl md:rounded-3xl p-5 md:p-6 shadow-md hover:shadow-lg transition-all flex items-center justify-between mb-6"
             >
-              <div className="flex items-center gap-3">
-                <div
-                  className="w-12 h-12 rounded-full flex items-center justify-center"
-                  style={{
-                    backgroundImage: "linear-gradient(135deg, #3182F6 0%, #00C896 100%)",
-                  }}
-                >
-                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16M4 18h16" />
-                  </svg>
-                </div>
-                <div className="text-left">
-                  <p className="text-base md:text-lg font-bold text-gray-900">
-                    {showAllBrands ? "전체 브랜드 접기" : "전체 브랜드 보기"}
-                  </p>
-                  <p className="text-xs md:text-sm text-gray-500 font-medium">
-                    {brands.length}개의 브랜드
-                  </p>
-                </div>
+              <div className="text-left">
+                <p className="text-base md:text-lg font-bold text-gray-900">
+                  {showAllBrands ? "전체 브랜드 접기" : "전체 브랜드 보기"}
+                </p>
+                <p className="text-xs md:text-sm text-gray-500 font-medium">
+                  {brands.length}개의 브랜드
+                </p>
               </div>
               <svg
                 className={`w-5 h-5 md:w-6 md:h-6 text-gray-400 transition-transform ${
