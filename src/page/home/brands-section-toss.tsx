@@ -213,19 +213,12 @@ export default function BrandsSectionToss({
 
                     {/* 브랜드 정보 */}
                     <div className="flex-1 text-left min-w-0">
-                      <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-1 truncate">
+                      <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-1">
                         {brand.name}
                       </h3>
-                      <p className="text-sm md:text-base text-gray-500 font-medium truncate">
+                      <p className="text-sm md:text-base text-gray-500 font-medium">
                         {brand.category}
                       </p>
-                    </div>
-
-                    {/* 창업비용 */}
-                    <div className="flex-shrink-0">
-                      <div className="text-xs md:text-sm font-bold text-blue-600 bg-blue-50 px-3 md:px-4 py-2 rounded-full whitespace-nowrap">
-                        {brand.startupCost}
-                      </div>
                     </div>
 
                     {/* 화살표 */}
