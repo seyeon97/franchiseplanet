@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface BrandData {
   id: string;
@@ -45,6 +45,28 @@ export default function BrandCardToss({ brand }: BrandCardProps) {
   const [expandedBottom10Variable, setExpandedBottom10Variable] = useState(false);
   const [expandedBottom10Fixed, setExpandedBottom10Fixed] = useState(false);
   const isMegaCoffee = brand.name === "메가커피";
+
+  // 모달이 열릴 때 모든 확장 상태 초기화
+  useEffect(() => {
+    if (showTop10Detail) {
+      setExpandedTop10Variable(false);
+      setExpandedTop10Fixed(false);
+    }
+  }, [showTop10Detail]);
+
+  useEffect(() => {
+    if (showAverageDetail) {
+      setExpandedAverageVariable(false);
+      setExpandedAverageFixed(false);
+    }
+  }, [showAverageDetail]);
+
+  useEffect(() => {
+    if (showBottom10Detail) {
+      setExpandedBottom10Variable(false);
+      setExpandedBottom10Fixed(false);
+    }
+  }, [showBottom10Detail]);
 
   const formatMoney = (amount: number) => {
     return `${amount.toLocaleString()}만원`;
