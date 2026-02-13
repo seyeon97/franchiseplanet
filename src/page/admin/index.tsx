@@ -74,6 +74,216 @@ export default function AdminView() {
   const [resources, setResources] = useState<Resource[]>([]);
   const [offlinePrograms, setOfflinePrograms] = useState<OfflineProgram[]>([]);
 
+  // 초기 데이터 생성
+  const initializeData = () => {
+    if (typeof window !== 'undefined') {
+      // 브랜드 초기 데이터
+      const initialBrands: Brand[] = [
+        {
+          id: 1,
+          name: "맘스터치",
+          category: "치킨·버거",
+          totalCost: 8500,
+          thumbnail: "🍔",
+          description: "국내 대표 프리미엄 버거 프랜차이즈",
+          monthlyRevenue: 12000,
+          fixedCosts: { franchise: 1500, interior: 3000, deposit: 2000, equipment: 2000 },
+          variableCosts: { rent: 300, labor: 250, materials: 350, utilities: 100 }
+        },
+        {
+          id: 2,
+          name: "컴포즈커피",
+          category: "카페·디저트",
+          totalCost: 7800,
+          thumbnail: "☕",
+          description: "합리적인 가격의 커피 전문점",
+          monthlyRevenue: 10000,
+          fixedCosts: { franchise: 1000, interior: 2500, deposit: 2000, equipment: 2300 },
+          variableCosts: { rent: 250, labor: 200, materials: 300, utilities: 80 }
+        },
+        {
+          id: 3,
+          name: "교촌치킨",
+          category: "치킨",
+          totalCost: 9500,
+          thumbnail: "🍗",
+          description: "오리지널 간장치킨의 명가",
+          monthlyRevenue: 15000,
+          fixedCosts: { franchise: 2000, interior: 3500, deposit: 2000, equipment: 2000 },
+          variableCosts: { rent: 300, labor: 280, materials: 400, utilities: 120 }
+        },
+        {
+          id: 4,
+          name: "설빙",
+          category: "디저트",
+          totalCost: 6200,
+          thumbnail: "🍧",
+          description: "프리미엄 빙수 디저트 카페",
+          monthlyRevenue: 8500,
+          fixedCosts: { franchise: 1200, interior: 2000, deposit: 1500, equipment: 1500 },
+          variableCosts: { rent: 200, labor: 180, materials: 250, utilities: 70 }
+        },
+        {
+          id: 5,
+          name: "본죽",
+          category: "한식",
+          totalCost: 7000,
+          thumbnail: "🍲",
+          description: "건강한 죽 전문 프랜차이즈",
+          monthlyRevenue: 9000,
+          fixedCosts: { franchise: 1300, interior: 2500, deposit: 1700, equipment: 1500 },
+          variableCosts: { rent: 220, labor: 200, materials: 280, utilities: 80 }
+        }
+      ];
+
+      // 칼럼 초기 데이터
+      const initialColumns: Column[] = [
+        {
+          id: 1,
+          title: "프랜차이즈 창업, 이것만은 꼭!",
+          category: "창업 가이드",
+          summary: "성공적인 프랜차이즈 창업을 위한 필수 체크리스트",
+          content: "프랜차이즈 창업을 준비하시나요? 성공적인 창업을 위해 반드시 확인해야 할 사항들을 정리했습니다.",
+          thumbnail: "📋",
+          bgGradient: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+          date: "2024.01.15",
+          isNew: true
+        },
+        {
+          id: 2,
+          title: "입지 선정의 모든 것",
+          category: "입지 분석",
+          summary: "매장 위치가 성공의 80%를 결정합니다",
+          content: "좋은 입지란 무엇일까요? 입지 선정 시 고려해야 할 핵심 요소들을 알아봅니다.",
+          thumbnail: "📍",
+          bgGradient: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
+          date: "2024.01.10",
+          isNew: true
+        },
+        {
+          id: 3,
+          title: "2024 트렌드 분석",
+          category: "트렌드",
+          summary: "올해 뜨는 업종은 무엇일까?",
+          content: "2024년 프랜차이즈 시장의 주요 트렌드와 유망 업종을 분석합니다.",
+          thumbnail: "📈",
+          bgGradient: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
+          date: "2024.01.05",
+          isNew: false
+        }
+      ];
+
+      // 자료실 초기 데이터
+      const initialResources: Resource[] = [
+        {
+          id: 1,
+          title: "프랜차이즈 계약서 샘플",
+          category: "계약서",
+          summary: "표준 프랜차이즈 계약서 양식 및 주의사항",
+          content: "프랜차이즈 계약 시 반드시 확인해야 할 조항들과 표준 계약서 양식을 제공합니다.",
+          thumbnail: "📄",
+          date: "2024.01.15"
+        },
+        {
+          id: 2,
+          title: "창업 자금 조달 가이드",
+          category: "자금",
+          summary: "정부 지원금부터 대출까지 총정리",
+          content: "창업 자금 마련을 위한 다양한 방법과 정부 지원 제도를 소개합니다.",
+          thumbnail: "💰",
+          date: "2024.01.12"
+        },
+        {
+          id: 3,
+          title: "세무 회계 기초",
+          category: "세무",
+          summary: "창업자가 알아야 할 세무 지식",
+          content: "사업자 등록부터 부가가치세, 종합소득세까지 기본적인 세무 지식을 정리했습니다.",
+          thumbnail: "📊",
+          date: "2024.01.08"
+        }
+      ];
+
+      // 오프라인 프로그램 초기 데이터
+      const initialOfflinePrograms: OfflineProgram[] = [
+        {
+          id: 1,
+          name: "장사해커 컨설턴트",
+          category: "임장",
+          title: "강남역 임장",
+          description: "강남역 상권 분석부터 유동인구 파악까지 전문가와 함께하는 현장 답사",
+          bgGradient: "from-[#2F85F2] to-[#1F9CD3]",
+          imageUrl: "👨‍💼",
+          price: 150000,
+          date: "2024년 3월 15일 (토)",
+          time: "오전 10:00 - 오후 2:00",
+          location: "강남역 2번 출구 앞",
+          duration: "4시간",
+          maxParticipants: 10,
+          details: [
+            "강남역 상권 전체 분석 및 유동인구 측정",
+            "주요 상권별 임대료 및 권리금 정보 제공",
+            "성공/실패 사례 현장 방문 및 분석",
+            "1:1 맞춤 상권 컨설팅 30분 제공",
+            "상권분석 리포트 제공 (PDF)"
+          ]
+        },
+        {
+          id: 2,
+          name: "박프차 전문가",
+          category: "임장",
+          title: "성수역 임장",
+          description: "핫플레이스 성수동! 트렌디한 상권의 숨은 매력 찾기",
+          bgGradient: "from-[#1F9CD3] to-[#0BB7AD]",
+          imageUrl: "👨‍💼",
+          price: 180000,
+          date: "2024년 3월 22일 (토)",
+          time: "오후 2:00 - 오후 6:00",
+          location: "성수역 3번 출구 앞",
+          duration: "4시간",
+          maxParticipants: 8,
+          details: [
+            "성수동 핫플레이스 투어 및 트렌드 분석",
+            "F&B 창업 최적 입지 선정 노하우",
+            "성공 브랜드 케이스 스터디",
+            "임대 협상 전략 및 팁 공유",
+            "성수동 상권 분석 자료 제공"
+          ]
+        },
+        {
+          id: 3,
+          name: "이입지 대표",
+          category: "임장",
+          title: "홍대입구역 임장",
+          description: "젊음의 거리 홍대, 창업 전 꼭 확인해야 할 입지 포인트",
+          bgGradient: "from-[#0BB7AD] to-[#08C698]",
+          imageUrl: "👩‍💼",
+          price: 160000,
+          date: "2024년 3월 29일 (토)",
+          time: "오전 10:00 - 오후 2:00",
+          location: "홍대입구역 9번 출구 앞",
+          duration: "4시간",
+          maxParticipants: 12,
+          details: [
+            "홍대 메인/서브 상권 구분 및 특징 분석",
+            "유동인구 동선 파악 및 최적 입지 찾기",
+            "주말/평일 상권 차이 분석",
+            "프랜차이즈 vs 개인 창업 입지 비교",
+            "홍대 상권 트렌드 리포트 제공"
+          ]
+        }
+      ];
+
+      localStorage.setItem("brands", JSON.stringify(initialBrands));
+      localStorage.setItem("columns", JSON.stringify(initialColumns));
+      localStorage.setItem("resources", JSON.stringify(initialResources));
+      localStorage.setItem("offlinePrograms", JSON.stringify(initialOfflinePrograms));
+
+      alert("초기 데이터가 로드되었습니다!");
+      loadData();
+    }
+  };
+
   // localStorage에서 데이터 로드
   const loadData = () => {
     if (typeof window !== 'undefined') {
@@ -82,11 +292,6 @@ export default function AdminView() {
         const columnsData = localStorage.getItem("columns");
         const resourcesData = localStorage.getItem("resources");
         const offlineData = localStorage.getItem("offlinePrograms");
-
-        console.log("브랜드 데이터:", brandsData);
-        console.log("칼럼 데이터:", columnsData);
-        console.log("자료실 데이터:", resourcesData);
-        console.log("오프라인 데이터:", offlineData);
 
         setBrands(brandsData ? JSON.parse(brandsData) : []);
         setColumns(columnsData ? JSON.parse(columnsData) : []);
@@ -100,11 +305,7 @@ export default function AdminView() {
 
   useEffect(() => {
     loadData();
-
-    // 5초마다 데이터 새로고침
-    const interval = setInterval(loadData, 5000);
-    return () => clearInterval(interval);
-  }, []);
+  }, [activeTab]);
 
   const tabs = [
     { id: "brands" as TabType, label: "브랜드", count: brands.length },
@@ -124,6 +325,12 @@ export default function AdminView() {
               <span className="text-sm text-gray-500 font-medium">Admin</span>
             </div>
             <div className="flex items-center gap-3">
+              <button
+                onClick={initializeData}
+                className="px-4 py-2 text-sm font-bold text-blue-600 hover:text-blue-700 bg-blue-50 rounded-lg transition-colors"
+              >
+                📥 초기 데이터 로드
+              </button>
               <div className="flex items-center gap-2 px-3 py-1.5 bg-gray-100 rounded-lg">
                 <span className="text-sm text-gray-600">👤</span>
                 <span className="text-sm font-bold text-gray-900">관리자</span>
