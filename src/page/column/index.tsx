@@ -292,9 +292,8 @@ export default function ColumnView() {
                       <p className="text-base font-black text-center flex items-center justify-center gap-2" style={{
                         color: column.bgGradient.includes('3098F2') ? '#3098F2' : column.bgGradient.includes('25A6D9') ? '#25A6D9' : '#11BFAE',
                       }}>
-                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M10.5 13.5L8 16V8L10.5 10.5L13 8L15.5 10.5L18 8V16L15.5 13.5L13 16L10.5 13.5Z" />
-                          <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" />
+                        <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 2C11.5 2 11 2.19 10.59 2.59L2.59 10.59C1.8 11.37 1.8 12.63 2.59 13.41C3.37 14.2 4.63 14.2 5.41 13.41L7 11.83V19C7 20.1 7.9 21 9 21C10.1 21 11 20.1 11 19V14H13V19C13 20.1 13.9 21 15 21C16.1 21 17 20.1 17 19V11.83L18.59 13.41C19.37 14.2 20.63 14.2 21.41 13.41C22.2 12.63 22.2 11.37 21.41 10.59L13.41 2.59C13 2.19 12.5 2 12 2Z"/>
                         </svg>
                         칼럼을 눌러보세요!
                       </p>
