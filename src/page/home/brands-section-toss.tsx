@@ -175,56 +175,73 @@ export default function BrandsSectionToss({
                 <span className="text-2xl">🔥</span>
                 인기 브랜드 TOP3
               </h3>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+              <div className="space-y-3">
                 {topBrands.map((brand, index) => (
                   <button
                     key={brand.id}
                     onClick={() => onBrandClick(brand.id)}
-                    className={`relative bg-white rounded-2xl md:rounded-3xl p-4 md:p-5 flex flex-col items-center text-center transition-all duration-300 ${
+                    className={`w-full bg-white rounded-2xl md:rounded-3xl p-4 md:p-5 flex items-center gap-4 transition-all duration-300 ${
                       selectedBrandId === brand.id
-                        ? "shadow-xl scale-[1.05] ring-2 ring-blue-500"
-                        : "shadow-md hover:shadow-lg hover:scale-[1.02]"
+                        ? "shadow-xl scale-[1.02] ring-2 ring-blue-500"
+                        : "shadow-md hover:shadow-lg hover:scale-[1.01]"
                     }`}
                   >
                     {/* TOP3 배지 */}
-                    <div className="absolute top-2 left-2 w-8 h-8 md:w-10 md:h-10 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center shadow-lg">
-                      <span className="text-white font-black text-sm md:text-base">
+                    <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center shadow-lg flex-shrink-0">
+                      <span className="text-white font-black text-xl md:text-2xl">
                         {index + 1}
                       </span>
                     </div>
 
                     {/* 로고 */}
                     {brand.logoImage ? (
-                      <div className="w-16 h-16 md:w-20 md:h-20 rounded-xl md:rounded-2xl bg-gray-100 flex items-center justify-center overflow-hidden mb-3 flex-shrink-0">
+                      <div className="w-14 h-14 md:w-16 md:h-16 rounded-xl md:rounded-2xl bg-gray-100 flex items-center justify-center overflow-hidden flex-shrink-0">
                         <img
                           src={brand.logoImage}
                           alt={brand.name}
-                          className="w-14 h-14 md:w-16 md:h-16 object-contain"
+                          className="w-12 h-12 md:w-14 md:h-14 object-contain"
                         />
                       </div>
                     ) : (
                       <div
-                        className="w-16 h-16 md:w-20 md:h-20 rounded-xl md:rounded-2xl flex items-center justify-center text-3xl md:text-4xl mb-3 flex-shrink-0"
+                        className="w-14 h-14 md:w-16 md:h-16 rounded-xl md:rounded-2xl flex items-center justify-center text-2xl md:text-3xl flex-shrink-0"
                         style={{ backgroundColor: `${brand.color}15` }}
                       >
                         {brand.logo}
                       </div>
                     )}
 
-                    {/* 브랜드명 */}
-                    <h3 className="text-base md:text-lg font-bold text-gray-900 mb-1 line-clamp-1">
-                      {brand.name}
-                    </h3>
-
-                    {/* 카테고리 */}
-                    <p className="text-xs md:text-sm text-gray-500 font-medium mb-2 line-clamp-1">
-                      {brand.category}
-                    </p>
+                    {/* 브랜드 정보 */}
+                    <div className="flex-1 text-left min-w-0">
+                      <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-1 truncate">
+                        {brand.name}
+                      </h3>
+                      <p className="text-sm md:text-base text-gray-500 font-medium truncate">
+                        {brand.category}
+                      </p>
+                    </div>
 
                     {/* 창업비용 */}
-                    <div className="text-xs md:text-sm font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-full">
-                      {brand.startupCost}
+                    <div className="flex-shrink-0">
+                      <div className="text-xs md:text-sm font-bold text-blue-600 bg-blue-50 px-3 md:px-4 py-2 rounded-full whitespace-nowrap">
+                        {brand.startupCost}
+                      </div>
                     </div>
+
+                    {/* 화살표 */}
+                    <svg
+                      className="w-5 h-5 md:w-6 md:h-6 text-gray-400 flex-shrink-0"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2.5}
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
                   </button>
                 ))}
               </div>
