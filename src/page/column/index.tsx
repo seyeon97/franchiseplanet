@@ -245,7 +245,7 @@ export default function ColumnView() {
                   </p>
 
                   {/* 날짜 */}
-                  <p className="text-sm text-gray-700 font-medium mb-8">
+                  <p className="text-sm text-gray-700 font-medium mb-4">
                     {column.date}
                   </p>
 
@@ -272,7 +272,7 @@ export default function ColumnView() {
                   )}
 
                   {/* 클릭 힌트 */}
-                  <div className="absolute bottom-48 left-1/2 transform -translate-x-1/2 w-full px-6 animate-pulse">
+                  <div className="absolute bottom-56 left-1/2 transform -translate-x-1/2 w-full px-6 animate-pulse">
                     <div
                       className="bg-white rounded-2xl px-6 py-4 shadow-xl border-2 mx-auto max-w-sm transform transition-all duration-300 hover:scale-105 hover:shadow-2xl"
                       style={{
@@ -296,7 +296,7 @@ export default function ColumnView() {
 
                   {/* 스크롤 힌트 */}
                   <div className="absolute bottom-24 left-1/2 transform -translate-x-1/2">
-                    <div className="flex flex-col items-center gap-2 animate-bounce">
+                    <div className="flex flex-col items-center gap-2" style={{ animation: "bounce 3s infinite" }}>
                       <div className="text-sm text-gray-400 font-medium">아래로 스크롤</div>
                       <svg
                         className="w-6 h-6 text-gray-400"
