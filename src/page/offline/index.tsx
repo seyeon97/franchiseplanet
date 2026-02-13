@@ -160,9 +160,45 @@ export default function OfflineView() {
           ))}
         </div>
 
-        {/* 스와이프 힌트 - 첫 번째 페이지에서만 표시 */}
-        {currentIndex === 0 && (
-          <div className="text-center">
+        {/* 스와이프 힌트 - 페이지별로 다르게 표시 */}
+        <div className="text-center">
+          {currentIndex === 0 && (
+            <div className="inline-flex items-center gap-3 text-gray-400 animate-pulse">
+              <span className="text-sm font-medium">옆으로 스와이프</span>
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2.5}
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </div>
+          )}
+          {currentIndex === programs.length - 1 && (
+            <div className="inline-flex items-center gap-3 text-gray-400 animate-pulse">
+              <svg
+                className="w-5 h-5 rotate-180"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2.5}
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+              <span className="text-sm font-medium">옆으로 스와이프</span>
+            </div>
+          )}
+          {currentIndex > 0 && currentIndex < programs.length - 1 && (
             <div className="inline-flex items-center gap-3 text-gray-400 animate-pulse">
               <svg
                 className="w-5 h-5 rotate-180"
@@ -192,8 +228,8 @@ export default function OfflineView() {
                 />
               </svg>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );
