@@ -12,8 +12,7 @@ import "server-only";
  */
 
 export const config = {
-  // Add your sensitive environment variables here
-  // Example:
-  // OPENAI_API_KEY: "sk-xxx...",
-  // DATABASE_SECRET: "xxx...",
+  // Gemini API 설정
+  GEMINI_API_KEY: "AIzaSyDqNWHzIjNi6yEfqRCU4x8K3v8L9mJ5nXo", // 실제 API 키로 교체하세요
+  GEMINI_API_URL: "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent",
 } as const;
