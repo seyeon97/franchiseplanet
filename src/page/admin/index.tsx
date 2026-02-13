@@ -74,6 +74,12 @@ export default function AdminView() {
   const [resources, setResources] = useState<Resource[]>([]);
   const [offlinePrograms, setOfflinePrograms] = useState<OfflineProgram[]>([]);
 
+  // 수정 모달 상태
+  const [editModal, setEditModal] = useState<{
+    type: TabType | null;
+    data: Brand | Column | Resource | OfflineProgram | null;
+  }>({ type: null, data: null });
+
   // 삭제 함수들
   const deleteBrand = (id: number) => {
     if (confirm("정말 삭제하시겠습니까?")) {
@@ -105,6 +111,35 @@ export default function AdminView() {
       setOfflinePrograms(updated);
       localStorage.setItem("offlinePrograms", JSON.stringify(updated));
     }
+  };
+
+  // 수정 함수들
+  const saveBrand = (updatedBrand: Brand) => {
+    const updated = brands.map(b => b.id === updatedBrand.id ? updatedBrand : b);
+    setBrands(updated);
+    localStorage.setItem("brands", JSON.stringify(updated));
+    setEditModal({ type: null, data: null });
+  };
+
+  const saveColumn = (updatedColumn: Column) => {
+    const updated = columns.map(c => c.id === updatedColumn.id ? updatedColumn : c);
+    setColumns(updated);
+    localStorage.setItem("columns", JSON.stringify(updated));
+    setEditModal({ type: null, data: null });
+  };
+
+  const saveResource = (updatedResource: Resource) => {
+    const updated = resources.map(r => r.id === updatedResource.id ? updatedResource : r);
+    setResources(updated);
+    localStorage.setItem("resources", JSON.stringify(updated));
+    setEditModal({ type: null, data: null });
+  };
+
+  const saveOfflineProgram = (updatedProgram: OfflineProgram) => {
+    const updated = offlinePrograms.map(p => p.id === updatedProgram.id ? updatedProgram : p);
+    setOfflinePrograms(updated);
+    localStorage.setItem("offlinePrograms", JSON.stringify(updated));
+    setEditModal({ type: null, data: null });
   };
 
   // 초기 데이터 생성
@@ -467,7 +502,8 @@ export default function AdminView() {
                       brands.map((brand) => (
                         <div
                           key={brand.id}
-                          className="flex items-center gap-4 p-4 border border-gray-200 rounded-xl hover:border-blue-300 hover:bg-blue-50/50 transition-all group"
+                          onClick={() => setEditModal({ type: "brands", data: brand })}
+                          className="flex items-center gap-4 p-4 border border-gray-200 rounded-xl hover:border-blue-300 hover:bg-blue-50/50 transition-all group cursor-pointer"
                         >
                           <div className="w-16 h-16 bg-gray-100 rounded-xl flex items-center justify-center text-2xl flex-shrink-0">
                             {brand.thumbnail || "🏪"}
@@ -516,7 +552,8 @@ export default function AdminView() {
                       columns.map((column) => (
                         <div
                           key={column.id}
-                          className="flex items-center gap-4 p-4 border border-gray-200 rounded-xl hover:border-blue-300 hover:bg-blue-50/50 transition-all group"
+                          onClick={() => setEditModal({ type: "columns", data: column })}
+                          className="flex items-center gap-4 p-4 border border-gray-200 rounded-xl hover:border-blue-300 hover:bg-blue-50/50 transition-all group cursor-pointer"
                         >
                           <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center text-2xl flex-shrink-0">
                             {column.thumbnail || "📝"}
@@ -565,7 +602,8 @@ export default function AdminView() {
                       resources.map((resource) => (
                         <div
                           key={resource.id}
-                          className="flex items-center gap-4 p-4 border border-gray-200 rounded-xl hover:border-blue-300 hover:bg-blue-50/50 transition-all group"
+                          onClick={() => setEditModal({ type: "resources", data: resource })}
+                          className="flex items-center gap-4 p-4 border border-gray-200 rounded-xl hover:border-blue-300 hover:bg-blue-50/50 transition-all group cursor-pointer"
                         >
                           <div className="w-16 h-16 bg-gray-100 rounded-xl flex items-center justify-center text-2xl flex-shrink-0">
                             {resource.thumbnail || "📄"}
@@ -611,7 +649,8 @@ export default function AdminView() {
                       offlinePrograms.map((program) => (
                         <div
                           key={program.id}
-                          className="flex items-center gap-4 p-4 border border-gray-200 rounded-xl hover:border-blue-300 hover:bg-blue-50/50 transition-all group"
+                          onClick={() => setEditModal({ type: "offline", data: program })}
+                          className="flex items-center gap-4 p-4 border border-gray-200 rounded-xl hover:border-blue-300 hover:bg-blue-50/50 transition-all group cursor-pointer"
                         >
                           <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl flex items-center justify-center text-2xl flex-shrink-0">
                             {program.imageUrl || "👨‍💼"}
@@ -651,6 +690,477 @@ export default function AdminView() {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* 수정 모달 */}
+      {editModal.type && editModal.data && (
+        <EditModal
+          type={editModal.type}
+          data={editModal.data}
+          onClose={() => setEditModal({ type: null, data: null })}
+          onSave={(data) => {
+            if (editModal.type === "brands") saveBrand(data as Brand);
+            else if (editModal.type === "columns") saveColumn(data as Column);
+            else if (editModal.type === "resources") saveResource(data as Resource);
+            else if (editModal.type === "offline") saveOfflineProgram(data as OfflineProgram);
+          }}
+        />
+      )}
+    </div>
+  );
+}
+
+// 수정 모달 컴포넌트
+function EditModal({
+  type,
+  data,
+  onClose,
+  onSave,
+}: {
+  type: TabType;
+  data: Brand | Column | Resource | OfflineProgram;
+  onClose: () => void;
+  onSave: (data: Brand | Column | Resource | OfflineProgram) => void;
+}) {
+  const [formData, setFormData] = useState(data);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSave(formData);
+  };
+
+  const updateField = (field: string, value: string | number | boolean) => {
+    setFormData({ ...formData, [field]: value });
+  };
+
+  const updateNestedField = (parent: string, field: string, value: number) => {
+    const brandData = formData as Brand;
+    const parentData = brandData[parent as keyof Brand];
+    if (typeof parentData === 'object' && parentData !== null) {
+      setFormData({
+        ...formData,
+        [parent]: {
+          ...parentData,
+          [field]: value,
+        },
+      });
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={onClose}>
+      <div
+        className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* 모달 헤더 */}
+        <div className="sticky top-0 bg-white border-b border-gray-200 p-6 flex items-center justify-between">
+          <h2 className="text-xl font-black text-gray-900">
+            {type === "brands" && "브랜드"}
+            {type === "columns" && "칼럼"}
+            {type === "resources" && "자료"}
+            {type === "offline" && "오프라인 프로그램"} 수정
+          </h2>
+          <button
+            onClick={onClose}
+            className="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center transition-colors"
+          >
+            <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        {/* 모달 내용 */}
+        <form onSubmit={handleSubmit} className="p-6 space-y-4">
+          {/* 브랜드 수정 폼 */}
+          {type === "brands" && (
+            <>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">브랜드명</label>
+                <input
+                  type="text"
+                  value={(formData as Brand).name}
+                  onChange={(e) => updateField("name", e.target.value)}
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">카테고리</label>
+                <input
+                  type="text"
+                  value={(formData as Brand).category}
+                  onChange={(e) => updateField("category", e.target.value)}
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">설명</label>
+                <textarea
+                  value={(formData as Brand).description}
+                  onChange={(e) => updateField("description", e.target.value)}
+                  rows={3}
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">썸네일 (이모지)</label>
+                <input
+                  type="text"
+                  value={(formData as Brand).thumbnail}
+                  onChange={(e) => updateField("thumbnail", e.target.value)}
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">월 매출 (만원)</label>
+                <input
+                  type="number"
+                  value={(formData as Brand).monthlyRevenue}
+                  onChange={(e) => updateField("monthlyRevenue", Number(e.target.value))}
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+
+              <div className="border-t pt-4">
+                <h3 className="font-bold text-gray-900 mb-3">고정 비용 (만원)</h3>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">가맹비</label>
+                    <input
+                      type="number"
+                      value={(formData as Brand).fixedCosts.franchise}
+                      onChange={(e) => updateNestedField("fixedCosts", "franchise", Number(e.target.value))}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">인테리어</label>
+                    <input
+                      type="number"
+                      value={(formData as Brand).fixedCosts.interior}
+                      onChange={(e) => updateNestedField("fixedCosts", "interior", Number(e.target.value))}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">보증금</label>
+                    <input
+                      type="number"
+                      value={(formData as Brand).fixedCosts.deposit}
+                      onChange={(e) => updateNestedField("fixedCosts", "deposit", Number(e.target.value))}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">장비</label>
+                    <input
+                      type="number"
+                      value={(formData as Brand).fixedCosts.equipment}
+                      onChange={(e) => updateNestedField("fixedCosts", "equipment", Number(e.target.value))}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="border-t pt-4">
+                <h3 className="font-bold text-gray-900 mb-3">변동 비용 (만원/월)</h3>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">임대료</label>
+                    <input
+                      type="number"
+                      value={(formData as Brand).variableCosts.rent}
+                      onChange={(e) => updateNestedField("variableCosts", "rent", Number(e.target.value))}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">인건비</label>
+                    <input
+                      type="number"
+                      value={(formData as Brand).variableCosts.labor}
+                      onChange={(e) => updateNestedField("variableCosts", "labor", Number(e.target.value))}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">재료비</label>
+                    <input
+                      type="number"
+                      value={(formData as Brand).variableCosts.materials}
+                      onChange={(e) => updateNestedField("variableCosts", "materials", Number(e.target.value))}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">공과금</label>
+                    <input
+                      type="number"
+                      value={(formData as Brand).variableCosts.utilities}
+                      onChange={(e) => updateNestedField("variableCosts", "utilities", Number(e.target.value))}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+
+          {/* 칼럼 수정 폼 */}
+          {type === "columns" && (
+            <>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">제목</label>
+                <input
+                  type="text"
+                  value={(formData as Column).title}
+                  onChange={(e) => updateField("title", e.target.value)}
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">카테고리</label>
+                <input
+                  type="text"
+                  value={(formData as Column).category}
+                  onChange={(e) => updateField("category", e.target.value)}
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">요약</label>
+                <textarea
+                  value={(formData as Column).summary}
+                  onChange={(e) => updateField("summary", e.target.value)}
+                  rows={2}
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">본문</label>
+                <textarea
+                  value={(formData as Column).content}
+                  onChange={(e) => updateField("content", e.target.value)}
+                  rows={10}
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono text-sm"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">썸네일 (이모지)</label>
+                <input
+                  type="text"
+                  value={(formData as Column).thumbnail}
+                  onChange={(e) => updateField("thumbnail", e.target.value)}
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">날짜</label>
+                <input
+                  type="text"
+                  value={(formData as Column).date}
+                  onChange={(e) => updateField("date", e.target.value)}
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+              <div className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  checked={(formData as Column).isNew}
+                  onChange={(e) => updateField("isNew", e.target.checked)}
+                  className="w-4 h-4 text-blue-600 rounded"
+                />
+                <label className="text-sm font-bold text-gray-700">NEW 배지 표시</label>
+              </div>
+            </>
+          )}
+
+          {/* 자료실 수정 폼 */}
+          {type === "resources" && (
+            <>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">제목</label>
+                <input
+                  type="text"
+                  value={(formData as Resource).title}
+                  onChange={(e) => updateField("title", e.target.value)}
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">카테고리</label>
+                <input
+                  type="text"
+                  value={(formData as Resource).category}
+                  onChange={(e) => updateField("category", e.target.value)}
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">요약</label>
+                <textarea
+                  value={(formData as Resource).summary}
+                  onChange={(e) => updateField("summary", e.target.value)}
+                  rows={2}
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">본문</label>
+                <textarea
+                  value={(formData as Resource).content}
+                  onChange={(e) => updateField("content", e.target.value)}
+                  rows={10}
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono text-sm"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">썸네일 (이모지)</label>
+                <input
+                  type="text"
+                  value={(formData as Resource).thumbnail}
+                  onChange={(e) => updateField("thumbnail", e.target.value)}
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">날짜</label>
+                <input
+                  type="text"
+                  value={(formData as Resource).date}
+                  onChange={(e) => updateField("date", e.target.value)}
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+            </>
+          )}
+
+          {/* 오프라인 프로그램 수정 폼 */}
+          {type === "offline" && (
+            <>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">프로그램명</label>
+                <input
+                  type="text"
+                  value={(formData as OfflineProgram).name}
+                  onChange={(e) => updateField("name", e.target.value)}
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">제목</label>
+                <input
+                  type="text"
+                  value={(formData as OfflineProgram).title}
+                  onChange={(e) => updateField("title", e.target.value)}
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">카테고리</label>
+                <input
+                  type="text"
+                  value={(formData as OfflineProgram).category}
+                  onChange={(e) => updateField("category", e.target.value)}
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">설명</label>
+                <textarea
+                  value={(formData as OfflineProgram).description}
+                  onChange={(e) => updateField("description", e.target.value)}
+                  rows={2}
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">이미지 (이모지)</label>
+                <input
+                  type="text"
+                  value={(formData as OfflineProgram).imageUrl}
+                  onChange={(e) => updateField("imageUrl", e.target.value)}
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-sm font-bold text-gray-700 mb-2">가격 (원)</label>
+                  <input
+                    type="number"
+                    value={(formData as OfflineProgram).price}
+                    onChange={(e) => updateField("price", Number(e.target.value))}
+                    className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-bold text-gray-700 mb-2">최대 참가자</label>
+                  <input
+                    type="number"
+                    value={(formData as OfflineProgram).maxParticipants}
+                    onChange={(e) => updateField("maxParticipants", Number(e.target.value))}
+                    className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">날짜</label>
+                <input
+                  type="text"
+                  value={(formData as OfflineProgram).date}
+                  onChange={(e) => updateField("date", e.target.value)}
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">시간</label>
+                <input
+                  type="text"
+                  value={(formData as OfflineProgram).time}
+                  onChange={(e) => updateField("time", e.target.value)}
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">장소</label>
+                <input
+                  type="text"
+                  value={(formData as OfflineProgram).location}
+                  onChange={(e) => updateField("location", e.target.value)}
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">소요시간</label>
+                <input
+                  type="text"
+                  value={(formData as OfflineProgram).duration}
+                  onChange={(e) => updateField("duration", e.target.value)}
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+            </>
+          )}
+
+          {/* 저장/취소 버튼 */}
+          <div className="flex gap-3 pt-4 border-t">
+            <button
+              type="button"
+              onClick={onClose}
+              className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 font-bold rounded-xl hover:bg-gray-50 transition-colors"
+            >
+              취소
+            </button>
+            <button
+              type="submit"
+              className="flex-1 px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold rounded-xl hover:shadow-lg transition-all"
+            >
+              저장
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );
