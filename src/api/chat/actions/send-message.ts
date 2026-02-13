@@ -13,7 +13,7 @@ export async function sendMessage(
   }
 
   // API 키 확인
-  if (!config.GEMINI_API_KEY || config.GEMINI_API_KEY === "YOUR_GEMINI_API_KEY_HERE") {
+  if (!config.GEMINI_API_KEY) {
     console.error("Gemini API 키가 설정되지 않았습니다.");
     throw new Error("AI 서비스 설정이 필요합니다. 관리자에게 문의하세요.");
   }

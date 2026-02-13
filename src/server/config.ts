@@ -13,7 +13,6 @@ import "server-only";
 
 export const config = {
   // Gemini API 설정
-  // https://aistudio.google.com/app/apikey 에서 API 키를 발급받으세요
-  GEMINI_API_KEY: process.env.GEMINI_API_KEY || "YOUR_GEMINI_API_KEY_HERE",
+  GEMINI_API_KEY: "AIzaSyAgb7j4uTtJYceogNXDDNcuTYH3snI0y9I",
   GEMINI_API_URL: "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent",
 } as const;
