@@ -270,13 +270,7 @@ export default function ColumnView() {
 
       {/* 상세 뷰 - 스와이프로 내용 보기 */}
       {selectedColumn && (
-        <div
-          className="fixed inset-0 bg-black z-50"
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
-          onWheel={handleScroll}
-        >
+        <div className="fixed inset-0 bg-black z-50">
           {/* 닫기 버튼 */}
           <button
             onClick={handleClose}
@@ -296,20 +290,6 @@ export default function ColumnView() {
               />
             </svg>
           </button>
-
-          {/* 진행 표시 */}
-          <div className="absolute top-4 left-4 z-10 flex gap-1">
-            {columns.map((_, index) => (
-              <div
-                key={index}
-                className={`h-1 rounded-full transition-all ${
-                  index === currentIndex
-                    ? "w-8 bg-white"
-                    : "w-4 bg-white/30"
-                }`}
-              />
-            ))}
-          </div>
 
           {/* 콘텐츠 영역 */}
           <div className="h-full overflow-y-auto">
@@ -385,15 +365,6 @@ export default function ColumnView() {
                       }
                     })}
                   </div>
-                </div>
-
-                {/* 네비게이션 힌트 */}
-                <div className="mt-8 text-center">
-                  <p className="text-sm text-white/60 font-medium">
-                    {currentIndex < columns.length - 1
-                      ? "↓ 아래로 스와이프하면 다음 칼럼"
-                      : "마지막 칼럼입니다"}
-                  </p>
                 </div>
               </div>
             </div>
