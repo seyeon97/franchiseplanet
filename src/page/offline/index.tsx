@@ -50,36 +50,34 @@ export default function OfflineView() {
           {programs.map((program) => (
             <button
               key={program.id}
-              className="text-left group"
+              className="text-left group bg-gray-900 rounded-2xl overflow-hidden"
             >
-              <div className={`bg-gradient-to-br ${program.bgColor} rounded-2xl p-6 pb-4 relative overflow-hidden`}>
-                {/* 카드 상단 콘텐츠 */}
-                <div className="relative z-10 mb-4">
-                  <div className="text-xs text-white/80 mb-2">
-                    {program.category === "임장" && "★프랜차이즈 / 상권분석 전문가와 함께"}
-                  </div>
-                  <h3 className="text-xl font-black text-white mb-2">
-                    {program.title}
-                  </h3>
+              {/* 카드 상단 - 그라데이션 영역 */}
+              <div className={`bg-gradient-to-br ${program.bgColor} p-6 pb-12 relative`}>
+                <div className="text-xs text-white/90 mb-2">
+                  ★프랜차이즈 / 상권분석 전문가와 함께
                 </div>
+                <h3 className="text-2xl font-black text-white leading-tight">
+                  {program.title}
+                </h3>
 
-                {/* 강사 사진 영역 */}
-                <div className="flex justify-center mb-4">
-                  <div className="w-24 h-24 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-5xl border-4 border-white/30">
+                {/* 강사 사진 - 카드 하단으로 걸쳐지도록 */}
+                <div className="absolute -bottom-12 left-1/2 transform -translate-x-1/2">
+                  <div className="w-24 h-24 rounded-full bg-gray-300 flex items-center justify-center text-5xl border-4 border-gray-900">
                     {program.imageUrl}
                   </div>
                 </div>
               </div>
 
               {/* 카드 하단 정보 */}
-              <div className="mt-3 px-2">
-                <h4 className="text-base font-bold text-[#101828] mb-1">
+              <div className="pt-14 pb-6 px-6 text-center">
+                <h4 className="text-lg font-bold text-white mb-1">
                   {program.name}
                 </h4>
-                <p className="text-xs text-gray-500 mb-2">
+                <p className="text-sm text-gray-400 mb-3">
                   {program.category}
                 </p>
-                <p className="text-sm text-gray-600 line-clamp-2">
+                <p className="text-sm text-gray-300 leading-relaxed">
                   {program.description}
                 </p>
               </div>
