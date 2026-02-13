@@ -40,64 +40,50 @@ export default function BrandsSectionToss({
           브랜드를 선택하면 실제 매출 정보를 볼 수 있어요
         </p>
 
-        {/* 브랜드 리스트 - 세로 스크롤 (모바일 최적화) */}
-        <div className="space-y-3 md:space-y-4">
+        {/* 브랜드 그리드 - 많은 브랜드에 최적화 */}
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
           {brands.map((brand) => (
             <button
               key={brand.id}
               onClick={() => onBrandClick(brand.id)}
-              className={`w-full bg-white rounded-2xl md:rounded-3xl p-4 md:p-6 flex items-center justify-between transition-all duration-300 ${
+              className={`bg-white rounded-2xl md:rounded-3xl p-4 md:p-5 flex flex-col items-center text-center transition-all duration-300 ${
                 selectedBrandId === brand.id
-                  ? "shadow-xl scale-[1.02] ring-2 ring-blue-500"
-                  : "shadow-md hover:shadow-lg hover:scale-[1.01]"
+                  ? "shadow-xl scale-[1.05] ring-2 ring-blue-500"
+                  : "shadow-md hover:shadow-lg hover:scale-[1.02]"
               }`}
             >
-              <div className="flex items-center gap-3 md:gap-4 min-w-0">
-                {/* 로고 */}
-                {brand.logoImage ? (
-                  <div className="w-14 h-14 md:w-16 md:h-16 rounded-xl md:rounded-2xl bg-gray-100 flex items-center justify-center overflow-hidden flex-shrink-0">
-                    <img
-                      src={brand.logoImage}
-                      alt={brand.name}
-                      className="w-12 h-12 md:w-14 md:h-14 object-contain"
-                    />
-                  </div>
-                ) : (
-                  <div
-                    className="w-14 h-14 md:w-16 md:h-16 rounded-xl md:rounded-2xl flex items-center justify-center text-2xl md:text-3xl flex-shrink-0"
-                    style={{ backgroundColor: `${brand.color}15` }}
-                  >
-                    {brand.logo}
-                  </div>
-                )}
-
-                {/* 정보 */}
-                <div className="text-left min-w-0">
-                  <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-0.5 md:mb-1 truncate">
-                    {brand.name}
-                  </h3>
-                  <p className="text-xs md:text-sm text-gray-500 font-medium truncate">
-                    {brand.category} · 창업비용 {brand.startupCost}
-                  </p>
+              {/* 로고 */}
+              {brand.logoImage ? (
+                <div className="w-16 h-16 md:w-20 md:h-20 rounded-xl md:rounded-2xl bg-gray-100 flex items-center justify-center overflow-hidden mb-3 flex-shrink-0">
+                  <img
+                    src={brand.logoImage}
+                    alt={brand.name}
+                    className="w-14 h-14 md:w-16 md:h-16 object-contain"
+                  />
                 </div>
-              </div>
+              ) : (
+                <div
+                  className="w-16 h-16 md:w-20 md:h-20 rounded-xl md:rounded-2xl flex items-center justify-center text-3xl md:text-4xl mb-3 flex-shrink-0"
+                  style={{ backgroundColor: `${brand.color}15` }}
+                >
+                  {brand.logo}
+                </div>
+              )}
 
-              {/* 화살표 */}
-              <svg
-                className={`w-5 h-5 md:w-6 md:h-6 text-gray-400 transition-transform flex-shrink-0 ${
-                  selectedBrandId === brand.id ? "rotate-90" : ""
-                }`}
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2.5}
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
+              {/* 브랜드명 */}
+              <h3 className="text-base md:text-lg font-bold text-gray-900 mb-1 line-clamp-1">
+                {brand.name}
+              </h3>
+
+              {/* 카테고리 */}
+              <p className="text-xs md:text-sm text-gray-500 font-medium mb-2 line-clamp-1">
+                {brand.category}
+              </p>
+
+              {/* 창업비용 */}
+              <div className="text-xs md:text-sm font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-full">
+                {brand.startupCost}
+              </div>
             </button>
           ))}
         </div>
