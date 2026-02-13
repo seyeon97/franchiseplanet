@@ -372,12 +372,12 @@ export default function BrandCardToss({ brand }: BrandCardProps) {
                     )}
                   </div>
 
-                  <div className="bg-gray-50 rounded-2xl overflow-hidden">
+                  <div className="bg-red-50 rounded-2xl overflow-hidden border-2 border-red-500">
                     <button
                       onClick={() => setExpandedTop10Fixed(!expandedTop10Fixed)}
                       className="w-full px-4 py-4 flex items-center justify-between hover:bg-gray-100"
                     >
-                      <span className="text-sm font-bold text-gray-900">고정비 상세보기</span>
+                      <span className="text-sm font-bold text-red-900">고정비 상세보기 (테스트)</span>
                       <span
                         className={`transform transition-transform ${
                           expandedTop10Fixed ? "rotate-180" : ""
