@@ -217,7 +217,7 @@ export default function OfflineView() {
         <div className="text-center">
           {currentIndex === 0 && (
             <div className="inline-flex items-center gap-3 text-gray-400 animate-pulse">
-              <span className="text-sm font-medium">옆으로 스와이프</span>
+              <span className="text-sm font-medium">옆으로 밀기</span>
               <svg
                 className="w-5 h-5"
                 fill="none"
@@ -248,7 +248,7 @@ export default function OfflineView() {
                   d="M9 5l7 7-7 7"
                 />
               </svg>
-              <span className="text-sm font-medium">옆으로 스와이프</span>
+              <span className="text-sm font-medium">옆으로 밀기</span>
             </div>
           )}
           {currentIndex > 0 && currentIndex < programs.length - 1 && (
@@ -266,7 +266,7 @@ export default function OfflineView() {
                   d="M9 5l7 7-7 7"
                 />
               </svg>
-              <span className="text-sm font-medium">옆으로 스와이프</span>
+              <span className="text-sm font-medium">옆으로 밀기</span>
               <svg
                 className="w-5 h-5"
                 fill="none"
