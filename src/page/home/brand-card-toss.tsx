@@ -293,8 +293,9 @@ export default function BrandCardToss({ brand }: BrandCardProps) {
             onClick={() => setShowTop10Detail(false)}
           >
             <div
-              className="bg-white rounded-t-[2rem] md:rounded-3xl w-full md:max-w-2xl max-h-[85vh] overflow-y-auto"
+              className="bg-white rounded-t-[2rem] md:rounded-3xl w-full md:max-w-2xl max-h-[90vh] overflow-y-scroll"
               onClick={(e) => e.stopPropagation()}
+              style={{ WebkitOverflowScrolling: 'touch' }}
             >
               <div className="sticky top-0 bg-blue-500 p-6 rounded-t-[2rem] md:rounded-t-3xl">
                 <div className="flex items-center justify-between">
@@ -372,12 +373,12 @@ export default function BrandCardToss({ brand }: BrandCardProps) {
                     )}
                   </div>
 
-                  <div className="bg-red-50 rounded-2xl overflow-hidden border-2 border-red-500">
+                  <div className="bg-gray-50 rounded-2xl overflow-hidden">
                     <button
                       onClick={() => setExpandedTop10Fixed(!expandedTop10Fixed)}
                       className="w-full px-4 py-4 flex items-center justify-between hover:bg-gray-100"
                     >
-                      <span className="text-sm font-bold text-red-900">고정비 상세보기 (테스트)</span>
+                      <span className="text-sm font-bold text-gray-900">고정비 상세보기</span>
                       <span
                         className={`transform transition-transform ${
                           expandedTop10Fixed ? "rotate-180" : ""
@@ -417,8 +418,9 @@ export default function BrandCardToss({ brand }: BrandCardProps) {
             onClick={() => setShowAverageDetail(false)}
           >
             <div
-              className="bg-white rounded-t-[2rem] md:rounded-3xl w-full md:max-w-2xl max-h-[85vh] overflow-y-auto"
+              className="bg-white rounded-t-[2rem] md:rounded-3xl w-full md:max-w-2xl max-h-[90vh] overflow-y-scroll"
               onClick={(e) => e.stopPropagation()}
+              style={{ WebkitOverflowScrolling: 'touch' }}
             >
               <div className="sticky top-0 bg-gray-600 p-6 rounded-t-[2rem] md:rounded-t-3xl">
                 <div className="flex items-center justify-between">
@@ -541,8 +543,9 @@ export default function BrandCardToss({ brand }: BrandCardProps) {
             onClick={() => setShowBottom10Detail(false)}
           >
             <div
-              className="bg-white rounded-t-[2rem] md:rounded-3xl w-full md:max-w-2xl max-h-[85vh] overflow-y-auto"
+              className="bg-white rounded-t-[2rem] md:rounded-3xl w-full md:max-w-2xl max-h-[90vh] overflow-y-scroll"
               onClick={(e) => e.stopPropagation()}
+              style={{ WebkitOverflowScrolling: 'touch' }}
             >
               <div className="sticky top-0 bg-red-500 p-6 rounded-t-[2rem] md:rounded-t-3xl">
                 <div className="flex items-center justify-between">
