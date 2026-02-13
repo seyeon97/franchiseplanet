@@ -529,6 +529,22 @@ export default function OfflineView() {
               <div className="space-y-3">
                 <button
                   onClick={() => {
+                    // 결제 내역을 localStorage에 저장
+                    const paymentHistory = JSON.parse(localStorage.getItem("paymentHistory") || "[]");
+                    const newPayment = {
+                      id: `payment_${Date.now()}`,
+                      programTitle: selectedProgram.title,
+                      programName: selectedProgram.name,
+                      date: selectedProgram.date,
+                      time: selectedProgram.time,
+                      location: selectedProgram.location,
+                      price: selectedProgram.price,
+                      paymentDate: new Date().toLocaleDateString('ko-KR'),
+                      status: "예정",
+                    };
+                    paymentHistory.unshift(newPayment);
+                    localStorage.setItem("paymentHistory", JSON.stringify(paymentHistory));
+
                     // 실제 서비스에서는 토스페이먼츠 SDK 연동
                     // 현재는 결제 완료 처리
                     setShowPayment(false);
