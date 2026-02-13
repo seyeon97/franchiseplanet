@@ -486,11 +486,7 @@ export default function ResourcesView() {
               <div className="prose max-w-none">
                 {selectedResource.content.split("\n").map((line, index) => {
                   if (line.startsWith("# ")) {
-                    return (
-                      <h1 key={index} className="text-2xl font-black mb-4 text-gray-900">
-                        {line.replace("# ", "")}
-                      </h1>
-                    );
+                    return null;
                   } else if (line.startsWith("## ")) {
                     return (
                       <h2 key={index} className="text-xl font-black mt-6 mb-3 text-gray-900">
