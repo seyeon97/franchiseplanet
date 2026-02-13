@@ -89,7 +89,7 @@ export default function MoreView() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               {/* 프로필 이미지 */}
-              <div className="w-14 h-14 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+              <div className="w-14 h-14 rounded-full bg-white border-2 border-gray-200 flex items-center justify-center">
                 <span className="text-2xl">😊</span>
               </div>
               {/* 사용자 정보 */}
