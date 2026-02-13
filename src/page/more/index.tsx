@@ -11,9 +11,16 @@ export default function MoreView() {
   useEffect(() => {
     const loggedIn = localStorage.getItem("isLoggedIn") === "true";
     const email = localStorage.getItem("userEmail") || "";
+
+    // 로그인되지 않은 경우 로그인 페이지로 리다이렉트
+    if (!loggedIn) {
+      router.push("/login");
+      return;
+    }
+
     setIsLoggedIn(loggedIn);
     setUserEmail(email);
-  }, []);
+  }, [router]);
 
   const quickMenus = [
     {

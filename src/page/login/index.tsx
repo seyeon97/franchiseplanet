@@ -124,13 +124,20 @@ export default function LoginView() {
         console.error("카카오 SDK 로드 중 에러:", error);
       });
 
+    // 이미 로그인된 경우 /more로 리다이렉트
+    const alreadyLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    if (alreadyLoggedIn) {
+      router.push("/more");
+      return;
+    }
+
     // URL에서 인증 코드 확인
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get("code");
     if (code) {
       handleKakaoCallback();
     }
-  }, []);
+  }, [router]);
 
   const handleKakaoLogin = () => {
     if (!isKakaoReady) {

@@ -86,7 +86,7 @@ export default function NavigationBar() {
           />
         </svg>
       ),
-      path: "/login",
+      path: "/more",
     },
   ];
 
