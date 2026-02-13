@@ -45,29 +45,121 @@ export default function MyPageView() {
       type: "칼럼",
       title: "2024년 프랜차이즈 창업 트렌드 분석",
       date: "2024.02.13",
-      icon: "📰",
+      iconType: "column",
     },
     {
       id: 2,
       type: "자료실",
       title: "카페 프랜차이즈 입지 선정 체크리스트",
       date: "2024.02.10",
-      icon: "📄",
+      iconType: "document",
     },
     {
       id: 3,
       type: "관심브랜드",
       title: "메가커피 매출 정보",
       date: "2024.02.08",
-      icon: "⭐",
+      iconType: "star",
     },
   ];
 
+  const renderActivityIcon = (type: string) => {
+    switch (type) {
+      case "column":
+        return (
+          <svg className="w-7 h-7" viewBox="0 0 24 24" fill="none">
+            <defs>
+              <linearGradient id="gradient-column" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style={{ stopColor: '#3182F6' }} />
+                <stop offset="100%" style={{ stopColor: '#00C896' }} />
+              </linearGradient>
+            </defs>
+            <path d="M19 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3Z" stroke="url(#gradient-column)" strokeWidth="2" fill="url(#gradient-column)" fillOpacity="0.1" />
+            <path d="M7 7H17M7 11H17M7 15H13" stroke="url(#gradient-column)" strokeWidth="2" strokeLinecap="round" />
+          </svg>
+        );
+      case "document":
+        return (
+          <svg className="w-7 h-7" viewBox="0 0 24 24" fill="none">
+            <defs>
+              <linearGradient id="gradient-document" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style={{ stopColor: '#3182F6' }} />
+                <stop offset="100%" style={{ stopColor: '#00C896' }} />
+              </linearGradient>
+            </defs>
+            <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" fill="url(#gradient-document)" />
+            <path d="M14 2V8H20" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M8 13H16M8 17H16" stroke="white" strokeWidth="2" strokeLinecap="round" />
+          </svg>
+        );
+      case "star":
+        return (
+          <svg className="w-7 h-7" viewBox="0 0 24 24" fill="none">
+            <defs>
+              <linearGradient id="gradient-star" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style={{ stopColor: '#3182F6' }} />
+                <stop offset="100%" style={{ stopColor: '#00C896' }} />
+              </linearGradient>
+            </defs>
+            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="url(#gradient-star)" />
+          </svg>
+        );
+      default:
+        return null;
+    }
+  };
+
   const stats = [
-    { label: "조회한 브랜드", value: "12개", icon: "🏪" },
-    { label: "다운로드 자료", value: "5개", icon: "📥" },
-    { label: "관심 브랜드", value: "3개", icon: "💖" },
+    { label: "조회한 브랜드", value: "12개", iconType: "store" },
+    { label: "다운로드 자료", value: "5개", iconType: "download" },
+    { label: "관심 브랜드", value: "3개", iconType: "heart" },
   ];
+
+  const renderStatIcon = (type: string) => {
+    switch (type) {
+      case "store":
+        return (
+          <svg className="w-10 h-10 md:w-12 md:h-12" viewBox="0 0 24 24" fill="none">
+            <defs>
+              <linearGradient id="gradient-store" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style={{ stopColor: '#3182F6' }} />
+                <stop offset="100%" style={{ stopColor: '#00C896' }} />
+              </linearGradient>
+            </defs>
+            <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="url(#gradient-store)" strokeWidth="2" fill="url(#gradient-store)" fillOpacity="0.1" />
+            <path d="M9 22V12H15V22" stroke="url(#gradient-store)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        );
+      case "download":
+        return (
+          <svg className="w-10 h-10 md:w-12 md:h-12" viewBox="0 0 24 24" fill="none">
+            <defs>
+              <linearGradient id="gradient-download" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style={{ stopColor: '#3182F6' }} />
+                <stop offset="100%" style={{ stopColor: '#00C896' }} />
+              </linearGradient>
+            </defs>
+            <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="url(#gradient-download)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M7 10L12 15L17 10" stroke="url(#gradient-download)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M12 15V3" stroke="url(#gradient-download)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        );
+      case "heart":
+        return (
+          <svg className="w-10 h-10 md:w-12 md:h-12" viewBox="0 0 24 24" fill="none">
+            <defs>
+              <linearGradient id="gradient-heart" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style={{ stopColor: '#3182F6' }} />
+                <stop offset="100%" style={{ stopColor: '#00C896' }} />
+              </linearGradient>
+            </defs>
+            <path d="M20.84 4.61C20.3292 4.099 19.7228 3.69364 19.0554 3.41708C18.3879 3.14052 17.6725 2.99817 16.95 2.99817C16.2275 2.99817 15.5121 3.14052 14.8446 3.41708C14.1772 3.69364 13.5708 4.099 13.06 4.61L12 5.67L10.94 4.61C9.9083 3.57831 8.50903 2.99871 7.05 2.99871C5.59096 2.99871 4.19169 3.57831 3.16 4.61C2.1283 5.64169 1.54871 7.04097 1.54871 8.5C1.54871 9.95903 2.1283 11.3583 3.16 12.39L4.22 13.45L12 21.23L19.78 13.45L20.84 12.39C21.351 11.8792 21.7564 11.2728 22.0329 10.6054C22.3095 9.93789 22.4518 9.2225 22.4518 8.5C22.4518 7.7775 22.3095 7.06211 22.0329 6.39464C21.7564 5.72718 21.351 5.12084 20.84 4.61Z" fill="url(#gradient-heart)" />
+          </svg>
+        );
+      default:
+        return null;
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20">
@@ -100,7 +192,7 @@ export default function MyPageView() {
           <div className="bg-white rounded-2xl md:rounded-3xl p-5 md:p-6 shadow-xl grid grid-cols-3 gap-4">
             {stats.map((stat, index) => (
               <div key={index} className="text-center">
-                <div className="text-3xl md:text-4xl mb-2">{stat.icon}</div>
+                <div className="flex justify-center mb-2">{renderStatIcon(stat.iconType)}</div>
                 <div className="text-xl md:text-2xl font-black text-gray-900 mb-1">
                   {stat.value}
                 </div>
@@ -125,8 +217,8 @@ export default function MyPageView() {
                   className="bg-white rounded-2xl p-4 md:p-5 shadow-md hover:shadow-lg transition-all"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center text-2xl flex-shrink-0">
-                      {activity.icon}
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-50 to-cyan-50 flex items-center justify-center flex-shrink-0">
+                      {renderActivityIcon(activity.iconType)}
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-full inline-block mb-1">
