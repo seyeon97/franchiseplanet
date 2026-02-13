@@ -150,7 +150,7 @@ export default function BrandCardToss({ brand }: BrandCardProps) {
   const fixedCosts = costs.fixed;
 
   return (
-    <section className="min-h-screen snap-start bg-white px-4 py-8 md:px-6 md:py-20">
+    <section className="min-h-screen bg-white px-4 py-8 md:px-6 md:py-20">
       <div className="max-w-2xl mx-auto">
         {/* 헤더 - 토스 스타일 큰 타이포그래피 */}
         <div className="mb-8 md:mb-12">

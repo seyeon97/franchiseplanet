@@ -175,7 +175,7 @@ export default function HomePage() {
     setSelectedBrandId(brandId);
     setTimeout(() => {
       if (detailRef.current) {
-        detailRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+        detailRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
       }
     }, 100);
   };
@@ -186,7 +186,7 @@ export default function HomePage() {
 
   return (
     <>
-      <main className="h-screen overflow-y-scroll snap-y snap-mandatory scroll-smooth pb-20">
+      <main className="h-screen overflow-y-scroll scroll-smooth pb-20">
         <HeroSectionToss />
         <BrandsSectionToss
           brands={mockBrands}
