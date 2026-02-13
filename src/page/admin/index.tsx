@@ -74,6 +74,39 @@ export default function AdminView() {
   const [resources, setResources] = useState<Resource[]>([]);
   const [offlinePrograms, setOfflinePrograms] = useState<OfflineProgram[]>([]);
 
+  // 삭제 함수들
+  const deleteBrand = (id: number) => {
+    if (confirm("정말 삭제하시겠습니까?")) {
+      const updated = brands.filter(b => b.id !== id);
+      setBrands(updated);
+      localStorage.setItem("brands", JSON.stringify(updated));
+    }
+  };
+
+  const deleteColumn = (id: number) => {
+    if (confirm("정말 삭제하시겠습니까?")) {
+      const updated = columns.filter(c => c.id !== id);
+      setColumns(updated);
+      localStorage.setItem("columns", JSON.stringify(updated));
+    }
+  };
+
+  const deleteResource = (id: number) => {
+    if (confirm("정말 삭제하시겠습니까?")) {
+      const updated = resources.filter(r => r.id !== id);
+      setResources(updated);
+      localStorage.setItem("resources", JSON.stringify(updated));
+    }
+  };
+
+  const deleteOfflineProgram = (id: number) => {
+    if (confirm("정말 삭제하시겠습니까?")) {
+      const updated = offlinePrograms.filter(p => p.id !== id);
+      setOfflinePrograms(updated);
+      localStorage.setItem("offlinePrograms", JSON.stringify(updated));
+    }
+  };
+
   // 초기 데이터 생성
   const initializeData = () => {
     if (typeof window !== 'undefined') {
@@ -434,7 +467,7 @@ export default function AdminView() {
                       brands.map((brand) => (
                         <div
                           key={brand.id}
-                          className="flex items-center gap-4 p-4 border border-gray-200 rounded-xl hover:border-blue-300 hover:bg-blue-50/50 transition-all cursor-pointer"
+                          className="flex items-center gap-4 p-4 border border-gray-200 rounded-xl hover:border-blue-300 hover:bg-blue-50/50 transition-all group"
                         >
                           <div className="w-16 h-16 bg-gray-100 rounded-xl flex items-center justify-center text-2xl flex-shrink-0">
                             {brand.thumbnail || "🏪"}
@@ -454,6 +487,17 @@ export default function AdminView() {
                             </div>
                             <div className="text-xs text-gray-500 mt-0.5">초기 비용</div>
                           </div>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              deleteBrand(brand.id);
+                            }}
+                            className="opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 w-8 h-8 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 flex items-center justify-center"
+                          >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                          </button>
                         </div>
                       ))
                     )}
@@ -472,7 +516,7 @@ export default function AdminView() {
                       columns.map((column) => (
                         <div
                           key={column.id}
-                          className="flex items-center gap-4 p-4 border border-gray-200 rounded-xl hover:border-blue-300 hover:bg-blue-50/50 transition-all cursor-pointer"
+                          className="flex items-center gap-4 p-4 border border-gray-200 rounded-xl hover:border-blue-300 hover:bg-blue-50/50 transition-all group"
                         >
                           <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center text-2xl flex-shrink-0">
                             {column.thumbnail || "📝"}
@@ -492,6 +536,17 @@ export default function AdminView() {
                             <div className="text-sm font-bold text-gray-900">{column.date}</div>
                             <div className="text-xs text-gray-500 mt-0.5">{column.category}</div>
                           </div>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              deleteColumn(column.id);
+                            }}
+                            className="opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 w-8 h-8 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 flex items-center justify-center"
+                          >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                          </button>
                         </div>
                       ))
                     )}
@@ -510,7 +565,7 @@ export default function AdminView() {
                       resources.map((resource) => (
                         <div
                           key={resource.id}
-                          className="flex items-center gap-4 p-4 border border-gray-200 rounded-xl hover:border-blue-300 hover:bg-blue-50/50 transition-all cursor-pointer"
+                          className="flex items-center gap-4 p-4 border border-gray-200 rounded-xl hover:border-blue-300 hover:bg-blue-50/50 transition-all group"
                         >
                           <div className="w-16 h-16 bg-gray-100 rounded-xl flex items-center justify-center text-2xl flex-shrink-0">
                             {resource.thumbnail || "📄"}
@@ -527,6 +582,17 @@ export default function AdminView() {
                           <div className="text-right flex-shrink-0">
                             <div className="text-sm font-bold text-gray-900">{resource.date}</div>
                           </div>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              deleteResource(resource.id);
+                            }}
+                            className="opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 w-8 h-8 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 flex items-center justify-center"
+                          >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                          </button>
                         </div>
                       ))
                     )}
@@ -545,7 +611,7 @@ export default function AdminView() {
                       offlinePrograms.map((program) => (
                         <div
                           key={program.id}
-                          className="flex items-center gap-4 p-4 border border-gray-200 rounded-xl hover:border-blue-300 hover:bg-blue-50/50 transition-all cursor-pointer"
+                          className="flex items-center gap-4 p-4 border border-gray-200 rounded-xl hover:border-blue-300 hover:bg-blue-50/50 transition-all group"
                         >
                           <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl flex items-center justify-center text-2xl flex-shrink-0">
                             {program.imageUrl || "👨‍💼"}
@@ -565,6 +631,17 @@ export default function AdminView() {
                             </div>
                             <div className="text-xs text-gray-500 mt-0.5">{program.date}</div>
                           </div>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              deleteOfflineProgram(program.id);
+                            }}
+                            className="opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 w-8 h-8 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 flex items-center justify-center"
+                          >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                          </button>
                         </div>
                       ))
                     )}
