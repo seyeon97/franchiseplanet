@@ -441,7 +441,7 @@ export default function ResourcesView() {
 
                 {/* Featured 정보 */}
                 <div className="text-left">
-                  <h2 className="text-lg font-black text-[#101828] mb-1 leading-tight line-clamp-2">
+                  <h2 className="text-lg font-bold text-[#101828] mb-1 leading-tight line-clamp-2">
                     {featuredResource.title}
                   </h2>
                   <p className="text-sm text-gray-600 mb-1 line-clamp-1">
