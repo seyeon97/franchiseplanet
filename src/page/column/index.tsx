@@ -289,7 +289,7 @@ export default function ColumnView() {
                         animation: "scale-pulse 1.5s ease-in-out infinite",
                       }}
                     >
-                      <p className="text-base font-black text-center" style={{
+                      <p className="text-base font-bold text-center" style={{
                         color: column.bgGradient.includes('3098F2') ? '#3098F2' : column.bgGradient.includes('25A6D9') ? '#25A6D9' : '#11BFAE',
                       }}>
                         👆 칼럼을 눌러보세요!
