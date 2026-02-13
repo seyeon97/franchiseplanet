@@ -183,11 +183,11 @@ export default function ResourcesView() {
           </div>
         </div>
 
-        <div className="px-4">
-          {/* Featured Post */}
+        <div className="px-3">
+          {/* Featured Post - 작게 */}
           {featuredResource && (
-            <div className="py-6">
-              <p className="text-xs text-gray-400 uppercase tracking-wide mb-3">
+            <div className="py-3">
+              <p className="text-xs text-gray-400 uppercase tracking-wide mb-2">
                 FEATURED POST
               </p>
               <button
@@ -198,16 +198,16 @@ export default function ResourcesView() {
               >
                 {/* Featured 이미지 */}
                 <div
-                  className={`relative w-full aspect-[4/3] bg-gradient-to-br ${featuredResource.bgColor} rounded-3xl overflow-hidden mb-4`}
+                  className={`relative w-full aspect-[16/9] bg-gradient-to-br ${featuredResource.bgColor} rounded-2xl overflow-hidden mb-2.5`}
                 >
-                  <div className="absolute inset-0 flex items-center justify-center p-10">
-                    <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-6 w-full h-3/4 flex items-center justify-center">
-                      <span className="text-7xl">{featuredResource.thumbnail}</span>
+                  <div className="absolute inset-0 flex items-center justify-center p-6">
+                    <div className="bg-white/20 backdrop-blur-sm rounded-xl p-4 w-3/4 h-2/3 flex items-center justify-center">
+                      <span className="text-5xl">{featuredResource.thumbnail}</span>
                     </div>
                   </div>
                   {featuredResource.badge && (
                     <div
-                      className={`absolute top-4 left-4 ${featuredResource.badgeColor} text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg`}
+                      className={`absolute top-2 left-2 ${featuredResource.badgeColor} text-white text-xs font-bold px-2 py-0.5 rounded-full shadow-md`}
                     >
                       {featuredResource.badge}
                     </div>
@@ -216,13 +216,13 @@ export default function ResourcesView() {
 
                 {/* Featured 정보 */}
                 <div className="text-left">
-                  <h2 className="text-2xl font-black text-gray-900 mb-2 leading-tight">
+                  <h2 className="text-base font-black text-gray-900 mb-1 leading-tight line-clamp-2">
                     {featuredResource.title}
                   </h2>
-                  <p className="text-base text-gray-600 mb-2">
+                  <p className="text-xs text-gray-600 mb-1 line-clamp-1">
                     {featuredResource.description}
                   </p>
-                  <p className="text-sm text-gray-400">
+                  <p className="text-xs text-gray-400">
                     {featuredResource.date}
                   </p>
                 </div>
@@ -230,43 +230,43 @@ export default function ResourcesView() {
             </div>
           )}
 
-          {/* 나머지 자료 그리드 - 2열 */}
+          {/* 나머지 자료 그리드 - 2열, 간격 좁게 */}
           {otherResources.length > 0 && (
-            <div className="grid grid-cols-2 gap-3 pb-6">
+            <div className="grid grid-cols-2 gap-2 pb-4">
               {otherResources.map((resource) => (
                 <button
                   key={resource.id}
                   onClick={() => handleDownload(resource.id, resource.title)}
                   className="text-left"
                 >
-                  {/* 카드 이미지 */}
+                  {/* 카드 이미지 - 크기 축소 */}
                   <div
-                    className={`relative aspect-square bg-gradient-to-br ${resource.bgColor} rounded-2xl overflow-hidden mb-2.5`}
+                    className={`relative aspect-square bg-gradient-to-br ${resource.bgColor} rounded-xl overflow-hidden mb-1.5`}
                   >
-                    <div className="absolute inset-0 flex items-center justify-center p-6">
-                      <div className="bg-white/20 backdrop-blur-sm rounded-xl p-4 w-full h-3/4 flex items-center justify-center">
-                        <span className="text-5xl">{resource.thumbnail}</span>
+                    <div className="absolute inset-0 flex items-center justify-center p-4">
+                      <div className="bg-white/20 backdrop-blur-sm rounded-lg p-3 w-full h-3/4 flex items-center justify-center">
+                        <span className="text-4xl">{resource.thumbnail}</span>
                       </div>
                     </div>
                     {resource.badge && (
                       <div
-                        className={`absolute top-2.5 left-2.5 ${resource.badgeColor} text-white text-xs font-bold px-2 py-0.5 rounded-full shadow-md`}
+                        className={`absolute top-1.5 left-1.5 ${resource.badgeColor} text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full shadow-md`}
                       >
                         {resource.badge}
                       </div>
                     )}
                   </div>
 
-                  {/* 카드 정보 */}
+                  {/* 카드 정보 - 간결하게 */}
                   <div>
-                    <p className="text-xs text-gray-400 mb-1">Trend report</p>
-                    <h3 className="text-sm font-bold text-gray-900 mb-1 line-clamp-2 leading-tight">
+                    <p className="text-[10px] text-gray-400 mb-0.5">Trend report</p>
+                    <h3 className="text-xs font-bold text-gray-900 mb-0.5 line-clamp-2 leading-tight">
                       {resource.title}
                     </h3>
-                    <p className="text-xs text-gray-500 mb-1.5 line-clamp-1">
+                    <p className="text-[10px] text-gray-500 mb-0.5 line-clamp-1">
                       {resource.description}
                     </p>
-                    <p className="text-xs text-gray-400">{resource.date}</p>
+                    <p className="text-[10px] text-gray-400">{resource.date}</p>
                   </div>
                 </button>
               ))}
