@@ -47,10 +47,6 @@ export default function HeroSectionToss() {
         </div>
       </div>
 
-      {/* 하단 로고 */}
-      <div className="absolute bottom-12 left-1/2 -translate-x-1/2">
-        <div className="text-2xl font-black text-gray-300">프차플래닛</div>
-      </div>
     </section>
   );
 }
