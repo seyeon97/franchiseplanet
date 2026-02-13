@@ -5,11 +5,13 @@ import { useEffect, useState } from "react";
 
 export default function MoreView() {
   const router = useRouter();
+  const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     const loggedIn = localStorage.getItem("isLoggedIn") === "true";
+    const name = localStorage.getItem("userName") || "";
     const email = localStorage.getItem("userEmail") || "";
 
     // 로그인되지 않은 경우 로그인 페이지로 리다이렉트
@@ -19,6 +21,7 @@ export default function MoreView() {
     }
 
     setIsLoggedIn(loggedIn);
+    setUserName(name);
     setUserEmail(email);
   }, [router]);
 
@@ -128,9 +131,14 @@ export default function MoreView() {
               </div>
               {/* 사용자 정보 */}
               <div>
-                <p className="text-sm text-gray-500 font-medium">
-                  {isLoggedIn ? userEmail : "로그인 후 이용하세요"}
+                <p className="text-base font-bold text-gray-900">
+                  {isLoggedIn ? userName || "사용자" : "로그인 후 이용하세요"}
                 </p>
+                {isLoggedIn && (
+                  <p className="text-sm text-gray-500 font-medium mt-0.5">
+                    {userEmail}
+                  </p>
+                )}
               </div>
             </div>
             {/* 설정 아이콘 */}
