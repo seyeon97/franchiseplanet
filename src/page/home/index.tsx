@@ -1,11 +1,9 @@
 "use client";
 
 import React, { useRef } from "react";
-import HeroSection from "./hero-section";
-import BrandsSliderSection from "./brands-slider-section";
-import BrandCard from "./brand-card";
-import BrandCardTetris from "./brand-card-tetris";
-import BrandCardProfessional from "./brand-card-professional";
+import HeroSectionToss from "./hero-section-toss";
+import BrandsSectionToss from "./brands-section-toss";
+import BrandCardToss from "./brand-card-toss";
 
 const mockBrands = [
   {
@@ -188,15 +186,15 @@ export default function HomePage() {
 
   return (
     <main className="h-screen overflow-y-scroll snap-y snap-mandatory scroll-smooth">
-      <HeroSection />
-      <BrandsSliderSection
+      <HeroSectionToss />
+      <BrandsSectionToss
         brands={mockBrands}
         onBrandClick={handleBrandClick}
         selectedBrandId={selectedBrandId}
       />
       {selectedBrand && (
         <div ref={detailRef}>
-          <BrandCardProfessional brand={selectedBrand} />
+          <BrandCardToss brand={selectedBrand} />
         </div>
       )}
     </main>
