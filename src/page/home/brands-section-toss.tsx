@@ -177,10 +177,7 @@ export default function BrandsSectionToss({
             >
               <div className="text-left">
                 <p className="text-base md:text-lg font-bold text-gray-900">
-                  {showAllBrands ? "전체 브랜드 접기" : "전체 브랜드 보기"}
-                </p>
-                <p className="text-xs md:text-sm text-gray-500 font-medium">
-                  {brands.length}개의 브랜드
+                  {showAllBrands ? "전체 브랜드 접기" : "전체 브랜드 보기"} <span className="text-xs md:text-sm text-gray-500 font-medium">({brands.length}개)</span>
                 </p>
               </div>
               <svg
