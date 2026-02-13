@@ -1045,6 +1045,19 @@ function EditModal({
           {/* 칼럼 수정 폼 */}
           {type === "columns" && (
             <>
+              {/* 썸네일 프리뷰 */}
+              <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 bg-gray-50">
+                <label className="block text-sm font-bold text-gray-700 mb-3">썸네일 프리뷰</label>
+                <div
+                  className="w-full h-48 rounded-xl flex flex-col items-center justify-center text-white relative overflow-hidden"
+                  style={{ background: (formData as Column).bgGradient }}
+                >
+                  <div className="text-6xl mb-3">{(formData as Column).thumbnail || "📝"}</div>
+                  <div className="text-xl font-bold text-center px-4">{(formData as Column).title || "제목"}</div>
+                  <div className="text-sm mt-2 opacity-90">{(formData as Column).category || "카테고리"}</div>
+                </div>
+              </div>
+
               <div>
                 <label className="block text-sm font-bold text-gray-700 mb-2">제목</label>
                 <input
@@ -1064,6 +1077,64 @@ function EditModal({
                 />
               </div>
               <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">썸네일 (이모지)</label>
+                <input
+                  type="text"
+                  value={(formData as Column).thumbnail}
+                  onChange={(e) => updateField("thumbnail", e.target.value)}
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="📝"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">배경 그라디언트</label>
+                <div className="grid grid-cols-3 gap-2 mb-2">
+                  <button
+                    type="button"
+                    onClick={() => updateField("bgGradient", "linear-gradient(135deg, #3098F2 0%, #25A6D9 100%)")}
+                    className="h-12 rounded-lg"
+                    style={{ background: "linear-gradient(135deg, #3098F2 0%, #25A6D9 100%)" }}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => updateField("bgGradient", "linear-gradient(135deg, #25A6D9 0%, #11BFAE 100%)")}
+                    className="h-12 rounded-lg"
+                    style={{ background: "linear-gradient(135deg, #25A6D9 0%, #11BFAE 100%)" }}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => updateField("bgGradient", "linear-gradient(135deg, #667eea 0%, #764ba2 100%)")}
+                    className="h-12 rounded-lg"
+                    style={{ background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)" }}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => updateField("bgGradient", "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)")}
+                    className="h-12 rounded-lg"
+                    style={{ background: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)" }}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => updateField("bgGradient", "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)")}
+                    className="h-12 rounded-lg"
+                    style={{ background: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)" }}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => updateField("bgGradient", "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)")}
+                    className="h-12 rounded-lg"
+                    style={{ background: "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)" }}
+                  />
+                </div>
+                <input
+                  type="text"
+                  value={(formData as Column).bgGradient}
+                  onChange={(e) => updateField("bgGradient", e.target.value)}
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm font-mono"
+                  placeholder="linear-gradient(135deg, #3098F2 0%, #25A6D9 100%)"
+                />
+              </div>
+              <div>
                 <label className="block text-sm font-bold text-gray-700 mb-2">요약</label>
                 <textarea
                   value={(formData as Column).summary}
@@ -1079,15 +1150,6 @@ function EditModal({
                   onChange={(e) => updateField("content", e.target.value)}
                   rows={10}
                   className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono text-sm"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-bold text-gray-700 mb-2">썸네일 (이모지)</label>
-                <input
-                  type="text"
-                  value={(formData as Column).thumbnail}
-                  onChange={(e) => updateField("thumbnail", e.target.value)}
-                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
               <div>
@@ -1114,6 +1176,16 @@ function EditModal({
           {/* 자료실 수정 폼 */}
           {type === "resources" && (
             <>
+              {/* 썸네일 프리뷰 */}
+              <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 bg-gray-50">
+                <label className="block text-sm font-bold text-gray-700 mb-3">썸네일 프리뷰</label>
+                <div className="w-full h-48 rounded-xl flex flex-col items-center justify-center bg-white border-2 border-gray-200 relative overflow-hidden">
+                  <div className="text-6xl mb-3">{(formData as Resource).thumbnail || "📄"}</div>
+                  <div className="text-xl font-bold text-gray-900 text-center px-4">{(formData as Resource).title || "제목"}</div>
+                  <div className="text-sm text-gray-600 mt-2">{(formData as Resource).category || "카테고리"}</div>
+                </div>
+              </div>
+
               <div>
                 <label className="block text-sm font-bold text-gray-700 mb-2">제목</label>
                 <input
@@ -1133,6 +1205,16 @@ function EditModal({
                 />
               </div>
               <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">썸네일 (이모지)</label>
+                <input
+                  type="text"
+                  value={(formData as Resource).thumbnail}
+                  onChange={(e) => updateField("thumbnail", e.target.value)}
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="📄"
+                />
+              </div>
+              <div>
                 <label className="block text-sm font-bold text-gray-700 mb-2">요약</label>
                 <textarea
                   value={(formData as Resource).summary}
@@ -1148,15 +1230,6 @@ function EditModal({
                   onChange={(e) => updateField("content", e.target.value)}
                   rows={10}
                   className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono text-sm"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-bold text-gray-700 mb-2">썸네일 (이모지)</label>
-                <input
-                  type="text"
-                  value={(formData as Resource).thumbnail}
-                  onChange={(e) => updateField("thumbnail", e.target.value)}
-                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
               <div>
