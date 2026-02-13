@@ -111,7 +111,7 @@ export default function BrandCardToss({ brand }: BrandCardProps) {
       <div className="max-w-2xl mx-auto">
         {/* 헤더 - 토스 스타일 큰 타이포그래피 */}
         <div className="mb-8 md:mb-12">
-          <div className="flex items-center gap-3 mb-6 md:mb-8">
+          <div className="flex items-center gap-3 mb-4 md:mb-6">
             {brand.logoImage ? (
               <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl md:rounded-3xl bg-gray-100 flex items-center justify-center overflow-hidden flex-shrink-0">
                 <img
@@ -128,10 +128,18 @@ export default function BrandCardToss({ brand }: BrandCardProps) {
                 {brand.logo}
               </div>
             )}
-            <div className="flex-1 min-w-0">
-              <h2 className="text-2xl md:text-4xl font-black text-gray-900 break-words">{brand.name}</h2>
+            <div className="min-w-0">
+              <h2 className="text-2xl md:text-4xl font-black text-gray-900 truncate">{brand.name}</h2>
               <p className="text-sm md:text-lg text-gray-500 font-medium mt-1">{brand.category}</p>
             </div>
+          </div>
+
+          {/* 초기 투자금 - 토스 스타일 카드 */}
+          <div className="bg-gray-50 rounded-2xl md:rounded-3xl p-4 md:p-6 mb-6 md:mb-8">
+            <div className="text-xs md:text-sm text-gray-500 font-medium mb-1 md:mb-2">
+              초기 투자금 <span className="text-gray-400">(보증금 제외)</span>
+            </div>
+            <div className="text-xl md:text-3xl font-black text-gray-900">{brand.startupCost}</div>
           </div>
 
           <h3 className="text-2xl md:text-3xl font-black text-gray-900 mb-2 leading-tight">
