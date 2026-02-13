@@ -345,7 +345,7 @@ export default function BrandCardToss({ brand }: BrandCardProps) {
             onClick={() => setShowTop10Detail(false)}
           >
             <div
-              className="bg-white rounded-t-[2rem] md:rounded-3xl w-full md:max-w-2xl max-h-[90vh] overflow-y-scroll"
+              className="bg-white rounded-t-[2rem] md:rounded-3xl w-full md:max-w-2xl max-h-[85vh] overflow-y-auto pb-24"
               onClick={(e) => e.stopPropagation()}
               style={{ WebkitOverflowScrolling: 'touch' }}
             >
@@ -482,7 +482,7 @@ export default function BrandCardToss({ brand }: BrandCardProps) {
             onClick={() => setShowAverageDetail(false)}
           >
             <div
-              className="bg-white rounded-t-[2rem] md:rounded-3xl w-full md:max-w-2xl max-h-[90vh] overflow-y-scroll"
+              className="bg-white rounded-t-[2rem] md:rounded-3xl w-full md:max-w-2xl max-h-[85vh] overflow-y-auto pb-24"
               onClick={(e) => e.stopPropagation()}
               style={{ WebkitOverflowScrolling: 'touch' }}
             >
@@ -619,7 +619,7 @@ export default function BrandCardToss({ brand }: BrandCardProps) {
             onClick={() => setShowBottom10Detail(false)}
           >
             <div
-              className="bg-white rounded-t-[2rem] md:rounded-3xl w-full md:max-w-2xl max-h-[90vh] overflow-y-scroll"
+              className="bg-white rounded-t-[2rem] md:rounded-3xl w-full md:max-w-2xl max-h-[85vh] overflow-y-auto pb-24"
               onClick={(e) => e.stopPropagation()}
               style={{ WebkitOverflowScrolling: 'touch' }}
             >
