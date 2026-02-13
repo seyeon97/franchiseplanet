@@ -282,7 +282,7 @@ export default function ColumnView() {
                   )}
 
                   {/* 클릭 힌트 */}
-                  <div className="absolute bottom-56 left-1/2 transform -translate-x-1/2 w-full px-6">
+                  <div className="absolute bottom-44 left-1/2 transform -translate-x-1/2 w-full px-6">
                     <div
                       className="bg-white rounded-2xl px-6 py-4 shadow-xl mx-auto max-w-sm"
                       style={{
