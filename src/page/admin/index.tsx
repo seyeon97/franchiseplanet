@@ -1204,7 +1204,17 @@ function EditModal({
                   <>
                     {/* 변동비 상세 */}
                     <div className="mb-4 border border-gray-200 rounded-lg p-3 bg-gray-50">
-                      <h4 className="text-sm font-bold text-gray-800 mb-2">📊 변동비 상세</h4>
+                      <h4 className="text-sm font-bold text-gray-800 mb-3">📊 변동비 상세</h4>
+
+                      {/* 헤더 */}
+                      <div className="grid grid-cols-5 gap-2 items-center mb-2 px-2">
+                        <div className="text-xs font-bold text-gray-600">항목명</div>
+                        <div className="text-xs font-bold text-gray-600">비율</div>
+                        <div className="text-xs font-bold text-red-600">하위 10%</div>
+                        <div className="text-xs font-bold text-blue-600">평균</div>
+                        <div className="text-xs font-bold text-green-600">상위 10%</div>
+                      </div>
+
                       <div className="space-y-2">
                         {(formData as Brand).detailedCosts!.variableCosts.map((cost, idx) => (
                           <div key={idx} className="grid grid-cols-5 gap-2 items-center bg-white p-2 rounded">
@@ -1219,14 +1229,14 @@ function EditModal({
                               type="text"
                               value={cost.percentage || ''}
                               onChange={(e) => updateDetailedCost('variableCosts', idx, 'percentage', e.target.value)}
-                              placeholder="% (선택)"
+                              placeholder="예: 36%"
                               className="px-2 py-1 border border-gray-300 rounded text-sm"
                             />
                             <input
                               type="number"
                               value={cost.low}
                               onChange={(e) => updateDetailedCost('variableCosts', idx, 'low', Number(e.target.value))}
-                              placeholder="최저"
+                              placeholder="하위 10%"
                               className="px-2 py-1 border border-gray-300 rounded text-sm"
                             />
                             <input
@@ -1240,7 +1250,7 @@ function EditModal({
                               type="number"
                               value={cost.high}
                               onChange={(e) => updateDetailedCost('variableCosts', idx, 'high', Number(e.target.value))}
-                              placeholder="최고"
+                              placeholder="상위 10%"
                               className="px-2 py-1 border border-gray-300 rounded text-sm"
                             />
                           </div>
@@ -1250,7 +1260,16 @@ function EditModal({
 
                     {/* 고정비 상세 */}
                     <div className="border border-gray-200 rounded-lg p-3 bg-gray-50">
-                      <h4 className="text-sm font-bold text-gray-800 mb-2">🏢 고정비 상세</h4>
+                      <h4 className="text-sm font-bold text-gray-800 mb-3">🏢 고정비 상세</h4>
+
+                      {/* 헤더 */}
+                      <div className="grid grid-cols-4 gap-2 items-center mb-2 px-2">
+                        <div className="text-xs font-bold text-gray-600">항목명</div>
+                        <div className="text-xs font-bold text-red-600">하위 10%</div>
+                        <div className="text-xs font-bold text-blue-600">평균</div>
+                        <div className="text-xs font-bold text-green-600">상위 10%</div>
+                      </div>
+
                       <div className="space-y-2">
                         {(formData as Brand).detailedCosts!.fixedCosts.map((cost, idx) => (
                           <div key={idx} className="grid grid-cols-4 gap-2 items-center bg-white p-2 rounded">
@@ -1265,7 +1284,7 @@ function EditModal({
                               type="number"
                               value={cost.low}
                               onChange={(e) => updateDetailedCost('fixedCosts', idx, 'low', Number(e.target.value))}
-                              placeholder="최저"
+                              placeholder="하위 10%"
                               className="px-2 py-1 border border-gray-300 rounded text-sm"
                             />
                             <input
@@ -1279,7 +1298,7 @@ function EditModal({
                               type="number"
                               value={cost.high}
                               onChange={(e) => updateDetailedCost('fixedCosts', idx, 'high', Number(e.target.value))}
-                              placeholder="최고"
+                              placeholder="상위 10%"
                               className="px-2 py-1 border border-gray-300 rounded text-sm"
                             />
                           </div>
