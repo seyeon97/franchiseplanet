@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
+import { loadTossPayments } from "@tosspayments/payment-sdk";
 
 interface Program {
   id: number;
@@ -529,26 +530,32 @@ export default function OfflineView() {
               {/* 토스페이먼츠 간편결제 버튼 */}
               <div className="space-y-3">
                 <button
-                  onClick={() => {
-                    // 결제 내역을 localStorage에 저장
-                    const paymentHistory = JSON.parse(localStorage.getItem("paymentHistory") || "[]");
-                    const newPayment = {
-                      id: `payment_${Date.now()}`,
-                      programTitle: selectedProgram.title,
-                      programName: selectedProgram.name,
-                      date: selectedProgram.date,
-                      time: selectedProgram.time,
-                      location: selectedProgram.location,
-                      price: selectedProgram.price,
-                      paymentDate: new Date().toLocaleDateString('ko-KR'),
-                      status: "예정",
-                    };
-                    paymentHistory.unshift(newPayment);
-                    localStorage.setItem("paymentHistory", JSON.stringify(paymentHistory));
+                  onClick={async () => {
+                    try {
+                      // 토스페이먼츠 클라이언트 키 (테스트용)
+                      const clientKey = "test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq";
 
-                    // 결제 완료 모달 표시
-                    setShowPayment(false);
-                    setShowSuccess(true);
+                      // 토스페이먼츠 SDK 로드
+                      const tossPayments = await loadTossPayments(clientKey);
+
+                      // 주문 ID 생성
+                      const orderId = `ORDER_${Date.now()}`;
+                      const orderName = selectedProgram.title;
+                      const customerName = localStorage.getItem("userName") || "고객";
+
+                      // 결제 요청
+                      await tossPayments.requestPayment("카드", {
+                        amount: selectedProgram.price,
+                        orderId: orderId,
+                        orderName: orderName,
+                        customerName: customerName,
+                        successUrl: `${window.location.origin}/payment-success?programId=${selectedProgram.id}&programTitle=${encodeURIComponent(selectedProgram.title)}&programName=${encodeURIComponent(selectedProgram.name)}&date=${encodeURIComponent(selectedProgram.date)}&time=${encodeURIComponent(selectedProgram.time)}&location=${encodeURIComponent(selectedProgram.location)}&price=${selectedProgram.price}`,
+                        failUrl: `${window.location.origin}/payment-fail`,
+                      });
+                    } catch (error) {
+                      console.error("결제 오류:", error);
+                      alert("결제 중 오류가 발생했습니다. 다시 시도해주세요.");
+                    }
                   }}
                   className="w-full bg-[#0064FF] text-white font-bold py-4 rounded-2xl hover:bg-[#0052CC] transition-all flex items-center justify-center gap-2"
                 >
@@ -577,70 +584,6 @@ export default function OfflineView() {
         </div>
       )}
 
-      {/* 결제 완료 모달 */}
-      {selectedProgram && showSuccess && (
-        <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center px-4">
-          <div className="bg-white rounded-3xl p-8 max-w-sm w-full">
-            {/* 성공 아이콘 */}
-            <div className="w-20 h-20 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center mx-auto mb-6">
-              <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-              </svg>
-            </div>
-
-            {/* 제목 */}
-            <h3 className="text-2xl font-black text-gray-900 text-center mb-3">
-              결제가 완료되었습니다!
-            </h3>
-
-            {/* 설명 */}
-            <p className="text-base text-gray-600 text-center mb-8 leading-relaxed">
-              <span className="font-bold text-gray-900">{selectedProgram.title}</span> 프로그램이
-              <br />
-              성공적으로 신청되었습니다
-            </p>
-
-            {/* 정보 박스 */}
-            <div className="bg-gray-50 rounded-2xl p-4 mb-6 space-y-2">
-              <div className="flex justify-between text-sm">
-                <span className="text-gray-600">일시</span>
-                <span className="font-bold text-gray-900">{selectedProgram.date}</span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-gray-600">장소</span>
-                <span className="font-bold text-gray-900">{selectedProgram.location}</span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-gray-600">결제 금액</span>
-                <span className="font-bold text-blue-600">{selectedProgram.price.toLocaleString()}원</span>
-              </div>
-            </div>
-
-            {/* 버튼 */}
-            <div className="space-y-3">
-              <button
-                onClick={() => {
-                  setShowSuccess(false);
-                  setSelectedProgram(null);
-                }}
-                className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-bold py-4 rounded-2xl hover:shadow-lg transition-all"
-              >
-                확인
-              </button>
-              <button
-                onClick={() => {
-                  setShowSuccess(false);
-                  setSelectedProgram(null);
-                  window.location.href = "/payment-history";
-                }}
-                className="w-full bg-gray-100 text-gray-700 font-bold py-3 rounded-2xl hover:bg-gray-200 transition-all"
-              >
-                결제 내역 보기
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
