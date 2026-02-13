@@ -370,14 +370,10 @@ export default function ResourcesView() {
                     </div>
                   </div>
                   {featuredResource.badge && (
-                    <div
-                      className={`absolute top-3 left-3 bg-white text-sm font-bold px-3 py-1.5 rounded-full shadow-lg ${
-                        featuredResource.badge === "인기"
-                          ? "bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent"
-                          : "bg-gradient-to-r from-blue-500 to-cyan-500 bg-clip-text text-transparent"
-                      }`}
-                    >
-                      {featuredResource.badge}
+                    <div className="absolute top-3 left-3 bg-white text-sm font-bold px-3 py-1.5 rounded-full shadow-lg">
+                      <span className="bg-gradient-to-r from-[#3098F2] via-[#25A6D9] to-[#11BFAE] bg-clip-text text-transparent">
+                        {featuredResource.badge}
+                      </span>
                     </div>
                   )}
                 </div>
@@ -417,14 +413,10 @@ export default function ResourcesView() {
                       </div>
                     </div>
                     {resource.badge && (
-                      <div
-                        className={`absolute top-2 left-2 bg-white text-sm font-bold px-2.5 py-1 rounded-full shadow-lg ${
-                          resource.badge === "인기"
-                            ? "bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent"
-                            : "bg-gradient-to-r from-blue-500 to-cyan-500 bg-clip-text text-transparent"
-                        }`}
-                      >
-                        {resource.badge}
+                      <div className="absolute top-2 left-2 bg-white text-sm font-bold px-2.5 py-1 rounded-full shadow-lg">
+                        <span className="bg-gradient-to-r from-[#3098F2] via-[#25A6D9] to-[#11BFAE] bg-clip-text text-transparent">
+                          {resource.badge}
+                        </span>
                       </div>
                     )}
                   </div>
