@@ -26,6 +26,7 @@ export default function OfflineView() {
   const isScrollingRef = useRef(false);
   const [selectedProgram, setSelectedProgram] = useState<Program | null>(null);
   const [showPayment, setShowPayment] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   // 스크롤 위치에 따라 현재 인덱스 업데이트
   useEffect(() => {
@@ -545,10 +546,9 @@ export default function OfflineView() {
                     paymentHistory.unshift(newPayment);
                     localStorage.setItem("paymentHistory", JSON.stringify(paymentHistory));
 
-                    // 실제 서비스에서는 토스페이먼츠 SDK 연동
-                    // 현재는 결제 완료 처리
+                    // 결제 완료 모달 표시
                     setShowPayment(false);
-                    setSelectedProgram(null);
+                    setShowSuccess(true);
                   }}
                   className="w-full bg-[#0064FF] text-white font-bold py-4 rounded-2xl hover:bg-[#0052CC] transition-all flex items-center justify-center gap-2"
                 >
@@ -572,6 +572,71 @@ export default function OfflineView() {
                   <li>• 프로그램 1일 전: 환불 불가</li>
                 </ul>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 결제 완료 모달 */}
+      {selectedProgram && showSuccess && (
+        <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center px-4">
+          <div className="bg-white rounded-3xl p-8 max-w-sm w-full">
+            {/* 성공 아이콘 */}
+            <div className="w-20 h-20 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center mx-auto mb-6">
+              <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+
+            {/* 제목 */}
+            <h3 className="text-2xl font-black text-gray-900 text-center mb-3">
+              결제가 완료되었습니다!
+            </h3>
+
+            {/* 설명 */}
+            <p className="text-base text-gray-600 text-center mb-8 leading-relaxed">
+              <span className="font-bold text-gray-900">{selectedProgram.title}</span> 프로그램이
+              <br />
+              성공적으로 신청되었습니다
+            </p>
+
+            {/* 정보 박스 */}
+            <div className="bg-gray-50 rounded-2xl p-4 mb-6 space-y-2">
+              <div className="flex justify-between text-sm">
+                <span className="text-gray-600">일시</span>
+                <span className="font-bold text-gray-900">{selectedProgram.date}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-gray-600">장소</span>
+                <span className="font-bold text-gray-900">{selectedProgram.location}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-gray-600">결제 금액</span>
+                <span className="font-bold text-blue-600">{selectedProgram.price.toLocaleString()}원</span>
+              </div>
+            </div>
+
+            {/* 버튼 */}
+            <div className="space-y-3">
+              <button
+                onClick={() => {
+                  setShowSuccess(false);
+                  setSelectedProgram(null);
+                }}
+                className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-bold py-4 rounded-2xl hover:shadow-lg transition-all"
+              >
+                확인
+              </button>
+              <button
+                onClick={() => {
+                  setShowSuccess(false);
+                  setSelectedProgram(null);
+                  window.location.href = "/payment-history";
+                }}
+                className="w-full bg-gray-100 text-gray-700 font-bold py-3 rounded-2xl hover:bg-gray-200 transition-all"
+              >
+                결제 내역 보기
+              </button>
             </div>
           </div>
         </div>
