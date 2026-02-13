@@ -423,6 +423,7 @@ export default function ResourcesView() {
 
                   {/* 카드 정보 - 간결하게 */}
                   <div>
+                    <p className="text-xs text-gray-400 mb-1">Trend report</p>
                     <h3 className="text-base font-bold text-gray-900 mb-1 line-clamp-2 leading-tight">
                       {resource.title}
                     </h3>
