@@ -203,6 +203,16 @@ export default function ColumnView() {
 
   return (
     <>
+      <style jsx>{`
+        @keyframes scale-pulse {
+          0%, 100% {
+            transform: scale(1);
+          }
+          50% {
+            transform: scale(1.05);
+          }
+        }
+      `}</style>
       {/* 메인 뷰 - 썸네일 그리드 */}
       <div className="h-screen overflow-y-scroll snap-y snap-mandatory bg-white">
         <div className="max-w-2xl mx-auto">
@@ -223,7 +233,7 @@ export default function ColumnView() {
                 />
 
                 {/* 콘텐츠 */}
-                <div className="relative h-full flex flex-col items-center justify-start px-6 text-center pt-28">
+                <div className="relative h-full flex flex-col items-center justify-start px-6 text-center pt-26">
                   {/* 썸네일 아이콘 */}
                   <div className="text-7xl mb-3">{column.thumbnail}</div>
 
@@ -272,12 +282,12 @@ export default function ColumnView() {
                   )}
 
                   {/* 클릭 힌트 */}
-                  <div className="absolute bottom-56 left-1/2 transform -translate-x-1/2 w-full px-6" style={{ animation: "pulse 1s infinite" }}>
+                  <div className="absolute bottom-56 left-1/2 transform -translate-x-1/2 w-full px-6">
                     <div
-                      className="bg-white rounded-2xl px-6 py-4 shadow-xl border-2 mx-auto max-w-sm transform transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+                      className="bg-white rounded-2xl px-6 py-4 shadow-xl border-2 mx-auto max-w-sm"
                       style={{
                         borderImage: "linear-gradient(135deg, #3098F2 0%, #11BFAE 100%) 1",
-                        animation: "bounce 1.5s infinite",
+                        animation: "scale-pulse 1.5s ease-in-out infinite",
                       }}
                     >
                       <p className="text-base font-black text-center" style={{
