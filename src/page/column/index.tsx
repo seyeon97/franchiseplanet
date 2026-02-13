@@ -204,7 +204,7 @@ export default function ColumnView() {
   return (
     <>
       {/* 메인 뷰 - 썸네일 그리드 */}
-      <div className="h-screen overflow-y-scroll snap-y snap-mandatory bg-black">
+      <div className="h-screen overflow-y-scroll snap-y snap-mandatory bg-white">
         <div className="max-w-2xl mx-auto">
           {/* 세로 스크롤 썸네일 */}
           <div className="">
