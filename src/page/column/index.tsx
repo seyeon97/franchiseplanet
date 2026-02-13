@@ -289,25 +289,11 @@ export default function ColumnView() {
                         animation: "scale-pulse 1.5s ease-in-out infinite",
                       }}
                     >
-                      <div className="flex items-center justify-center gap-2">
-                        <svg
-                          className="w-6 h-6"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          style={{
-                            color: column.bgGradient.includes('3098F2') ? '#3098F2' : column.bgGradient.includes('25A6D9') ? '#25A6D9' : '#11BFAE',
-                          }}
-                        >
-                          <path d="M12 2L12 8M12 8L9 5M12 8L15 5" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-                          <circle cx="12" cy="19" r="2" fill="currentColor"/>
-                          <path d="M12 17L12 10" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
-                        </svg>
-                        <p className="text-base font-bold text-center" style={{
-                          color: column.bgGradient.includes('3098F2') ? '#3098F2' : column.bgGradient.includes('25A6D9') ? '#25A6D9' : '#11BFAE',
-                        }}>
-                          칼럼을 눌러보세요!
-                        </p>
-                      </div>
+                      <p className="text-base font-bold text-center" style={{
+                        color: column.bgGradient.includes('3098F2') ? '#3098F2' : column.bgGradient.includes('25A6D9') ? '#25A6D9' : '#11BFAE',
+                      }}>
+                        칼럼을 눌러보세요!
+                      </p>
                       <p className="text-xs text-gray-600 text-center mt-1 font-medium">
                         상세 내용 확인하기
                       </p>
