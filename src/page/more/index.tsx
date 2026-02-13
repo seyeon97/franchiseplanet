@@ -22,37 +22,6 @@ export default function MoreView() {
     setUserEmail(email);
   }, [router]);
 
-  const quickMenus = [
-    {
-      id: "mypage",
-      title: "마이페이지",
-      icon: "👤",
-      bgColor: "bg-teal-500",
-      path: "/mypage",
-    },
-    {
-      id: "column",
-      title: "칼럼",
-      icon: "📰",
-      bgColor: "bg-orange-500",
-      path: "/column",
-    },
-    {
-      id: "resources",
-      title: "자료실",
-      icon: "📁",
-      bgColor: "bg-blue-600",
-      path: "/resources",
-    },
-    {
-      id: "offline",
-      title: "오프라인",
-      icon: "📍",
-      bgColor: "bg-gray-700",
-      path: "/offline",
-    },
-  ];
-
   const serviceMenus = [
     {
       id: "account",
@@ -192,28 +161,6 @@ export default function MoreView() {
                 />
               </svg>
             </button>
-          </div>
-        </div>
-
-        {/* 빠른 메뉴 그리드 */}
-        <div className="px-4 py-6">
-          <div className="grid grid-cols-4 gap-4">
-            {quickMenus.map((menu) => (
-              <button
-                key={menu.id}
-                onClick={() => router.push(menu.path)}
-                className="flex flex-col items-center gap-3"
-              >
-                <div
-                  className={`w-16 h-16 ${menu.bgColor} rounded-2xl flex items-center justify-center shadow-sm hover:scale-105 transition-transform`}
-                >
-                  <span className="text-3xl">{menu.icon}</span>
-                </div>
-                <span className="text-sm font-bold text-gray-900">
-                  {menu.title}
-                </span>
-              </button>
-            ))}
           </div>
         </div>
 
