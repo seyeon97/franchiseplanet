@@ -59,17 +59,17 @@ export default function ChatBot() {
   return (
     <div className="h-screen bg-gray-50 flex flex-col pb-20">
       {/* 헤더 */}
-      <div className="px-6 pt-8 pb-4 bg-white shadow-sm">
-        <h1 className="text-3xl font-extrabold mb-2 leading-tight text-[#101828]">
+      <div className="px-6 pt-4 pb-3 bg-white shadow-sm">
+        <h1 className="text-2xl font-extrabold mb-1 leading-tight text-[#101828]">
           전문가 상담
         </h1>
-        <p className="text-base text-gray-600 font-medium">
+        <p className="text-sm text-gray-600 font-medium">
           프랜차이즈 창업 전문가가 답변해드려요
         </p>
       </div>
 
       {/* 메시지 영역 */}
-      <div className="flex-1 overflow-y-auto px-4 py-6 space-y-4">
+      <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
         {messages.map((message, index) => (
           <div
             key={index}
