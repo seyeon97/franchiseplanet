@@ -135,7 +135,7 @@ export default function BrandCardToss({ brand }: BrandCardProps) {
           </div>
 
           {/* 초기 투자금 - 토스 스타일 카드 */}
-          <div className="bg-gray-50 rounded-2xl md:rounded-3xl p-4 md:p-6 mb-6 md:mb-8">
+          <div className="bg-gray-50 rounded-2xl md:rounded-3xl p-4 md:p-6 mb-6 md:mb-8 text-center">
             <div className="text-xs md:text-sm text-gray-500 font-medium mb-1 md:mb-2">
               초기 투자금 <span className="text-gray-400">(보증금 제외)</span>
             </div>
