@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import { loadTossPayments } from "@tosspayments/payment-sdk";
 
 interface Program {
   id: number;
@@ -534,13 +533,14 @@ export default function OfflineView() {
                       // 토스페이먼츠 클라이언트 키 (테스트용)
                       const clientKey = "test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq";
 
-                      // 토스페이먼츠 SDK 로드
-                      const tossPayments = await loadTossPayments(clientKey);
-
-                      // 주문 ID 생성
+                      // 주문 ID 및 정보 생성
                       const orderId = `ORDER_${Date.now()}`;
                       const orderName = selectedProgram.title;
                       const customerName = localStorage.getItem("userName") || "고객";
+
+                      // 토스페이먼츠 SDK 로드 (동적 import로 클라이언트에서만 실행)
+                      const { loadTossPayments } = await import("@tosspayments/payment-sdk");
+                      const tossPayments = await loadTossPayments(clientKey);
 
                       // 결제 요청
                       await tossPayments.requestPayment("카드", {
@@ -553,7 +553,13 @@ export default function OfflineView() {
                       });
                     } catch (error) {
                       console.error("결제 오류:", error);
-                      alert("결제 중 오류가 발생했습니다. 다시 시도해주세요.");
+
+                      // 더 상세한 에러 메시지 표시
+                      let errorMessage = "결제 중 오류가 발생했습니다.";
+                      if (error instanceof Error) {
+                        errorMessage += `\n${error.message}`;
+                      }
+                      alert(errorMessage + "\n\n다시 시도해주세요.");
                     }
                   }}
                   className="w-full bg-[#0064FF] text-white font-bold py-4 rounded-2xl hover:bg-[#0052CC] transition-all flex items-center justify-center gap-2"
