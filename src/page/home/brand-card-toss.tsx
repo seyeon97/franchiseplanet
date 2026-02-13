@@ -107,87 +107,87 @@ export default function BrandCardToss({ brand }: BrandCardProps) {
   };
 
   return (
-    <section className="min-h-screen snap-start bg-white px-6 py-20">
+    <section className="min-h-screen snap-start bg-white px-4 py-8 md:px-6 md:py-20">
       <div className="max-w-2xl mx-auto">
         {/* 헤더 - 토스 스타일 큰 타이포그래피 */}
-        <div className="mb-12">
-          <div className="flex items-center gap-4 mb-6">
+        <div className="mb-8 md:mb-12">
+          <div className="flex items-center gap-3 mb-4 md:mb-6">
             {brand.logoImage ? (
-              <div className="w-20 h-20 rounded-3xl bg-gray-100 flex items-center justify-center overflow-hidden">
+              <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl md:rounded-3xl bg-gray-100 flex items-center justify-center overflow-hidden flex-shrink-0">
                 <img
                   src={brand.logoImage}
                   alt={brand.name}
-                  className="w-16 h-16 object-contain"
+                  className="w-12 h-12 md:w-16 md:h-16 object-contain"
                 />
               </div>
             ) : (
               <div
-                className="w-20 h-20 rounded-3xl flex items-center justify-center text-4xl"
+                className="w-16 h-16 md:w-20 md:h-20 rounded-2xl md:rounded-3xl flex items-center justify-center text-3xl md:text-4xl flex-shrink-0"
                 style={{ backgroundColor: `${brand.color}15` }}
               >
                 {brand.logo}
               </div>
             )}
-            <div>
-              <h2 className="text-4xl font-black text-gray-900">{brand.name}</h2>
-              <p className="text-lg text-gray-500 font-medium mt-1">{brand.category}</p>
+            <div className="min-w-0">
+              <h2 className="text-2xl md:text-4xl font-black text-gray-900 truncate">{brand.name}</h2>
+              <p className="text-sm md:text-lg text-gray-500 font-medium mt-1">{brand.category}</p>
             </div>
           </div>
 
           {/* 초기 투자금 - 토스 스타일 카드 */}
-          <div className="bg-gray-50 rounded-3xl p-6 mb-8">
-            <div className="text-sm text-gray-500 font-medium mb-2">
+          <div className="bg-gray-50 rounded-2xl md:rounded-3xl p-4 md:p-6 mb-6 md:mb-8">
+            <div className="text-xs md:text-sm text-gray-500 font-medium mb-1 md:mb-2">
               초기 투자금 <span className="text-gray-400">(보증금 제외)</span>
             </div>
-            <div className="text-3xl font-black text-gray-900">{brand.startupCost}</div>
+            <div className="text-xl md:text-3xl font-black text-gray-900">{brand.startupCost}</div>
           </div>
 
-          <h3 className="text-3xl font-black text-gray-900 mb-2">
+          <h3 className="text-2xl md:text-3xl font-black text-gray-900 mb-2 leading-tight">
             실제 매출은
             <br />
             얼마나 될까요?
           </h3>
-          <p className="text-lg text-gray-600 font-medium">
+          <p className="text-base md:text-lg text-gray-600 font-medium">
             상위 10%, 평균, 하위 10% 매장의 실제 데이터예요
           </p>
         </div>
 
         {/* 통계 카드들 */}
-        <div className="space-y-4 mb-8">
+        <div className="space-y-3 md:space-y-4 mb-6 md:mb-8">
           {/* 상위 10% */}
           <div
             onClick={() => isMegaCoffee && setShowTop10Detail(!showTop10Detail)}
-            className="bg-white rounded-3xl p-6 shadow-lg border-2 border-gray-100 transition-all hover:shadow-xl cursor-pointer"
+            className="bg-white rounded-2xl md:rounded-3xl p-4 md:p-6 shadow-lg border-2 border-gray-100 transition-all hover:shadow-xl cursor-pointer"
           >
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-3">
-                <div className="w-14 h-14 rounded-2xl bg-blue-500 flex items-center justify-center">
-                  <span className="text-2xl font-black text-white">A+</span>
+            <div className="flex items-center justify-between mb-3 md:mb-4">
+              <div className="flex items-center gap-2 md:gap-3">
+                <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl md:rounded-2xl bg-blue-500 flex items-center justify-center flex-shrink-0">
+                  <span className="text-xl md:text-2xl font-black text-white">A+</span>
                 </div>
                 <div>
-                  <div className="text-lg font-bold text-gray-900">상위 10%</div>
-                  <div className="text-sm text-gray-500 font-medium">우수 매장</div>
+                  <div className="text-base md:text-lg font-bold text-gray-900">상위 10%</div>
+                  <div className="text-xs md:text-sm text-gray-500 font-medium">우수 매장</div>
                 </div>
               </div>
               <div className="text-right">
-                <div className="text-sm text-gray-500 mb-1 font-medium">월 순수익</div>
-                <div className="text-3xl font-black text-blue-600">
+                <div className="text-xs md:text-sm text-gray-500 mb-1 font-medium">월 순수익</div>
+                <div className="text-xl md:text-3xl font-black text-blue-600">
                   {formatMoney(brand.stats.top10.profit)}
                 </div>
               </div>
             </div>
-            <div className="grid grid-cols-3 gap-3">
-              <div className="bg-gray-50 rounded-2xl p-3 text-center">
+            <div className="grid grid-cols-3 gap-2 md:gap-3">
+              <div className="bg-gray-50 rounded-xl md:rounded-2xl p-2 md:p-3 text-center">
                 <div className="text-xs text-gray-500 mb-1 font-medium">매출</div>
-                <div className="font-bold text-gray-900">{formatMoney(brand.stats.top10.revenue)}</div>
+                <div className="text-sm md:text-base font-bold text-gray-900">{formatMoney(brand.stats.top10.revenue)}</div>
               </div>
-              <div className="bg-gray-50 rounded-2xl p-3 text-center">
+              <div className="bg-gray-50 rounded-xl md:rounded-2xl p-2 md:p-3 text-center">
                 <div className="text-xs text-gray-500 mb-1 font-medium">비용</div>
-                <div className="font-bold text-gray-900">{formatMoney(brand.stats.top10.cost)}</div>
+                <div className="text-sm md:text-base font-bold text-gray-900">{formatMoney(brand.stats.top10.cost)}</div>
               </div>
-              <div className="bg-blue-500 rounded-2xl p-3 text-center">
+              <div className="bg-blue-500 rounded-xl md:rounded-2xl p-2 md:p-3 text-center">
                 <div className="text-xs text-white mb-1 font-bold">수익</div>
-                <div className="font-bold text-white">{formatMoney(brand.stats.top10.profit)}</div>
+                <div className="text-sm md:text-base font-bold text-white">{formatMoney(brand.stats.top10.profit)}</div>
               </div>
             </div>
           </div>
@@ -195,37 +195,37 @@ export default function BrandCardToss({ brand }: BrandCardProps) {
           {/* 평균 50% */}
           <div
             onClick={() => isMegaCoffee && setShowAverageDetail(!showAverageDetail)}
-            className="bg-white rounded-3xl p-6 shadow-lg border-2 border-gray-100 transition-all hover:shadow-xl cursor-pointer"
+            className="bg-white rounded-2xl md:rounded-3xl p-4 md:p-6 shadow-lg border-2 border-gray-100 transition-all hover:shadow-xl cursor-pointer"
           >
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-3">
-                <div className="w-14 h-14 rounded-2xl bg-gray-600 flex items-center justify-center">
-                  <span className="text-2xl font-black text-white">B</span>
+            <div className="flex items-center justify-between mb-3 md:mb-4">
+              <div className="flex items-center gap-2 md:gap-3">
+                <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl md:rounded-2xl bg-gray-600 flex items-center justify-center flex-shrink-0">
+                  <span className="text-xl md:text-2xl font-black text-white">B</span>
                 </div>
                 <div>
-                  <div className="text-lg font-bold text-gray-900">평균 50%</div>
-                  <div className="text-sm text-gray-500 font-medium">일반 매장</div>
+                  <div className="text-base md:text-lg font-bold text-gray-900">평균 50%</div>
+                  <div className="text-xs md:text-sm text-gray-500 font-medium">일반 매장</div>
                 </div>
               </div>
               <div className="text-right">
-                <div className="text-sm text-gray-500 mb-1 font-medium">월 순수익</div>
-                <div className="text-3xl font-black text-gray-600">
+                <div className="text-xs md:text-sm text-gray-500 mb-1 font-medium">월 순수익</div>
+                <div className="text-xl md:text-3xl font-black text-gray-600">
                   {formatMoney(brand.stats.average.profit)}
                 </div>
               </div>
             </div>
-            <div className="grid grid-cols-3 gap-3">
-              <div className="bg-gray-50 rounded-2xl p-3 text-center">
+            <div className="grid grid-cols-3 gap-2 md:gap-3">
+              <div className="bg-gray-50 rounded-xl md:rounded-2xl p-2 md:p-3 text-center">
                 <div className="text-xs text-gray-500 mb-1 font-medium">매출</div>
-                <div className="font-bold text-gray-900">{formatMoney(brand.stats.average.revenue)}</div>
+                <div className="text-sm md:text-base font-bold text-gray-900">{formatMoney(brand.stats.average.revenue)}</div>
               </div>
-              <div className="bg-gray-50 rounded-2xl p-3 text-center">
+              <div className="bg-gray-50 rounded-xl md:rounded-2xl p-2 md:p-3 text-center">
                 <div className="text-xs text-gray-500 mb-1 font-medium">비용</div>
-                <div className="font-bold text-gray-900">{formatMoney(brand.stats.average.cost)}</div>
+                <div className="text-sm md:text-base font-bold text-gray-900">{formatMoney(brand.stats.average.cost)}</div>
               </div>
-              <div className="bg-gray-600 rounded-2xl p-3 text-center">
+              <div className="bg-gray-600 rounded-xl md:rounded-2xl p-2 md:p-3 text-center">
                 <div className="text-xs text-white mb-1 font-bold">수익</div>
-                <div className="font-bold text-white">{formatMoney(brand.stats.average.profit)}</div>
+                <div className="text-sm md:text-base font-bold text-white">{formatMoney(brand.stats.average.profit)}</div>
               </div>
             </div>
           </div>
@@ -233,54 +233,54 @@ export default function BrandCardToss({ brand }: BrandCardProps) {
           {/* 하위 10% */}
           <div
             onClick={() => isMegaCoffee && setShowBottom10Detail(!showBottom10Detail)}
-            className="bg-white rounded-3xl p-6 shadow-lg border-2 border-gray-100 transition-all hover:shadow-xl cursor-pointer"
+            className="bg-white rounded-2xl md:rounded-3xl p-4 md:p-6 shadow-lg border-2 border-gray-100 transition-all hover:shadow-xl cursor-pointer"
           >
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-3">
-                <div className="w-14 h-14 rounded-2xl bg-red-500 flex items-center justify-center">
-                  <span className="text-2xl font-black text-white">C</span>
+            <div className="flex items-center justify-between mb-3 md:mb-4">
+              <div className="flex items-center gap-2 md:gap-3">
+                <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl md:rounded-2xl bg-red-500 flex items-center justify-center flex-shrink-0">
+                  <span className="text-xl md:text-2xl font-black text-white">C</span>
                 </div>
                 <div>
-                  <div className="text-lg font-bold text-gray-900">하위 10%</div>
-                  <div className="text-sm text-gray-500 font-medium">주의 필요</div>
+                  <div className="text-base md:text-lg font-bold text-gray-900">하위 10%</div>
+                  <div className="text-xs md:text-sm text-gray-500 font-medium">주의 필요</div>
                 </div>
               </div>
               <div className="text-right">
-                <div className="text-sm text-gray-500 mb-1 font-medium">월 순수익</div>
-                <div className="text-3xl font-black text-red-500">
+                <div className="text-xs md:text-sm text-gray-500 mb-1 font-medium">월 순수익</div>
+                <div className="text-xl md:text-3xl font-black text-red-500">
                   {formatMoney(brand.stats.bottom10.profit)}
                 </div>
               </div>
             </div>
-            <div className="grid grid-cols-3 gap-3">
-              <div className="bg-gray-50 rounded-2xl p-3 text-center">
+            <div className="grid grid-cols-3 gap-2 md:gap-3">
+              <div className="bg-gray-50 rounded-xl md:rounded-2xl p-2 md:p-3 text-center">
                 <div className="text-xs text-gray-500 mb-1 font-medium">매출</div>
-                <div className="font-bold text-gray-900">{formatMoney(brand.stats.bottom10.revenue)}</div>
+                <div className="text-sm md:text-base font-bold text-gray-900">{formatMoney(brand.stats.bottom10.revenue)}</div>
               </div>
-              <div className="bg-gray-50 rounded-2xl p-3 text-center">
+              <div className="bg-gray-50 rounded-xl md:rounded-2xl p-2 md:p-3 text-center">
                 <div className="text-xs text-gray-500 mb-1 font-medium">비용</div>
-                <div className="font-bold text-gray-900">{formatMoney(brand.stats.bottom10.cost)}</div>
+                <div className="text-sm md:text-base font-bold text-gray-900">{formatMoney(brand.stats.bottom10.cost)}</div>
               </div>
-              <div className="bg-red-500 rounded-2xl p-3 text-center">
+              <div className="bg-red-500 rounded-xl md:rounded-2xl p-2 md:p-3 text-center">
                 <div className="text-xs text-white mb-1 font-bold">수익</div>
-                <div className="font-bold text-white">{formatMoney(brand.stats.bottom10.profit)}</div>
+                <div className="text-sm md:text-base font-bold text-white">{formatMoney(brand.stats.bottom10.profit)}</div>
               </div>
             </div>
           </div>
         </div>
 
         {/* 유의사항 - 토스 스타일 */}
-        <div className="bg-gray-50 rounded-3xl p-6">
-          <h4 className="text-sm font-bold text-gray-900 mb-3">알아두세요</h4>
-          <ul className="space-y-2">
+        <div className="bg-gray-50 rounded-2xl md:rounded-3xl p-4 md:p-6">
+          <h4 className="text-xs md:text-sm font-bold text-gray-900 mb-2 md:mb-3">알아두세요</h4>
+          <ul className="space-y-1.5 md:space-y-2">
             {[
               "사장님 하루 10시간 / 주5일 이상 출근 기준",
               "월세, 인건비, 배달 비중에 따라 순수익 차이 발생",
               "이자비용 및 각종 세금 미포함",
             ].map((text, idx) => (
               <li key={idx} className="flex items-start gap-2">
-                <span className="text-blue-500 mt-1">•</span>
-                <span className="text-sm text-gray-600 leading-relaxed font-medium">{text}</span>
+                <span className="text-blue-500 mt-0.5 md:mt-1 text-xs md:text-sm">•</span>
+                <span className="text-xs md:text-sm text-gray-600 leading-relaxed font-medium">{text}</span>
               </li>
             ))}
           </ul>

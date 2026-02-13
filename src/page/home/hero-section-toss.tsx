@@ -2,11 +2,11 @@
 
 export default function HeroSectionToss() {
   return (
-    <section className="min-h-screen snap-start flex flex-col items-center justify-center bg-white px-6 py-20">
+    <section className="min-h-screen snap-start flex flex-col items-center justify-center bg-white px-4 py-12 md:px-6 md:py-20">
       {/* Main Content */}
       <div className="max-w-2xl mx-auto text-center">
         {/* 토스 스타일 큰 타이포그래피 */}
-        <h1 className="text-5xl md:text-7xl font-black text-gray-900 mb-6 leading-tight tracking-tight">
+        <h1 className="text-4xl md:text-7xl font-black text-gray-900 mb-6 leading-tight tracking-tight">
           프랜차이즈,
           <br />
           <span
@@ -22,7 +22,7 @@ export default function HeroSectionToss() {
         </h1>
 
         {/* 설명 */}
-        <p className="text-xl md:text-2xl text-gray-600 mb-12 leading-relaxed font-medium">
+        <p className="text-lg md:text-2xl text-gray-600 mb-12 leading-relaxed font-medium">
           상위 10%, 평균, 하위 10%
           <br />
           실제 매출 데이터로 현실적인 창업 계획을
