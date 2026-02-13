@@ -74,12 +74,19 @@ export default function AdminView() {
   const [resources, setResources] = useState<Resource[]>([]);
   const [offlinePrograms, setOfflinePrograms] = useState<OfflineProgram[]>([]);
 
+  // localStorage에서 데이터 로드
+  const loadData = () => {
+    if (typeof window !== 'undefined') {
+      setBrands(JSON.parse(localStorage.getItem("brands") || "[]"));
+      setColumns(JSON.parse(localStorage.getItem("columns") || "[]"));
+      setResources(JSON.parse(localStorage.getItem("resources") || "[]"));
+      setOfflinePrograms(JSON.parse(localStorage.getItem("offlinePrograms") || "[]"));
+    }
+  };
+
   useEffect(() => {
-    setBrands(JSON.parse(localStorage.getItem("brands") || "[]"));
-    setColumns(JSON.parse(localStorage.getItem("columns") || "[]"));
-    setResources(JSON.parse(localStorage.getItem("resources") || "[]"));
-    setOfflinePrograms(JSON.parse(localStorage.getItem("offlinePrograms") || "[]"));
-  }, []);
+    loadData();
+  }, [activeTab]);
 
   const tabs = [
     { id: "brands" as TabType, label: "브랜드", count: brands.length },
