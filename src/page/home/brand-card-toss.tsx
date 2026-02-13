@@ -403,8 +403,14 @@ export default function BrandCardToss({ brand }: BrandCardProps) {
                 <div className="space-y-3">
                   <div className="bg-gray-50 rounded-2xl overflow-hidden">
                     <button
-                      onClick={() => setExpandedTop10Variable(!expandedTop10Variable)}
-                      className="w-full px-4 py-4 flex items-center justify-between hover:bg-gray-100"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setExpandedTop10Variable(!expandedTop10Variable);
+                      }}
+                      onTouchEnd={(e) => {
+                        e.stopPropagation();
+                      }}
+                      className="w-full px-4 py-4 flex items-center justify-between hover:bg-gray-100 active:bg-gray-200 transition-colors"
                     >
                       <span className="text-sm font-bold text-gray-900">변동비 상세보기</span>
                       <span
@@ -436,8 +442,14 @@ export default function BrandCardToss({ brand }: BrandCardProps) {
 
                   <div className="bg-gray-50 rounded-2xl overflow-hidden">
                     <button
-                      onClick={() => setExpandedTop10Fixed(!expandedTop10Fixed)}
-                      className="w-full px-4 py-4 flex items-center justify-between hover:bg-gray-100"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setExpandedTop10Fixed(!expandedTop10Fixed);
+                      }}
+                      onTouchEnd={(e) => {
+                        e.stopPropagation();
+                      }}
+                      className="w-full px-4 py-4 flex items-center justify-between hover:bg-gray-100 active:bg-gray-200 transition-colors"
                     >
                       <span className="text-sm font-bold text-gray-900">고정비 상세보기</span>
                       <span
@@ -528,8 +540,14 @@ export default function BrandCardToss({ brand }: BrandCardProps) {
                 <div className="space-y-3">
                   <div className="bg-gray-50 rounded-2xl overflow-hidden">
                     <button
-                      onClick={() => setExpandedAverageVariable(!expandedAverageVariable)}
-                      className="w-full px-4 py-4 flex items-center justify-between hover:bg-gray-100"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setExpandedAverageVariable(!expandedAverageVariable);
+                      }}
+                      onTouchEnd={(e) => {
+                        e.stopPropagation();
+                      }}
+                      className="w-full px-4 py-4 flex items-center justify-between hover:bg-gray-100 active:bg-gray-200 transition-colors"
                     >
                       <span className="text-sm font-bold text-gray-900">변동비 상세보기</span>
                       <span
@@ -561,8 +579,14 @@ export default function BrandCardToss({ brand }: BrandCardProps) {
 
                   <div className="bg-gray-50 rounded-2xl overflow-hidden">
                     <button
-                      onClick={() => setExpandedAverageFixed(!expandedAverageFixed)}
-                      className="w-full px-4 py-4 flex items-center justify-between hover:bg-gray-100"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setExpandedAverageFixed(!expandedAverageFixed);
+                      }}
+                      onTouchEnd={(e) => {
+                        e.stopPropagation();
+                      }}
+                      className="w-full px-4 py-4 flex items-center justify-between hover:bg-gray-100 active:bg-gray-200 transition-colors"
                     >
                       <span className="text-sm font-bold text-gray-900">고정비 상세보기</span>
                       <span
@@ -653,8 +677,14 @@ export default function BrandCardToss({ brand }: BrandCardProps) {
                 <div className="space-y-3">
                   <div className="bg-gray-50 rounded-2xl overflow-hidden">
                     <button
-                      onClick={() => setExpandedBottom10Variable(!expandedBottom10Variable)}
-                      className="w-full px-4 py-4 flex items-center justify-between hover:bg-gray-100"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setExpandedBottom10Variable(!expandedBottom10Variable);
+                      }}
+                      onTouchEnd={(e) => {
+                        e.stopPropagation();
+                      }}
+                      className="w-full px-4 py-4 flex items-center justify-between hover:bg-gray-100 active:bg-gray-200 transition-colors"
                     >
                       <span className="text-sm font-bold text-gray-900">변동비 상세보기</span>
                       <span
@@ -686,8 +716,14 @@ export default function BrandCardToss({ brand }: BrandCardProps) {
 
                   <div className="bg-gray-50 rounded-2xl overflow-hidden">
                     <button
-                      onClick={() => setExpandedBottom10Fixed(!expandedBottom10Fixed)}
-                      className="w-full px-4 py-4 flex items-center justify-between hover:bg-gray-100"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setExpandedBottom10Fixed(!expandedBottom10Fixed);
+                      }}
+                      onTouchEnd={(e) => {
+                        e.stopPropagation();
+                      }}
+                      className="w-full px-4 py-4 flex items-center justify-between hover:bg-gray-100 active:bg-gray-200 transition-colors"
                     >
                       <span className="text-sm font-bold text-gray-900">고정비 상세보기</span>
                       <span
