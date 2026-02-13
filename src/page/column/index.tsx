@@ -38,7 +38,7 @@ export default function ColumnView() {
       date: "2024.02.13",
       thumbnail: "📊",
       summary: "최근 프랜차이즈 시장의 주요 트렌드와 성공 전략",
-      bgGradient: "from-blue-500 to-cyan-500",
+      bgGradient: "from-[#3098F2] to-white",
       content: `# 2024년 프랜차이즈 시장 전망
 
 ## 주요 트렌드
@@ -71,7 +71,7 @@ export default function ColumnView() {
       date: "2024.02.10",
       thumbnail: "☕",
       summary: "메가커피 상위 10% 매장의 공통점",
-      bgGradient: "from-orange-500 to-amber-500",
+      bgGradient: "from-[#25A6D9] to-white",
       content: `# 메가커피 성공 입지 분석
 
 ## 상위 10% 매장의 공통점
@@ -101,7 +101,7 @@ export default function ColumnView() {
       date: "2024.02.05",
       thumbnail: "⚠️",
       summary: "창업 실패 사례를 통해 배우는 성공 전략",
-      bgGradient: "from-red-500 to-pink-500",
+      bgGradient: "from-[#11BFAE] to-white",
       content: `# 프랜차이즈 창업 실패 원인
 
 ## ❌ 실패 사례 TOP 3
