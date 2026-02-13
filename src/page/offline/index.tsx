@@ -33,27 +33,25 @@ export default function OfflineView() {
   ];
 
   return (
-    <div className="h-screen overflow-x-scroll snap-x snap-mandatory scroll-smooth pb-20">
+    <div className="h-screen overflow-x-scroll snap-x snap-mandatory scroll-smooth">
       <div className="flex h-full">
         {programs.map((program, index) => (
           <div
             key={program.id}
-            className="min-w-full h-full snap-start flex flex-col bg-white px-4 py-8 relative"
+            className="min-w-full h-full snap-start flex flex-col bg-white px-4 py-6 pb-24 relative"
           >
-            {/* 헤더 - 첫 번째 카드에만 표시 */}
-            {index === 0 && (
-              <div className="mb-6">
-                <h1 className="text-3xl font-black text-[#101828] mb-2">
-                  오프라인 임장
-                </h1>
-                <p className="text-lg text-gray-600 font-medium">
-                  전문가와 함께하는 현장 답사
-                </p>
-              </div>
-            )}
+            {/* 헤더 - 모든 카드에 표시 */}
+            <div className="mb-4">
+              <h1 className="text-2xl font-black text-[#101828] mb-1">
+                오프라인 임장
+              </h1>
+              <p className="text-base text-gray-600 font-medium">
+                전문가와 함께하는 현장 답사
+              </p>
+            </div>
 
-            <div className="max-w-2xl w-full mx-auto flex-1 flex items-center">
-              <button className="text-left group w-full">
+            <div className="max-w-2xl w-full mx-auto flex-1 flex items-center justify-center">
+              <button className="text-left group w-full max-w-md">
                 <div className="bg-white rounded-3xl overflow-hidden shadow-lg group-hover:shadow-2xl transition-shadow duration-300">
                   {/* 카드 상단 - 그라데이션 영역 */}
                   <div className={`bg-gradient-to-br ${program.bgColor} p-5 pb-10 relative`}>
@@ -97,41 +95,42 @@ export default function OfflineView() {
                 </div>
               </button>
 
-              {/* 스와이프 힌트 */}
-              {index === 0 && (
-                <div className="absolute bottom-24 left-1/2 transform -translate-x-1/2">
-                  <div className="flex items-center gap-3 animate-bounce">
-                    <svg
-                      className="w-6 h-6 text-gray-400 rotate-180"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2.5}
-                        d="M9 5l7 7-7 7"
-                      />
-                    </svg>
-                    <div className="text-sm text-gray-400 font-medium">옆으로 스와이프</div>
-                    <svg
-                      className="w-6 h-6 text-gray-400"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2.5}
-                        d="M9 5l7 7-7 7"
-                      />
-                    </svg>
-                  </div>
-                </div>
-              )}
             </div>
+
+            {/* 스와이프 힌트 */}
+            {index === 0 && (
+              <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2">
+                <div className="flex items-center gap-3 animate-bounce">
+                  <svg
+                    className="w-6 h-6 text-gray-400 rotate-180"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2.5}
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                  <div className="text-sm text-gray-400 font-medium">옆으로 스와이프</div>
+                  <svg
+                    className="w-6 h-6 text-gray-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2.5}
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </div>
+              </div>
+            )}
           </div>
         ))}
       </div>
