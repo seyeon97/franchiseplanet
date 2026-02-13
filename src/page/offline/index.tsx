@@ -9,7 +9,7 @@ export default function OfflineView() {
       category: "임장",
       title: "강남역 임장",
       description: "강남역 상권 분석부터 유동인구 파악까지 전문가와 함께하는 현장 답사",
-      bgColor: "from-blue-600 to-blue-700",
+      bgColor: "from-[#2F85F2] to-[#1F9CD3]",
       imageUrl: "👨‍💼", // 실제로는 강사 사진 URL
     },
     {
@@ -18,7 +18,7 @@ export default function OfflineView() {
       category: "임장",
       title: "성수역 임장",
       description: "핫플레이스 성수동! 트렌디한 상권의 숨은 매력 찾기",
-      bgColor: "from-purple-600 to-indigo-600",
+      bgColor: "from-[#1F9CD3] to-[#0BB7AD]",
       imageUrl: "👨‍💼",
     },
     {
@@ -27,7 +27,7 @@ export default function OfflineView() {
       category: "임장",
       title: "홍대입구역 임장",
       description: "젊음의 거리 홍대, 창업 전 꼭 확인해야 할 입지 포인트",
-      bgColor: "from-gray-700 to-gray-800",
+      bgColor: "from-[#0BB7AD] to-[#08C698]",
       imageUrl: "👩‍💼",
     },
   ];
