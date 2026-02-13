@@ -164,9 +164,9 @@ export default function MoreView() {
           </div>
         </div>
 
-        {/* 금융 서비스 섹션 */}
+        {/* 마이 서비스 섹션 */}
         <div className="px-4 pt-4 pb-2">
-          <h3 className="text-lg font-black text-gray-900">금융 서비스</h3>
+          <h3 className="text-lg font-black text-gray-900">마이 서비스</h3>
         </div>
 
         {/* 서비스 메뉴 리스트 */}
