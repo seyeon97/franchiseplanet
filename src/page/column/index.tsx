@@ -301,11 +301,11 @@ export default function ColumnView() {
 
       {/* 상세 뷰 - 스와이프로 내용 보기 */}
       {selectedColumn && (
-        <div className="fixed inset-0 bg-black z-50">
+        <div className="fixed inset-0 bg-white z-50">
           {/* 닫기 버튼 */}
           <button
             onClick={handleClose}
-            className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/20 transition-colors"
+            className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-900 hover:bg-gray-200 transition-colors"
           >
             <svg
               className="w-6 h-6"
@@ -331,26 +331,26 @@ export default function ColumnView() {
                 {/* 헤더 */}
                 <div className="text-center mb-8">
                   <div className="text-6xl mb-4">{selectedColumn.thumbnail}</div>
-                  <span className="text-sm font-bold text-white bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full">
+                  <span className="text-sm font-bold text-gray-900 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full">
                     {selectedColumn.category}
                   </span>
-                  <h1 className="text-3xl md:text-4xl font-black text-white mt-4 mb-2 break-keep">
+                  <h1 className="text-3xl md:text-4xl font-black text-gray-900 mt-4 mb-2 break-keep">
                     {selectedColumn.title}
                   </h1>
-                  <p className="text-sm text-white/70 font-medium">
+                  <p className="text-sm text-gray-700 font-medium">
                     {selectedColumn.date}
                   </p>
                 </div>
 
                 {/* 본문 */}
-                <div className="bg-white/10 backdrop-blur-md rounded-3xl p-6 md:p-8 text-white">
-                  <div className="prose prose-invert max-w-none">
+                <div className="bg-white/90 backdrop-blur-md rounded-3xl p-6 md:p-8 text-gray-900">
+                  <div className="prose max-w-none">
                     {selectedColumn.content.split("\n").map((line, index) => {
                       if (line.startsWith("# ")) {
                         return (
                           <h1
                             key={index}
-                            className="text-2xl font-black mb-4 text-white"
+                            className="text-2xl font-black mb-4 text-gray-900"
                           >
                             {line.replace("# ", "")}
                           </h1>
@@ -359,7 +359,7 @@ export default function ColumnView() {
                         return (
                           <h2
                             key={index}
-                            className="text-xl font-black mt-6 mb-3 text-white"
+                            className="text-xl font-black mt-6 mb-3 text-gray-900"
                           >
                             {line.replace("## ", "")}
                           </h2>
@@ -368,20 +368,20 @@ export default function ColumnView() {
                         return (
                           <h3
                             key={index}
-                            className="text-lg font-bold mt-4 mb-2 text-white"
+                            className="text-lg font-bold mt-4 mb-2 text-gray-900"
                           >
                             {line.replace("### ", "")}
                           </h3>
                         );
                       } else if (line.startsWith("**") && line.endsWith("**")) {
                         return (
-                          <p key={index} className="font-bold mt-4 text-white">
+                          <p key={index} className="font-bold mt-4 text-gray-900">
                             {line.replace(/\*\*/g, "")}
                           </p>
                         );
                       } else if (line.startsWith("-") || line.startsWith("✅") || line.startsWith("□") || line.startsWith("❌")) {
                         return (
-                          <p key={index} className="ml-4 mb-1 text-white/90">
+                          <p key={index} className="ml-4 mb-1 text-gray-800">
                             {line}
                           </p>
                         );
@@ -389,7 +389,7 @@ export default function ColumnView() {
                         return <br key={index} />;
                       } else {
                         return (
-                          <p key={index} className="mb-2 text-white/90 leading-relaxed">
+                          <p key={index} className="mb-2 text-gray-800 leading-relaxed">
                             {line}
                           </p>
                         );
