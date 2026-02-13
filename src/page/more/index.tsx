@@ -128,10 +128,7 @@ export default function MoreView() {
               </div>
               {/* 사용자 정보 */}
               <div>
-                <h2 className="text-xl font-black text-gray-900">
-                  {isLoggedIn ? "프차플래닛 회원" : "로그인이 필요합니다"}
-                </h2>
-                <p className="text-sm text-gray-500 font-medium mt-0.5">
+                <p className="text-sm text-gray-500 font-medium">
                   {isLoggedIn ? userEmail : "로그인 후 이용하세요"}
                 </p>
               </div>
