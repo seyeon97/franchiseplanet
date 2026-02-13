@@ -216,13 +216,13 @@ export default function ResourcesView() {
 
                 {/* Featured 정보 */}
                 <div className="text-left">
-                  <h2 className="text-base font-black text-gray-900 mb-1 leading-tight line-clamp-2">
+                  <h2 className="text-lg font-black text-gray-900 mb-1 leading-tight line-clamp-2">
                     {featuredResource.title}
                   </h2>
-                  <p className="text-xs text-gray-600 mb-1 line-clamp-1">
+                  <p className="text-sm text-gray-600 mb-1 line-clamp-1">
                     {featuredResource.description}
                   </p>
-                  <p className="text-xs text-gray-400">
+                  <p className="text-sm text-gray-400">
                     {featuredResource.date}
                   </p>
                 </div>
@@ -250,7 +250,7 @@ export default function ResourcesView() {
                     </div>
                     {resource.badge && (
                       <div
-                        className={`absolute top-1.5 left-1.5 ${resource.badgeColor} text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full shadow-md`}
+                        className={`absolute top-1.5 left-1.5 ${resource.badgeColor} text-white text-xs font-bold px-1.5 py-0.5 rounded-full shadow-md`}
                       >
                         {resource.badge}
                       </div>
@@ -259,14 +259,14 @@ export default function ResourcesView() {
 
                   {/* 카드 정보 - 간결하게 */}
                   <div>
-                    <p className="text-[10px] text-gray-400 mb-0.5">Trend report</p>
-                    <h3 className="text-xs font-bold text-gray-900 mb-0.5 line-clamp-2 leading-tight">
+                    <p className="text-xs text-gray-400 mb-0.5">Trend report</p>
+                    <h3 className="text-sm font-bold text-gray-900 mb-0.5 line-clamp-2 leading-tight">
                       {resource.title}
                     </h3>
-                    <p className="text-[10px] text-gray-500 mb-0.5 line-clamp-1">
+                    <p className="text-xs text-gray-500 mb-0.5 line-clamp-1">
                       {resource.description}
                     </p>
-                    <p className="text-[10px] text-gray-400">{resource.date}</p>
+                    <p className="text-xs text-gray-400">{resource.date}</p>
                   </div>
                 </button>
               ))}
