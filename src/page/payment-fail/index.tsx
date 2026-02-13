@@ -1,9 +1,11 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function PaymentFailView() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const errorMessage = searchParams.get("message") || "결제 처리 중 오류가 발생했습니다.";
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
@@ -22,7 +24,7 @@ export default function PaymentFailView() {
 
         {/* 설명 */}
         <p className="text-base text-gray-600 text-center mb-8 leading-relaxed">
-          결제 처리 중 오류가 발생했습니다.
+          {errorMessage}
           <br />
           다시 시도해 주세요.
         </p>

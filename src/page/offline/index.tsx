@@ -1,6 +1,29 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
+import Script from "next/script";
+
+// 아임포트 타입 선언
+interface IamportResponse {
+  success: boolean;
+  error_msg?: string;
+  imp_uid?: string;
+  merchant_uid?: string;
+  pay_method?: string;
+  paid_amount?: number;
+  status?: string;
+}
+
+interface IamportInstance {
+  init: (code: string) => void;
+  request_pay: (params: Record<string, string | number>, callback: (response: IamportResponse) => void) => void;
+}
+
+declare global {
+  interface Window {
+    IMP?: IamportInstance;
+  }
+}
 
 interface Program {
   id: number;
@@ -26,6 +49,7 @@ export default function OfflineView() {
   const isScrollingRef = useRef(false);
   const [selectedProgram, setSelectedProgram] = useState<Program | null>(null);
   const [showPayment, setShowPayment] = useState(false);
+  const [iamportLoaded, setIamportLoaded] = useState(false);
 
   // 스크롤 위치에 따라 현재 인덱스 업데이트
   useEffect(() => {
@@ -164,7 +188,14 @@ export default function OfflineView() {
   ];
 
   return (
-    <div className="h-screen bg-gray-50 flex flex-col pb-20">
+    <>
+      {/* 아임포트 SDK 로드 */}
+      <Script
+        src="https://cdn.iamport.kr/v1/iamport.js"
+        onLoad={() => setIamportLoaded(true)}
+      />
+
+      <div className="h-screen bg-gray-50 flex flex-col pb-20">
       {/* 고정 헤더 */}
       <div className="px-6 pt-8 pb-4 max-w-2xl mx-auto w-full">
         <h1 className="text-4xl font-extrabold mb-3 leading-tight text-[#101828]">
@@ -525,20 +556,26 @@ export default function OfflineView() {
                 </div>
               </div>
 
-              {/* 토스페이먼츠 간편결제 버튼 */}
+              {/* 아임포트 간편결제 버튼 */}
               <div className="space-y-3">
                 <button
-                  onClick={async () => {
+                  onClick={() => {
+                    if (!iamportLoaded || typeof window === 'undefined' || !window.IMP) {
+                      alert("결제 모듈을 불러오는 중입니다. 잠시 후 다시 시도해주세요.");
+                      return;
+                    }
+
                     try {
-                      // 토스페이먼츠 클라이언트 키 (테스트용)
-                      const clientKey = "test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq";
+                      const IMP = window.IMP;
+                      // 아임포트 가맹점 식별코드 (테스트용)
+                      IMP.init("imp10391932");
 
                       // 주문 ID 및 정보 생성
                       const orderId = `ORDER_${Date.now()}`;
-                      const orderName = selectedProgram.title;
                       const customerName = localStorage.getItem("userName") || "고객";
+                      const userEmail = localStorage.getItem("userEmail") || "customer@example.com";
 
-                      // 결제 정보를 localStorage에 미리 저장 (successUrl을 짧게 유지하기 위해)
+                      // 결제 정보를 localStorage에 미리 저장
                       const pendingPayment = {
                         orderId: orderId,
                         programId: selectedProgram.id,
@@ -551,40 +588,46 @@ export default function OfflineView() {
                       };
                       localStorage.setItem("pendingPayment", JSON.stringify(pendingPayment));
 
-                      // 토스페이먼츠 SDK 로드 (동적 import로 클라이언트에서만 실행)
-                      const { loadTossPayments } = await import("@tosspayments/payment-sdk");
-                      const tossPayments = await loadTossPayments(clientKey);
-
-                      // 결제 요청 - URL을 짧게 유지
-                      await tossPayments.requestPayment("카드", {
-                        amount: selectedProgram.price,
-                        orderId: orderId,
-                        orderName: orderName,
-                        customerName: customerName,
-                        successUrl: `${window.location.origin}/payment-success`,
-                        failUrl: `${window.location.origin}/payment-fail`,
-                      });
+                      // 아임포트 결제 요청
+                      IMP.request_pay(
+                        {
+                          pg: "kakaopay.TC0ONETIME", // 카카오페이 간편결제 (테스트용)
+                          pay_method: "card",
+                          merchant_uid: orderId,
+                          name: selectedProgram.title,
+                          amount: selectedProgram.price,
+                          buyer_email: userEmail,
+                          buyer_name: customerName,
+                          buyer_tel: "010-0000-0000",
+                        },
+                        (rsp: IamportResponse) => {
+                          if (rsp.success) {
+                            // 결제 성공
+                            window.location.href = "/payment-success";
+                          } else {
+                            // 결제 실패
+                            console.error("결제 실패:", rsp);
+                            localStorage.removeItem("pendingPayment");
+                            window.location.href = `/payment-fail?message=${encodeURIComponent(rsp.error_msg || "결제에 실패했습니다")}`;
+                          }
+                        }
+                      );
                     } catch (error) {
                       console.error("결제 오류:", error);
-
-                      // 더 상세한 에러 메시지 표시
-                      let errorMessage = "결제 중 오류가 발생했습니다.";
-                      if (error instanceof Error) {
-                        errorMessage += `\n${error.message}`;
-                      }
-                      alert(errorMessage + "\n\n다시 시도해주세요.");
+                      alert("결제 중 오류가 발생했습니다. 다시 시도해주세요.");
                     }
                   }}
-                  className="w-full bg-[#0064FF] text-white font-bold py-4 rounded-2xl hover:bg-[#0052CC] transition-all flex items-center justify-center gap-2"
+                  className="w-full bg-gradient-to-r from-[#FEE500] to-[#FFD700] text-[#3C1E1E] font-bold py-4 rounded-2xl hover:shadow-lg transition-all flex items-center justify-center gap-2"
+                  disabled={!iamportLoaded}
                 >
                   <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z" />
+                    <path d="M12 3C7.03 3 3 7.03 3 12s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7zm-1-11h2v6h-2zm0 8h2v2h-2z"/>
                   </svg>
-                  <span>토스페이 간편결제</span>
+                  <span>카카오페이 간편결제</span>
                 </button>
 
                 <p className="text-xs text-gray-500 text-center">
-                  결제 진행 시 토스페이먼츠의 안전한 결제창으로 이동합니다
+                  결제 진행 시 아임포트의 안전한 결제창으로 이동합니다
                 </p>
               </div>
 
@@ -602,6 +645,7 @@ export default function OfflineView() {
         </div>
       )}
 
-    </div>
+      </div>
+    </>
   );
 }
