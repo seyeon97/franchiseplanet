@@ -8,7 +8,7 @@
 export const kakaoConfig = {
   // Kakao Developers에서 발급받은 JavaScript 키를 여기에 입력하세요
   // https://developers.kakao.com/console/app
-  javascriptKey: "YOUR_KAKAO_JAVASCRIPT_KEY_HERE",
+  javascriptKey: "668173e474f55e510833188bb70c3695",
   // 로그인 후 리다이렉트 URI (Kakao Developers 콘솔에 등록 필요)
   redirectUri:
     typeof window !== "undefined"
