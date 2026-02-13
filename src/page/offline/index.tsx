@@ -64,7 +64,7 @@ export default function OfflineView() {
 
                   {/* 강사 사진 - 카드 하단으로 걸쳐지도록 */}
                   <div className="absolute -bottom-16 left-1/2 transform -translate-x-1/2 z-10">
-                    <div className="w-32 h-32 rounded-full bg-white shadow-xl flex items-center justify-center text-6xl border-4 border-white group-hover:scale-110 transition-transform duration-300">
+                    <div className="w-32 h-32 rounded-2xl bg-white shadow-xl flex items-center justify-center text-6xl border-4 border-white group-hover:scale-110 transition-transform duration-300">
                       {program.imageUrl}
                     </div>
                   </div>
