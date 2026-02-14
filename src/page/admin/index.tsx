@@ -1035,7 +1035,40 @@ function EditModal({
   onClose: () => void;
   onSave: (data: Brand | Column | Resource | OfflineProgram) => void;
 }) {
-  const [formData, setFormData] = useState(data);
+  // 기존 데이터를 새 구조로 마이그레이션
+  const migrateData = (data: Brand | Column | Resource | OfflineProgram) => {
+    if (type === 'brands') {
+      const brandData = data as Brand;
+      // 기존 fixedCosts가 있지만 initialCosts가 없는 경우 마이그레이션
+      if (brandData.fixedCosts && !brandData.initialCosts) {
+        return {
+          ...brandData,
+          initialCosts: brandData.fixedCosts,
+          detailedCosts: brandData.detailedCosts || {
+            variableCosts: [
+              { label: "원가율", percentage: "36%", low: 720, mid: 1282, high: 2880 },
+              { label: "카드수수료", percentage: "1.5%", low: 30, mid: 53, high: 120 },
+              { label: "배달수수료", percentage: "30%", low: 120, mid: 214, high: 480 },
+              { label: "플랫폼수수료", percentage: "5%", low: 80, mid: 142, high: 320 },
+              { label: "수도광열비", percentage: "2%", low: 40, mid: 71, high: 160 },
+              { label: "인건비", percentage: "22%", low: 500, mid: 783, high: 1680 },
+            ],
+            fixedCosts: [
+              { label: "임대료", low: 352, mid: 220, high: 385 },
+              { label: "관리비", low: 30, mid: 22, high: 39 },
+              { label: "광고비", low: 10, mid: 10, high: 10 },
+              { label: "정기 서비스", low: 30, mid: 30, high: 30 },
+              { label: "소모품비", low: 30, mid: 30, high: 30 },
+              { label: "로열티", low: 17, mid: 17, high: 17 },
+            ],
+          }
+        };
+      }
+    }
+    return data;
+  };
+
+  const [formData, setFormData] = useState(migrateData(data));
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
