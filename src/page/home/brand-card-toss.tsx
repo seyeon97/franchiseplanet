@@ -10,6 +10,11 @@ interface BrandData {
   logoImage?: string;
   color: string;
   startupCost: string;
+  initialCosts?: {
+    franchise: number;
+    interior: number;
+    equipment: number;
+  };
   stats: {
     top10: {
       revenue: number;
@@ -178,11 +183,35 @@ export default function BrandCardToss({ brand }: BrandCardProps) {
           </div>
 
           {/* 초기 투자금 - 토스 스타일 카드 */}
-          <div className="bg-gray-50 rounded-2xl md:rounded-3xl p-4 md:p-6 mb-6 md:mb-8 flex items-center justify-between">
-            <div className="text-sm md:text-base text-gray-500 font-medium">
-              초기 투자금 <span className="text-gray-400 text-xs md:text-sm">(보증금 제외)</span>
+          <div className="bg-gray-50 rounded-2xl md:rounded-3xl p-4 md:p-6 mb-6 md:mb-8">
+            <div className="flex items-center justify-between mb-4">
+              <div className="text-sm md:text-base text-gray-500 font-medium">
+                초기 투자금 <span className="text-gray-400 text-xs md:text-sm">(보증금 제외)</span>
+              </div>
+              <div className="text-lg md:text-xl font-black text-gray-900">{brand.startupCost}</div>
             </div>
-            <div className="text-lg md:text-xl font-black text-gray-900">{brand.startupCost}</div>
+            {brand.initialCosts && (
+              <div className="grid grid-cols-3 gap-2 md:gap-3">
+                <div className="bg-white rounded-xl md:rounded-2xl p-2 md:p-3 text-center">
+                  <div className="text-xs text-gray-500 mb-1 font-medium">가맹비</div>
+                  <div className="text-sm md:text-base font-bold text-gray-900">
+                    {brand.initialCosts.franchise.toLocaleString()}만원
+                  </div>
+                </div>
+                <div className="bg-white rounded-xl md:rounded-2xl p-2 md:p-3 text-center">
+                  <div className="text-xs text-gray-500 mb-1 font-medium">인테리어</div>
+                  <div className="text-sm md:text-base font-bold text-gray-900">
+                    {brand.initialCosts.interior.toLocaleString()}만원
+                  </div>
+                </div>
+                <div className="bg-white rounded-xl md:rounded-2xl p-2 md:p-3 text-center">
+                  <div className="text-xs text-gray-500 mb-1 font-medium">장비</div>
+                  <div className="text-sm md:text-base font-bold text-gray-900">
+                    {brand.initialCosts.equipment.toLocaleString()}만원
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
