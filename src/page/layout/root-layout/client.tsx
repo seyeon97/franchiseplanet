@@ -4,6 +4,7 @@ import { StateProvider } from '@/lib/state'
 import { Toaster } from '@/lib/components/ui/sonner'
 import { useUser, type User } from '@/state/user'
 import NavigationBar from '@/lib/navigation-bar'
+import { usePathname } from 'next/navigation'
 
 /**
  * UserInit Component (Internal)
@@ -40,11 +41,14 @@ export function RootLayoutClient({
   user?: User | null
   children: React.ReactNode
 }) {
+  const pathname = usePathname()
+  const isAdminPage = pathname?.startsWith('/admin')
+
   return (
     <StateProvider>
       <UserInit user={user} />
       {children}
-      <NavigationBar />
+      {!isAdminPage && <NavigationBar />}
       <Toaster />
     </StateProvider>
   )
