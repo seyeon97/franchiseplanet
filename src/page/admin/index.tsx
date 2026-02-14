@@ -13,6 +13,8 @@ interface Brand {
   thumbnail: string;
   description: string;
   monthlyRevenue: number;
+  logoImage?: string; // 로고 이미지 URL (선택)
+  color?: string; // 브랜드 색상 (선택)
 
   // 상세 비용 데이터 (매출별 시나리오)
   detailedCosts: {
@@ -271,6 +273,8 @@ export default function AdminView() {
           category: "카페",
           totalCost: "1.5억~2억",
           thumbnail: "☕",
+          logoImage: "/megacoffee-logo.png",
+          color: "#F25C05",
           description: "합리적인 가격의 메가급 커피 전문점",
           monthlyRevenue: 3560,
           detailedCosts: {
@@ -298,6 +302,7 @@ export default function AdminView() {
           category: "치킨·버거",
           totalCost: "2억~3억",
           thumbnail: "🍔",
+          color: "#FF6B35",
           description: "국내 대표 프리미엄 버거 프랜차이즈",
           monthlyRevenue: 8500,
           detailedCosts: {
@@ -325,6 +330,7 @@ export default function AdminView() {
           category: "카페",
           totalCost: "1억~1.5억",
           thumbnail: "☕",
+          color: "#8B4513",
           description: "저렴한 가격의 커피 전문점",
           monthlyRevenue: 7800,
           detailedCosts: {
@@ -352,6 +358,7 @@ export default function AdminView() {
           category: "치킨",
           totalCost: "2.5억~3.5억",
           thumbnail: "🍗",
+          color: "#DC143C",
           description: "오리지널 간장치킨의 명가",
           monthlyRevenue: 9500,
           detailedCosts: {
@@ -379,6 +386,7 @@ export default function AdminView() {
           category: "디저트",
           totalCost: "1.5억~2.5억",
           thumbnail: "🍧",
+          color: "#FFB6C1",
           description: "프리미엄 빙수 디저트 카페",
           monthlyRevenue: 6200,
           detailedCosts: {
@@ -406,6 +414,7 @@ export default function AdminView() {
           category: "한식",
           totalCost: "1.5억~2억",
           thumbnail: "🍲",
+          color: "#228B22",
           description: "건강한 죽 전문 프랜차이즈",
           monthlyRevenue: 7000,
           detailedCosts: {
@@ -598,10 +607,33 @@ export default function AdminView() {
   useEffect(() => {
     // 처음 마운트 시 데이터가 없으면 초기 데이터 자동 생성
     if (typeof window !== 'undefined') {
-      const hasData = localStorage.getItem("brands") ||
+      const brandsData = localStorage.getItem("brands");
+      const hasData = brandsData ||
                       localStorage.getItem("columns") ||
                       localStorage.getItem("resources") ||
                       localStorage.getItem("offlinePrograms");
+
+      // 데이터 무결성 체크: 브랜드 데이터가 있으면 6개 브랜드가 모두 있는지 확인
+      if (brandsData) {
+        try {
+          const storedBrands = JSON.parse(brandsData);
+          // 6개 브랜드 중 하나라도 빠지면 초기화
+          const expectedBrandIds = [1, 2, 3, 4, 5, 6];
+          const hasMissingBrands = expectedBrandIds.some(id =>
+            !storedBrands.find((b: Brand) => b.id === id)
+          );
+
+          if (hasMissingBrands || storedBrands.length < 6) {
+            console.log("⚠️ 브랜드 데이터 불완전 - 초기화 중...");
+            initializeData();
+            return;
+          }
+        } catch (error) {
+          console.error("브랜드 데이터 파싱 오류:", error);
+          initializeData();
+          return;
+        }
+      }
 
       if (!hasData) {
         initializeData();
