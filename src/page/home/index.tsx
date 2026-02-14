@@ -16,11 +16,6 @@ interface AdminBrand {
   monthlyRevenue: number;
   logoImage?: string;
   color?: string;
-  initialCosts?: {
-    franchise: number;
-    interior: number;
-    equipment: number;
-  };
   detailedCosts?: {
     variableCosts: Array<{ label: string; percentage?: string; low: number; mid: number; high: number }>;
     fixedCosts: Array<{ label: string; low: number; mid: number; high: number }>;
@@ -36,7 +31,6 @@ const defaultMockBrands = [
     logoImage: "/megacoffee-logo.png",
     color: "#F25C05",
     startupCost: "1.5억~2억원",
-    initialCosts: { franchise: 800, interior: 2200, equipment: 1700 },
     stats: {
       top10: {
         revenue: 8000,
@@ -63,7 +57,6 @@ const defaultMockBrands = [
     logo: "🍔",
     color: "#FF6B35",
     startupCost: "2억~3억원",
-    initialCosts: { franchise: 1500, interior: 3000, equipment: 2000 },
     stats: {
       top10: {
         revenue: 15000,
@@ -90,7 +83,6 @@ const defaultMockBrands = [
     logo: "☕",
     color: "#8B4513",
     startupCost: "1억~1.5억원",
-    initialCosts: { franchise: 1000, interior: 2500, equipment: 2300 },
     stats: {
       top10: {
         revenue: 12000,
@@ -117,7 +109,6 @@ const defaultMockBrands = [
     logo: "🍗",
     color: "#DC143C",
     startupCost: "2.5억~3.5억원",
-    initialCosts: { franchise: 2000, interior: 3500, equipment: 2000 },
     stats: {
       top10: {
         revenue: 18000,
@@ -144,7 +135,6 @@ const defaultMockBrands = [
     logo: "🍧",
     color: "#FFB6C1",
     startupCost: "1.5억~2.5억원",
-    initialCosts: { franchise: 1200, interior: 2000, equipment: 1500 },
     stats: {
       top10: {
         revenue: 10000,
@@ -171,7 +161,6 @@ const defaultMockBrands = [
     logo: "🍲",
     color: "#228B22",
     startupCost: "1.5억~2억원",
-    initialCosts: { franchise: 1300, interior: 2500, equipment: 1500 },
     stats: {
       top10: {
         revenue: 11000,
@@ -231,7 +220,6 @@ export default function HomePage() {
               logoImage: adminBrand.logoImage,
               color: adminBrand.color || "#3B82F6",
               startupCost: `${(adminBrand.totalCost / 10).toFixed(1)}억원`,
-              initialCosts: adminBrand.initialCosts || { franchise: 0, interior: 0, equipment: 0 },
               stats: {
                 top10: {
                   revenue: adminBrand.monthlyRevenue || 3560,

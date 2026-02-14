@@ -9,35 +9,15 @@ interface Brand {
   id: number;
   name: string;
   category: string;
-  totalCost: number; // 초기 투자금 총액 (자동 계산)
+  totalCost: number; // 초기 투자금 총액 (보증금 제외)
   thumbnail: string;
   description: string;
   monthlyRevenue: number;
-
-  // 초기 투자금 (1회성, 보증금 제외)
-  initialCosts: {
-    franchise: number;
-    interior: number;
-    equipment: number;
-  };
 
   // 상세 비용 데이터 (매출별 시나리오)
   detailedCosts: {
     variableCosts: Array<{ label: string; percentage?: string; low: number; mid: number; high: number }>;
     fixedCosts: Array<{ label: string; low: number; mid: number; high: number }>;
-  };
-
-  // 레거시 호환성용 (제거 예정, 기존 데이터 마이그레이션용)
-  fixedCosts?: {
-    franchise: number;
-    interior: number;
-    equipment: number;
-  };
-  variableCosts?: {
-    rent: number;
-    labor: number;
-    materials: number;
-    utilities: number;
   };
 }
 
@@ -154,7 +134,6 @@ export default function AdminView() {
       thumbnail: "🏪",
       description: "브랜드 설명을 입력하세요",
       monthlyRevenue: 3560,
-      initialCosts: { franchise: 0, interior: 0, equipment: 0 },
       detailedCosts: {
         variableCosts: [
           { label: "원가율", percentage: "36%", low: 720, mid: 1282, high: 2880 },
@@ -294,7 +273,6 @@ export default function AdminView() {
           thumbnail: "🍔",
           description: "국내 대표 프리미엄 버거 프랜차이즈",
           monthlyRevenue: 3560,
-          initialCosts: { franchise: 1500, interior: 3000, equipment: 2000 },
           detailedCosts: {
             variableCosts: [
               { label: "원가율", percentage: "36%", low: 720, mid: 1282, high: 2880 },
@@ -322,7 +300,6 @@ export default function AdminView() {
           thumbnail: "☕",
           description: "합리적인 가격의 커피 전문점",
           monthlyRevenue: 3000,
-          initialCosts: { franchise: 1000, interior: 2500, equipment: 2300 },
           detailedCosts: {
             variableCosts: [
               { label: "원가율", percentage: "35%", low: 600, mid: 1050, high: 2100 },
@@ -350,7 +327,6 @@ export default function AdminView() {
           thumbnail: "🍗",
           description: "오리지널 간장치킨의 명가",
           monthlyRevenue: 4200,
-          initialCosts: { franchise: 2000, interior: 3500, equipment: 2000 },
           detailedCosts: {
             variableCosts: [
               { label: "원가율", percentage: "38%", low: 800, mid: 1596, high: 3800 },
@@ -378,7 +354,6 @@ export default function AdminView() {
           thumbnail: "🍧",
           description: "프리미엄 빙수 디저트 카페",
           monthlyRevenue: 2800,
-          initialCosts: { franchise: 1200, interior: 2000, equipment: 1500 },
           detailedCosts: {
             variableCosts: [
               { label: "원가율", percentage: "33%", low: 550, mid: 924, high: 1980 },
@@ -406,7 +381,6 @@ export default function AdminView() {
           thumbnail: "🍲",
           description: "건강한 죽 전문 프랜차이즈",
           monthlyRevenue: 3200,
-          initialCosts: { franchise: 1300, interior: 2500, equipment: 1500 },
           detailedCosts: {
             variableCosts: [
               { label: "원가율", percentage: "34%", low: 640, mid: 1088, high: 2380 },
@@ -434,7 +408,6 @@ export default function AdminView() {
           thumbnail: "☕",
           description: "가성비 최고의 커피 프랜차이즈",
           monthlyRevenue: 2900,
-          initialCosts: { franchise: 800, interior: 2200, equipment: 1700 },
           detailedCosts: {
             variableCosts: [
               { label: "원가율", percentage: "32%", low: 580, mid: 928, high: 1920 },
@@ -1122,40 +1095,7 @@ function EditModal({
   onClose: () => void;
   onSave: (data: Brand | Column | Resource | OfflineProgram) => void;
 }) {
-  // 기존 데이터를 새 구조로 마이그레이션
-  const migrateData = (data: Brand | Column | Resource | OfflineProgram) => {
-    if (type === 'brands') {
-      const brandData = data as Brand;
-      // 기존 fixedCosts가 있지만 initialCosts가 없는 경우 마이그레이션
-      if (brandData.fixedCosts && !brandData.initialCosts) {
-        return {
-          ...brandData,
-          initialCosts: brandData.fixedCosts,
-          detailedCosts: brandData.detailedCosts || {
-            variableCosts: [
-              { label: "원가율", percentage: "36%", low: 720, mid: 1282, high: 2880 },
-              { label: "카드수수료", percentage: "1.5%", low: 30, mid: 53, high: 120 },
-              { label: "배달수수료", percentage: "30%", low: 120, mid: 214, high: 480 },
-              { label: "플랫폼수수료", percentage: "5%", low: 80, mid: 142, high: 320 },
-              { label: "수도광열비", percentage: "2%", low: 40, mid: 71, high: 160 },
-              { label: "인건비", percentage: "22%", low: 500, mid: 783, high: 1680 },
-            ],
-            fixedCosts: [
-              { label: "임대료", low: 352, mid: 220, high: 385 },
-              { label: "관리비", low: 30, mid: 22, high: 39 },
-              { label: "광고비", low: 10, mid: 10, high: 10 },
-              { label: "정기 서비스", low: 30, mid: 30, high: 30 },
-              { label: "소모품비", low: 30, mid: 30, high: 30 },
-              { label: "로열티", low: 17, mid: 17, high: 17 },
-            ],
-          }
-        };
-      }
-    }
-    return data;
-  };
-
-  const [formData, setFormData] = useState(migrateData(data));
+  const [formData, setFormData] = useState(data);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -1164,23 +1104,6 @@ function EditModal({
 
   const updateField = (field: string, value: string | number | boolean) => {
     setFormData({ ...formData, [field]: value });
-  };
-
-  const updateNestedField = (parent: string, field: string, value: number) => {
-    const brandData = formData as Brand;
-
-    if (parent === 'initialCosts') {
-      const updatedInitialCosts = {
-        ...brandData.initialCosts,
-        [field]: value,
-      };
-      const totalCost = updatedInitialCosts.franchise + updatedInitialCosts.interior + updatedInitialCosts.equipment;
-      setFormData({
-        ...formData,
-        initialCosts: updatedInitialCosts,
-        totalCost: totalCost,
-      });
-    }
   };
 
   const updateDetailedCost = (type: 'variableCosts' | 'fixedCosts', index: number, field: 'label' | 'percentage' | 'low' | 'mid' | 'high', value: string | number) => {
@@ -1276,47 +1199,16 @@ function EditModal({
                 />
               </div>
 
-              <div className="border-t pt-4">
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className="font-bold text-gray-900">초기 투자금 (만원)</h3>
-                  <div className="text-sm">
-                    <span className="text-gray-500">총액: </span>
-                    <span className="font-bold text-blue-600">
-                      {((formData as Brand).initialCosts.franchise +
-                        (formData as Brand).initialCosts.interior +
-                        (formData as Brand).initialCosts.equipment).toLocaleString()}만원
-                    </span>
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">가맹비</label>
-                    <input
-                      type="number"
-                      value={(formData as Brand).initialCosts.franchise}
-                      onChange={(e) => updateNestedField("initialCosts", "franchise", Number(e.target.value))}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">인테리어</label>
-                    <input
-                      type="number"
-                      value={(formData as Brand).initialCosts.interior}
-                      onChange={(e) => updateNestedField("initialCosts", "interior", Number(e.target.value))}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">장비</label>
-                    <input
-                      type="number"
-                      value={(formData as Brand).initialCosts.equipment}
-                      onChange={(e) => updateNestedField("initialCosts", "equipment", Number(e.target.value))}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    />
-                  </div>
-                </div>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">
+                  초기 투자금 (만원) <span className="text-gray-400 text-xs">(보증금 제외)</span>
+                </label>
+                <input
+                  type="number"
+                  value={(formData as Brand).totalCost}
+                  onChange={(e) => updateField("totalCost", Number(e.target.value))}
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
               </div>
 
               {/* 상세 비용 데이터 */}

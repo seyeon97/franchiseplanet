@@ -10,11 +10,6 @@ interface BrandData {
   logoImage?: string;
   color: string;
   startupCost: string;
-  initialCosts?: {
-    franchise: number;
-    interior: number;
-    equipment: number;
-  };
   stats: {
     top10: {
       revenue: number;
