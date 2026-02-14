@@ -654,6 +654,16 @@ export default function AdminView() {
                 <span className="text-sm font-bold text-gray-900">관리자</span>
               </div>
               <button
+                onClick={() => {
+                  if (confirm("모든 데이터를 초기화하고 기본 데이터로 재설정하시겠습니까?")) {
+                    initializeData();
+                  }
+                }}
+                className="px-4 py-2 text-sm font-bold text-orange-600 hover:text-orange-700 transition-colors"
+              >
+                데이터 초기화
+              </button>
+              <button
                 onClick={() => router.push("/")}
                 className="px-4 py-2 text-sm font-bold text-gray-600 hover:text-gray-900 transition-colors"
               >
