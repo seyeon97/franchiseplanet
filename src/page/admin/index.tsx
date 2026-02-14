@@ -414,6 +414,34 @@ export default function AdminView() {
               { label: "로열티", low: 15, mid: 15, high: 15 },
             ],
           }
+        },
+        {
+          id: 6,
+          name: "메가커피",
+          category: "카페·디저트",
+          totalCost: 6500,
+          thumbnail: "☕",
+          description: "가성비 최고의 커피 프랜차이즈",
+          monthlyRevenue: 2900,
+          initialCosts: { franchise: 800, interior: 2200, deposit: 1800, equipment: 1700 },
+          detailedCosts: {
+            variableCosts: [
+              { label: "원가율", percentage: "32%", low: 580, mid: 928, high: 1920 },
+              { label: "카드수수료", percentage: "1.5%", low: 24, mid: 44, high: 90 },
+              { label: "배달수수료", percentage: "27%", low: 95, mid: 160, high: 324 },
+              { label: "플랫폼수수료", percentage: "4.5%", low: 65, mid: 118, high: 243 },
+              { label: "수도광열비", percentage: "2.5%", low: 33, mid: 58, high: 120 },
+              { label: "인건비", percentage: "19%", low: 420, mid: 551, high: 1140 },
+            ],
+            fixedCosts: [
+              { label: "임대료", low: 290, mid: 190, high: 315 },
+              { label: "관리비", low: 24, mid: 19, high: 30 },
+              { label: "광고비", low: 8, mid: 8, high: 8 },
+              { label: "정기 서비스", low: 24, mid: 24, high: 24 },
+              { label: "소모품비", low: 18, mid: 18, high: 18 },
+              { label: "로열티", low: 14, mid: 14, high: 14 },
+            ],
+          }
         }
       ];
 
