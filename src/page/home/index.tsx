@@ -30,7 +30,7 @@ const defaultMockBrands = [
     logo: "☕",
     logoImage: "/megacoffee-logo.png",
     color: "#F25C05",
-    startupCost: "1.5억~2억원",
+    startupCost: "1.5억~2억",
     stats: {
       top10: {
         revenue: 8000,
@@ -56,7 +56,7 @@ const defaultMockBrands = [
     category: "치킨·버거",
     logo: "🍔",
     color: "#FF6B35",
-    startupCost: "2억~3억원",
+    startupCost: "2억~3억",
     stats: {
       top10: {
         revenue: 15000,
@@ -82,7 +82,7 @@ const defaultMockBrands = [
     category: "카페",
     logo: "☕",
     color: "#8B4513",
-    startupCost: "1억~1.5억원",
+    startupCost: "1억~1.5억",
     stats: {
       top10: {
         revenue: 12000,
@@ -108,7 +108,7 @@ const defaultMockBrands = [
     category: "치킨",
     logo: "🍗",
     color: "#DC143C",
-    startupCost: "2.5억~3.5억원",
+    startupCost: "2.5억~3.5억",
     stats: {
       top10: {
         revenue: 18000,
@@ -134,7 +134,7 @@ const defaultMockBrands = [
     category: "디저트",
     logo: "🍧",
     color: "#FFB6C1",
-    startupCost: "1.5억~2.5억원",
+    startupCost: "1.5억~2.5억",
     stats: {
       top10: {
         revenue: 10000,
@@ -160,7 +160,7 @@ const defaultMockBrands = [
     category: "한식",
     logo: "🍲",
     color: "#228B22",
-    startupCost: "1.5억~2억원",
+    startupCost: "1.5억~2억",
     stats: {
       top10: {
         revenue: 11000,
