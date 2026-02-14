@@ -14,11 +14,10 @@ interface Brand {
   description: string;
   monthlyRevenue: number;
 
-  // 초기 투자금 (1회성)
+  // 초기 투자금 (1회성, 보증금 제외)
   initialCosts: {
     franchise: number;
     interior: number;
-    deposit: number;
     equipment: number;
   };
 
@@ -32,7 +31,6 @@ interface Brand {
   fixedCosts?: {
     franchise: number;
     interior: number;
-    deposit: number;
     equipment: number;
   };
   variableCosts?: {
@@ -143,7 +141,7 @@ export default function AdminView() {
       thumbnail: "🏪",
       description: "브랜드 설명을 입력하세요",
       monthlyRevenue: 3560,
-      initialCosts: { franchise: 0, interior: 0, deposit: 0, equipment: 0 },
+      initialCosts: { franchise: 0, interior: 0, equipment: 0 },
       detailedCosts: {
         variableCosts: [
           { label: "원가율", percentage: "36%", low: 720, mid: 1282, high: 2880 },
@@ -279,11 +277,11 @@ export default function AdminView() {
           id: 1,
           name: "맘스터치",
           category: "치킨·버거",
-          totalCost: 8500,
+          totalCost: 6500,
           thumbnail: "🍔",
           description: "국내 대표 프리미엄 버거 프랜차이즈",
           monthlyRevenue: 3560,
-          initialCosts: { franchise: 1500, interior: 3000, deposit: 2000, equipment: 2000 },
+          initialCosts: { franchise: 1500, interior: 3000, equipment: 2000 },
           detailedCosts: {
             variableCosts: [
               { label: "원가율", percentage: "36%", low: 720, mid: 1282, high: 2880 },
@@ -307,11 +305,11 @@ export default function AdminView() {
           id: 2,
           name: "컴포즈커피",
           category: "카페·디저트",
-          totalCost: 7800,
+          totalCost: 5800,
           thumbnail: "☕",
           description: "합리적인 가격의 커피 전문점",
           monthlyRevenue: 3000,
-          initialCosts: { franchise: 1000, interior: 2500, deposit: 2000, equipment: 2300 },
+          initialCosts: { franchise: 1000, interior: 2500, equipment: 2300 },
           detailedCosts: {
             variableCosts: [
               { label: "원가율", percentage: "35%", low: 600, mid: 1050, high: 2100 },
@@ -335,11 +333,11 @@ export default function AdminView() {
           id: 3,
           name: "교촌치킨",
           category: "치킨",
-          totalCost: 9500,
+          totalCost: 7500,
           thumbnail: "🍗",
           description: "오리지널 간장치킨의 명가",
           monthlyRevenue: 4200,
-          initialCosts: { franchise: 2000, interior: 3500, deposit: 2000, equipment: 2000 },
+          initialCosts: { franchise: 2000, interior: 3500, equipment: 2000 },
           detailedCosts: {
             variableCosts: [
               { label: "원가율", percentage: "38%", low: 800, mid: 1596, high: 3800 },
@@ -363,11 +361,11 @@ export default function AdminView() {
           id: 4,
           name: "설빙",
           category: "디저트",
-          totalCost: 6200,
+          totalCost: 4700,
           thumbnail: "🍧",
           description: "프리미엄 빙수 디저트 카페",
           monthlyRevenue: 2800,
-          initialCosts: { franchise: 1200, interior: 2000, deposit: 1500, equipment: 1500 },
+          initialCosts: { franchise: 1200, interior: 2000, equipment: 1500 },
           detailedCosts: {
             variableCosts: [
               { label: "원가율", percentage: "33%", low: 550, mid: 924, high: 1980 },
@@ -391,11 +389,11 @@ export default function AdminView() {
           id: 5,
           name: "본죽",
           category: "한식",
-          totalCost: 7000,
+          totalCost: 5300,
           thumbnail: "🍲",
           description: "건강한 죽 전문 프랜차이즈",
           monthlyRevenue: 3200,
-          initialCosts: { franchise: 1300, interior: 2500, deposit: 1700, equipment: 1500 },
+          initialCosts: { franchise: 1300, interior: 2500, equipment: 1500 },
           detailedCosts: {
             variableCosts: [
               { label: "원가율", percentage: "34%", low: 640, mid: 1088, high: 2380 },
@@ -419,11 +417,11 @@ export default function AdminView() {
           id: 6,
           name: "메가커피",
           category: "카페·디저트",
-          totalCost: 6500,
+          totalCost: 4700,
           thumbnail: "☕",
           description: "가성비 최고의 커피 프랜차이즈",
           monthlyRevenue: 2900,
-          initialCosts: { franchise: 800, interior: 2200, deposit: 1800, equipment: 1700 },
+          initialCosts: { franchise: 800, interior: 2200, equipment: 1700 },
           detailedCosts: {
             variableCosts: [
               { label: "원가율", percentage: "32%", low: 580, mid: 928, high: 1920 },
@@ -1125,7 +1123,7 @@ function EditModal({
         ...brandData.initialCosts,
         [field]: value,
       };
-      const totalCost = updatedInitialCosts.franchise + updatedInitialCosts.interior + updatedInitialCosts.deposit + updatedInitialCosts.equipment;
+      const totalCost = updatedInitialCosts.franchise + updatedInitialCosts.interior + updatedInitialCosts.equipment;
       setFormData({
         ...formData,
         initialCosts: updatedInitialCosts,
@@ -1235,7 +1233,6 @@ function EditModal({
                     <span className="font-bold text-blue-600">
                       {((formData as Brand).initialCosts.franchise +
                         (formData as Brand).initialCosts.interior +
-                        (formData as Brand).initialCosts.deposit +
                         (formData as Brand).initialCosts.equipment).toLocaleString()}만원
                     </span>
                   </div>
@@ -1256,15 +1253,6 @@ function EditModal({
                       type="number"
                       value={(formData as Brand).initialCosts.interior}
                       onChange={(e) => updateNestedField("initialCosts", "interior", Number(e.target.value))}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">보증금</label>
-                    <input
-                      type="number"
-                      value={(formData as Brand).initialCosts.deposit}
-                      onChange={(e) => updateNestedField("initialCosts", "deposit", Number(e.target.value))}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     />
                   </div>
