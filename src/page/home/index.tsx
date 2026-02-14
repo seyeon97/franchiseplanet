@@ -1,11 +1,28 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import HeroSectionToss from "./hero-section-toss";
 import BrandsSectionToss from "./brands-section-toss";
 import BrandCardToss from "./brand-card-toss";
 
-const mockBrands = [
+// 어드민 Brand 인터페이스
+interface AdminBrand {
+  id: number;
+  name: string;
+  category: string;
+  totalCost: number;
+  thumbnail: string;
+  description: string;
+  monthlyRevenue: number;
+  logoImage?: string;
+  color?: string;
+  detailedCosts?: {
+    variableCosts: Array<{ label: string; percentage?: string; low: number; mid: number; high: number }>;
+    fixedCosts: Array<{ label: string; low: number; mid: number; high: number }>;
+  };
+}
+
+const defaultMockBrands = [
   {
     id: "1",
     name: "메가커피",
@@ -170,6 +187,73 @@ export default function HomePage() {
     null
   );
   const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [brands, setBrands] = useState(defaultMockBrands);
+
+  // localStorage에서 브랜드 데이터 불러오기
+  useEffect(() => {
+    const loadBrands = () => {
+      const stored = localStorage.getItem("brands");
+      if (stored) {
+        try {
+          const adminBrands: AdminBrand[] = JSON.parse(stored);
+          // 어드민 Brand 데이터를 홈페이지 형식으로 변환
+          const convertedBrands = adminBrands.map((adminBrand) => {
+            const detailedCosts = adminBrand.detailedCosts || { variableCosts: [], fixedCosts: [] };
+            const variableCosts = detailedCosts.variableCosts || [];
+            const fixedCosts = detailedCosts.fixedCosts || [];
+
+            // 변동비 총합 계산
+            const calcVariableCosts = (scenario: 'low' | 'mid' | 'high') => {
+              return variableCosts.reduce((sum, cost) => sum + (cost[scenario] || 0), 0);
+            };
+
+            // 고정비 총합 계산
+            const calcFixedCosts = (scenario: 'low' | 'mid' | 'high') => {
+              return fixedCosts.reduce((sum, cost) => sum + (cost[scenario] || 0), 0);
+            };
+
+            return {
+              id: String(adminBrand.id),
+              name: adminBrand.name,
+              category: adminBrand.category,
+              logo: adminBrand.thumbnail,
+              logoImage: adminBrand.logoImage,
+              color: adminBrand.color || "#3B82F6",
+              startupCost: `${(adminBrand.totalCost / 10).toFixed(1)}억원`,
+              stats: {
+                top10: {
+                  revenue: adminBrand.monthlyRevenue || 3560,
+                  cost: calcVariableCosts('high') + calcFixedCosts('high'),
+                  profit: (adminBrand.monthlyRevenue || 3560) - (calcVariableCosts('high') + calcFixedCosts('high')),
+                },
+                average: {
+                  revenue: adminBrand.monthlyRevenue || 3560,
+                  cost: calcVariableCosts('mid') + calcFixedCosts('mid'),
+                  profit: (adminBrand.monthlyRevenue || 3560) - (calcVariableCosts('mid') + calcFixedCosts('mid')),
+                },
+                bottom10: {
+                  revenue: adminBrand.monthlyRevenue || 3560,
+                  cost: calcVariableCosts('low') + calcFixedCosts('low'),
+                  profit: (adminBrand.monthlyRevenue || 3560) - (calcVariableCosts('low') + calcFixedCosts('low')),
+                },
+              },
+              description: adminBrand.description,
+            };
+          });
+          setBrands(convertedBrands);
+        } catch (error) {
+          console.error("브랜드 데이터 로드 실패:", error);
+          setBrands(defaultMockBrands);
+        }
+      }
+    };
+
+    loadBrands();
+
+    // localStorage 변경 감지
+    window.addEventListener('storage', loadBrands);
+    return () => window.removeEventListener('storage', loadBrands);
+  }, []);
 
   const handleBrandClick = (brandId: string) => {
     setSelectedBrandId(brandId);
@@ -184,7 +268,7 @@ export default function HomePage() {
     }, 300);
   };
 
-  const selectedBrand = mockBrands.find(
+  const selectedBrand = brands.find(
     (brand) => brand.id === selectedBrandId
   );
 
@@ -205,7 +289,7 @@ export default function HomePage() {
       <main className="h-screen overflow-y-scroll snap-y snap-mandatory scroll-smooth pb-20">
         <HeroSectionToss />
         <BrandsSectionToss
-          brands={mockBrands}
+          brands={brands}
           onBrandClick={handleBrandClick}
           selectedBrandId={selectedBrandId}
         />

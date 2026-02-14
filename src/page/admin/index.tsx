@@ -97,6 +97,19 @@ export default function AdminView() {
   // 브랜드 상세 보기 상태
   const [expandedBrandId, setExpandedBrandId] = useState<number | null>(null);
 
+  // 드래그 앤 드롭 상태
+  const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
+  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
+
+  // 브랜드 순서 변경 함수
+  const reorderBrands = (fromIndex: number, toIndex: number) => {
+    const updated = [...brands];
+    const [movedItem] = updated.splice(fromIndex, 1);
+    updated.splice(toIndex, 0, movedItem);
+    setBrands(updated);
+    localStorage.setItem("brands", JSON.stringify(updated));
+  };
+
   // 삭제 함수들
   const deleteBrand = (id: number) => {
     if (confirm("정말 삭제하시겠습니까?")) {
@@ -756,14 +769,52 @@ export default function AdminView() {
                         <p className="text-sm text-gray-400 mt-1">새로 추가 버튼을 눌러 브랜드를 등록하세요</p>
                       </div>
                     ) : (
-                      brands.map((brand) => (
-                        <div key={brand.id} className="border border-gray-200 rounded-xl overflow-hidden">
+                      brands.map((brand, index) => (
+                        <div
+                          key={brand.id}
+                          draggable
+                          onDragStart={(e) => {
+                            setDraggedIndex(index);
+                            e.dataTransfer.effectAllowed = "move";
+                          }}
+                          onDragOver={(e) => {
+                            e.preventDefault();
+                            e.dataTransfer.dropEffect = "move";
+                            setDragOverIndex(index);
+                          }}
+                          onDragLeave={() => {
+                            setDragOverIndex(null);
+                          }}
+                          onDrop={(e) => {
+                            e.preventDefault();
+                            if (draggedIndex !== null && draggedIndex !== index) {
+                              reorderBrands(draggedIndex, index);
+                            }
+                            setDraggedIndex(null);
+                            setDragOverIndex(null);
+                          }}
+                          onDragEnd={() => {
+                            setDraggedIndex(null);
+                            setDragOverIndex(null);
+                          }}
+                          className={`border border-gray-200 rounded-xl overflow-hidden transition-all ${
+                            draggedIndex === index ? 'opacity-50' : ''
+                          } ${
+                            dragOverIndex === index ? 'border-blue-500 border-2' : ''
+                          }`}
+                        >
                           <div
-                            className="flex items-center gap-4 p-4 hover:border-blue-300 hover:bg-blue-50/50 transition-all group cursor-pointer"
+                            className="flex items-center gap-4 p-4 hover:border-blue-300 hover:bg-blue-50/50 transition-all group"
                           >
+                            {/* 드래그 핸들 */}
+                            <div className="cursor-move flex-shrink-0 text-gray-400 hover:text-gray-600">
+                              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M7 2a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 2zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 8zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 14zm6-8a2 2 0 1 0-.001-4.001A2 2 0 0 0 13 6zm0 2a2 2 0 1 0 .001 4.001A2 2 0 0 0 13 8zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 13 14z"></path>
+                              </svg>
+                            </div>
                             <div
                               onClick={() => setEditModal({ type: "brands", data: brand })}
-                              className="w-16 h-16 bg-gray-100 rounded-xl flex items-center justify-center text-2xl flex-shrink-0"
+                              className="w-16 h-16 bg-gray-100 rounded-xl flex items-center justify-center text-2xl flex-shrink-0 cursor-pointer"
                             >
                               {brand.thumbnail || "🏪"}
                             </div>
