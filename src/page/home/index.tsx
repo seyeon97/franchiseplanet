@@ -10,7 +10,7 @@ interface AdminBrand {
   id: number;
   name: string;
   category: string;
-  totalCost: number;
+  totalCost: string;
   thumbnail: string;
   description: string;
   monthlyRevenue: number;
@@ -219,7 +219,7 @@ export default function HomePage() {
               logo: adminBrand.thumbnail,
               logoImage: adminBrand.logoImage,
               color: adminBrand.color || "#3B82F6",
-              startupCost: `${(adminBrand.totalCost / 10).toFixed(1)}억원`,
+              startupCost: adminBrand.totalCost,
               stats: {
                 top10: {
                   revenue: adminBrand.monthlyRevenue || 3560,

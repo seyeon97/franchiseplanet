@@ -9,7 +9,7 @@ interface Brand {
   id: number;
   name: string;
   category: string;
-  totalCost: number; // 초기 투자금 총액 (보증금 제외)
+  totalCost: string; // 초기 투자금 (보증금 제외)
   thumbnail: string;
   description: string;
   monthlyRevenue: number;
@@ -130,7 +130,7 @@ export default function AdminView() {
       id: newId,
       name: "새 브랜드",
       category: "카테고리",
-      totalCost: 0,
+      totalCost: "0억원",
       thumbnail: "🏪",
       description: "브랜드 설명을 입력하세요",
       monthlyRevenue: 3560,
@@ -269,7 +269,7 @@ export default function AdminView() {
           id: 1,
           name: "메가커피",
           category: "카페",
-          totalCost: 17500,
+          totalCost: "1.5억~2억원",
           thumbnail: "☕",
           description: "합리적인 가격의 메가급 커피 전문점",
           monthlyRevenue: 3560,
@@ -296,7 +296,7 @@ export default function AdminView() {
           id: 2,
           name: "맘스터치",
           category: "치킨·버거",
-          totalCost: 25000,
+          totalCost: "2억~3억원",
           thumbnail: "🍔",
           description: "국내 대표 프리미엄 버거 프랜차이즈",
           monthlyRevenue: 8500,
@@ -323,7 +323,7 @@ export default function AdminView() {
           id: 3,
           name: "컴포즈커피",
           category: "카페",
-          totalCost: 12500,
+          totalCost: "1억~1.5억원",
           thumbnail: "☕",
           description: "저렴한 가격의 커피 전문점",
           monthlyRevenue: 7800,
@@ -350,7 +350,7 @@ export default function AdminView() {
           id: 4,
           name: "교촌치킨",
           category: "치킨",
-          totalCost: 30000,
+          totalCost: "2.5억~3.5억원",
           thumbnail: "🍗",
           description: "오리지널 간장치킨의 명가",
           monthlyRevenue: 9500,
@@ -377,7 +377,7 @@ export default function AdminView() {
           id: 5,
           name: "설빙",
           category: "디저트",
-          totalCost: 20000,
+          totalCost: "1.5억~2.5억원",
           thumbnail: "🍧",
           description: "프리미엄 빙수 디저트 카페",
           monthlyRevenue: 6200,
@@ -404,7 +404,7 @@ export default function AdminView() {
           id: 6,
           name: "본죽",
           category: "한식",
-          totalCost: 17500,
+          totalCost: "1.5억~2억원",
           thumbnail: "🍲",
           description: "건강한 죽 전문 프랜차이즈",
           monthlyRevenue: 7000,
@@ -808,7 +808,7 @@ export default function AdminView() {
                               className="text-right flex-shrink-0"
                             >
                               <div className="text-sm font-bold text-gray-900">
-                                {brand.totalCost.toLocaleString()}만원
+                                {brand.totalCost}
                               </div>
                               <div className="text-xs text-gray-500 mt-0.5">초기 비용</div>
                             </div>
@@ -1201,12 +1201,13 @@ function EditModal({
 
               <div>
                 <label className="block text-sm font-bold text-gray-700 mb-2">
-                  초기 투자금 (만원) <span className="text-gray-400 text-xs">(보증금 제외)</span>
+                  초기 투자금 <span className="text-gray-400 text-xs">(보증금 제외)</span>
                 </label>
                 <input
-                  type="number"
+                  type="text"
                   value={(formData as Brand).totalCost}
-                  onChange={(e) => updateField("totalCost", Number(e.target.value))}
+                  onChange={(e) => updateField("totalCost", e.target.value)}
+                  placeholder="예: 1.5억~2억원"
                   className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
