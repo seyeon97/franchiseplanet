@@ -190,14 +190,16 @@ export default function HomePage() {
   const [brands, setBrands] = useState(defaultMockBrands);
   const [showHero, setShowHero] = useState(true);
 
-  // 히어로 섹션 표시 여부 체크
+  // 히어로 섹션 표시 여부 체크 (세션 기반)
   useEffect(() => {
-    const hasSeenHero = localStorage.getItem("hasSeenHero");
+    // sessionStorage는 브라우저 탭/창을 닫으면 삭제되므로
+    // 창을 닫았다가 다시 열면 히어로 섹션이 다시 나옴
+    const hasSeenHero = sessionStorage.getItem("hasSeenHero");
     if (hasSeenHero === "true") {
       setShowHero(false);
     } else {
-      // 처음 방문이면 히어로 섹션을 본 것으로 표시
-      localStorage.setItem("hasSeenHero", "true");
+      // 이번 세션에서 히어로 섹션을 본 것으로 표시
+      sessionStorage.setItem("hasSeenHero", "true");
     }
   }, []);
 
