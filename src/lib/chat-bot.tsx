@@ -31,9 +31,21 @@ export default function ChatBot() {
     setIsLoading(true);
 
     try {
+      // localStorage에서 지식 베이스 가져오기
+      let knowledgeBase;
+      try {
+        const stored = localStorage.getItem("knowledgeBase");
+        if (stored) {
+          knowledgeBase = JSON.parse(stored);
+        }
+      } catch (e) {
+        console.error("지식 베이스 로드 실패:", e);
+      }
+
       const response = await chat.sendMessage({
         message: userMessage,
         history: messages,
+        knowledgeBase, // 지식 베이스를 서버로 전달
       });
 
       setMessages((prev) => [

@@ -239,6 +239,9 @@ export const recommendedQuestions = [
 export function findAnswerInKnowledgeBase(question: string): string | null {
   const normalizedQuestion = question.toLowerCase().replace(/\s/g, "");
 
+  console.log("[Knowledge Base] 📝 원본 질문:", question);
+  console.log("[Knowledge Base] 🔍 정규화된 질문:", normalizedQuestion);
+
   // localStorage에서 커스텀 지식 베이스 가져오기
   let knowledgeData = knowledgeBase;
   if (typeof window !== 'undefined') {
@@ -246,23 +249,37 @@ export function findAnswerInKnowledgeBase(question: string): string | null {
       const stored = localStorage.getItem("knowledgeBase");
       if (stored) {
         knowledgeData = JSON.parse(stored);
+        console.log("[Knowledge Base] 💾 localStorage에서 로드:", knowledgeData.length, "개 항목");
+      } else {
+        console.log("[Knowledge Base] 💾 localStorage 비어있음, 기본 데이터 사용:", knowledgeData.length, "개 항목");
       }
     } catch (error) {
       console.error("지식 베이스 로드 실패:", error);
     }
   }
 
+  console.log("[Knowledge Base] 🔎 전체 지식 베이스:");
+  knowledgeData.forEach((item, index) => {
+    console.log(`  ${index + 1}. [${item.category}] ${item.question}`);
+    console.log(`     키워드: ${item.keywords.join(", ")}`);
+  });
+
   for (const item of knowledgeData) {
     // 키워드 중 하나라도 질문에 포함되어 있으면 매칭
-    const hasKeyword = item.keywords.some((keyword) =>
+    const matchedKeyword = item.keywords.find((keyword) =>
       normalizedQuestion.includes(keyword.toLowerCase())
     );
 
-    if (hasKeyword) {
+    if (matchedKeyword) {
+      console.log("[Knowledge Base] ✅ 매칭 성공!");
+      console.log(`  - 질문: ${item.question}`);
+      console.log(`  - 매칭된 키워드: "${matchedKeyword}"`);
+      console.log(`  - 카테고리: ${item.category}`);
       return item.answer;
     }
   }
 
+  console.log("[Knowledge Base] ❌ 매칭 실패 - 로컬 답변 없음");
   return null;
 }
 

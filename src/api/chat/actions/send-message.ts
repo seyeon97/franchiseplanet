@@ -114,7 +114,7 @@ async function callHuggingFaceAPI(
 export async function sendMessage(
   request: SendMessageRequest
 ): Promise<ChatResponse> {
-  const { message, history = [] } = request;
+  const { message, history = [], knowledgeBase: customKnowledge } = request;
 
   if (!message) {
     throw new Error("메시지가 필요합니다");
@@ -122,15 +122,32 @@ export async function sendMessage(
 
   // 1단계: 먼저 로컬 지식 베이스에서 답변 찾기
   console.log("[AI Chat] 로컬 지식 베이스에서 검색 중...");
-  const localAnswer = findAnswerInKnowledgeBase(message);
 
-  if (localAnswer) {
-    console.log("[AI Chat] 로컬 지식 베이스에서 답변 발견 (외부 API 사용 안 함)");
-    return { message: localAnswer };
+  // 클라이언트에서 전달된 지식 베이스가 있으면 사용, 없으면 기본 지식 베이스 사용
+  const knowledgeData = customKnowledge || [];
+  console.log(`[AI Chat] 사용할 지식 베이스: ${knowledgeData.length}개 항목`);
+
+  // 질문 정규화
+  const normalizedQuestion = message.toLowerCase().replace(/\s/g, "");
+  console.log(`[AI Chat] 원본 질문: "${message}"`);
+  console.log(`[AI Chat] 정규화된 질문: "${normalizedQuestion}"`);
+
+  // 키워드 매칭
+  for (const item of knowledgeData) {
+    const matchedKeyword = item.keywords.find((keyword) =>
+      normalizedQuestion.includes(keyword.toLowerCase().replace(/\s/g, ""))
+    );
+
+    if (matchedKeyword) {
+      console.log(`[AI Chat] ✅ 매칭 성공! 키워드: "${matchedKeyword}", 질문: "${item.question}"`);
+      return { message: item.answer };
+    }
   }
 
+  console.log("[AI Chat] ❌ 로컬 답변 없음");
+
   // 2단계: 로컬에 답변이 없으면 외부 API 사용
-  console.log("[AI Chat] 로컬 답변 없음, 외부 API 사용");
+  console.log("[AI Chat] 외부 API 사용");
 
   // 모든 API를 순서대로 시도
   for (const apiConfig of config.AI_APIS) {
