@@ -980,13 +980,36 @@ export default function AdminView() {
               </div>
               <button
                 onClick={() => {
-                  if (confirm("홈페이지와 데이터를 동기화하시겠습니까?\n최신 콘텐츠로 업데이트됩니다.")) {
+                  if (confirm("어드민의 현재 데이터를 홈페이지에 동기화하시겠습니까?")) {
+                    // 현재 어드민 데이터를 localStorage에 저장하고 이벤트 발생
+                    localStorage.setItem("brands", JSON.stringify(brands));
+                    localStorage.setItem("columns", JSON.stringify(columns));
+                    localStorage.setItem("resources", JSON.stringify(resources));
+                    localStorage.setItem("offlinePrograms", JSON.stringify(offlinePrograms));
+
+                    // 모든 페이지에 데이터 동기화 이벤트 발생
+                    window.dispatchEvent(new StorageEvent('storage', { key: 'brands' }));
+                    window.dispatchEvent(new StorageEvent('storage', { key: 'columns' }));
+                    window.dispatchEvent(new StorageEvent('storage', { key: 'resources' }));
+                    window.dispatchEvent(new StorageEvent('storage', { key: 'offlinePrograms' }));
+
+                    alert("홈페이지에 데이터가 동기화되었습니다.");
+                  }
+                }}
+                className="px-4 py-2 text-sm font-bold text-blue-600 hover:text-blue-700 transition-colors"
+              >
+                데이터 동기화
+              </button>
+              <button
+                onClick={() => {
+                  if (confirm("모든 데이터를 초기 상태로 되돌리시겠습니까?\n수정한 내용이 모두 사라집니다.")) {
                     initializeData();
+                    alert("데이터가 초기화되었습니다.");
                   }
                 }}
                 className="px-4 py-2 text-sm font-bold text-orange-600 hover:text-orange-700 transition-colors"
               >
-                데이터 동기화
+                초기화
               </button>
               <button
                 onClick={() => router.push("/")}
