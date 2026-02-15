@@ -15,7 +15,7 @@ type StoreMap = Map<symbol, UseBoundStore<StoreApi<any>>>;
 const GlobalStoreContext = createContext<StoreMap | null>(null);
 
 export function StateProvider({ children }: { children: ReactNode }) {
-  const storeMap = useMemo<StoreMap>(() => new Map(), []);
+  const [storeMap] = useState<StoreMap>(() => new Map());
 
   return (
     <GlobalStoreContext.Provider value={storeMap}>
