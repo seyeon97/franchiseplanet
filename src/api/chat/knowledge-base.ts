@@ -223,7 +223,20 @@ export const recommendedQuestions = [
 export function findAnswerInKnowledgeBase(question: string): string | null {
   const normalizedQuestion = question.toLowerCase().replace(/\s/g, "");
 
-  for (const item of knowledgeBase) {
+  // localStorage에서 커스텀 지식 베이스 가져오기
+  let knowledgeData = knowledgeBase;
+  if (typeof window !== 'undefined') {
+    try {
+      const stored = localStorage.getItem("knowledgeBase");
+      if (stored) {
+        knowledgeData = JSON.parse(stored);
+      }
+    } catch (error) {
+      console.error("지식 베이스 로드 실패:", error);
+    }
+  }
+
+  for (const item of knowledgeData) {
     // 키워드 중 하나라도 질문에 포함되어 있으면 매칭
     const hasKeyword = item.keywords.some((keyword) =>
       normalizedQuestion.includes(keyword.toLowerCase())

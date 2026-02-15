@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 
-type TabType = "brands" | "columns" | "resources" | "offline" | "users";
+type TabType = "brands" | "columns" | "resources" | "offline" | "users" | "knowledge";
 
 interface KakaoUser {
   id: number;
@@ -78,6 +78,14 @@ interface OfflineProgram {
   category: string;
 }
 
+interface KnowledgeItem {
+  id: number;
+  keywords: string[];
+  question: string;
+  answer: string;
+  category: string;
+}
+
 export default function AdminView() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<TabType>("brands");
@@ -86,11 +94,12 @@ export default function AdminView() {
   const [resources, setResources] = useState<Resource[]>([]);
   const [offlinePrograms, setOfflinePrograms] = useState<OfflineProgram[]>([]);
   const [kakaoUsers, setKakaoUsers] = useState<KakaoUser[]>([]);
+  const [knowledgeItems, setKnowledgeItems] = useState<KnowledgeItem[]>([]);
 
   // 수정 모달 상태
   const [editModal, setEditModal] = useState<{
     type: TabType | null;
-    data: Brand | Column | Resource | OfflineProgram | KakaoUser | null;
+    data: Brand | Column | Resource | OfflineProgram | KakaoUser | KnowledgeItem | null;
   }>({ type: null, data: null });
 
   // 브랜드 상세 보기 상태
@@ -144,6 +153,14 @@ export default function AdminView() {
       setOfflinePrograms(updated);
       localStorage.setItem("offlinePrograms", JSON.stringify(updated));
       window.dispatchEvent(new StorageEvent('storage', { key: 'offlinePrograms' }));
+    }
+  };
+
+  const deleteKnowledge = (id: number) => {
+    if (confirm("정말 삭제하시겠습니까?")) {
+      const updated = knowledgeItems.filter(k => k.id !== id);
+      setKnowledgeItems(updated);
+      localStorage.setItem("knowledgeBase", JSON.stringify(updated));
     }
   };
 
@@ -237,6 +254,18 @@ export default function AdminView() {
     setEditModal({ type: "offline", data: newProgram });
   };
 
+  const createNewKnowledge = () => {
+    const newId = knowledgeItems.length > 0 ? Math.max(...knowledgeItems.map(k => k.id)) + 1 : 1;
+    const newKnowledge: KnowledgeItem = {
+      id: newId,
+      keywords: ["키워드1", "키워드2"],
+      question: "자주 묻는 질문을 입력하세요",
+      answer: "전문가 답변을 입력하세요",
+      category: "일반",
+    };
+    setEditModal({ type: "knowledge", data: newKnowledge });
+  };
+
   // 저장/추가 함수들
   const saveBrand = (updatedBrand: Brand) => {
     const existing = brands.find(b => b.id === updatedBrand.id);
@@ -295,6 +324,19 @@ export default function AdminView() {
     localStorage.setItem("offlinePrograms", JSON.stringify(updated));
     // 같은 탭에서도 변경 감지를 위한 커스텀 이벤트 발생
     window.dispatchEvent(new StorageEvent('storage', { key: 'offlinePrograms' }));
+    setEditModal({ type: null, data: null });
+  };
+
+  const saveKnowledge = (updatedKnowledge: KnowledgeItem) => {
+    const existing = knowledgeItems.find(k => k.id === updatedKnowledge.id);
+    let updated: KnowledgeItem[];
+    if (existing) {
+      updated = knowledgeItems.map(k => k.id === updatedKnowledge.id ? updatedKnowledge : k);
+    } else {
+      updated = [...knowledgeItems, updatedKnowledge];
+    }
+    setKnowledgeItems(updated);
+    localStorage.setItem("knowledgeBase", JSON.stringify(updated));
     setEditModal({ type: null, data: null });
   };
 
@@ -876,10 +918,59 @@ export default function AdminView() {
         }
       ];
 
+      // 지식 베이스 초기 데이터
+      const initialKnowledge: KnowledgeItem[] = [
+        {
+          id: 1,
+          keywords: ["초기비용", "초기투자", "필요한돈", "얼마", "창업비용", "투자금"],
+          question: "프랜차이즈 창업에 필요한 초기 비용은 얼마인가요?",
+          answer: `프랜차이즈 창업에 필요한 초기 비용은 업종과 브랜드에 따라 크게 다릅니다.
+
+**일반적인 비용 구성:**
+
+📊 **소형 카페/디저트 (3,000만원~5,000만원)**
+- 가맹비: 500~1,000만원
+- 인테리어: 1,500~2,500만원
+- 초도물품: 500~1,000만원
+- 보증금: 500~1,000만원
+
+🍗 **치킨/한식 (5,000만원~1억원)**
+- 가맹비: 1,000~2,000만원
+- 인테리어: 2,000~4,000만원
+- 주방설비: 1,500~3,000만원
+- 보증금: 1,000~2,000만원
+
+홈페이지의 브랜드별 상세 정보에서 더 정확한 비용을 확인하실 수 있습니다.`,
+          category: "비용",
+        },
+        {
+          id: 2,
+          keywords: ["입지", "상권", "위치", "장소", "어디", "선정"],
+          question: "좋은 입지를 선정하는 방법을 알려주세요",
+          answer: `좋은 입지 선정은 창업 성공의 핵심입니다.
+
+**필수 체크포인트:**
+
+📍 **유동인구 분석**
+- 주중/주말 유동인구 차이 확인
+- 시간대별 유동 패턴 파악
+- 최소 일 평균 500명 이상 권장
+
+💰 **임대 조건**
+- 월 임대료는 예상 매출의 10% 이내
+- 권리금 회수 가능성 검토
+- 계약 기간 및 갱신 조건 확인
+
+오프라인 페이지에서 전문가와 함께하는 임장 서비스도 제공하고 있습니다.`,
+          category: "입지",
+        },
+      ];
+
       localStorage.setItem("brands", JSON.stringify(initialBrands));
       localStorage.setItem("columns", JSON.stringify(initialColumns));
       localStorage.setItem("resources", JSON.stringify(initialResources));
       localStorage.setItem("offlinePrograms", JSON.stringify(initialOfflinePrograms));
+      localStorage.setItem("knowledgeBase", JSON.stringify(initialKnowledge));
 
       // 모든 페이지에 데이터 동기화 이벤트 발생
       window.dispatchEvent(new StorageEvent('storage', { key: 'brands' }));
@@ -900,12 +991,14 @@ export default function AdminView() {
         const resourcesData = localStorage.getItem("resources");
         const offlineData = localStorage.getItem("offlinePrograms");
         const usersData = localStorage.getItem("kakaoUsers");
+        const knowledgeData = localStorage.getItem("knowledgeBase");
 
         setBrands(brandsData ? JSON.parse(brandsData) : []);
         setColumns(columnsData ? JSON.parse(columnsData) : []);
         setResources(resourcesData ? JSON.parse(resourcesData) : []);
         setOfflinePrograms(offlineData ? JSON.parse(offlineData) : []);
         setKakaoUsers(usersData ? JSON.parse(usersData) : []);
+        setKnowledgeItems(knowledgeData ? JSON.parse(knowledgeData) : []);
       } catch (error) {
         console.error("데이터 로드 오류:", error);
       }
@@ -961,6 +1054,7 @@ export default function AdminView() {
     { id: "resources" as TabType, label: "자료실", count: resources.length },
     { id: "offline" as TabType, label: "오프라인", count: offlinePrograms.length },
     { id: "users" as TabType, label: "사용자", count: kakaoUsers.length },
+    { id: "knowledge" as TabType, label: "전문가 상담 데이터", count: knowledgeItems.length },
   ];
 
   return (
@@ -1089,6 +1183,7 @@ export default function AdminView() {
                         else if (activeTab === "columns") createNewColumn();
                         else if (activeTab === "resources") createNewResource();
                         else if (activeTab === "offline") createNewOfflineProgram();
+                        else if (activeTab === "knowledge") createNewKnowledge();
                       }}
                       className="px-6 py-2.5 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold rounded-xl hover:shadow-lg transition-all"
                     >
@@ -1486,6 +1581,54 @@ export default function AdminView() {
                     )}
                   </div>
                 )}
+
+                {activeTab === "knowledge" && (
+                  <div className="space-y-3">
+                    {knowledgeItems.map((item) => (
+                      <div
+                        key={item.id}
+                        className="bg-white rounded-xl p-5 border border-gray-200 hover:border-blue-300 transition-all"
+                      >
+                        <div className="flex items-start justify-between gap-4">
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-2">
+                              <span className="px-2 py-1 bg-blue-100 text-blue-700 text-xs font-bold rounded">
+                                {item.category}
+                              </span>
+                              <div className="flex gap-1 flex-wrap">
+                                {item.keywords.map((keyword, idx) => (
+                                  <span key={idx} className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded">
+                                    #{keyword}
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                            <h3 className="text-lg font-bold text-gray-900 mb-2">
+                              {item.question}
+                            </h3>
+                            <p className="text-sm text-gray-600 line-clamp-3 whitespace-pre-wrap">
+                              {item.answer}
+                            </p>
+                          </div>
+                          <div className="flex gap-2">
+                            <button
+                              onClick={() => setEditModal({ type: "knowledge", data: item })}
+                              className="px-3 py-1.5 text-sm bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 font-medium transition-colors"
+                            >
+                              수정
+                            </button>
+                            <button
+                              onClick={() => deleteKnowledge(item.id)}
+                              className="px-3 py-1.5 text-sm bg-red-50 text-red-600 rounded-lg hover:bg-red-100 font-medium transition-colors"
+                            >
+                              삭제
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -1496,13 +1639,14 @@ export default function AdminView() {
       {editModal.type && editModal.data && editModal.type !== "users" && (
         <EditModal
           type={editModal.type}
-          data={editModal.data as Brand | Column | Resource | OfflineProgram}
+          data={editModal.data as Brand | Column | Resource | OfflineProgram | KnowledgeItem}
           onClose={() => setEditModal({ type: null, data: null })}
           onSave={(data) => {
             if (editModal.type === "brands") saveBrand(data as Brand);
             else if (editModal.type === "columns") saveColumn(data as Column);
             else if (editModal.type === "resources") saveResource(data as Resource);
             else if (editModal.type === "offline") saveOfflineProgram(data as OfflineProgram);
+            else if (editModal.type === "knowledge") saveKnowledge(data as KnowledgeItem);
           }}
         />
       )}
@@ -1518,9 +1662,9 @@ function EditModal({
   onSave,
 }: {
   type: Exclude<TabType, "users">;
-  data: Brand | Column | Resource | OfflineProgram;
+  data: Brand | Column | Resource | OfflineProgram | KnowledgeItem;
   onClose: () => void;
-  onSave: (data: Brand | Column | Resource | OfflineProgram) => void;
+  onSave: (data: Brand | Column | Resource | OfflineProgram | KnowledgeItem) => void;
 }) {
   const [formData, setFormData] = useState(data);
 
@@ -1563,7 +1707,8 @@ function EditModal({
             {type === "brands" && "브랜드"}
             {type === "columns" && "칼럼"}
             {type === "resources" && "자료"}
-            {type === "offline" && "오프라인 프로그램"} 수정
+            {type === "offline" && "오프라인 프로그램"}
+            {type === "knowledge" && "전문가 상담 데이터"} 수정
           </h2>
           <button
             onClick={onClose}
@@ -2058,6 +2203,63 @@ function EditModal({
                   onChange={(e) => updateField("duration", e.target.value)}
                   className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
+              </div>
+            </>
+          )}
+
+          {/* 전문가 상담 데이터 수정 폼 */}
+          {type === "knowledge" && (
+            <>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">질문</label>
+                <input
+                  type="text"
+                  value={(formData as KnowledgeItem).question}
+                  onChange={(e) => updateField("question", e.target.value)}
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="자주 묻는 질문을 입력하세요"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">카테고리</label>
+                <input
+                  type="text"
+                  value={(formData as KnowledgeItem).category}
+                  onChange={(e) => updateField("category", e.target.value)}
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="예: 비용, 입지, 수익, 절차, 브랜드"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">
+                  키워드 (쉼표로 구분)
+                </label>
+                <input
+                  type="text"
+                  value={(formData as KnowledgeItem).keywords.join(", ")}
+                  onChange={(e) => {
+                    const keywords = e.target.value.split(",").map(k => k.trim()).filter(k => k);
+                    setFormData({ ...formData, keywords });
+                  }}
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="예: 초기비용, 초기투자, 필요한돈"
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  사용자 질문에서 이 키워드를 찾으면 자동으로 답변합니다
+                </p>
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">전문가 답변</label>
+                <textarea
+                  value={(formData as KnowledgeItem).answer}
+                  onChange={(e) => updateField("answer", e.target.value)}
+                  rows={12}
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono text-sm"
+                  placeholder="마크다운 형식으로 상세한 답변을 입력하세요"
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  ** 굵게 **, ## 제목, - 리스트 등 마크다운 문법을 사용할 수 있습니다
+                </p>
               </div>
             </>
           )}
