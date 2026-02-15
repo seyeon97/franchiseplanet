@@ -96,6 +96,12 @@ export default function AdminView() {
   const [kakaoUsers, setKakaoUsers] = useState<KakaoUser[]>([]);
   const [knowledgeItems, setKnowledgeItems] = useState<KnowledgeItem[]>([]);
 
+  // 전문가 상담 데이터 관리 상태
+  const [knowledgeViewMode, setKnowledgeViewMode] = useState<"card" | "table">("card");
+  const [knowledgeFilter, setKnowledgeFilter] = useState<string>("all");
+  const [knowledgeSearch, setKnowledgeSearch] = useState<string>("");
+  const [previewKnowledge, setPreviewKnowledge] = useState<KnowledgeItem | null>(null);
+
   // 수정 모달 상태
   const [editModal, setEditModal] = useState<{
     type: TabType | null;
@@ -1705,50 +1711,224 @@ export default function AdminView() {
                 )}
 
                 {activeTab === "knowledge" && (
-                  <div className="space-y-3">
-                    {knowledgeItems.map((item) => (
-                      <div
-                        key={item.id}
-                        className="bg-white rounded-xl p-5 border border-gray-200 hover:border-blue-300 transition-all"
-                      >
-                        <div className="flex items-start justify-between gap-4">
-                          <div className="flex-1">
-                            <div className="flex items-center gap-2 mb-2">
-                              <span className="px-2 py-1 bg-blue-100 text-blue-700 text-xs font-bold rounded">
-                                {item.category}
-                              </span>
-                              <div className="flex gap-1 flex-wrap">
-                                {item.keywords.map((keyword, idx) => (
-                                  <span key={idx} className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded">
-                                    #{keyword}
-                                  </span>
-                                ))}
-                              </div>
-                            </div>
-                            <h3 className="text-lg font-bold text-gray-900 mb-2">
-                              {item.question}
-                            </h3>
-                            <p className="text-sm text-gray-600 line-clamp-3 whitespace-pre-wrap">
-                              {item.answer}
-                            </p>
-                          </div>
-                          <div className="flex gap-2">
-                            <button
-                              onClick={() => setEditModal({ type: "knowledge", data: item })}
-                              className="px-3 py-1.5 text-sm bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 font-medium transition-colors"
-                            >
-                              수정
-                            </button>
-                            <button
-                              onClick={() => deleteKnowledge(item.id)}
-                              className="px-3 py-1.5 text-sm bg-red-50 text-red-600 rounded-lg hover:bg-red-100 font-medium transition-colors"
-                            >
-                              삭제
-                            </button>
+                  <div className="space-y-4">
+                    {/* 검색 및 필터 바 */}
+                    <div className="bg-white rounded-xl p-4 border border-gray-200">
+                      <div className="flex flex-col md:flex-row gap-3">
+                        {/* 검색 */}
+                        <div className="flex-1">
+                          <div className="relative">
+                            <input
+                              type="text"
+                              placeholder="질문, 답변, 키워드로 검색..."
+                              value={knowledgeSearch}
+                              onChange={(e) => setKnowledgeSearch(e.target.value)}
+                              className="w-full px-4 py-2 pl-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            />
+                            <svg className="w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
                           </div>
                         </div>
+
+                        {/* 카테고리 필터 */}
+                        <select
+                          value={knowledgeFilter}
+                          onChange={(e) => setKnowledgeFilter(e.target.value)}
+                          className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        >
+                          <option value="all">전체 카테고리</option>
+                          <option value="인사">인사</option>
+                          <option value="비용">비용</option>
+                          <option value="입지">입지</option>
+                          <option value="수익">수익</option>
+                          <option value="절차">절차</option>
+                          <option value="브랜드">브랜드</option>
+                        </select>
+
+                        {/* 뷰 모드 전환 */}
+                        <div className="flex gap-2 bg-gray-100 p-1 rounded-lg">
+                          <button
+                            onClick={() => setKnowledgeViewMode("card")}
+                            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                              knowledgeViewMode === "card"
+                                ? "bg-white text-blue-600 shadow-sm"
+                                : "text-gray-600 hover:text-gray-900"
+                            }`}
+                          >
+                            카드
+                          </button>
+                          <button
+                            onClick={() => setKnowledgeViewMode("table")}
+                            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                              knowledgeViewMode === "table"
+                                ? "bg-white text-blue-600 shadow-sm"
+                                : "text-gray-600 hover:text-gray-900"
+                            }`}
+                          >
+                            테이블
+                          </button>
+                        </div>
                       </div>
-                    ))}
+                    </div>
+
+                    {/* 필터링된 데이터 */}
+                    {(() => {
+                      const filteredItems = knowledgeItems.filter((item) => {
+                        const matchesCategory = knowledgeFilter === "all" || item.category === knowledgeFilter;
+                        const searchLower = knowledgeSearch.toLowerCase();
+                        const matchesSearch = !knowledgeSearch ||
+                          item.question.toLowerCase().includes(searchLower) ||
+                          item.answer.toLowerCase().includes(searchLower) ||
+                          item.keywords.some(k => k.toLowerCase().includes(searchLower));
+                        return matchesCategory && matchesSearch;
+                      });
+
+                      if (filteredItems.length === 0) {
+                        return (
+                          <div className="text-center py-12 bg-white rounded-xl border border-gray-200">
+                            <div className="text-4xl mb-3">🔍</div>
+                            <p className="text-gray-500 font-medium">검색 결과가 없습니다</p>
+                            <p className="text-sm text-gray-400 mt-1">다른 검색어나 필터를 시도해보세요</p>
+                          </div>
+                        );
+                      }
+
+                      // 카드 뷰
+                      if (knowledgeViewMode === "card") {
+                        return (
+                          <div className="space-y-3">
+                            {filteredItems.map((item) => (
+                              <div
+                                key={item.id}
+                                className="bg-white rounded-xl p-5 border border-gray-200 hover:border-blue-300 transition-all group"
+                              >
+                                <div className="flex items-start justify-between gap-4">
+                                  <div className="flex-1">
+                                    <div className="flex items-center gap-2 mb-2">
+                                      <span className="px-2 py-1 bg-blue-100 text-blue-700 text-xs font-bold rounded">
+                                        {item.category}
+                                      </span>
+                                      <div className="flex gap-1 flex-wrap">
+                                        {item.keywords.map((keyword, idx) => (
+                                          <span key={idx} className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded">
+                                            #{keyword}
+                                          </span>
+                                        ))}
+                                      </div>
+                                    </div>
+                                    <h3 className="text-lg font-bold text-gray-900 mb-2">
+                                      {item.question}
+                                    </h3>
+                                    <p className="text-sm text-gray-600 line-clamp-3 whitespace-pre-wrap">
+                                      {item.answer}
+                                    </p>
+                                  </div>
+                                  <div className="flex gap-2">
+                                    <button
+                                      onClick={() => setPreviewKnowledge(item)}
+                                      className="px-3 py-1.5 text-sm bg-gray-50 text-gray-600 rounded-lg hover:bg-gray-100 font-medium transition-colors"
+                                      title="미리보기"
+                                    >
+                                      👁️
+                                    </button>
+                                    <button
+                                      onClick={() => setEditModal({ type: "knowledge", data: item })}
+                                      className="px-3 py-1.5 text-sm bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 font-medium transition-colors"
+                                    >
+                                      수정
+                                    </button>
+                                    <button
+                                      onClick={() => deleteKnowledge(item.id)}
+                                      className="px-3 py-1.5 text-sm bg-red-50 text-red-600 rounded-lg hover:bg-red-100 font-medium transition-colors"
+                                    >
+                                      삭제
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        );
+                      }
+
+                      // 테이블 뷰
+                      return (
+                        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+                          <div className="overflow-x-auto">
+                            <table className="w-full">
+                              <thead className="bg-gray-50 border-b border-gray-200">
+                                <tr>
+                                  <th className="px-4 py-3 text-left text-sm font-bold text-gray-700 w-20">ID</th>
+                                  <th className="px-4 py-3 text-left text-sm font-bold text-gray-700 w-32">카테고리</th>
+                                  <th className="px-4 py-3 text-left text-sm font-bold text-gray-700">질문</th>
+                                  <th className="px-4 py-3 text-left text-sm font-bold text-gray-700 w-48">키워드</th>
+                                  <th className="px-4 py-3 text-right text-sm font-bold text-gray-700 w-40">작업</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {filteredItems.map((item) => (
+                                  <tr
+                                    key={item.id}
+                                    className="border-b border-gray-100 hover:bg-gray-50 transition-colors"
+                                  >
+                                    <td className="px-4 py-3 text-sm text-gray-600">#{item.id}</td>
+                                    <td className="px-4 py-3">
+                                      <span className="px-2 py-1 bg-blue-100 text-blue-700 text-xs font-bold rounded">
+                                        {item.category}
+                                      </span>
+                                    </td>
+                                    <td className="px-4 py-3">
+                                      <div className="font-medium text-gray-900 line-clamp-1">{item.question}</div>
+                                      <div className="text-sm text-gray-500 line-clamp-1 mt-1">{item.answer.substring(0, 100)}...</div>
+                                    </td>
+                                    <td className="px-4 py-3">
+                                      <div className="flex gap-1 flex-wrap">
+                                        {item.keywords.slice(0, 3).map((keyword, idx) => (
+                                          <span key={idx} className="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded">
+                                            #{keyword}
+                                          </span>
+                                        ))}
+                                        {item.keywords.length > 3 && (
+                                          <span className="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded">
+                                            +{item.keywords.length - 3}
+                                          </span>
+                                        )}
+                                      </div>
+                                    </td>
+                                    <td className="px-4 py-3">
+                                      <div className="flex gap-2 justify-end">
+                                        <button
+                                          onClick={() => setPreviewKnowledge(item)}
+                                          className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                                          title="미리보기"
+                                        >
+                                          👁️
+                                        </button>
+                                        <button
+                                          onClick={() => setEditModal({ type: "knowledge", data: item })}
+                                          className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                                          title="수정"
+                                        >
+                                          ✏️
+                                        </button>
+                                        <button
+                                          onClick={() => deleteKnowledge(item.id)}
+                                          className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                          title="삭제"
+                                        >
+                                          🗑️
+                                        </button>
+                                      </div>
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      );
+                    })()}
                   </div>
                 )}
               </div>
@@ -1771,6 +1951,78 @@ export default function AdminView() {
             else if (editModal.type === "knowledge") saveKnowledge(data as KnowledgeItem);
           }}
         />
+      )}
+
+      {/* 지식 베이스 미리보기 모달 */}
+      {previewKnowledge && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-hidden flex flex-col">
+            {/* 헤더 */}
+            <div className="flex items-center justify-between p-6 border-b border-gray-200">
+              <h2 className="text-xl font-bold text-gray-900">답변 미리보기</h2>
+              <button
+                onClick={() => setPreviewKnowledge(null)}
+                className="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center transition-colors"
+              >
+                <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* 내용 */}
+            <div className="flex-1 overflow-y-auto p-6 space-y-4">
+              {/* 카테고리 및 키워드 */}
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="px-3 py-1 bg-blue-100 text-blue-700 text-sm font-bold rounded-lg">
+                  {previewKnowledge.category}
+                </span>
+                {previewKnowledge.keywords.map((keyword, idx) => (
+                  <span key={idx} className="px-3 py-1 bg-gray-100 text-gray-600 text-sm rounded-lg">
+                    #{keyword}
+                  </span>
+                ))}
+              </div>
+
+              {/* 질문 */}
+              <div className="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl p-4 border-l-4 border-blue-500">
+                <div className="text-xs font-bold text-blue-700 mb-1">질문</div>
+                <h3 className="text-lg font-bold text-gray-900">{previewKnowledge.question}</h3>
+              </div>
+
+              {/* 답변 (챗봇 스타일로 표시) */}
+              <div className="bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
+                <div className="text-xs font-bold text-gray-500 mb-2">AI 답변</div>
+                <div className="prose prose-sm max-w-none">
+                  <p className="text-base leading-relaxed whitespace-pre-wrap text-gray-900">
+                    {previewKnowledge.answer}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* 푸터 */}
+            <div className="p-6 border-t border-gray-200 bg-gray-50">
+              <div className="flex gap-3">
+                <button
+                  onClick={() => {
+                    setPreviewKnowledge(null);
+                    setEditModal({ type: "knowledge", data: previewKnowledge });
+                  }}
+                  className="flex-1 px-6 py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-colors"
+                >
+                  수정하기
+                </button>
+                <button
+                  onClick={() => setPreviewKnowledge(null)}
+                  className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 font-bold rounded-xl hover:bg-gray-50 transition-colors"
+                >
+                  닫기
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
@@ -2366,9 +2618,52 @@ function EditModal({
                   className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="예: 초기비용, 초기투자, 필요한돈"
                 />
-                <p className="text-xs text-gray-500 mt-1">
-                  사용자 질문에서 이 키워드를 찾으면 자동으로 답변합니다
-                </p>
+                <div className="mt-2 flex items-center justify-between">
+                  <p className="text-xs text-gray-500">
+                    사용자 질문에서 이 키워드를 찾으면 자동으로 답변합니다
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      // 질문에서 자동으로 키워드 추천
+                      const question = (formData as KnowledgeItem).question.toLowerCase();
+                      const suggestedKeywords: string[] = [];
+
+                      // 자주 사용되는 패턴에서 키워드 추출
+                      const patterns = [
+                        { regex: /비용|돈|투자금|자본금|금액/g, keywords: ["비용", "돈", "투자금", "얼마"] },
+                        { regex: /입지|위치|장소|상권/g, keywords: ["입지", "위치", "장소", "상권"] },
+                        { regex: /수익|매출|벌|돈|순이익/g, keywords: ["수익", "매출", "순이익"] },
+                        { regex: /절차|과정|순서|방법/g, keywords: ["절차", "과정", "순서", "방법"] },
+                        { regex: /브랜드|선택|고르/g, keywords: ["브랜드", "선택", "추천"] },
+                        { regex: /카페|커피|디저트/g, keywords: ["카페", "커피", "디저트"] },
+                        { regex: /치킨|프라이드/g, keywords: ["치킨", "프라이드"] },
+                        { regex: /편의점|CVS/g, keywords: ["편의점", "CVS"] },
+                      ];
+
+                      patterns.forEach(({ regex, keywords }) => {
+                        if (regex.test(question)) {
+                          suggestedKeywords.push(...keywords);
+                        }
+                      });
+
+                      // 중복 제거
+                      const uniqueKeywords = Array.from(new Set(suggestedKeywords));
+
+                      if (uniqueKeywords.length > 0) {
+                        const currentKeywords = (formData as KnowledgeItem).keywords;
+                        const mergedKeywords = Array.from(new Set([...currentKeywords, ...uniqueKeywords]));
+                        setFormData({ ...formData, keywords: mergedKeywords });
+                        alert(`${uniqueKeywords.join(", ")} 키워드가 추가되었습니다!`);
+                      } else {
+                        alert("자동 추천할 키워드가 없습니다. 수동으로 입력해주세요.");
+                      }
+                    }}
+                    className="px-3 py-1 text-xs bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all font-medium"
+                  >
+                    ✨ 자동 추천
+                  </button>
+                </div>
               </div>
               <div>
                 <label className="block text-sm font-bold text-gray-700 mb-2">전문가 답변</label>
