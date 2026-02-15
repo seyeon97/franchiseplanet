@@ -14,5 +14,5 @@ import "server-only";
 export const config = {
   // Gemini API 설정
   GEMINI_API_KEY: "AIzaSyAgb7j4uTtJYceogNXDDNcuTYH3snI0y9I",
-  GEMINI_API_URL: "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent",
+  GEMINI_API_URL: "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent",
 } as const;
