@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { chat } from "@/api/chat";
 import type { Message } from "@/api/chat";
+import { recommendedQuestions } from "@/api/chat/knowledge-base";
 
 export default function ChatBot() {
   const [messages, setMessages] = useState<Message[]>([
@@ -23,12 +24,9 @@ export default function ChatBot() {
     scrollToBottom();
   }, [messages]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!input.trim() || isLoading) return;
+  const handleSendMessage = async (userMessage: string) => {
+    if (!userMessage.trim() || isLoading) return;
 
-    const userMessage = input.trim();
-    setInput("");
     setMessages((prev) => [...prev, { role: "user", content: userMessage }]);
     setIsLoading(true);
 
@@ -56,6 +54,17 @@ export default function ChatBot() {
     }
   };
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const userMessage = input.trim();
+    setInput("");
+    await handleSendMessage(userMessage);
+  };
+
+  const handleRecommendedClick = async (question: string) => {
+    await handleSendMessage(question);
+  };
+
   return (
     <div className="h-screen bg-gray-50 flex flex-col">
       {/* 헤더 */}
@@ -78,6 +87,25 @@ export default function ChatBot() {
 
       {/* 메시지 영역 */}
       <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4 pb-28">
+        {/* 추천 질문 (대화가 시작되지 않았을 때만 표시) */}
+        {messages.length === 1 && (
+          <div className="space-y-3 mb-6">
+            <p className="text-sm font-semibold text-gray-700 px-2">💡 이런 것들을 물어보세요</p>
+            <div className="grid gap-2">
+              {recommendedQuestions.slice(0, 4).map((question, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => handleRecommendedClick(question)}
+                  disabled={isLoading}
+                  className="text-left px-4 py-3 bg-white rounded-xl border border-gray-200 text-sm text-gray-700 hover:border-blue-400 hover:bg-blue-50 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
+                >
+                  {question}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
         {messages.map((message, index) => (
           <div
             key={index}

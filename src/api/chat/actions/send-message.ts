@@ -2,6 +2,7 @@
 
 import { config } from "@/server/config";
 import type { SendMessageRequest, ChatResponse } from "../types";
+import { findAnswerInKnowledgeBase } from "../knowledge-base";
 
 // 프랜차이즈 창업 전문 시스템 프롬프트
 const SYSTEM_PROMPT = `당신은 프랜차이즈 창업 전문 컨설턴트입니다.
@@ -118,6 +119,18 @@ export async function sendMessage(
   if (!message) {
     throw new Error("메시지가 필요합니다");
   }
+
+  // 1단계: 먼저 로컬 지식 베이스에서 답변 찾기
+  console.log("[AI Chat] 로컬 지식 베이스에서 검색 중...");
+  const localAnswer = findAnswerInKnowledgeBase(message);
+
+  if (localAnswer) {
+    console.log("[AI Chat] 로컬 지식 베이스에서 답변 발견 (외부 API 사용 안 함)");
+    return { message: localAnswer };
+  }
+
+  // 2단계: 로컬에 답변이 없으면 외부 API 사용
+  console.log("[AI Chat] 로컬 답변 없음, 외부 API 사용");
 
   // 모든 API를 순서대로 시도
   for (const apiConfig of config.AI_APIS) {
