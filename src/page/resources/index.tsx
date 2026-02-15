@@ -28,12 +28,6 @@ export default function ResourcesView() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [selectedResource, setSelectedResource] = useState<Resource | null>(null);
 
-  useEffect(() => {
-    // 로그인 상태 체크
-    const loggedIn = localStorage.getItem("isLoggedIn") === "true";
-    setIsLoggedIn(loggedIn);
-  }, []);
-
   const handleResourceClick = (resource: Resource) => {
     if (!isLoggedIn) {
       // 로그인 필요 알림
@@ -60,8 +54,8 @@ export default function ResourcesView() {
 
   const [selectedCategory, setSelectedCategory] = useState("all");
 
-  // 예시 자료 데이터
-  const resources: Resource[] = [
+  // 기본 자료 데이터
+  const defaultResources: Resource[] = [
     {
       id: 1,
       title: "프랜차이즈 시장 분석 보고서",
@@ -311,6 +305,34 @@ export default function ResourcesView() {
 **중요:** 부당한 대우 시 즉시 신고!`,
     },
   ];
+
+  const [resources, setResources] = useState<Resource[]>(defaultResources);
+
+  useEffect(() => {
+    // 로그인 상태 체크
+    const loggedIn = localStorage.getItem("isLoggedIn") === "true";
+    setIsLoggedIn(loggedIn);
+
+    // localStorage에서 자료실 데이터 불러오기
+    const loadResources = () => {
+      const stored = localStorage.getItem("resources");
+      if (stored) {
+        try {
+          const adminResources: Resource[] = JSON.parse(stored);
+          setResources(adminResources);
+        } catch (error) {
+          console.error("자료 데이터 로드 실패:", error);
+          setResources(defaultResources);
+        }
+      }
+    };
+
+    loadResources();
+
+    // localStorage 변경 감지
+    window.addEventListener('storage', loadResources);
+    return () => window.removeEventListener('storage', loadResources);
+  }, []);
 
   const filteredResources =
     selectedCategory === "all"
