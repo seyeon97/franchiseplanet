@@ -50,6 +50,122 @@ export default function OfflineView() {
   const [showPayment, setShowPayment] = useState(false);
   const [iamportLoaded, setIamportLoaded] = useState(false);
 
+  // 기본 프로그램 데이터
+  const defaultPrograms: Program[] = [
+    {
+      id: 1,
+      name: "장사해커 컨설턴트",
+      category: "임장",
+      title: "강남역 임장",
+      description: "강남역 상권 분석부터 유동인구 파악까지 전문가와 함께하는 현장 답사",
+      bgColor: "from-[#2F85F2] to-[#1F9CD3]",
+      imageUrl: "👨‍💼",
+      price: 150000,
+      date: "2024년 3월 15일 (토)",
+      time: "오전 10:00 - 오후 2:00",
+      location: "강남역 2번 출구 앞",
+      duration: "4시간",
+      maxParticipants: 10,
+      details: [
+        "강남역 상권 전체 분석 및 유동인구 측정",
+        "주요 상권별 임대료 및 권리금 정보 제공",
+        "성공/실패 사례 현장 방문 및 분석",
+        "1:1 맞춤 상권 컨설팅 30분 제공",
+        "상권분석 리포트 제공 (PDF)",
+      ],
+    },
+    {
+      id: 2,
+      name: "박프차 전문가",
+      category: "임장",
+      title: "성수역 임장",
+      description: "핫플레이스 성수동! 트렌디한 상권의 숨은 매력 찾기",
+      bgColor: "from-[#1F9CD3] to-[#0BB7AD]",
+      imageUrl: "👨‍💼",
+      price: 180000,
+      date: "2024년 3월 22일 (토)",
+      time: "오후 2:00 - 오후 6:00",
+      location: "성수역 3번 출구 앞",
+      duration: "4시간",
+      maxParticipants: 8,
+      details: [
+        "성수동 핫플레이스 투어 및 트렌드 분석",
+        "F&B 창업 최적 입지 선정 노하우",
+        "성공 브랜드 케이스 스터디",
+        "임대 협상 전략 및 팁 공유",
+        "성수동 상권 분석 자료 제공",
+      ],
+    },
+    {
+      id: 3,
+      name: "이입지 대표",
+      category: "임장",
+      title: "홍대입구역 임장",
+      description: "젊음의 거리 홍대, 창업 전 꼭 확인해야 할 입지 포인트",
+      bgColor: "from-[#0BB7AD] to-[#08C698]",
+      imageUrl: "👩‍💼",
+      price: 160000,
+      date: "2024년 3월 29일 (토)",
+      time: "오전 10:00 - 오후 2:00",
+      location: "홍대입구역 9번 출구 앞",
+      duration: "4시간",
+      maxParticipants: 12,
+      details: [
+        "홍대 메인/서브 상권 구분 및 특징 분석",
+        "유동인구 동선 파악 및 최적 입지 찾기",
+        "주말/평일 상권 차이 분석",
+        "프랜차이즈 vs 개인 창업 입지 비교",
+        "홍대 상권 트렌드 리포트 제공",
+      ],
+    },
+  ];
+
+  const [programs, setPrograms] = useState<Program[]>(defaultPrograms);
+
+  // localStorage에서 오프라인 프로그램 데이터 불러오기
+  useEffect(() => {
+    const loadPrograms = () => {
+      const stored = localStorage.getItem("offlinePrograms");
+      if (stored) {
+        try {
+          interface AdminProgram {
+            id: number;
+            name: string;
+            title: string;
+            description: string;
+            imageUrl: string;
+            price: number;
+            date: string;
+            time: string;
+            location: string;
+            duration: string;
+            maxParticipants: number;
+            bgGradient: string;
+            details: string[];
+            category: string;
+          }
+
+          const adminPrograms: AdminProgram[] = JSON.parse(stored);
+          // bgGradient를 bgColor로 변환
+          const convertedPrograms: Program[] = adminPrograms.map(program => ({
+            ...program,
+            bgColor: program.bgGradient,
+          }));
+          setPrograms(convertedPrograms);
+        } catch (error) {
+          console.error("오프라인 프로그램 데이터 로드 실패:", error);
+          setPrograms(defaultPrograms);
+        }
+      }
+    };
+
+    loadPrograms();
+
+    // localStorage 변경 감지
+    window.addEventListener('storage', loadPrograms);
+    return () => window.removeEventListener('storage', loadPrograms);
+  }, []);
+
   // 아임포트 SDK 로드
   useEffect(() => {
     if (typeof window !== 'undefined' && !window.IMP) {
@@ -140,75 +256,6 @@ export default function OfflineView() {
   };
 
   // 예시 임장 프로그램 데이터
-  const programs: Program[] = [
-    {
-      id: 1,
-      name: "장사해커 컨설턴트",
-      category: "임장",
-      title: "강남역 임장",
-      description: "강남역 상권 분석부터 유동인구 파악까지 전문가와 함께하는 현장 답사",
-      bgColor: "from-[#2F85F2] to-[#1F9CD3]",
-      imageUrl: "👨‍💼",
-      price: 150000,
-      date: "2024년 3월 15일 (토)",
-      time: "오전 10:00 - 오후 2:00",
-      location: "강남역 2번 출구 앞",
-      duration: "4시간",
-      maxParticipants: 10,
-      details: [
-        "강남역 상권 전체 분석 및 유동인구 측정",
-        "주요 상권별 임대료 및 권리금 정보 제공",
-        "성공/실패 사례 현장 방문 및 분석",
-        "1:1 맞춤 상권 컨설팅 30분 제공",
-        "상권분석 리포트 제공 (PDF)",
-      ],
-    },
-    {
-      id: 2,
-      name: "박프차 전문가",
-      category: "임장",
-      title: "성수역 임장",
-      description: "핫플레이스 성수동! 트렌디한 상권의 숨은 매력 찾기",
-      bgColor: "from-[#1F9CD3] to-[#0BB7AD]",
-      imageUrl: "👨‍💼",
-      price: 180000,
-      date: "2024년 3월 22일 (토)",
-      time: "오후 2:00 - 오후 6:00",
-      location: "성수역 3번 출구 앞",
-      duration: "4시간",
-      maxParticipants: 8,
-      details: [
-        "성수동 핫플레이스 투어 및 트렌드 분석",
-        "F&B 창업 최적 입지 선정 노하우",
-        "성공 브랜드 케이스 스터디",
-        "임대 협상 전략 및 팁 공유",
-        "성수동 상권 분석 자료 제공",
-      ],
-    },
-    {
-      id: 3,
-      name: "이입지 대표",
-      category: "임장",
-      title: "홍대입구역 임장",
-      description: "젊음의 거리 홍대, 창업 전 꼭 확인해야 할 입지 포인트",
-      bgColor: "from-[#0BB7AD] to-[#08C698]",
-      imageUrl: "👩‍💼",
-      price: 160000,
-      date: "2024년 3월 29일 (토)",
-      time: "오전 10:00 - 오후 2:00",
-      location: "홍대입구역 9번 출구 앞",
-      duration: "4시간",
-      maxParticipants: 12,
-      details: [
-        "홍대 메인/서브 상권 구분 및 특징 분석",
-        "유동인구 동선 파악 및 최적 입지 찾기",
-        "주말/평일 상권 차이 분석",
-        "프랜차이즈 vs 개인 창업 입지 비교",
-        "홍대 상권 트렌드 리포트 제공",
-      ],
-    },
-  ];
-
   return (
     <div className="h-screen bg-gray-50 flex flex-col pb-20">
       {/* 고정 헤더 */}
