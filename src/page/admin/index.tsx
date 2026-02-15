@@ -107,6 +107,7 @@ export default function AdminView() {
     updated.splice(toIndex, 0, movedItem);
     setBrands(updated);
     localStorage.setItem("brands", JSON.stringify(updated));
+    window.dispatchEvent(new StorageEvent('storage', { key: 'brands' }));
   };
 
   // 삭제 함수들
@@ -115,6 +116,7 @@ export default function AdminView() {
       const updated = brands.filter(b => b.id !== id);
       setBrands(updated);
       localStorage.setItem("brands", JSON.stringify(updated));
+      window.dispatchEvent(new StorageEvent('storage', { key: 'brands' }));
     }
   };
 
@@ -123,6 +125,7 @@ export default function AdminView() {
       const updated = columns.filter(c => c.id !== id);
       setColumns(updated);
       localStorage.setItem("columns", JSON.stringify(updated));
+      window.dispatchEvent(new StorageEvent('storage', { key: 'columns' }));
     }
   };
 
@@ -131,6 +134,7 @@ export default function AdminView() {
       const updated = resources.filter(r => r.id !== id);
       setResources(updated);
       localStorage.setItem("resources", JSON.stringify(updated));
+      window.dispatchEvent(new StorageEvent('storage', { key: 'resources' }));
     }
   };
 
@@ -139,6 +143,7 @@ export default function AdminView() {
       const updated = offlinePrograms.filter(p => p.id !== id);
       setOfflinePrograms(updated);
       localStorage.setItem("offlinePrograms", JSON.stringify(updated));
+      window.dispatchEvent(new StorageEvent('storage', { key: 'offlinePrograms' }));
     }
   };
 
@@ -243,6 +248,8 @@ export default function AdminView() {
     }
     setBrands(updated);
     localStorage.setItem("brands", JSON.stringify(updated));
+    // 같은 탭에서도 변경 감지를 위한 커스텀 이벤트 발생
+    window.dispatchEvent(new StorageEvent('storage', { key: 'brands' }));
     setEditModal({ type: null, data: null });
   };
 
@@ -256,6 +263,8 @@ export default function AdminView() {
     }
     setColumns(updated);
     localStorage.setItem("columns", JSON.stringify(updated));
+    // 같은 탭에서도 변경 감지를 위한 커스텀 이벤트 발생
+    window.dispatchEvent(new StorageEvent('storage', { key: 'columns' }));
     setEditModal({ type: null, data: null });
   };
 
@@ -269,6 +278,8 @@ export default function AdminView() {
     }
     setResources(updated);
     localStorage.setItem("resources", JSON.stringify(updated));
+    // 같은 탭에서도 변경 감지를 위한 커스텀 이벤트 발생
+    window.dispatchEvent(new StorageEvent('storage', { key: 'resources' }));
     setEditModal({ type: null, data: null });
   };
 
@@ -282,6 +293,8 @@ export default function AdminView() {
     }
     setOfflinePrograms(updated);
     localStorage.setItem("offlinePrograms", JSON.stringify(updated));
+    // 같은 탭에서도 변경 감지를 위한 커스텀 이벤트 발생
+    window.dispatchEvent(new StorageEvent('storage', { key: 'offlinePrograms' }));
     setEditModal({ type: null, data: null });
   };
 
@@ -867,6 +880,12 @@ export default function AdminView() {
       localStorage.setItem("columns", JSON.stringify(initialColumns));
       localStorage.setItem("resources", JSON.stringify(initialResources));
       localStorage.setItem("offlinePrograms", JSON.stringify(initialOfflinePrograms));
+
+      // 모든 페이지에 데이터 동기화 이벤트 발생
+      window.dispatchEvent(new StorageEvent('storage', { key: 'brands' }));
+      window.dispatchEvent(new StorageEvent('storage', { key: 'columns' }));
+      window.dispatchEvent(new StorageEvent('storage', { key: 'resources' }));
+      window.dispatchEvent(new StorageEvent('storage', { key: 'offlinePrograms' }));
 
       loadData();
     }
