@@ -15,17 +15,8 @@ interface Column {
   bgGradient: string;
 }
 
-export default function ColumnView() {
-  const router = useRouter();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [selectedColumn, setSelectedColumn] = useState<Column | null>(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [showLoginModal, setShowLoginModal] = useState(false);
-  const touchStartX = useRef(0);
-  const touchEndX = useRef(0);
-
-  // 기본 칼럼 데이터
-  const defaultColumns: Column[] = [
+// 기본 칼럼 데이터
+const defaultColumns: Column[] = [
     {
       id: 1,
       title: "2024년 프랜차이즈 창업 트렌드 분석",
@@ -128,6 +119,14 @@ export default function ColumnView() {
     },
   ];
 
+export default function ColumnView() {
+  const router = useRouter();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [selectedColumn, setSelectedColumn] = useState<Column | null>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
   const [columns, setColumns] = useState<Column[]>(defaultColumns);
 
   useEffect(() => {

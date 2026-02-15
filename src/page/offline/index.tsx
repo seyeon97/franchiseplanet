@@ -41,17 +41,8 @@ interface Program {
   details: string[];
 }
 
-export default function OfflineView() {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const isScrollingRef = useRef(false);
-  const [selectedProgram, setSelectedProgram] = useState<Program | null>(null);
-  const [showPayment, setShowPayment] = useState(false);
-  const [iamportLoaded, setIamportLoaded] = useState(false);
-
-  // 기본 프로그램 데이터
-  const defaultPrograms: Program[] = [
+// 기본 프로그램 데이터
+const defaultPrograms: Program[] = [
     {
       id: 1,
       name: "장사해커 컨설턴트",
@@ -120,6 +111,14 @@ export default function OfflineView() {
     },
   ];
 
+export default function OfflineView() {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const isScrollingRef = useRef(false);
+  const [selectedProgram, setSelectedProgram] = useState<Program | null>(null);
+  const [showPayment, setShowPayment] = useState(false);
+  const [iamportLoaded, setIamportLoaded] = useState(false);
   const [programs, setPrograms] = useState<Program[]>(defaultPrograms);
 
   // localStorage에서 오프라인 프로그램 데이터 불러오기

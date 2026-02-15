@@ -23,39 +23,8 @@ interface Resource {
   content: string;
 }
 
-export default function ResourcesView() {
-  const router = useRouter();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [selectedResource, setSelectedResource] = useState<Resource | null>(null);
-
-  const handleResourceClick = (resource: Resource) => {
-    if (!isLoggedIn) {
-      // 로그인 필요 알림
-      if (confirm("자료를 보려면 로그인이 필요합니다. 로그인 하시겠습니까?")) {
-        router.push("/login");
-      }
-      return;
-    }
-    // 로그인된 경우 상세 페이지 보기
-    setSelectedResource(resource);
-  };
-
-  const handleClose = () => {
-    setSelectedResource(null);
-  };
-
-  // 카테고리
-  const categories = [
-    { id: "all", label: "전체", icon: "📂" },
-    { id: "market", label: "시장분석", icon: "📊" },
-    { id: "checklist", label: "체크리스트", icon: "✅" },
-    { id: "contract", label: "계약서", icon: "📄" },
-  ];
-
-  const [selectedCategory, setSelectedCategory] = useState("all");
-
-  // 기본 자료 데이터
-  const defaultResources: Resource[] = [
+// 기본 자료 데이터
+const defaultResources: Resource[] = [
     {
       id: 1,
       title: "프랜차이즈 시장 분석 보고서",
@@ -304,7 +273,38 @@ export default function ResourcesView() {
 
 **중요:** 부당한 대우 시 즉시 신고!`,
     },
+];
+
+export default function ResourcesView() {
+  const router = useRouter();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [selectedResource, setSelectedResource] = useState<Resource | null>(null);
+
+  const handleResourceClick = (resource: Resource) => {
+    if (!isLoggedIn) {
+      // 로그인 필요 알림
+      if (confirm("자료를 보려면 로그인이 필요합니다. 로그인 하시겠습니까?")) {
+        router.push("/login");
+      }
+      return;
+    }
+    // 로그인된 경우 상세 페이지 보기
+    setSelectedResource(resource);
+  };
+
+  const handleClose = () => {
+    setSelectedResource(null);
+  };
+
+  // 카테고리
+  const categories = [
+    { id: "all", label: "전체", icon: "📂" },
+    { id: "market", label: "시장분석", icon: "📊" },
+    { id: "checklist", label: "체크리스트", icon: "✅" },
+    { id: "contract", label: "계약서", icon: "📄" },
   ];
+
+  const [selectedCategory, setSelectedCategory] = useState("all");
 
   const [resources, setResources] = useState<Resource[]>(defaultResources);
 
