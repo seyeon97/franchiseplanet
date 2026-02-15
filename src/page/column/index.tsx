@@ -24,13 +24,8 @@ export default function ColumnView() {
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
 
-  useEffect(() => {
-    const loggedIn = localStorage.getItem("isLoggedIn") === "true";
-    setIsLoggedIn(loggedIn);
-  }, []);
-
-  // 예시 칼럼 데이터
-  const columns: Column[] = [
+  // 기본 칼럼 데이터
+  const defaultColumns: Column[] = [
     {
       id: 1,
       title: "2024년 프랜차이즈 창업 트렌드 분석",
@@ -132,6 +127,33 @@ export default function ColumnView() {
       isNew: false,
     },
   ];
+
+  const [columns, setColumns] = useState<Column[]>(defaultColumns);
+
+  useEffect(() => {
+    const loggedIn = localStorage.getItem("isLoggedIn") === "true";
+    setIsLoggedIn(loggedIn);
+
+    // localStorage에서 칼럼 데이터 불러오기
+    const loadColumns = () => {
+      const stored = localStorage.getItem("columns");
+      if (stored) {
+        try {
+          const adminColumns: Column[] = JSON.parse(stored);
+          setColumns(adminColumns);
+        } catch (error) {
+          console.error("칼럼 데이터 로드 실패:", error);
+          setColumns(defaultColumns);
+        }
+      }
+    };
+
+    loadColumns();
+
+    // localStorage 변경 감지
+    window.addEventListener('storage', loadColumns);
+    return () => window.removeEventListener('storage', loadColumns);
+  }, []);
 
   const handleColumnClick = (column: Column, index: number) => {
     // 처음 2개 칼럼은 무료, 3번째부터 로그인 필요
