@@ -6,6 +6,11 @@ export default function NavigationBar() {
   const pathname = usePathname();
   const router = useRouter();
 
+  // admin 페이지에서는 네비게이션 바를 표시하지 않음
+  if (pathname?.startsWith('/admin')) {
+    return null;
+  }
+
   const renderIcon = (id: string, isActive: boolean) => {
     const gradientId = `gradient-nav-${id}`;
     const strokeColor = isActive ? `url(#${gradientId})` : '#3182F6';

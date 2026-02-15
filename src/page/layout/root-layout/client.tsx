@@ -25,31 +25,6 @@ function UserInit({ user }: { user?: User | null }) {
 }
 
 /**
- * Layout Content Component (Internal)
- *
- * Renders the layout content inside StateProvider
- */
-function LayoutContent({
-  user,
-  children
-}: {
-  user?: User | null
-  children: React.ReactNode
-}) {
-  const pathname = usePathname()
-  const isAdminPage = pathname?.startsWith('/admin')
-
-  return (
-    <>
-      <UserInit user={user} />
-      {children}
-      {!isAdminPage && <NavigationBar />}
-      <Toaster />
-    </>
-  )
-}
-
-/**
  * RootLayoutClient Component
  *
  * Client-side root layout that handles:
@@ -68,7 +43,10 @@ export function RootLayoutClient({
 }) {
   return (
     <StateProvider>
-      <LayoutContent user={user}>{children}</LayoutContent>
+      <UserInit user={user} />
+      {children}
+      <NavigationBar />
+      <Toaster />
     </StateProvider>
   )
 }
