@@ -42,13 +42,63 @@ export default function LoginView() {
   const router = useRouter();
   const [isKakaoReady, setIsKakaoReady] = useState(false);
 
+  const saveKakaoUserToAdmin = (userInfo: KakaoUserInfo) => {
+    try {
+      // 기존 사용자 목록 불러오기
+      const existingUsers = localStorage.getItem("kakaoUsers");
+      const users = existingUsers ? JSON.parse(existingUsers) : [];
+
+      // 이미 등록된 사용자인지 확인
+      const existingUserIndex = users.findIndex((u: { kakaoId: string }) => u.kakaoId === String(userInfo.id));
+
+      const now = new Date().toISOString().split('T')[0];
+      const userRecord = {
+        id: existingUserIndex >= 0 ? users[existingUserIndex].id : users.length + 1,
+        kakaoId: String(userInfo.id),
+        nickname: userInfo.kakao_account.profile?.nickname || "카카오 사용자",
+        profileImage: userInfo.kakao_account.profile?.profile_image_url,
+        email: userInfo.kakao_account.email,
+        loginDate: existingUserIndex >= 0 ? users[existingUserIndex].loginDate : now,
+        lastVisit: now,
+      };
+
+      if (existingUserIndex >= 0) {
+        // 기존 사용자 업데이트 (최근 방문 시간만)
+        users[existingUserIndex] = userRecord;
+      } else {
+        // 새 사용자 추가
+        users.push(userRecord);
+      }
+
+      localStorage.setItem("kakaoUsers", JSON.stringify(users));
+    } catch (error) {
+      console.error("사용자 정보 저장 실패:", error);
+    }
+  };
+
   const handleKakaoCallback = async () => {
     // 실제 환경에서는 서버로 인증 코드를 보내 액세스 토큰을 받아야 합니다
     // 여기서는 간단히 로그인 상태만 저장합니다
     try {
+      // 카카오 사용자 정보 가져오기 (실제로는 서버에서 처리해야 함)
+      // 임시로 더미 데이터 생성
+      const dummyUserInfo: KakaoUserInfo = {
+        id: Math.floor(Math.random() * 1000000),
+        kakao_account: {
+          email: "kakao@user.com",
+          profile: {
+            nickname: "카카오 사용자",
+            profile_image_url: undefined,
+          },
+        },
+      };
+
+      // 사용자 정보를 어드민 페이지용으로 저장
+      saveKakaoUserToAdmin(dummyUserInfo);
+
       // 임시로 로그인 처리
       localStorage.setItem("isLoggedIn", "true");
-      localStorage.setItem("userEmail", "kakao@user.com");
+      localStorage.setItem("userEmail", dummyUserInfo.kakao_account.email || "kakao@user.com");
 
       // URL 정리하고 마이페이지로 이동
       window.history.replaceState({}, document.title, "/login");
@@ -165,6 +215,21 @@ export default function LoginView() {
 
   // 임시 로그인 (테스트용)
   const handleTempLogin = () => {
+    // 테스트용 사용자 정보 생성
+    const testUserInfo: KakaoUserInfo = {
+      id: Math.floor(Math.random() * 1000000),
+      kakao_account: {
+        email: "test@user.com",
+        profile: {
+          nickname: "테스트 사용자",
+          profile_image_url: undefined,
+        },
+      },
+    };
+
+    // 사용자 정보를 어드민 페이지용으로 저장
+    saveKakaoUserToAdmin(testUserInfo);
+
     localStorage.setItem("isLoggedIn", "true");
     localStorage.setItem("userEmail", "test@user.com");
     router.push("/more");

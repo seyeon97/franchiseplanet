@@ -3,7 +3,17 @@
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 
-type TabType = "brands" | "columns" | "resources" | "offline";
+type TabType = "brands" | "columns" | "resources" | "offline" | "users";
+
+interface KakaoUser {
+  id: number;
+  kakaoId: string;
+  nickname: string;
+  profileImage?: string;
+  email?: string;
+  loginDate: string;
+  lastVisit: string;
+}
 
 interface Brand {
   id: number;
@@ -69,11 +79,12 @@ export default function AdminView() {
   const [columns, setColumns] = useState<Column[]>([]);
   const [resources, setResources] = useState<Resource[]>([]);
   const [offlinePrograms, setOfflinePrograms] = useState<OfflineProgram[]>([]);
+  const [kakaoUsers, setKakaoUsers] = useState<KakaoUser[]>([]);
 
   // 수정 모달 상태
   const [editModal, setEditModal] = useState<{
     type: TabType | null;
-    data: Brand | Column | Resource | OfflineProgram | null;
+    data: Brand | Column | Resource | OfflineProgram | KakaoUser | null;
   }>({ type: null, data: null });
 
   // 브랜드 상세 보기 상태
@@ -593,11 +604,13 @@ export default function AdminView() {
         const columnsData = localStorage.getItem("columns");
         const resourcesData = localStorage.getItem("resources");
         const offlineData = localStorage.getItem("offlinePrograms");
+        const usersData = localStorage.getItem("kakaoUsers");
 
         setBrands(brandsData ? JSON.parse(brandsData) : []);
         setColumns(columnsData ? JSON.parse(columnsData) : []);
         setResources(resourcesData ? JSON.parse(resourcesData) : []);
         setOfflinePrograms(offlineData ? JSON.parse(offlineData) : []);
+        setKakaoUsers(usersData ? JSON.parse(usersData) : []);
       } catch (error) {
         console.error("데이터 로드 오류:", error);
       }
@@ -652,6 +665,7 @@ export default function AdminView() {
     { id: "columns" as TabType, label: "칼럼", count: columns.length },
     { id: "resources" as TabType, label: "자료실", count: resources.length },
     { id: "offline" as TabType, label: "오프라인", count: offlinePrograms.length },
+    { id: "users" as TabType, label: "사용자", count: kakaoUsers.length },
   ];
 
   return (
@@ -745,21 +759,24 @@ export default function AdminView() {
                         activeTab === "brands" ? brands.length :
                         activeTab === "columns" ? columns.length :
                         activeTab === "resources" ? resources.length :
-                        offlinePrograms.length
-                      }개의 콘텐츠
+                        activeTab === "offline" ? offlinePrograms.length :
+                        kakaoUsers.length
+                      }개의 {activeTab === "users" ? "사용자" : "콘텐츠"}
                     </p>
                   </div>
-                  <button
-                    onClick={() => {
-                      if (activeTab === "brands") createNewBrand();
-                      else if (activeTab === "columns") createNewColumn();
-                      else if (activeTab === "resources") createNewResource();
-                      else if (activeTab === "offline") createNewOfflineProgram();
-                    }}
-                    className="px-6 py-2.5 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold rounded-xl hover:shadow-lg transition-all"
-                  >
-                    + 새로 추가
-                  </button>
+                  {activeTab !== "users" && (
+                    <button
+                      onClick={() => {
+                        if (activeTab === "brands") createNewBrand();
+                        else if (activeTab === "columns") createNewColumn();
+                        else if (activeTab === "resources") createNewResource();
+                        else if (activeTab === "offline") createNewOfflineProgram();
+                      }}
+                      className="px-6 py-2.5 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold rounded-xl hover:shadow-lg transition-all"
+                    >
+                      + 새로 추가
+                    </button>
+                  )}
                 </div>
               </div>
 
@@ -1091,6 +1108,66 @@ export default function AdminView() {
                     )}
                   </div>
                 )}
+
+                {activeTab === "users" && (
+                  <div className="space-y-3">
+                    {kakaoUsers.length === 0 ? (
+                      <div className="text-center py-12">
+                        <div className="text-4xl mb-3">👤</div>
+                        <p className="text-gray-500 font-medium">카카오 로그인한 사용자가 없습니다</p>
+                        <p className="text-sm text-gray-400 mt-1">사용자가 카카오 로그인하면 여기에 표시됩니다</p>
+                      </div>
+                    ) : (
+                      <div className="overflow-x-auto">
+                        <table className="w-full">
+                          <thead>
+                            <tr className="border-b border-gray-200">
+                              <th className="px-4 py-3 text-left text-sm font-bold text-gray-700">프로필</th>
+                              <th className="px-4 py-3 text-left text-sm font-bold text-gray-700">닉네임</th>
+                              <th className="px-4 py-3 text-left text-sm font-bold text-gray-700">이메일</th>
+                              <th className="px-4 py-3 text-left text-sm font-bold text-gray-700">카카오 ID</th>
+                              <th className="px-4 py-3 text-left text-sm font-bold text-gray-700">최초 가입</th>
+                              <th className="px-4 py-3 text-left text-sm font-bold text-gray-700">최근 방문</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {kakaoUsers.map((user) => (
+                              <tr
+                                key={user.id}
+                                className="border-b border-gray-100 hover:bg-gray-50 transition-colors"
+                              >
+                                <td className="px-4 py-3">
+                                  <div className="w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center overflow-hidden">
+                                    {user.profileImage ? (
+                                      <img src={user.profileImage} alt={user.nickname} className="w-full h-full object-cover" />
+                                    ) : (
+                                      <span className="text-xl">👤</span>
+                                    )}
+                                  </div>
+                                </td>
+                                <td className="px-4 py-3">
+                                  <div className="font-medium text-gray-900">{user.nickname}</div>
+                                </td>
+                                <td className="px-4 py-3">
+                                  <div className="text-sm text-gray-600">{user.email || "-"}</div>
+                                </td>
+                                <td className="px-4 py-3">
+                                  <div className="text-sm text-gray-600 font-mono">{user.kakaoId}</div>
+                                </td>
+                                <td className="px-4 py-3">
+                                  <div className="text-sm text-gray-600">{user.loginDate}</div>
+                                </td>
+                                <td className="px-4 py-3">
+                                  <div className="text-sm text-gray-600">{user.lastVisit}</div>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -1098,10 +1175,10 @@ export default function AdminView() {
       </div>
 
       {/* 수정 모달 */}
-      {editModal.type && editModal.data && (
+      {editModal.type && editModal.data && editModal.type !== "users" && (
         <EditModal
           type={editModal.type}
-          data={editModal.data}
+          data={editModal.data as Brand | Column | Resource | OfflineProgram}
           onClose={() => setEditModal({ type: null, data: null })}
           onSave={(data) => {
             if (editModal.type === "brands") saveBrand(data as Brand);
@@ -1122,7 +1199,7 @@ function EditModal({
   onClose,
   onSave,
 }: {
-  type: TabType;
+  type: Exclude<TabType, "users">;
   data: Brand | Column | Resource | OfflineProgram;
   onClose: () => void;
   onSave: (data: Brand | Column | Resource | OfflineProgram) => void;
