@@ -188,6 +188,18 @@ export default function HomePage() {
   );
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [brands, setBrands] = useState(defaultMockBrands);
+  const [showHero, setShowHero] = useState(true);
+
+  // 히어로 섹션 표시 여부 체크
+  useEffect(() => {
+    const hasSeenHero = localStorage.getItem("hasSeenHero");
+    if (hasSeenHero === "true") {
+      setShowHero(false);
+    } else {
+      // 처음 방문이면 히어로 섹션을 본 것으로 표시
+      localStorage.setItem("hasSeenHero", "true");
+    }
+  }, []);
 
   // localStorage에서 브랜드 데이터 불러오기
   useEffect(() => {
@@ -287,7 +299,7 @@ export default function HomePage() {
   return (
     <>
       <main className="h-screen overflow-y-scroll snap-y snap-mandatory scroll-smooth pb-20">
-        <HeroSectionToss />
+        {showHero && <HeroSectionToss />}
         <BrandsSectionToss
           brands={brands}
           onBrandClick={handleBrandClick}
