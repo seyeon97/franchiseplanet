@@ -119,6 +119,24 @@ const defaultColumns: Column[] = [
     },
   ];
 
+// 배경 그라데이션에서 주요 색상 추출
+function extractColorFromGradient(gradient: string): string {
+  // linear-gradient(...) 형식에서 색상 추출
+  const linearMatch = gradient.match(/#[0-9A-Fa-f]{6}/);
+  if (linearMatch) {
+    return linearMatch[0];
+  }
+
+  // from-[#색상] 형식에서 색상 추출
+  const tailwindMatch = gradient.match(/from-\[#([0-9A-Fa-f]{6})\]/);
+  if (tailwindMatch) {
+    return `#${tailwindMatch[1]}`;
+  }
+
+  // 기본 색상 반환
+  return '#3098F2';
+}
+
 export default function ColumnView() {
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -312,7 +330,7 @@ export default function ColumnView() {
                       }}
                     >
                       <p className="text-base font-bold text-center" style={{
-                        color: column.bgGradient.includes('3098F2') ? '#3098F2' : column.bgGradient.includes('25A6D9') ? '#25A6D9' : '#11BFAE',
+                        color: extractColorFromGradient(column.bgGradient),
                       }}>
                         칼럼을 눌러보세요!
                       </p>
