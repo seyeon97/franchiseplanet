@@ -2321,39 +2321,39 @@ function EditModal({
                 <div className="grid grid-cols-3 gap-2 mb-2">
                   <button
                     type="button"
-                    onClick={() => updateField("bgGradient", "linear-gradient(135deg, #FFB6D9 0%, #FF6BA9 100%)")}
+                    onClick={() => updateField("bgGradient", "linear-gradient(135deg, #FF6BA9 0%, #FFB6D9 100%)")}
                     className="h-12 rounded-lg"
-                    style={{ background: "linear-gradient(135deg, #FFB6D9 0%, #FF6BA9 100%)" }}
+                    style={{ background: "linear-gradient(135deg, #FF6BA9 0%, #FFB6D9 100%)" }}
                   />
                   <button
                     type="button"
-                    onClick={() => updateField("bgGradient", "linear-gradient(135deg, #A78BFA 0%, #60A5FA 100%)")}
+                    onClick={() => updateField("bgGradient", "linear-gradient(135deg, #60A5FA 0%, #A78BFA 100%)")}
                     className="h-12 rounded-lg"
-                    style={{ background: "linear-gradient(135deg, #A78BFA 0%, #60A5FA 100%)" }}
+                    style={{ background: "linear-gradient(135deg, #60A5FA 0%, #A78BFA 100%)" }}
                   />
                   <button
                     type="button"
-                    onClick={() => updateField("bgGradient", "linear-gradient(135deg, #A7F3D0 0%, #34D399 100%)")}
+                    onClick={() => updateField("bgGradient", "linear-gradient(135deg, #34D399 0%, #A7F3D0 100%)")}
                     className="h-12 rounded-lg"
-                    style={{ background: "linear-gradient(135deg, #A7F3D0 0%, #34D399 100%)" }}
+                    style={{ background: "linear-gradient(135deg, #34D399 0%, #A7F3D0 100%)" }}
                   />
                   <button
                     type="button"
-                    onClick={() => updateField("bgGradient", "linear-gradient(135deg, #FED7AA 0%, #FB923C 100%)")}
+                    onClick={() => updateField("bgGradient", "linear-gradient(135deg, #FB923C 0%, #FED7AA 100%)")}
                     className="h-12 rounded-lg"
-                    style={{ background: "linear-gradient(135deg, #FED7AA 0%, #FB923C 100%)" }}
+                    style={{ background: "linear-gradient(135deg, #FB923C 0%, #FED7AA 100%)" }}
                   />
                   <button
                     type="button"
-                    onClick={() => updateField("bgGradient", "linear-gradient(135deg, #BAE6FD 0%, #22D3EE 100%)")}
+                    onClick={() => updateField("bgGradient", "linear-gradient(135deg, #22D3EE 0%, #BAE6FD 100%)")}
                     className="h-12 rounded-lg"
-                    style={{ background: "linear-gradient(135deg, #BAE6FD 0%, #22D3EE 100%)" }}
+                    style={{ background: "linear-gradient(135deg, #22D3EE 0%, #BAE6FD 100%)" }}
                   />
                   <button
                     type="button"
-                    onClick={() => updateField("bgGradient", "linear-gradient(135deg, #DDD6FE 0%, #FBCFE8 100%)")}
+                    onClick={() => updateField("bgGradient", "linear-gradient(135deg, #FBCFE8 0%, #DDD6FE 100%)")}
                     className="h-12 rounded-lg"
-                    style={{ background: "linear-gradient(135deg, #DDD6FE 0%, #FBCFE8 100%)" }}
+                    style={{ background: "linear-gradient(135deg, #FBCFE8 0%, #DDD6FE 100%)" }}
                   />
                 </div>
                 <input
