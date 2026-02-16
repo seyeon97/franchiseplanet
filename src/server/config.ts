@@ -21,19 +21,16 @@ type AIAPIConfig = {
 export const config: {
   AI_APIS: AIAPIConfig[];
 } = {
-  // 여러 AI API 설정 (할당량 초과 시 자동으로 다음 API 사용)
+  // 여러 AI API 설정
+  // TODO: 아래 API 키를 실제 키로 교체하세요
+  // Gemini: https://makersuite.google.com/app/apikey
+  // OpenRouter: https://openrouter.ai/keys
   AI_APIS: [
     {
-      name: "OpenRouter",
-      url: "https://openrouter.ai/api/v1/chat/completions",
-      key: "sk-or-v1-0000", // 무료 모델은 키 없이도 작동
-      model: "meta-llama/llama-3.2-3b-instruct:free", // 완전 무료 모델
-    },
-    {
-      name: "Together AI",
-      url: "https://api.together.xyz/v1/chat/completions",
-      key: "free-trial", // 무료 체험
-      model: "meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
+      name: "Gemini",
+      url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent",
+      key: "YOUR_GEMINI_API_KEY_HERE", // 무료 Gemini API 키 필요
+      model: "gemini-2.0-flash-exp",
     },
   ],
 };

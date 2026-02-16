@@ -111,32 +111,37 @@ async function callOpenRouterAPI(
   return data.choices?.[0]?.message?.content || "응답을 생성할 수 없습니다.";
 }
 
-// Together AI API 호출 (OpenAI 호환)
-async function callTogetherAPI(
+// Gemini API 호출
+async function callGeminiAPI(
   apiConfig: { url: string; key: string; model: string },
   message: string,
   history: Array<{ role: string; content: string }>,
   systemPrompt: string
 ): Promise<string> {
-  const messages = [
-    { role: "system", content: systemPrompt },
-    ...history.map((msg) => ({
-      role: msg.role,
-      content: msg.content,
-    })),
-    { role: "user", content: message },
-  ];
+  // Gemini는 시스템 프롬프트와 대화를 하나의 텍스트로 변환
+  let prompt = `${systemPrompt}\n\n`;
 
-  const response = await fetch(apiConfig.url, {
+  for (const msg of history) {
+    prompt += `${msg.role === "user" ? "사용자" : "어시스턴트"}: ${msg.content}\n\n`;
+  }
+
+  prompt += `사용자: ${message}\n\n어시스턴트:`;
+
+  const response = await fetch(`${apiConfig.url}?key=${apiConfig.key}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      model: apiConfig.model,
-      messages,
-      temperature: 0.7,
-      max_tokens: 1024,
+      contents: [{
+        parts: [{
+          text: prompt
+        }]
+      }],
+      generationConfig: {
+        temperature: 0.7,
+        maxOutputTokens: 1024,
+      }
     }),
   });
 
@@ -146,13 +151,16 @@ async function callTogetherAPI(
   }
 
   const data = await response.json() as {
-    choices?: Array<{
-      message?: {
-        content?: string;
+    candidates?: Array<{
+      content?: {
+        parts?: Array<{
+          text?: string;
+        }>;
       };
     }>;
   };
-  return data.choices?.[0]?.message?.content || "응답을 생성할 수 없습니다.";
+
+  return data.candidates?.[0]?.content?.parts?.[0]?.text || "응답을 생성할 수 없습니다.";
 }
 
 export async function sendMessage(
@@ -232,10 +240,10 @@ export async function sendMessage(
 
       let aiMessage: string;
 
-      if (apiConfig.name === "OpenRouter") {
+      if (apiConfig.name === "Gemini") {
+        aiMessage = await callGeminiAPI(apiConfig, message, history, enhancedPrompt);
+      } else if (apiConfig.name === "OpenRouter") {
         aiMessage = await callOpenRouterAPI(apiConfig, message, history, enhancedPrompt);
-      } else if (apiConfig.name === "Together AI") {
-        aiMessage = await callTogetherAPI(apiConfig, message, history, enhancedPrompt);
       } else if (apiConfig.name === "Groq") {
         aiMessage = await callGroqAPI(apiConfig, message, history, enhancedPrompt);
       } else {
