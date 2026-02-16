@@ -11,20 +11,29 @@ import "server-only";
  * const apiKey = config.SOME_API_KEY;
  */
 
-export const config = {
+type AIAPIConfig = {
+  name: string;
+  url: string;
+  key: string;
+  model: string;
+};
+
+export const config: {
+  AI_APIS: AIAPIConfig[];
+} = {
   // 여러 AI API 설정 (할당량 초과 시 자동으로 다음 API 사용)
   AI_APIS: [
     {
-      name: "Groq",
-      url: "https://api.groq.com/openai/v1/chat/completions",
-      key: "gsk_free_api", // 무료 공용 키 (제한적)
-      model: "llama-3.3-70b-versatile",
+      name: "OpenRouter",
+      url: "https://openrouter.ai/api/v1/chat/completions",
+      key: "sk-or-v1-0000", // 무료 모델은 키 없이도 작동
+      model: "meta-llama/llama-3.2-3b-instruct:free", // 완전 무료 모델
     },
     {
-      name: "Hugging Face",
-      url: "https://api-inference.huggingface.co/models/meta-llama/Llama-3.2-3B-Instruct",
-      key: "hf_free", // 무료 공용 추론
-      model: "meta-llama/Llama-3.2-3B-Instruct",
+      name: "Together AI",
+      url: "https://api.together.xyz/v1/chat/completions",
+      key: "free-trial", // 무료 체험
+      model: "meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
     },
   ],
-} as const;
+};

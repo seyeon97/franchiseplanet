@@ -65,34 +65,34 @@ async function callGroqAPI(
   return data.choices?.[0]?.message?.content || "응답을 생성할 수 없습니다.";
 }
 
-// Hugging Face API 호출
-async function callHuggingFaceAPI(
+// OpenRouter API 호출 (OpenAI 호환)
+async function callOpenRouterAPI(
   apiConfig: { url: string; key: string; model: string },
   message: string,
   history: Array<{ role: string; content: string }>,
   systemPrompt: string
 ): Promise<string> {
-  // 대화 히스토리를 텍스트로 변환
-  let conversationText = `${systemPrompt}\n\n`;
-
-  for (const msg of history) {
-    conversationText += `${msg.role === "user" ? "사용자" : "어시스턴트"}: ${msg.content}\n\n`;
-  }
-
-  conversationText += `사용자: ${message}\n\n어시스턴트:`;
+  const messages = [
+    { role: "system", content: systemPrompt },
+    ...history.map((msg) => ({
+      role: msg.role,
+      content: msg.content,
+    })),
+    { role: "user", content: message },
+  ];
 
   const response = await fetch(apiConfig.url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      "HTTP-Referer": "https://franchise-consultant.com",
+      "X-Title": "Franchise Consultant",
     },
     body: JSON.stringify({
-      inputs: conversationText,
-      parameters: {
-        max_new_tokens: 1024,
-        temperature: 0.7,
-        return_full_text: false,
-      },
+      model: apiConfig.model,
+      messages,
+      temperature: 0.7,
+      max_tokens: 1024,
     }),
   });
 
@@ -101,16 +101,58 @@ async function callHuggingFaceAPI(
     throw new Error(`API Error (${response.status}): ${errorText.substring(0, 200)}`);
   }
 
-  const data = await response.json() as
-    | Array<{ generated_text?: string }>
-    | { generated_text?: string };
+  const data = await response.json() as {
+    choices?: Array<{
+      message?: {
+        content?: string;
+      };
+    }>;
+  };
+  return data.choices?.[0]?.message?.content || "응답을 생성할 수 없습니다.";
+}
 
-  // Hugging Face는 배열 또는 객체를 반환할 수 있음
-  if (Array.isArray(data)) {
-    return data[0]?.generated_text || "응답을 생성할 수 없습니다.";
+// Together AI API 호출 (OpenAI 호환)
+async function callTogetherAPI(
+  apiConfig: { url: string; key: string; model: string },
+  message: string,
+  history: Array<{ role: string; content: string }>,
+  systemPrompt: string
+): Promise<string> {
+  const messages = [
+    { role: "system", content: systemPrompt },
+    ...history.map((msg) => ({
+      role: msg.role,
+      content: msg.content,
+    })),
+    { role: "user", content: message },
+  ];
+
+  const response = await fetch(apiConfig.url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      model: apiConfig.model,
+      messages,
+      temperature: 0.7,
+      max_tokens: 1024,
+    }),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`API Error (${response.status}): ${errorText.substring(0, 200)}`);
   }
 
-  return data.generated_text || "응답을 생성할 수 없습니다.";
+  const data = await response.json() as {
+    choices?: Array<{
+      message?: {
+        content?: string;
+      };
+    }>;
+  };
+  return data.choices?.[0]?.message?.content || "응답을 생성할 수 없습니다.";
 }
 
 export async function sendMessage(
@@ -147,50 +189,41 @@ export async function sendMessage(
 
   if (relevantKnowledge.length > 0) {
     console.log("[AI Chat] 지식 베이스를 AI 컨텍스트로 활용");
-    enhancedPrompt += "\n\n=== 📚 참고 자료 (전문가 상담 데이터) ===\n";
-    enhancedPrompt += "아래 정보를 참고하여 답변하세요.\n";
-    enhancedPrompt += "내용을 그대로 복사하지 말고, 당신의 말투로 자연스럽게 재구성하고 정리하여 답변하세요.\n\n";
+    enhancedPrompt += "\n\n=== 📚 전문가 지식 베이스 (학습 자료) ===\n";
+    enhancedPrompt += "아래는 이 분야 전문가들의 실제 상담 내용입니다. 이 내용을 학습하여 활용하세요.\n\n";
 
     relevantKnowledge.forEach((item, index) => {
-      enhancedPrompt += `[참고자료 ${index + 1}] 카테고리: ${item.category}\n`;
-      enhancedPrompt += `질문 예시: ${item.question}\n`;
+      enhancedPrompt += `[전문가 상담 ${index + 1}] 주제: ${item.category}\n`;
+      enhancedPrompt += `질문: ${item.question}\n`;
       enhancedPrompt += `전문가 답변:\n${item.answer}\n\n`;
     });
 
-    enhancedPrompt += "=== 답변 작성 가이드 ===\n";
-    enhancedPrompt += "- 위 참고자료의 핵심 내용을 활용하되, 당신의 말투로 자연스럽게 작성\n";
-    enhancedPrompt += "- 필요하면 내용을 요약하거나 재구성\n";
-    enhancedPrompt += "- 이모지는 적절히 사용 (너무 많지 않게)\n";
-    enhancedPrompt += "- 친절하고 전문적인 톤 유지\n";
+    enhancedPrompt += "=== ⚠️ 중요: 답변 작성 방식 ===\n";
+    enhancedPrompt += "위 전문가 답변의 내용을 **절대 그대로 복사하지 마세요**.\n";
+    enhancedPrompt += "당신은 실제 사람처럼 자연스럽게 대화해야 합니다:\n\n";
+    enhancedPrompt += "1. 🗣️ 사람처럼 자연스럽게:\n";
+    enhancedPrompt += "   - 전문가 답변을 이해하고 당신의 말로 재구성하세요\n";
+    enhancedPrompt += "   - 대화하듯이 친근하고 편안한 톤으로 작성하세요\n";
+    enhancedPrompt += "   - '~습니다', '~됩니다' 같은 딱딱한 표현 대신 '~해요', '~되요' 사용\n\n";
+    enhancedPrompt += "2. 💬 대화형 답변:\n";
+    enhancedPrompt += "   - 사용자의 질문에 공감하는 짧은 인사로 시작 (예: '좋은 질문이에요!', '궁금하셨군요!')\n";
+    enhancedPrompt += "   - 핵심 정보를 간결하게 전달\n";
+    enhancedPrompt += "   - 필요하면 추가 질문을 유도하는 멘트 추가\n\n";
+    enhancedPrompt += "3. 📝 내용 재구성:\n";
+    enhancedPrompt += "   - 전문가 답변이 길면 핵심만 뽑아서 요약\n";
+    enhancedPrompt += "   - 사용자의 구체적인 질문에 맞춰 관련 부분만 강조\n";
+    enhancedPrompt += "   - 불필요한 세부사항은 생략\n\n";
+    enhancedPrompt += "4. 😊 감정 표현:\n";
+    enhancedPrompt += "   - 이모지는 1-2개 정도만 적절히 사용\n";
+    enhancedPrompt += "   - 친근하지만 신뢰감 있는 톤 유지\n";
+    enhancedPrompt += "   - 전문가답지만 딱딱하지 않게\n\n";
+    enhancedPrompt += "예시:\n";
+    enhancedPrompt += "❌ 나쁜 예: [전문가 답변을 그대로 복사]\n";
+    enhancedPrompt += "✅ 좋은 예: '메가커피 창업 고려하시는군요! 😊 초기 투자금은 보통 5천만원 정도 필요해요. 가맹비, 인테리어, 설비비 등이 주요 항목이죠. 혹시 특정 지역을 염두에 두고 계신가요? 지역마다 조금씩 차이가 있을 수 있거든요!'\n";
   }
 
-  // 3단계: 답변 생성
-  // 관련 지식이 있으면 그것을 기반으로 직접 답변 생성 (AI 없이)
-  if (relevantKnowledge.length > 0) {
-    console.log("[AI Chat] 지식 베이스 기반 답변 생성 (AI 미사용)");
-
-    // 여러 참고자료가 있으면 통합해서 답변
-    let answer = "";
-
-    if (relevantKnowledge.length === 1) {
-      // 단일 참고자료
-      const item = relevantKnowledge[0];
-      answer = `${item.answer}\n\n`;
-      answer += `💡 더 궁금하신 점이 있으시면 언제든 물어보세요!`;
-    } else {
-      // 여러 참고자료 통합
-      answer = `관련된 정보를 찾았습니다:\n\n`;
-      relevantKnowledge.forEach((item, index) => {
-        answer += `**${index + 1}. ${item.category}**\n${item.answer}\n\n`;
-      });
-      answer += `💡 더 자세한 내용이 필요하시면 언제든 물어보세요!`;
-    }
-
-    return { message: answer };
-  }
-
-  // 관련 지식이 없으면 AI API 시도
-  console.log("[AI Chat] AI API 호출");
+  // 3단계: AI API를 통해 답변 생성
+  console.log("[AI Chat] AI API 호출 (지식 베이스 참고하여 자연스럽게 답변)");
 
   // 모든 API를 순서대로 시도
   for (const apiConfig of config.AI_APIS) {
@@ -199,10 +232,12 @@ export async function sendMessage(
 
       let aiMessage: string;
 
-      if (apiConfig.name === "Groq") {
+      if (apiConfig.name === "OpenRouter") {
+        aiMessage = await callOpenRouterAPI(apiConfig, message, history, enhancedPrompt);
+      } else if (apiConfig.name === "Together AI") {
+        aiMessage = await callTogetherAPI(apiConfig, message, history, enhancedPrompt);
+      } else if (apiConfig.name === "Groq") {
         aiMessage = await callGroqAPI(apiConfig, message, history, enhancedPrompt);
-      } else if (apiConfig.name === "Hugging Face") {
-        aiMessage = await callHuggingFaceAPI(apiConfig, message, history, enhancedPrompt);
       } else {
         continue; // 지원하지 않는 API는 스킵
       }
