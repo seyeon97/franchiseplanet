@@ -164,7 +164,32 @@ export async function sendMessage(
     enhancedPrompt += "- 친절하고 전문적인 톤 유지\n";
   }
 
-  // 3단계: AI API 호출
+  // 3단계: 답변 생성
+  // 관련 지식이 있으면 그것을 기반으로 직접 답변 생성 (AI 없이)
+  if (relevantKnowledge.length > 0) {
+    console.log("[AI Chat] 지식 베이스 기반 답변 생성 (AI 미사용)");
+
+    // 여러 참고자료가 있으면 통합해서 답변
+    let answer = "";
+
+    if (relevantKnowledge.length === 1) {
+      // 단일 참고자료
+      const item = relevantKnowledge[0];
+      answer = `${item.answer}\n\n`;
+      answer += `💡 더 궁금하신 점이 있으시면 언제든 물어보세요!`;
+    } else {
+      // 여러 참고자료 통합
+      answer = `관련된 정보를 찾았습니다:\n\n`;
+      relevantKnowledge.forEach((item, index) => {
+        answer += `**${index + 1}. ${item.category}**\n${item.answer}\n\n`;
+      });
+      answer += `💡 더 자세한 내용이 필요하시면 언제든 물어보세요!`;
+    }
+
+    return { message: answer };
+  }
+
+  // 관련 지식이 없으면 AI API 시도
   console.log("[AI Chat] AI API 호출");
 
   // 모든 API를 순서대로 시도
@@ -208,7 +233,7 @@ export async function sendMessage(
 더 구체적인 상담이 필요하시다면, 오프라인 페이지에서 전문가 상담 프로그램을 이용해보세요.
 
 💡 **TIP:**
-어드민 페이지에서 전문가 상담 데이터를 추가하시면, AI 서비스 없이도 즉시 답변을 받을 수 있습니다!`;
+어드민 페이지에서 전문가 상담 데이터를 추가하시면, 즉시 답변을 받을 수 있습니다!`;
 
   return { message: fallbackMessage };
 }
