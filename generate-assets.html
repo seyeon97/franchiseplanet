@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generate Assets</title>
+</head>
+<body>
+    <h2>프랜차이즈플래닛 이미지 생성</h2>
+    <canvas id="ogCanvas" width="1200" height="630"></canvas>
+    <br>
+    <canvas id="faviconCanvas" width="512" height="512"></canvas>
+    <br>
+    <button onclick="downloadOG()">OG 이미지 다운로드</button>
+    <button onclick="downloadFavicon()">파비콘 다운로드</button>
+
+    <script>
+        // OG 이미지 생성 (1200x630)
+        const ogCanvas = document.getElementById('ogCanvas');
+        const ogCtx = ogCanvas.getContext('2d');
+
+        // 그라디언트 배경
+        const ogGradient = ogCtx.createLinearGradient(0, 0, 1200, 630);
+        ogGradient.addColorStop(0, '#60A5FA');    // 진한 블루
+        ogGradient.addColorStop(1, '#A78BFA');    // 밝은 퍼플
+        ogCtx.fillStyle = ogGradient;
+        ogCtx.fillRect(0, 0, 1200, 630);
+
+        // 텍스트 스타일
+        ogCtx.fillStyle = '#FFFFFF';
+        ogCtx.textAlign = 'center';
+        ogCtx.textBaseline = 'middle';
+
+        // "프플" 텍스트 (크게)
+        ogCtx.font = 'bold 280px Pretendard, sans-serif';
+        ogCtx.fillText('프플', 600, 280);
+
+        // 부제목
+        ogCtx.font = 'bold 48px Pretendard, sans-serif';
+        ogCtx.fillText('프랜차이즈플래닛', 600, 480);
+
+        // 파비콘 생성 (512x512)
+        const faviconCanvas = document.getElementById('faviconCanvas');
+        const faviconCtx = faviconCanvas.getContext('2d');
+
+        // 그라디언트 배경
+        const faviconGradient = faviconCtx.createLinearGradient(0, 0, 512, 512);
+        faviconGradient.addColorStop(0, '#60A5FA');
+        faviconGradient.addColorStop(1, '#A78BFA');
+        faviconCtx.fillStyle = faviconGradient;
+        faviconCtx.fillRect(0, 0, 512, 512);
+
+        // "프플" 텍스트
+        faviconCtx.fillStyle = '#FFFFFF';
+        faviconCtx.font = 'bold 240px Pretendard, sans-serif';
+        faviconCtx.textAlign = 'center';
+        faviconCtx.textBaseline = 'middle';
+        faviconCtx.fillText('프플', 256, 256);
+
+        function downloadOG() {
+            const link = document.createElement('a');
+            link.download = 'og.png';
+            link.href = ogCanvas.toDataURL();
+            link.click();
+        }
+
+        function downloadFavicon() {
+            const link = document.createElement('a');
+            link.download = 'favicon.png';
+            link.href = faviconCanvas.toDataURL();
+            link.click();
+        }
+    </script>
+</body>
+</html>
