@@ -77,32 +77,54 @@ export default function LoginView() {
   };
 
   const handleKakaoCallback = async () => {
-    // 실제 환경에서는 서버로 인증 코드를 보내 액세스 토큰을 받아야 합니다
-    // 여기서는 간단히 로그인 상태만 저장합니다
     try {
-      // 카카오 사용자 정보 가져오기 (실제로는 서버에서 처리해야 함)
-      // 임시로 더미 데이터 생성
-      const dummyUserInfo: KakaoUserInfo = {
-        id: Math.floor(Math.random() * 1000000),
-        kakao_account: {
-          email: "kakao@user.com",
-          profile: {
-            nickname: "카카오 사용자",
-            profile_image_url: undefined,
-          },
+      // 카카오 사용자 정보 가져오기
+      if (!window.Kakao) {
+        throw new Error("Kakao SDK not loaded");
+      }
+
+      window.Kakao.API.request({
+        url: '/v2/user/me',
+        success: (response: KakaoUserInfo) => {
+          console.log("카카오 사용자 정보:", response);
+
+          // 사용자 정보를 어드민 페이지용으로 저장
+          saveKakaoUserToAdmin(response);
+
+          // 로그인 처리
+          localStorage.setItem("isLoggedIn", "true");
+          localStorage.setItem("userName", response.kakao_account.profile?.nickname || "카카오 사용자");
+          localStorage.setItem("userEmail", response.kakao_account.email || "");
+          localStorage.setItem("userProfileImage", response.kakao_account.profile?.profile_image_url || "");
+
+          // URL 정리하고 더보기 페이지로 이동
+          window.history.replaceState({}, document.title, "/login");
+          router.push("/more");
         },
-      };
+        fail: (error: Error) => {
+          console.error("카카오 사용자 정보 가져오기 실패:", error);
 
-      // 사용자 정보를 어드민 페이지용으로 저장
-      saveKakaoUserToAdmin(dummyUserInfo);
+          // 실패해도 기본 정보로 로그인 처리
+          const fallbackInfo: KakaoUserInfo = {
+            id: Math.floor(Math.random() * 1000000),
+            kakao_account: {
+              email: "kakao@user.com",
+              profile: {
+                nickname: "카카오 사용자",
+                profile_image_url: undefined,
+              },
+            },
+          };
 
-      // 임시로 로그인 처리
-      localStorage.setItem("isLoggedIn", "true");
-      localStorage.setItem("userEmail", dummyUserInfo.kakao_account.email || "kakao@user.com");
+          saveKakaoUserToAdmin(fallbackInfo);
+          localStorage.setItem("isLoggedIn", "true");
+          localStorage.setItem("userName", "카카오 사용자");
+          localStorage.setItem("userEmail", "kakao@user.com");
 
-      // URL 정리하고 마이페이지로 이동
-      window.history.replaceState({}, document.title, "/login");
-      router.push("/more");
+          window.history.replaceState({}, document.title, "/login");
+          router.push("/more");
+        }
+      });
     } catch (error) {
       console.error("카카오 로그인 처리 실패:", error);
       alert("로그인 처리 중 오류가 발생했습니다.");
@@ -245,7 +267,9 @@ export default function LoginView() {
     saveKakaoUserToAdmin(testUserInfo);
 
     localStorage.setItem("isLoggedIn", "true");
+    localStorage.setItem("userName", "테스트 사용자");
     localStorage.setItem("userEmail", "test@user.com");
+    localStorage.setItem("userProfileImage", "");
     router.push("/more");
   };
 

@@ -11,7 +11,7 @@ export default function MoreView() {
 
   useEffect(() => {
     const loggedIn = localStorage.getItem("isLoggedIn") === "true";
-    const name = localStorage.getItem("userName") || "";
+    const name = localStorage.getItem("userName") || "사용자";
     const email = localStorage.getItem("userEmail") || "";
 
     // 로그인되지 않은 경우 로그인 페이지로 리다이렉트
@@ -24,6 +24,19 @@ export default function MoreView() {
     setUserName(name);
     setUserEmail(email);
   }, [router]);
+
+  const handleLogout = () => {
+    if (confirm("로그아웃 하시겠습니까?")) {
+      // 로그인 정보 삭제
+      localStorage.removeItem("isLoggedIn");
+      localStorage.removeItem("userName");
+      localStorage.removeItem("userEmail");
+      localStorage.removeItem("userProfileImage");
+
+      // 로그인 페이지로 이동
+      router.push("/login");
+    }
+  };
 
   const serviceMenus = [
     {
@@ -237,8 +250,18 @@ export default function MoreView() {
           ))}
         </div>
 
+        {/* 로그아웃 버튼 */}
+        <div className="px-4 py-4">
+          <button
+            onClick={handleLogout}
+            className="w-full py-3 px-4 bg-gray-100 hover:bg-gray-200 active:bg-gray-300 text-gray-700 font-bold rounded-xl transition-colors"
+          >
+            로그아웃
+          </button>
+        </div>
+
         {/* 버전 정보 */}
-        <div className="px-4 py-8 text-center">
+        <div className="px-4 py-4 text-center">
           <p className="text-sm text-gray-400 font-medium">
             프차플래닛 v1.0.0
           </p>
