@@ -2409,10 +2409,12 @@ function EditModal({
               {/* 썸네일 프리뷰 */}
               <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 bg-gray-50">
                 <label className="block text-sm font-bold text-gray-700 mb-3">썸네일 프리뷰</label>
-                <div className="w-full h-48 rounded-xl flex flex-col items-center justify-center bg-white border-2 border-gray-200 relative overflow-hidden">
+                <div
+                  className={`w-full h-48 rounded-xl flex flex-col items-center justify-center bg-gradient-to-br ${(formData as Resource).bgColor || 'from-blue-400 to-blue-500'} border-2 border-gray-200 relative overflow-hidden`}
+                >
                   <div className="text-6xl mb-3">{(formData as Resource).thumbnail || "📄"}</div>
-                  <div className="text-xl font-bold text-gray-900 text-center px-4">{(formData as Resource).title || "제목"}</div>
-                  <div className="text-sm text-gray-600 mt-2">{(formData as Resource).category || "카테고리"}</div>
+                  <div className="text-xl font-bold text-white text-center px-4">{(formData as Resource).title || "제목"}</div>
+                  <div className="text-sm text-white/90 mt-2">{(formData as Resource).category || "카테고리"}</div>
                 </div>
               </div>
 
@@ -2423,6 +2425,65 @@ function EditModal({
                   value={(formData as Resource).title}
                   onChange={(e) => updateField("title", e.target.value)}
                   className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+
+              {/* 배경 그라데이션 */}
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">배경 그라데이션</label>
+                <div className="grid grid-cols-3 gap-2 mb-3">
+                  <button
+                    type="button"
+                    onClick={() => updateField("bgColor", "from-blue-400 to-blue-500")}
+                    className="h-12 rounded-lg bg-gradient-to-br from-blue-400 to-blue-500"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => updateField("bgColor", "from-amber-400 to-orange-500")}
+                    className="h-12 rounded-lg bg-gradient-to-br from-amber-400 to-orange-500"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => updateField("bgColor", "from-green-400 to-emerald-500")}
+                    className="h-12 rounded-lg bg-gradient-to-br from-green-400 to-emerald-500"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => updateField("bgColor", "from-yellow-400 to-amber-500")}
+                    className="h-12 rounded-lg bg-gradient-to-br from-yellow-400 to-amber-500"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => updateField("bgColor", "from-purple-400 to-purple-500")}
+                    className="h-12 rounded-lg bg-gradient-to-br from-purple-400 to-purple-500"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => updateField("bgColor", "from-pink-400 to-rose-500")}
+                    className="h-12 rounded-lg bg-gradient-to-br from-pink-400 to-rose-500"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => updateField("bgColor", "from-red-400 to-red-500")}
+                    className="h-12 rounded-lg bg-gradient-to-br from-red-400 to-red-500"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => updateField("bgColor", "from-cyan-400 to-blue-500")}
+                    className="h-12 rounded-lg bg-gradient-to-br from-cyan-400 to-blue-500"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => updateField("bgColor", "from-gray-400 to-gray-500")}
+                    className="h-12 rounded-lg bg-gradient-to-br from-gray-400 to-gray-500"
+                  />
+                </div>
+                <input
+                  type="text"
+                  value={(formData as Resource).bgColor}
+                  onChange={(e) => updateField("bgColor", e.target.value)}
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono text-sm"
+                  placeholder="from-blue-400 to-blue-500"
                 />
               </div>
               <div>
