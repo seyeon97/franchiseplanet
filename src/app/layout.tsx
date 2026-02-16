@@ -95,12 +95,21 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: "프랜차이즈플래닛",
       images: [
         {
-          url: "/og.png", // 상대 경로 사용 - metadataBase가 절대 URL로 변환
+          url: "/og.svg", // SVG 이미지 사용
           width: 1200,
           height: 630,
           alt: "프랜차이즈플래닛",
         },
       ],
+    },
+
+    // 아이콘 설정
+    icons: {
+      icon: [
+        { url: "/icon.svg", type: "image/svg+xml" },
+        { url: "/favicon.ico", sizes: "any" },
+      ],
+      apple: "/icon.svg",
     },
 
     // Twitter Card metadata
@@ -109,7 +118,7 @@ export async function generateMetadata(): Promise<Metadata> {
       title: "프랜차이즈플래닛 - 제대로 알고 시작하세요",
       description:
         "실패 10%, 평균, 위기 10% - 실제 매출 데이터로 협상직전 창업을 도와드립니다. 프랜차이즈 창업의 모든 것을 한눈에!",
-      images: ["/og.png"], // 상대 경로 사용
+      images: ["/og.svg"], // SVG 이미지 사용
     },
 
     // Additional metadata
