@@ -27,6 +27,10 @@ async function callGroqAPI(
   history: Array<{ role: string; content: string }>,
   systemPrompt: string
 ): Promise<string> {
+  if (!apiConfig.key || apiConfig.key.startsWith("YOUR_")) {
+    throw new Error("유효하지 않은 API 키");
+  }
+
   const messages = [
     { role: "system", content: systemPrompt },
     ...history.map((msg) => ({
@@ -118,6 +122,11 @@ async function callGeminiAPI(
   history: Array<{ role: string; content: string }>,
   systemPrompt: string
 ): Promise<string> {
+  // API 키 유효성 검사
+  if (!apiConfig.key || apiConfig.key.startsWith("YOUR_")) {
+    throw new Error("유효하지 않은 API 키");
+  }
+
   // Gemini는 시스템 프롬프트와 대화를 하나의 텍스트로 변환
   let prompt = `${systemPrompt}\n\n`;
 
@@ -161,6 +170,55 @@ async function callGeminiAPI(
   };
 
   return data.candidates?.[0]?.content?.parts?.[0]?.text || "응답을 생성할 수 없습니다.";
+}
+
+// DeepSeek API 호출 (OpenAI 호환)
+async function callDeepSeekAPI(
+  apiConfig: { url: string; key: string; model: string },
+  message: string,
+  history: Array<{ role: string; content: string }>,
+  systemPrompt: string
+): Promise<string> {
+  if (!apiConfig.key || apiConfig.key.startsWith("YOUR_")) {
+    throw new Error("유효하지 않은 API 키");
+  }
+
+  const messages = [
+    { role: "system", content: systemPrompt },
+    ...history.map((msg) => ({
+      role: msg.role,
+      content: msg.content,
+    })),
+    { role: "user", content: message },
+  ];
+
+  const response = await fetch(apiConfig.url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${apiConfig.key}`,
+    },
+    body: JSON.stringify({
+      model: apiConfig.model,
+      messages,
+      temperature: 0.7,
+      max_tokens: 1024,
+    }),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`API Error (${response.status}): ${errorText.substring(0, 200)}`);
+  }
+
+  const data = await response.json() as {
+    choices?: Array<{
+      message?: {
+        content?: string;
+      };
+    }>;
+  };
+  return data.choices?.[0]?.message?.content || "응답을 생성할 수 없습니다.";
 }
 
 export async function sendMessage(
@@ -240,14 +298,18 @@ export async function sendMessage(
 
       let aiMessage: string;
 
-      if (apiConfig.name === "Gemini") {
+      // API 이름으로 적절한 함수 선택
+      if (apiConfig.name.startsWith("Gemini")) {
         aiMessage = await callGeminiAPI(apiConfig, message, history, enhancedPrompt);
+      } else if (apiConfig.name.startsWith("Groq")) {
+        aiMessage = await callGroqAPI(apiConfig, message, history, enhancedPrompt);
+      } else if (apiConfig.name.startsWith("DeepSeek")) {
+        aiMessage = await callDeepSeekAPI(apiConfig, message, history, enhancedPrompt);
       } else if (apiConfig.name === "OpenRouter") {
         aiMessage = await callOpenRouterAPI(apiConfig, message, history, enhancedPrompt);
-      } else if (apiConfig.name === "Groq") {
-        aiMessage = await callGroqAPI(apiConfig, message, history, enhancedPrompt);
       } else {
-        continue; // 지원하지 않는 API는 스킵
+        console.log(`[AI Chat] 지원하지 않는 API: ${apiConfig.name}`);
+        continue;
       }
 
       console.log(`[AI Chat] ${apiConfig.name} API 성공`);
