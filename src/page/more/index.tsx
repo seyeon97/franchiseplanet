@@ -8,6 +8,7 @@ export default function MoreView() {
   const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   useEffect(() => {
     const loggedIn = localStorage.getItem("isLoggedIn") === "true";
@@ -26,16 +27,22 @@ export default function MoreView() {
   }, [router]);
 
   const handleLogout = () => {
-    if (confirm("로그아웃 하시겠습니까?")) {
-      // 로그인 정보 삭제
-      localStorage.removeItem("isLoggedIn");
-      localStorage.removeItem("userName");
-      localStorage.removeItem("userEmail");
-      localStorage.removeItem("userProfileImage");
+    setShowLogoutModal(true);
+  };
 
-      // 로그인 페이지로 이동
-      router.push("/login");
-    }
+  const confirmLogout = () => {
+    // 로그인 정보 삭제
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("userName");
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("userProfileImage");
+
+    // 로그인 페이지로 이동
+    router.push("/login");
+  };
+
+  const cancelLogout = () => {
+    setShowLogoutModal(false);
   };
 
   const serviceMenus = [
@@ -267,6 +274,46 @@ export default function MoreView() {
           </p>
         </div>
       </div>
+
+      {/* 로그아웃 확인 모달 */}
+      {showLogoutModal && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 px-4">
+          <div className="bg-white rounded-3xl p-6 max-w-sm w-full shadow-2xl animate-in fade-in zoom-in duration-200">
+            {/* 아이콘 */}
+            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-red-400 to-pink-500 flex items-center justify-center">
+              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+              </svg>
+            </div>
+
+            {/* 제목 */}
+            <h3 className="text-xl font-black text-gray-900 text-center mb-2">
+              로그아웃
+            </h3>
+
+            {/* 설명 */}
+            <p className="text-sm text-gray-600 text-center mb-6">
+              정말 로그아웃 하시겠습니까?
+            </p>
+
+            {/* 버튼 */}
+            <div className="flex gap-3">
+              <button
+                onClick={cancelLogout}
+                className="flex-1 py-3 px-4 bg-gray-100 hover:bg-gray-200 active:bg-gray-300 text-gray-700 font-bold rounded-xl transition-colors"
+              >
+                취소
+              </button>
+              <button
+                onClick={confirmLogout}
+                className="flex-1 py-3 px-4 bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-xl"
+              >
+                로그아웃
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
