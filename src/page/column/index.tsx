@@ -250,7 +250,8 @@ export default function ColumnView() {
               >
                 {/* 배경 그라데이션 */}
                 <div
-                  className={`absolute inset-0 bg-gradient-to-br ${column.bgGradient} opacity-90`}
+                  className="absolute inset-0 opacity-90"
+                  style={{ background: column.bgGradient }}
                 />
 
                 {/* 콘텐츠 */}
@@ -373,7 +374,8 @@ export default function ColumnView() {
           {/* 콘텐츠 영역 */}
           <div className="h-full overflow-y-auto">
             <div
-              className={`min-h-screen bg-gradient-to-br ${selectedColumn.bgGradient} px-6 py-20`}
+              className="min-h-screen px-6 py-20"
+              style={{ background: selectedColumn.bgGradient }}
             >
               <div className="max-w-2xl mx-auto">
                 {/* 헤더 */}
