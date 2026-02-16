@@ -84,17 +84,22 @@ export default function ChatBot() {
     <div className="h-screen bg-gray-50 flex flex-col">
       {/* 헤더 */}
       <div className="px-6 pt-4 pb-3 bg-white shadow-sm flex-shrink-0">
-        <h1
-          className="text-2xl font-extrabold mb-1 leading-tight"
-          style={{
-            background: "linear-gradient(90deg, #3182F6 0%, #00C896 100%)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
-          }}
-        >
-          전문가 상담
-        </h1>
+        <div className="flex items-center gap-3 mb-1">
+          <h1
+            className="text-2xl font-extrabold leading-tight"
+            style={{
+              background: "linear-gradient(90deg, #3182F6 0%, #00C896 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}
+          >
+            전문가 상담
+          </h1>
+          <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-md">
+            BETA
+          </span>
+        </div>
         <p className="text-sm text-gray-600 font-medium">
           프랜차이즈 창업 전문가가 답변해드려요
         </p>
