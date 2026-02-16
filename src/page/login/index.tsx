@@ -174,18 +174,32 @@ export default function LoginView() {
         console.error("카카오 SDK 로드 중 에러:", error);
       });
 
+    // URL에서 인증 코드 또는 에러 확인
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get("code");
+    const error = urlParams.get("error");
+    const errorDescription = urlParams.get("error_description");
+
+    // 카카오 로그인 에러 처리
+    if (error) {
+      console.error("카카오 로그인 에러:", error, errorDescription);
+      alert(`카카오 로그인 실패: ${errorDescription || error}`);
+      // URL 정리
+      window.history.replaceState({}, document.title, "/login");
+      return;
+    }
+
+    // 인증 코드가 있으면 로그인 처리
+    if (code) {
+      handleKakaoCallback();
+      return;
+    }
+
     // 이미 로그인된 경우 /more로 리다이렉트
     const alreadyLoggedIn = localStorage.getItem("isLoggedIn") === "true";
     if (alreadyLoggedIn) {
       router.push("/more");
       return;
-    }
-
-    // URL에서 인증 코드 확인
-    const urlParams = new URLSearchParams(window.location.search);
-    const code = urlParams.get("code");
-    if (code) {
-      handleKakaoCallback();
     }
   }, [router]);
 
