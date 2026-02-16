@@ -79,26 +79,26 @@ export async function generateMetadata(): Promise<Metadata> {
     metadataBase: new URL(`${protocol}://${hostname}`),
 
     title: {
-      default: "MVPStar Template",
-      template: "%s | MVPStar Template", // Page titles will be "Page Title | MVPStar Template"
+      default: "프랜차이즈플래닛 - 제대로 알고 시작하세요",
+      template: "%s | 프랜차이즈플래닛", // Page titles will be "Page Title | 프랜차이즈플래닛"
     },
     description:
-      "MVPStar에서 제작한 빠른 MVP 개발 템플릿입니다. Next.js 15 기반으로 구축되어 아이디어를 신속하게 실현할 수 있습니다.",
+      "실패 10%, 평균, 위기 10% - 실제 매출 데이터로 협상직전 창업을 도와드립니다. 프랜차이즈 창업의 모든 것을 한눈에!",
 
     // Open Graph metadata for social sharing
     openGraph: {
       type: "website",
       locale: "ko_KR",
-      title: "MVPStar Template",
+      title: "프랜차이즈플래닛 - 제대로 알고 시작하세요",
       description:
-        "MVPStar에서 제작한 빠른 MVP 개발 템플릿입니다. Next.js 15 기반으로 구축되어 아이디어를 신속하게 실현할 수 있습니다.",
-      siteName: "MVPStar Template",
+        "실패 10%, 평균, 위기 10% - 실제 매출 데이터로 협상직전 창업을 도와드립니다. 프랜차이즈 창업의 모든 것을 한눈에!",
+      siteName: "프랜차이즈플래닛",
       images: [
         {
           url: "/og.png", // 상대 경로 사용 - metadataBase가 절대 URL로 변환
           width: 1200,
           height: 630,
-          alt: "MVPStar Template",
+          alt: "프랜차이즈플래닛",
         },
       ],
     },
@@ -106,9 +106,9 @@ export async function generateMetadata(): Promise<Metadata> {
     // Twitter Card metadata
     twitter: {
       card: "summary_large_image",
-      title: "MVPStar Template",
+      title: "프랜차이즈플래닛 - 제대로 알고 시작하세요",
       description:
-        "MVPStar에서 제작한 빠른 MVP 개발 템플릿입니다. Next.js 15 기반으로 구축되어 아이디어를 신속하게 실현할 수 있습니다.",
+        "실패 10%, 평균, 위기 10% - 실제 매출 데이터로 협상직전 창업을 도와드립니다. 프랜차이즈 창업의 모든 것을 한눈에!",
       images: ["/og.png"], // 상대 경로 사용
     },
 
