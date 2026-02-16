@@ -344,9 +344,9 @@ export default function ColumnView() {
                   {/* 스크롤 힌트 */}
                   <div className="absolute bottom-28 left-1/2 transform -translate-x-1/2">
                     <div className="flex flex-col items-center gap-2" style={{ animation: "bounce 3s infinite" }}>
-                      <div className="text-sm text-gray-400 font-medium">아래로 스크롤</div>
+                      <div className="text-sm text-white font-medium">아래로 스크롤</div>
                       <svg
-                        className="w-6 h-6 text-gray-400"
+                        className="w-6 h-6 text-white"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
