@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { chat } from "@/api/chat";
 import type { Message } from "@/api/chat";
-import { recommendedQuestions } from "@/api/chat/knowledge-base";
+import { recommendedQuestions, knowledgeBase as defaultKnowledgeBase } from "@/api/chat/knowledge-base";
 
 export default function ChatBot() {
   const [messages, setMessages] = useState<Message[]>([
@@ -31,21 +31,24 @@ export default function ChatBot() {
     setIsLoading(true);
 
     try {
-      // localStorage에서 지식 베이스 가져오기
-      let knowledgeBase;
+      // 기본 지식 베이스 + localStorage의 커스텀 지식 베이스 병합
+      let knowledgeBase = [...defaultKnowledgeBase];
+
       try {
         const stored = localStorage.getItem("knowledgeBase");
         if (stored) {
-          knowledgeBase = JSON.parse(stored);
+          const customKnowledge = JSON.parse(stored);
+          // 커스텀 지식을 추가 (기본 지식은 유지)
+          knowledgeBase = [...knowledgeBase, ...customKnowledge];
         }
       } catch (e) {
-        console.error("지식 베이스 로드 실패:", e);
+        console.error("커스텀 지식 베이스 로드 실패:", e);
       }
 
       const response = await chat.sendMessage({
         message: userMessage,
         history: messages,
-        knowledgeBase, // 지식 베이스를 서버로 전달
+        knowledgeBase, // 기본 + 커스텀 지식 베이스 전달
       });
 
       setMessages((prev) => [
