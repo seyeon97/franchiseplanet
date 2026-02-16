@@ -119,19 +119,37 @@ const defaultColumns: Column[] = [
     },
   ];
 
-// 배경 그라데이션에서 가장 진한 색상 추출 (첫 번째 색상)
+// 색상의 밝기 계산 (0-255)
+function getColorBrightness(hex: string): number {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  // 인간의 눈이 인식하는 밝기 계산 (0-255)
+  return (r * 299 + g * 587 + b * 114) / 1000;
+}
+
+// 배경 그라데이션에서 가장 진한 색상 추출
 function extractColorFromGradient(gradient: string): string {
-  // linear-gradient(...) 형식에서 첫 번째 색상 추출 (진한색)
+  // linear-gradient(...) 형식에서 모든 색상 추출
   const linearMatches = gradient.match(/#[0-9A-Fa-f]{6}/g);
-  if (linearMatches && linearMatches.length >= 1) {
-    return linearMatches[0]; // 첫 번째 색상 (진한색)
+  if (linearMatches && linearMatches.length >= 2) {
+    // 두 색상의 밝기 비교하여 더 진한 색 반환
+    const brightness1 = getColorBrightness(linearMatches[0]);
+    const brightness2 = getColorBrightness(linearMatches[1]);
+    return brightness1 < brightness2 ? linearMatches[0] : linearMatches[1];
+  }
+  if (linearMatches && linearMatches.length === 1) {
+    return linearMatches[0];
   }
 
-  // from-[#색상] to-[#색상] 형식에서 첫 번째 색상 추출
+  // from-[#색상] to-[#색상] 형식에서 색상 추출
   const tailwindMatches = gradient.match(/\[#([0-9A-Fa-f]{6})\]/g);
-  if (tailwindMatches && tailwindMatches.length >= 1) {
-    const firstColor = tailwindMatches[0].match(/#([0-9A-Fa-f]{6})/);
-    if (firstColor) return `#${firstColor[1]}`;
+  if (tailwindMatches && tailwindMatches.length >= 2) {
+    const color1 = `#${tailwindMatches[0].match(/([0-9A-Fa-f]{6})/)![1]}`;
+    const color2 = `#${tailwindMatches[1].match(/([0-9A-Fa-f]{6})/)![1]}`;
+    const brightness1 = getColorBrightness(color1);
+    const brightness2 = getColorBrightness(color2);
+    return brightness1 < brightness2 ? color1 : color2;
   }
 
   // 기본 색상 반환
