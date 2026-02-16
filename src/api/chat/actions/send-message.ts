@@ -288,7 +288,25 @@ export async function sendMessage(
     enhancedPrompt += "✅ 좋은 예: '메가커피 창업 고려하시는군요! 😊 초기 투자금은 보통 5천만원 정도 필요해요. 가맹비, 인테리어, 설비비 등이 주요 항목이죠. 혹시 특정 지역을 염두에 두고 계신가요? 지역마다 조금씩 차이가 있을 수 있거든요!'\n";
   }
 
-  // 3단계: AI API를 통해 답변 생성
+  // 3단계: 답변 생성
+
+  // ⚠️ 임시: AI API 키가 없으면 지식 베이스 답변을 직접 사용
+  // TODO: API 키 설정 후 AI로 재구성되도록 변경
+  if (relevantKnowledge.length > 0) {
+    const hasValidApiKey = config.AI_APIS.some(api =>
+      api.key && !api.key.startsWith("YOUR_")
+    );
+
+    if (!hasValidApiKey) {
+      console.log("[AI Chat] ⚠️  API 키 미설정 - 지식 베이스 답변 직접 사용");
+      console.log("[AI Chat] 💡 API-SETUP-GUIDE.md를 참고하여 API 키를 설정하세요");
+
+      // 지식 베이스 답변을 그대로 반환
+      return { message: relevantKnowledge[0].answer };
+    }
+  }
+
+  // AI API를 통해 답변 생성
   console.log("[AI Chat] AI API 호출 (지식 베이스 참고하여 자연스럽게 답변)");
 
   // 모든 API를 순서대로 시도
