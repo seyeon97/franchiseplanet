@@ -24,10 +24,11 @@ const SYSTEM_PROMPT = `당신은 프랜차이즈 창업 전문 컨설턴트입�
 async function callGroqAPI(
   apiConfig: { url: string; key: string; model: string },
   message: string,
-  history: Array<{ role: string; content: string }>
+  history: Array<{ role: string; content: string }>,
+  systemPrompt: string
 ): Promise<string> {
   const messages = [
-    { role: "system", content: SYSTEM_PROMPT },
+    { role: "system", content: systemPrompt },
     ...history.map((msg) => ({
       role: msg.role,
       content: msg.content,
@@ -68,10 +69,11 @@ async function callGroqAPI(
 async function callHuggingFaceAPI(
   apiConfig: { url: string; key: string; model: string },
   message: string,
-  history: Array<{ role: string; content: string }>
+  history: Array<{ role: string; content: string }>,
+  systemPrompt: string
 ): Promise<string> {
   // 대화 히스토리를 텍스트로 변환
-  let conversationText = `${SYSTEM_PROMPT}\n\n`;
+  let conversationText = `${systemPrompt}\n\n`;
 
   for (const msg of history) {
     conversationText += `${msg.role === "user" ? "사용자" : "어시스턴트"}: ${msg.content}\n\n`;
@@ -120,34 +122,50 @@ export async function sendMessage(
     throw new Error("메시지가 필요합니다");
   }
 
-  // 1단계: 먼저 로컬 지식 베이스에서 답변 찾기
-  console.log("[AI Chat] 로컬 지식 베이스에서 검색 중...");
+  // 1단계: 지식 베이스에서 관련 정보 찾기
+  console.log("[AI Chat] 지식 베이스에서 관련 정보 검색 중...");
 
-  // 클라이언트에서 전달된 지식 베이스가 있으면 사용, 없으면 기본 지식 베이스 사용
   const knowledgeData = customKnowledge || [];
-  console.log(`[AI Chat] 사용할 지식 베이스: ${knowledgeData.length}개 항목`);
+  console.log(`[AI Chat] 지식 베이스: ${knowledgeData.length}개 항목`);
 
   // 질문 정규화
   const normalizedQuestion = message.toLowerCase().replace(/\s/g, "");
-  console.log(`[AI Chat] 원본 질문: "${message}"`);
-  console.log(`[AI Chat] 정규화된 질문: "${normalizedQuestion}"`);
+  console.log(`[AI Chat] 질문: "${message}"`);
 
-  // 키워드 매칭
-  for (const item of knowledgeData) {
-    const matchedKeyword = item.keywords.find((keyword) =>
+  // 관련 있는 지식 베이스 항목들 찾기 (키워드 매칭)
+  const relevantKnowledge = knowledgeData.filter((item) => {
+    const hasKeyword = item.keywords.some((keyword) =>
       normalizedQuestion.includes(keyword.toLowerCase().replace(/\s/g, ""))
     );
+    return hasKeyword;
+  });
 
-    if (matchedKeyword) {
-      console.log(`[AI Chat] ✅ 매칭 성공! 키워드: "${matchedKeyword}", 질문: "${item.question}"`);
-      return { message: item.answer };
-    }
+  console.log(`[AI Chat] 관련 지식 ${relevantKnowledge.length}개 발견`);
+
+  // 2단계: AI에게 지식 베이스를 컨텍스트로 제공하여 답변 생성
+  let enhancedPrompt = SYSTEM_PROMPT;
+
+  if (relevantKnowledge.length > 0) {
+    console.log("[AI Chat] 지식 베이스를 AI 컨텍스트로 활용");
+    enhancedPrompt += "\n\n=== 📚 참고 자료 (전문가 상담 데이터) ===\n";
+    enhancedPrompt += "아래 정보를 참고하여 답변하세요.\n";
+    enhancedPrompt += "내용을 그대로 복사하지 말고, 당신의 말투로 자연스럽게 재구성하고 정리하여 답변하세요.\n\n";
+
+    relevantKnowledge.forEach((item, index) => {
+      enhancedPrompt += `[참고자료 ${index + 1}] 카테고리: ${item.category}\n`;
+      enhancedPrompt += `질문 예시: ${item.question}\n`;
+      enhancedPrompt += `전문가 답변:\n${item.answer}\n\n`;
+    });
+
+    enhancedPrompt += "=== 답변 작성 가이드 ===\n";
+    enhancedPrompt += "- 위 참고자료의 핵심 내용을 활용하되, 당신의 말투로 자연스럽게 작성\n";
+    enhancedPrompt += "- 필요하면 내용을 요약하거나 재구성\n";
+    enhancedPrompt += "- 이모지는 적절히 사용 (너무 많지 않게)\n";
+    enhancedPrompt += "- 친절하고 전문적인 톤 유지\n";
   }
 
-  console.log("[AI Chat] ❌ 로컬 답변 없음");
-
-  // 2단계: 로컬에 답변이 없으면 외부 API 사용
-  console.log("[AI Chat] 외부 API 사용");
+  // 3단계: AI API 호출
+  console.log("[AI Chat] AI API 호출");
 
   // 모든 API를 순서대로 시도
   for (const apiConfig of config.AI_APIS) {
@@ -157,9 +175,9 @@ export async function sendMessage(
       let aiMessage: string;
 
       if (apiConfig.name === "Groq") {
-        aiMessage = await callGroqAPI(apiConfig, message, history);
+        aiMessage = await callGroqAPI(apiConfig, message, history, enhancedPrompt);
       } else if (apiConfig.name === "Hugging Face") {
-        aiMessage = await callHuggingFaceAPI(apiConfig, message, history);
+        aiMessage = await callHuggingFaceAPI(apiConfig, message, history, enhancedPrompt);
       } else {
         continue; // 지원하지 않는 API는 스킵
       }
