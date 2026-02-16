@@ -119,18 +119,22 @@ const defaultColumns: Column[] = [
     },
   ];
 
-// 배경 그라데이션에서 주요 색상 추출
+// 배경 그라데이션에서 가장 진한 색상(두 번째 색상) 추출
 function extractColorFromGradient(gradient: string): string {
-  // linear-gradient(...) 형식에서 색상 추출
-  const linearMatch = gradient.match(/#[0-9A-Fa-f]{6}/);
-  if (linearMatch) {
-    return linearMatch[0];
+  // linear-gradient(...) 형식에서 모든 색상 추출
+  const linearMatches = gradient.match(/#[0-9A-Fa-f]{6}/g);
+  if (linearMatches && linearMatches.length >= 2) {
+    return linearMatches[1]; // 두 번째 색상 (가장 진한 부분)
+  }
+  if (linearMatches && linearMatches.length === 1) {
+    return linearMatches[0]; // 색상이 하나만 있으면 그것 사용
   }
 
-  // from-[#색상] 형식에서 색상 추출
-  const tailwindMatch = gradient.match(/from-\[#([0-9A-Fa-f]{6})\]/);
-  if (tailwindMatch) {
-    return `#${tailwindMatch[1]}`;
+  // from-[#색상] to-[#색상] 형식에서 두 번째 색상 추출
+  const tailwindMatches = gradient.match(/\[#([0-9A-Fa-f]{6})\]/g);
+  if (tailwindMatches && tailwindMatches.length >= 2) {
+    const secondColor = tailwindMatches[1].match(/#([0-9A-Fa-f]{6})/);
+    if (secondColor) return `#${secondColor[1]}`;
   }
 
   // 기본 색상 반환
