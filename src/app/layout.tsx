@@ -103,14 +103,7 @@ export async function generateMetadata(): Promise<Metadata> {
       ],
     },
 
-    // 아이콘 설정
-    icons: {
-      icon: [
-        { url: "/icon.svg", type: "image/svg+xml" },
-        { url: "/favicon.ico", sizes: "any" },
-      ],
-      apple: "/icon.svg",
-    },
+    // 아이콘 설정 - src/app/icon.svg가 Next.js에 의해 자동으로 파비콘으로 처리됨
 
     // Twitter Card metadata
     twitter: {
