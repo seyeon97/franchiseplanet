@@ -103,7 +103,11 @@ export async function generateMetadata(): Promise<Metadata> {
       ],
     },
 
-    // 아이콘 설정 - src/app/icon.svg가 Next.js에 의해 자동으로 파비콘으로 처리됨
+    // 아이콘 설정 - 버전 쿼리스트링으로 브라우저 캐시 무력화
+    icons: {
+      icon: "/icon.svg?v=2",
+      apple: "/icon.svg?v=2",
+    },
 
     // Twitter Card metadata
     twitter: {
