@@ -105,8 +105,8 @@ export async function generateMetadata(): Promise<Metadata> {
 
     // 아이콘 설정 - 버전 쿼리스트링으로 브라우저 캐시 무력화
     icons: {
-      icon: "/icon.svg?v=2",
-      apple: "/icon.svg?v=2",
+      icon: "/favicon-fp.png?v=3",
+      apple: "/favicon-fp.png?v=3",
     },
 
     // Twitter Card metadata
