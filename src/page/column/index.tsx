@@ -15,6 +15,25 @@ interface Column {
   bgGradient: string;
 }
 
+// Tailwind 형식 gradient를 linear-gradient 형식으로 변환
+function migrateBgGradient(gradient: string): string {
+  // 이미 linear-gradient 형식이면 그대로
+  if (gradient.startsWith("linear-gradient")) return gradient;
+
+  // from-[#RRGGBB] to-[#RRGGBB] 또는 from-[#RRGGBB] to-white 형식 변환
+  const tailwindMatches = gradient.match(/\[#([0-9A-Fa-f]{6})\]/g);
+  if (tailwindMatches && tailwindMatches.length >= 2) {
+    const c1 = `#${tailwindMatches[0].match(/([0-9A-Fa-f]{6})/)![1]}`;
+    const c2 = `#${tailwindMatches[1].match(/([0-9A-Fa-f]{6})/)![1]}`;
+    return `linear-gradient(135deg, ${c1} 0%, ${c2} 100%)`;
+  }
+  if (tailwindMatches && tailwindMatches.length === 1) {
+    const c1 = `#${tailwindMatches[0].match(/([0-9A-Fa-f]{6})/)![1]}`;
+    return `linear-gradient(135deg, ${c1} 0%, #FFFFFF 100%)`;
+  }
+  return gradient;
+}
+
 // 기본 칼럼 데이터
 const defaultColumns: Column[] = [
     {
@@ -180,7 +199,12 @@ export default function ColumnView() {
       if (stored) {
         try {
           const adminColumns: Column[] = JSON.parse(stored);
-          setColumns(adminColumns);
+          // 구버전 Tailwind gradient 형식을 linear-gradient로 자동 변환
+          const migratedColumns = adminColumns.map((col) => ({
+            ...col,
+            bgGradient: migrateBgGradient(col.bgGradient),
+          }));
+          setColumns(migratedColumns);
         } catch (error) {
           console.error("칼럼 데이터 로드 실패:", error);
           setColumns(defaultColumns);
