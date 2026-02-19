@@ -130,19 +130,19 @@ function getColorBrightness(hex: string): number {
 
 // 배경 그라데이션에서 가장 진한 색상 추출
 function extractColorFromGradient(gradient: string): string {
-  // linear-gradient(...) 형식에서 모든 색상 추출
+  // linear-gradient(...) 형식에서 모든 hex 색상 추출
   const linearMatches = gradient.match(/#[0-9A-Fa-f]{6}/g);
   if (linearMatches && linearMatches.length >= 2) {
-    // 두 색상의 밝기 비교하여 더 진한 색 반환
     const brightness1 = getColorBrightness(linearMatches[0]);
     const brightness2 = getColorBrightness(linearMatches[1]);
     return brightness1 < brightness2 ? linearMatches[0] : linearMatches[1];
   }
+  // hex 색상이 1개만 있으면 그대로 반환 (to-white 같은 케이스)
   if (linearMatches && linearMatches.length === 1) {
     return linearMatches[0];
   }
 
-  // from-[#색상] to-[#색상] 형식에서 색상 추출
+  // from-[#색상] to-[#색상] tailwind 형식 파싱
   const tailwindMatches = gradient.match(/\[#([0-9A-Fa-f]{6})\]/g);
   if (tailwindMatches && tailwindMatches.length >= 2) {
     const color1 = `#${tailwindMatches[0].match(/([0-9A-Fa-f]{6})/)![1]}`;
@@ -150,6 +150,10 @@ function extractColorFromGradient(gradient: string): string {
     const brightness1 = getColorBrightness(color1);
     const brightness2 = getColorBrightness(color2);
     return brightness1 < brightness2 ? color1 : color2;
+  }
+  // hex 색상이 1개만 있는 tailwind 형식 (from-[#색상] to-white 케이스)
+  if (tailwindMatches && tailwindMatches.length === 1) {
+    return `#${tailwindMatches[0].match(/([0-9A-Fa-f]{6})/)![1]}`;
   }
 
   // 기본 색상 반환

@@ -553,7 +553,7 @@ export default function AdminView() {
 
 **결론:** 2024년은 기술과 친환경이 키워드입니다.`,
           thumbnail: "📊",
-          bgGradient: "from-[#3098F2] to-white",
+          bgGradient: "linear-gradient(135deg, #3098F2 0%, #89C4F4 100%)",
           date: "2024.02.13",
           isNew: true
         },
@@ -583,7 +583,7 @@ export default function AdminView() {
 
 **TIP:** 창업 전 유동인구 분석 필수!`,
           thumbnail: "☕",
-          bgGradient: "from-[#25A6D9] to-white",
+          bgGradient: "linear-gradient(135deg, #25A6D9 0%, #7DCFF0 100%)",
           date: "2024.02.10",
           isNew: true
         },
@@ -620,7 +620,7 @@ export default function AdminView() {
 
 **명심:** 준비된 창업이 성공 확률 3배 높습니다.`,
           thumbnail: "⚠️",
-          bgGradient: "from-[#11BFAE] to-white",
+          bgGradient: "linear-gradient(135deg, #11BFAE 0%, #7DE8E0 100%)",
           date: "2024.02.05",
           isNew: false
         }
