@@ -1,5 +1,6 @@
 "use server";
 
+import { headers } from "next/headers";
 import { config } from "@/server/config";
 
 export async function kakaoLogin(code: string): Promise<{
@@ -7,6 +8,12 @@ export async function kakaoLogin(code: string): Promise<{
   email: string;
   profileImage: string;
 }> {
+  // 실제 접속한 host 기반으로 redirect_uri 동적 결정 (www 유무 대응)
+  const headersList = await headers();
+  const host = headersList.get("host") || "franchiseplanet.kr";
+  const redirectUri = `https://${host}/login`;
+  console.log("[카카오 로그인] redirect_uri:", redirectUri);
+
   // 1. 인증 코드로 액세스 토큰 받기
   const tokenRes = await fetch("https://kauth.kakao.com/oauth/token", {
     method: "POST",
@@ -14,7 +21,7 @@ export async function kakaoLogin(code: string): Promise<{
     body: new URLSearchParams({
       grant_type: "authorization_code",
       client_id: config.KAKAO_REST_API_KEY,
-      redirect_uri: config.KAKAO_REDIRECT_URI,
+      redirect_uri: redirectUri,
       code,
     }),
   });
