@@ -21,6 +21,7 @@ export async function kakaoLogin(code: string): Promise<{
     body: new URLSearchParams({
       grant_type: "authorization_code",
       client_id: config.KAKAO_REST_API_KEY,
+      client_secret: config.KAKAO_CLIENT_SECRET,
       redirect_uri: redirectUri,
       code,
     }),
