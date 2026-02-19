@@ -78,56 +78,43 @@ export default function LoginView() {
 
   const handleKakaoCallback = async () => {
     try {
-      // 카카오 사용자 정보 가져오기
-      if (!window.Kakao) {
-        throw new Error("Kakao SDK not loaded");
+      const urlParams = new URLSearchParams(window.location.search);
+      const code = urlParams.get("code");
+      if (!code) return;
+
+      // 서버 API를 통해 카카오 토큰 + 사용자 정보 가져오기
+      const res = await fetch(`/api/kakao/callback?code=${code}`);
+      const data = await res.json();
+
+      if (!res.ok || data.error) {
+        throw new Error(data.error || "카카오 로그인 실패");
       }
 
-      window.Kakao.API.request({
-        url: '/v2/user/me',
-        success: (response: KakaoUserInfo) => {
-          console.log("카카오 사용자 정보:", response);
+      const { nickname, email, profileImage } = data;
 
-          // 사용자 정보를 어드민 페이지용으로 저장
-          saveKakaoUserToAdmin(response);
-
-          // 로그인 처리
-          localStorage.setItem("isLoggedIn", "true");
-          localStorage.setItem("userName", response.kakao_account.profile?.nickname || "카카오 사용자");
-          localStorage.setItem("userEmail", response.kakao_account.email || "");
-          localStorage.setItem("userProfileImage", response.kakao_account.profile?.profile_image_url || "");
-
-          // URL 정리하고 더보기 페이지로 이동
-          window.history.replaceState({}, document.title, "/login");
-          router.push("/more");
+      const userInfo: KakaoUserInfo = {
+        id: Date.now(),
+        kakao_account: {
+          email: email || "",
+          profile: {
+            nickname: nickname || "카카오 사용자",
+            profile_image_url: profileImage,
+          },
         },
-        fail: (error: Error) => {
-          console.error("카카오 사용자 정보 가져오기 실패:", error);
+      };
 
-          // 실패해도 기본 정보로 로그인 처리
-          const fallbackInfo: KakaoUserInfo = {
-            id: Math.floor(Math.random() * 1000000),
-            kakao_account: {
-              email: "kakao@user.com",
-              profile: {
-                nickname: "카카오 사용자",
-                profile_image_url: undefined,
-              },
-            },
-          };
+      saveKakaoUserToAdmin(userInfo);
+      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("userName", nickname || "카카오 사용자");
+      localStorage.setItem("userEmail", email || "");
+      localStorage.setItem("userProfileImage", profileImage || "");
 
-          saveKakaoUserToAdmin(fallbackInfo);
-          localStorage.setItem("isLoggedIn", "true");
-          localStorage.setItem("userName", "카카오 사용자");
-          localStorage.setItem("userEmail", "kakao@user.com");
-
-          window.history.replaceState({}, document.title, "/login");
-          router.push("/more");
-        }
-      });
+      window.history.replaceState({}, document.title, "/login");
+      router.push("/more");
     } catch (error) {
       console.error("카카오 로그인 처리 실패:", error);
-      alert("로그인 처리 중 오류가 발생했습니다.");
+      alert("로그인 처리 중 오류가 발생했습니다. 다시 시도해주세요.");
+      window.history.replaceState({}, document.title, "/login");
     }
   };
 
