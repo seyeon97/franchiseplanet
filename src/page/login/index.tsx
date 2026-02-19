@@ -83,14 +83,8 @@ export default function LoginView() {
       if (!code) return;
 
       // 서버 API를 통해 카카오 토큰 + 사용자 정보 가져오기
-      const res = await fetch(`/api/kakao/callback?code=${code}`);
-      const data = await res.json();
-
-      if (!res.ok || data.error) {
-        throw new Error(data.error || "카카오 로그인 실패");
-      }
-
-      const { nickname, email, profileImage } = data;
+      const { kakaoLogin } = await import("@/api/kakao");
+      const { nickname, email, profileImage } = await kakaoLogin(code);
 
       const userInfo: KakaoUserInfo = {
         id: Date.now(),

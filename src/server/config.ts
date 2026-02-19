@@ -20,7 +20,11 @@ type AIAPIConfig = {
 
 export const config: {
   AI_APIS: AIAPIConfig[];
+  KAKAO_REST_API_KEY: string;
+  KAKAO_REDIRECT_URI: string;
 } = {
+  KAKAO_REST_API_KEY: "8fbdf0f75b48b6c6bc314ce386133f6d",
+  KAKAO_REDIRECT_URI: "https://franchiseplanet.kr/login",
   // ⚠️ 여러 AI API 설정 - 할당량 끝나면 자동으로 다음 API 사용
   //
   // 🎯 전략: 여러 계정으로 무료 API 키를 발급받아 설정하면 끊김 없이 사용 가능!
