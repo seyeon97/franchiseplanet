@@ -38,15 +38,32 @@ export async function kakaoLogin(code: string): Promise<{
   });
 
   const userData = await userRes.json() as {
+    id?: number;
+    properties?: { nickname?: string; profile_image?: string };
     kakao_account?: {
       email?: string;
       profile?: { nickname?: string; profile_image_url?: string };
     };
   };
 
+  console.log("[카카오 로그인] 사용자 데이터:", JSON.stringify(userData));
+
+  // 닉네임은 properties 또는 kakao_account.profile 두 경로에서 올 수 있음
+  const nickname =
+    userData.kakao_account?.profile?.nickname ||
+    userData.properties?.nickname ||
+    null;
+
+  const profileImage =
+    userData.kakao_account?.profile?.profile_image_url ||
+    userData.properties?.profile_image ||
+    null;
+
+  console.log("[카카오 로그인] 닉네임:", nickname, "/ 이메일:", userData.kakao_account?.email);
+
   return {
-    nickname: userData.kakao_account?.profile?.nickname || "카카오 사용자",
+    nickname: nickname || "카카오 사용자",
     email: userData.kakao_account?.email || "",
-    profileImage: userData.kakao_account?.profile?.profile_image_url || "",
+    profileImage: profileImage || "",
   };
 }
