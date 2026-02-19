@@ -73,5 +73,13 @@
     "tw-animate-css": "^1.4.0",
     "typescript": "^5",
     "wrangler": "^4.38.0"
+  },
+  "cg": {
+    "plugins": {
+      "db": {
+        "createdAt": "2026-02-19T01:12:02+00:00",
+        "databaseId": "2379167e-d18d-4218-bd7f-3bf4b731d0bc"
+      }
+    }
   }
 }

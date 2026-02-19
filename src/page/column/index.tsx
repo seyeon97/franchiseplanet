@@ -193,30 +193,24 @@ export default function ColumnView() {
     const loggedIn = localStorage.getItem("isLoggedIn") === "true";
     setIsLoggedIn(loggedIn);
 
-    // localStorage에서 칼럼 데이터 불러오기
-    const loadColumns = () => {
-      const stored = localStorage.getItem("columns");
-      if (stored) {
-        try {
-          const adminColumns: Column[] = JSON.parse(stored);
-          // 구버전 Tailwind gradient 형식을 linear-gradient로 자동 변환
-          const migratedColumns = adminColumns.map((col) => ({
+    // DB에서 칼럼 데이터 불러오기
+    const loadColumns = async () => {
+      try {
+        const { getColumns } = await import("@/api/columns");
+        const dbColumns = await getColumns();
+        if (dbColumns.length > 0) {
+          setColumns(dbColumns.map((col) => ({
             ...col,
             bgGradient: migrateBgGradient(col.bgGradient),
-          }));
-          setColumns(migratedColumns);
-        } catch (error) {
-          console.error("칼럼 데이터 로드 실패:", error);
-          setColumns(defaultColumns);
+          })));
         }
+      } catch (error) {
+        console.error("칼럼 DB 로드 실패:", error);
+        setColumns(defaultColumns);
       }
     };
 
     loadColumns();
-
-    // localStorage 변경 감지
-    window.addEventListener('storage', loadColumns);
-    return () => window.removeEventListener('storage', loadColumns);
   }, []);
 
   const handleColumnClick = (column: Column, index: number) => {

@@ -43,6 +43,7 @@ interface Column {
   bgGradient: string;
   date: string;
   isNew: boolean;
+  sortOrder?: number;
 }
 
 interface Resource {
@@ -135,12 +136,17 @@ export default function AdminView() {
     }
   };
 
-  const deleteColumn = (id: number) => {
+  const deleteColumn = async (id: number) => {
     if (confirm("정말 삭제하시겠습니까?")) {
-      const updated = columns.filter(c => c.id !== id);
-      setColumns(updated);
-      localStorage.setItem("columns", JSON.stringify(updated));
-      window.dispatchEvent(new StorageEvent('storage', { key: 'columns' }));
+      try {
+        const { deleteColumn: dbDeleteColumn, getColumns } = await import("@/api/columns");
+        await dbDeleteColumn(id);
+        const fresh = await getColumns();
+        setColumns(fresh);
+      } catch (error) {
+        console.error("칼럼 삭제 실패:", error);
+        alert("삭제 중 오류가 발생했습니다.");
+      }
     }
   };
 
@@ -288,18 +294,41 @@ export default function AdminView() {
     setEditModal({ type: null, data: null });
   };
 
-  const saveColumn = (updatedColumn: Column) => {
-    const existing = columns.find(c => c.id === updatedColumn.id);
-    let updated: Column[];
-    if (existing) {
-      updated = columns.map(c => c.id === updatedColumn.id ? updatedColumn : c);
-    } else {
-      updated = [...columns, updatedColumn];
+  const saveColumn = async (updatedColumn: Column) => {
+    try {
+      const { updateColumn, createColumn, getColumns } = await import("@/api/columns");
+      const existing = columns.find(c => c.id === updatedColumn.id);
+      if (existing) {
+        await updateColumn(updatedColumn.id, {
+          title: updatedColumn.title,
+          category: updatedColumn.category,
+          date: updatedColumn.date,
+          thumbnail: updatedColumn.thumbnail,
+          summary: updatedColumn.summary,
+          content: updatedColumn.content,
+          bgGradient: updatedColumn.bgGradient,
+          isNew: updatedColumn.isNew,
+          sortOrder: updatedColumn.sortOrder ?? existing.sortOrder ?? 0,
+        });
+      } else {
+        await createColumn({
+          title: updatedColumn.title,
+          category: updatedColumn.category,
+          date: updatedColumn.date,
+          thumbnail: updatedColumn.thumbnail,
+          summary: updatedColumn.summary,
+          content: updatedColumn.content,
+          bgGradient: updatedColumn.bgGradient,
+          isNew: updatedColumn.isNew,
+          sortOrder: updatedColumn.sortOrder ?? columns.length + 1,
+        });
+      }
+      const fresh = await getColumns();
+      setColumns(fresh);
+    } catch (error) {
+      console.error("칼럼 저장 실패:", error);
+      alert("저장 중 오류가 발생했습니다.");
     }
-    setColumns(updated);
-    localStorage.setItem("columns", JSON.stringify(updated));
-    // 같은 탭에서도 변경 감지를 위한 커스텀 이벤트 발생
-    window.dispatchEvent(new StorageEvent('storage', { key: 'columns' }));
     setEditModal({ type: null, data: null });
   };
 
@@ -1110,19 +1139,17 @@ export default function AdminView() {
     }
   };
 
-  // localStorage에서 데이터 로드
-  const loadData = () => {
+  // 데이터 로드 (칼럼은 DB, 나머지는 localStorage)
+  const loadData = async () => {
     if (typeof window !== 'undefined') {
       try {
         const brandsData = localStorage.getItem("brands");
-        const columnsData = localStorage.getItem("columns");
         const resourcesData = localStorage.getItem("resources");
         const offlineData = localStorage.getItem("offlinePrograms");
         const usersData = localStorage.getItem("kakaoUsers");
         const knowledgeData = localStorage.getItem("knowledgeBase");
 
         setBrands(brandsData ? JSON.parse(brandsData) : []);
-        setColumns(columnsData ? JSON.parse(columnsData) : []);
         setResources(resourcesData ? JSON.parse(resourcesData) : []);
         setOfflinePrograms(offlineData ? JSON.parse(offlineData) : []);
         setKakaoUsers(usersData ? JSON.parse(usersData) : []);
@@ -1130,6 +1157,14 @@ export default function AdminView() {
       } catch (error) {
         console.error("데이터 로드 오류:", error);
       }
+    }
+    // 칼럼은 DB에서 로드
+    try {
+      const { getColumns } = await import("@/api/columns");
+      const dbColumns = await getColumns();
+      setColumns(dbColumns);
+    } catch (error) {
+      console.error("칼럼 DB 로드 오류:", error);
     }
   };
 

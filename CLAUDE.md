@@ -75,7 +75,19 @@ src/
   state/              - State management
     ㄴ .ai.md          - Read before working here
   lib/                - Shared components, hooks, utilities
+  server/db/          - D1 database with Drizzle ORM
+    - getDb(): returns DB instance
+    - schema.ts: table schema definitions
 ```
+
+**🚨 DB SCHEMA RULE:**
+- **When modifying schema, ALWAYS run these commands in sequence:**
+  ```bash
+  pnpm drizzle-kit generate  # Generate migration files
+  pnpm drizzle-kit migrate   # Apply migrations to DB
+  ```
+- **NEVER directly add/remove columns in the database**
+- All schema changes must go through Drizzle ORM migrations
 
 **Dependency Flow:** `page → state → api`
 

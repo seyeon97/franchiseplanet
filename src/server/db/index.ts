@@ -55,7 +55,7 @@ const createDevDb = () => {
           withRetry((d1) => {
             let stmt = d1.prepare(query);
             if (boundValues.length > 0) stmt = stmt.bind(...boundValues);
-            return (stmt as any)[method](...args);
+            return Promise.resolve((stmt as unknown as Record<string, (...a: unknown[]) => unknown>)[method as string](...args));
           });
       },
     });
@@ -66,7 +66,7 @@ const createDevDb = () => {
         return (query: string) => createStmtProxy(query);
       }
       return (...args: unknown[]) =>
-        withRetry((d1) => (d1 as any)[prop](...args));
+        withRetry((d1) => (d1 as unknown as Record<string, (...a: unknown[]) => Promise<unknown>>)[prop as string](...args));
     },
   });
 
