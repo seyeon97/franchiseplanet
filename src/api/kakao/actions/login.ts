@@ -25,8 +25,10 @@ export async function kakaoLogin(code: string): Promise<{
     access_token?: string;
   };
 
+  console.log("[카카오 로그인] 토큰 응답:", JSON.stringify(tokenData));
+
   if (tokenData.error || !tokenData.access_token) {
-    throw new Error(tokenData.error_description || tokenData.error || "토큰 발급 실패");
+    throw new Error(`토큰 발급 실패: ${tokenData.error} - ${tokenData.error_description}`);
   }
 
   // 2. 액세스 토큰으로 사용자 정보 가져오기
