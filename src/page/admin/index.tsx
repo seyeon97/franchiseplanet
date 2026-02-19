@@ -1166,6 +1166,14 @@ export default function AdminView() {
     } catch (error) {
       console.error("칼럼 DB 로드 오류:", error);
     }
+    // 사용자 목록은 DB에서 로드
+    try {
+      const { getKakaoUsers } = await import("@/api/kakao");
+      const dbUsers = await getKakaoUsers();
+      setKakaoUsers(dbUsers);
+    } catch (error) {
+      console.error("사용자 DB 로드 오류:", error);
+    }
   };
 
   useEffect(() => {

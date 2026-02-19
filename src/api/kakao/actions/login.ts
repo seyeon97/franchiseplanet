@@ -2,6 +2,9 @@
 
 import { headers } from "next/headers";
 import { config } from "@/server/config";
+import { getDb } from "@/server/db";
+import { kakaoUsersTable } from "@/server/db/schema";
+import { eq } from "drizzle-orm";
 
 export async function kakaoLogin(code: string): Promise<{
   nickname: string;
@@ -70,6 +73,33 @@ export async function kakaoLogin(code: string): Promise<{
     null;
 
   console.log("[카카오 로그인] 닉네임:", nickname, "/ 이메일:", userData.kakao_account?.email);
+
+  // 사용자 정보 DB에 저장 (어드민에서 확인 가능)
+  try {
+    const db = await getDb();
+    const kakaoId = String(userData.id || Date.now());
+    const now = new Date().toISOString().split("T")[0];
+    const existing = await db.select().from(kakaoUsersTable).where(eq(kakaoUsersTable.kakaoId, kakaoId));
+    if (existing.length > 0) {
+      await db.update(kakaoUsersTable).set({
+        nickname: nickname || "카카오 사용자",
+        profileImage: profileImage || null,
+        email: userData.kakao_account?.email || null,
+        lastVisit: now,
+      }).where(eq(kakaoUsersTable.kakaoId, kakaoId));
+    } else {
+      await db.insert(kakaoUsersTable).values({
+        kakaoId,
+        nickname: nickname || "카카오 사용자",
+        profileImage: profileImage || null,
+        email: userData.kakao_account?.email || null,
+        loginDate: now,
+        lastVisit: now,
+      });
+    }
+  } catch (err) {
+    console.error("[카카오 로그인] 사용자 DB 저장 실패:", err);
+  }
 
   return {
     nickname: nickname || "카카오 사용자",

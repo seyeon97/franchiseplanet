@@ -7,6 +7,16 @@ export const configTable = sqliteTable('config', {
   value: text('value').notNull(),
 });
 
+export const kakaoUsersTable = sqliteTable('kakao_users', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  kakaoId: text('kakao_id').notNull().unique(),
+  nickname: text('nickname').notNull(),
+  profileImage: text('profile_image'),
+  email: text('email'),
+  loginDate: text('login_date').notNull(),
+  lastVisit: text('last_visit').notNull(),
+});
+
 export const columnsTable = sqliteTable('columns', {
   id: integer('id').primaryKey({ autoIncrement: true }),
   title: text('title').notNull(),

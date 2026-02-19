@@ -15,6 +15,13 @@
       "when": 1771463547683,
       "tag": "0001_last_snowbird",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1771465210902,
+      "tag": "0002_woozy_chameleon",
+      "breakpoints": true
     }
   ]
 }
